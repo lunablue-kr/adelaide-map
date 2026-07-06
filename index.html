@@ -26,6 +26,8 @@
   .src-badge.loading{color:var(--muted2);border-color:var(--border);background:transparent;}
   .src-badge.error{color:#f87171;border-color:#f8717130;background:#f871710a;}
   .lga-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);background:var(--surface2);border:1px solid var(--border);padding:3px 10px;border-radius:20px;}
+  .lang-toggle{font-family:'DM Mono',monospace;font-size:10px;color:var(--text);background:var(--surface2);border:1px solid var(--border);padding:3px 12px;border-radius:20px;cursor:pointer;transition:all 0.15s;letter-spacing:1px;}
+  .lang-toggle:hover{border-color:var(--muted2);}
 
   #map-section{position:relative;width:100%;height:64vh;min-height:440px;}
   #map{width:100%;height:100%;}
@@ -141,12 +143,13 @@
 
 <header>
   <div class="hd-left">
-    <h1>Adelaide 지역 가이드</h1>
+    <h1 id="hd-title">Adelaide 지역 가이드</h1>
     <span class="hd-tag">Greater Adelaide · LGA Guide</span>
   </div>
   <div class="hd-right">
     <span class="src-badge loading" id="src-badge">경계 로딩 중...</span>
     <span class="lga-count">18 LGAs</span>
+    <button class="lang-toggle" id="lang-toggle" title="Switch language">EN</button>
   </div>
 </header>
 
@@ -154,52 +157,43 @@
   <div id="map"></div>
   <div id="map-loading">
     <div class="ld-spinner"></div>
-    <div class="ld-text">실측 경계 데이터 로딩 중</div>
-    <div class="ld-sub">OpenStreetMap 기반 행정구역 경계<br>(내장 데이터 · 네트워크 불필요)</div>
+    <div class="ld-text" id="ld-text">실측 경계 데이터 로딩 중</div>
+    <div class="ld-sub" id="ld-sub">OpenStreetMap 기반 행정구역 경계<br>(내장 데이터 · 네트워크 불필요)</div>
     <div class="ld-progress"><div class="ld-bar" id="ld-bar"></div></div>
   </div>
   <div class="map-tip" id="map-tip" style="display:none">지역 구역이나 마커를 클릭하면 상세 정보가 나타납니다</div>
   <button class="sub-toggle" id="sub-toggle" style="display:none">서버브 경계 OFF</button>
-  <div class="map-legend" id="map-legend" style="display:none">
-    <div class="leg-title">카테고리</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--c-cbd)"></div>CBD</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--c-inner)"></div>이너 프리미엄</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--c-coastal)"></div>해안</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--c-easthill)"></div>동부·힐즈</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--c-central)"></div>중부 생활권</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--c-south)"></div>남부 외곽</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--c-north)"></div>북부</div>
-  </div>
+  <div class="map-legend" id="map-legend" style="display:none"></div>
 </div>
 
 <div id="info-strip">
-  <div class="strip-idle" id="strip-idle"><span class="strip-idle-icon">🗺</span>지도에서 LGA를 클릭하면 상세 정보가 여기 나타납니다</div>
+  <div class="strip-idle" id="strip-idle"><span class="strip-idle-icon">🗺</span><span id="strip-idle-text">지도에서 LGA를 클릭하면 상세 정보가 여기 나타납니다</span></div>
   <div id="strip-data">
     <div class="sc"><div class="sc-lbl">LGA</div><div class="sc-name" id="s-name"></div><div class="sc-sub" id="s-sub"></div><div class="sc-kw" id="s-kw"></div></div>
     <div class="sc-divider"></div>
-    <div class="sc sc-wide"><div class="sc-lbl">특징</div><div class="sc-desc" id="s-desc"></div></div>
+    <div class="sc sc-wide"><div class="sc-lbl" id="lbl-desc">특징</div><div class="sc-desc" id="s-desc"></div></div>
     <div class="sc-divider"></div>
-    <div class="sc"><div class="sc-lbl">정보</div><div class="meta-rows" id="s-meta"></div></div>
+    <div class="sc"><div class="sc-lbl" id="lbl-info">정보</div><div class="meta-rows" id="s-meta"></div></div>
     <div class="sc-divider"></div>
-    <div class="sc"><div class="sc-lbl">키워드</div><div class="sc-tags" id="s-tags"></div></div>
+    <div class="sc"><div class="sc-lbl" id="lbl-kw">키워드</div><div class="sc-tags" id="s-tags"></div></div>
   </div>
 </div>
 
 <main>
-  <div class="sec-title">🗺️ Adelaide Metropolitan LGA 18개</div>
-  <div class="sec-sub">카테고리 필터로 원하는 지역군을 모아볼 수 있습니다</div>
+  <div class="sec-title" id="sec-title">🗺️ Adelaide Metropolitan LGA 18개</div>
+  <div class="sec-sub" id="sec-sub">카테고리 필터로 원하는 지역군을 모아볼 수 있습니다</div>
   <div class="filter-bar" id="filter-bar"></div>
   <div class="lga-grid" id="lga-grid"></div>
   <div class="community-sec">
-    <div class="comm-head"><div class="sec-title" style="margin-bottom:0">💬 피드백 보내기</div><div class="comm-badge">FEEDBACK</div></div>
-    <div class="comm-sub">정보 정정, 꿀팁, 질문 모두 환영합니다 — 남겨주신 내용은 지도 제작자에게 메일로 전달되며, 검토 후 가이드에 반영됩니다</div>
+    <div class="comm-head"><div class="sec-title" style="margin-bottom:0" id="comm-title">💬 피드백 보내기</div><div class="comm-badge">FEEDBACK</div></div>
+    <div class="comm-sub" id="comm-sub">정보 정정, 꿀팁, 질문 모두 환영합니다 — 남겨주신 내용은 지도 제작자에게 메일로 전달되며, 검토 후 가이드에 반영됩니다</div>
     <div class="fb-form">
-      <div class="fb-title">✏️ 의견 남기기</div>
+      <div class="fb-title" id="fb-title">✏️ 의견 남기기</div>
       <div class="fb-row">
-        <div class="fb-g"><label>닉네임 (선택)</label><input type="text" id="f-author" placeholder="익명 가능" maxlength="20"/></div>
-        <div class="fb-g"><label>관련 LGA</label>
+        <div class="fb-g"><label id="lbl-author">닉네임 (선택)</label><input type="text" id="f-author" placeholder="익명 가능" maxlength="20"/></div>
+        <div class="fb-g"><label id="lbl-area">관련 LGA</label>
           <select id="f-area">
-            <option>전체/없음</option><option>City of Adelaide</option><option>City of Unley</option>
+            <option id="opt-none">전체/없음</option><option>City of Adelaide</option><option>City of Unley</option>
             <option>City of Norwood P&SP</option><option>City of Prospect</option><option>Town of Walkerville</option>
             <option>City of Burnside</option><option>City of Holdfast Bay</option><option>City of Charles Sturt</option>
             <option>City of West Torrens</option><option>City of Marion</option><option>City of Mitcham</option>
@@ -207,11 +201,11 @@
             <option>City of Onkaparinga</option><option>City of Salisbury</option><option>City of Playford</option><option>Town of Gawler</option>
           </select>
         </div>
-        <div class="fb-g"><label>유형</label>
+        <div class="fb-g"><label id="lbl-type">유형</label>
           <select id="f-type"><option value="tip">💡 꿀팁</option><option value="correction">🔧 정정</option><option value="experience">✨ 경험담</option><option value="question">❓ 질문</option></select>
         </div>
       </div>
-      <div class="fb-row"><div class="fb-g" style="flex:1;min-width:100%"><label>내용</label><textarea id="f-body" placeholder="자유롭게 남겨주세요..."></textarea></div></div>
+      <div class="fb-row"><div class="fb-g" style="flex:1;min-width:100%"><label id="lbl-body">내용</label><textarea id="f-body" placeholder="자유롭게 남겨주세요..."></textarea></div></div>
       <div class="fb-actions"><button class="btn-sub" id="submit-btn" onclick="submitFeedback()">보내기</button><span class="fb-status" id="form-status"></span></div>
     </div>
   </div>
@@ -222,14 +216,86 @@
 // DATA
 // ═══════════════════════════════════════════
 const CAT_META = {
-  cbd:     {label:'CBD',         color:'#e879f9'},
-  inner:   {label:'이너 프리미엄',color:'#a78bfa'},
-  coastal: {label:'해안',        color:'#38bdf8'},
-  easthill:{label:'동부·힐즈',   color:'#4ade80'},
-  central: {label:'중부 생활권', color:'#fb923c'},
-  south:   {label:'남부 외곽',   color:'#fbbf24'},
-  north:   {label:'북부',        color:'#f87171'},
+  cbd:     {label:'CBD',         en:'CBD',          color:'#e879f9'},
+  inner:   {label:'이너 프리미엄',en:'Inner Premium',color:'#a78bfa'},
+  coastal: {label:'해안',        en:'Coastal',      color:'#38bdf8'},
+  easthill:{label:'동부·힐즈',   en:'East & Hills', color:'#4ade80'},
+  central: {label:'중부 생활권', en:'Central',      color:'#fb923c'},
+  south:   {label:'남부 외곽',   en:'Outer South',  color:'#fbbf24'},
+  north:   {label:'북부',        en:'North',        color:'#f87171'},
 };
+function catLabel(cm){ return LANG==='en' ? cm.en : cm.label; }
+
+// ═══════════════════════════════════════════
+// I18N — 언어 상태 & UI 문자열
+// ═══════════════════════════════════════════
+let LANG = 'ko';
+try{ LANG = localStorage.getItem('adelaide-lang') || 'ko'; }catch{}
+// URL로 언어 지정 가능 (?lang=en / ?lang=ko) — 공유 링크용
+try{
+  const urlLang = new URLSearchParams(location.search).get('lang');
+  if(urlLang==='en'||urlLang==='ko') LANG = urlLang;
+}catch{}
+
+const I18N = {
+  ko: {
+    title:'Adelaide 지역 가이드',
+    docTitle:'Adelaide 지역 가이드',
+    badge:(n)=>`✓ 실측 경계 데이터 (${n}개 LGA)`,
+    badgeLoading:'경계 로딩 중...',
+    ldText:'실측 경계 데이터 로딩 중',
+    ldSub:'OpenStreetMap 기반 행정구역 경계<br>(내장 데이터 · 네트워크 불필요)',
+    mapTip:'지역 구역이나 마커를 클릭하면 상세 정보가 나타납니다',
+    subOn:'서버브 경계 ON', subOff:'서버브 경계 OFF',
+    legTitle:'카테고리',
+    stripIdle:'지도에서 LGA를 클릭하면 상세 정보가 여기 나타납니다',
+    lblDesc:'특징', lblInfo:'정보', lblKw:'키워드',
+    secTitle:'🗺️ Adelaide Metropolitan LGA 18개',
+    secSub:'카테고리 필터로 원하는 지역군을 모아볼 수 있습니다',
+    filterAll:'전체',
+    commTitle:'💬 피드백 보내기',
+    commSub:'정보 정정, 꿀팁, 질문 모두 환영합니다 — 남겨주신 내용은 지도 제작자에게 메일로 전달되며, 검토 후 가이드에 반영됩니다',
+    fbTitle:'✏️ 의견 남기기',
+    lblAuthor:'닉네임 (선택)', phAuthor:'익명 가능',
+    lblArea:'관련 LGA', optNone:'전체/없음',
+    lblType:'유형', types:{tip:'💡 꿀팁',correction:'🔧 정정',experience:'✨ 경험담',question:'❓ 질문'},
+    lblBody:'내용', phBody:'자유롭게 남겨주세요...',
+    btnSend:'보내기',
+    stEmpty:'내용을 입력해주세요.', stLong:'2,000자 이내로 줄여주세요.', stWait:'잠시 후 다시 시도해주세요.',
+    stSending:'전송 중...', stOk:'✅ 전송되었습니다. 소중한 의견 감사합니다!', stFail:'전송 실패 — 잠시 후 다시 시도해주세요.',
+    partly:(names)=>`일부 ${names} 관할`,
+    langBtn:'EN',
+  },
+  en: {
+    title:'Adelaide Area Guide',
+    docTitle:'Adelaide Area Guide',
+    badge:(n)=>`✓ Official boundary data (${n} LGAs)`,
+    badgeLoading:'Loading boundaries...',
+    ldText:'Loading boundary data',
+    ldSub:'Administrative boundaries from OpenStreetMap<br>(embedded — no network needed)',
+    mapTip:'Click a district or marker for details',
+    subOn:'Suburbs ON', subOff:'Suburbs OFF',
+    legTitle:'Category',
+    stripIdle:'Click an LGA on the map to see details here',
+    lblDesc:'About', lblInfo:'Info', lblKw:'Keywords',
+    secTitle:'🗺️ 18 Adelaide Metropolitan LGAs',
+    secSub:'Use the category filters to browse district groups',
+    filterAll:'All',
+    commTitle:'💬 Send Feedback',
+    commSub:'Corrections, tips and questions all welcome — your message is emailed to the maintainer and reflected in the guide after review',
+    fbTitle:'✏️ Leave a note',
+    lblAuthor:'Nickname (optional)', phAuthor:'Anonymous is fine',
+    lblArea:'Related LGA', optNone:'All / None',
+    lblType:'Type', types:{tip:'💡 Tip',correction:'🔧 Correction',experience:'✨ Experience',question:'❓ Question'},
+    lblBody:'Message', phBody:'Write freely...',
+    btnSend:'Send',
+    stEmpty:'Please enter a message.', stLong:'Please keep it under 2,000 characters.', stWait:'Please wait a moment and try again.',
+    stSending:'Sending...', stOk:'✅ Sent — thank you for your feedback!', stFail:'Failed to send — please try again shortly.',
+    partly:(names)=>`partly ${names}`,
+    langBtn:'한국어',
+  },
+};
+function T(){ return I18N[LANG]; }
 
 // Adelaide metro 18개 LGA 실제 행정구역 경계 (OSM admin_level=6, 좌표 소수점 5자리 ≈ 1.1m 정밀도)
 // 아티팩트/모바일 등 어떤 환경에서든 동일하게 즉시 렌더링되도록 정적으로 내장 (런타임 API 호출 없음)
@@ -255,7 +321,7 @@ const LGAS = {
   west_torrens:{cat:'central', name:'City of West Torrens',          sub:'Mile End · Plympton · Camden Park · Netley',   pop:'약 63,100명', kw:'Adelaide 공항 인접 — 주거·산업 혼재',   desc:'Adelaide Airport 바로 인접. 주거·산업·상업 복합 지역. CBD와 Marion 사이라 접근성 양호. 특별한 랜드마크는 없지만 교통 편리하고 무난한 생활권.',                            meta:[{l:'면적',v:'37 km²'},{l:'렌트',v:'주 $270~390'},{l:'특징',v:'Adelaide Airport 인접'}], tags:['공항인접','무난','접근성','중간가격']},
   marion:      {cat:'central', name:'City of Marion',                sub:'Mitchell Park · Oaklands Park · Tonsley · Edwardstown', pop:'약 96,700명',kw:'남호주 최대 쇼핑몰 보유 — 다문화 중부 생활권', desc:'Westfield Marion(남호주 최대 쇼핑몰) 위치. 주거·상업·경공업 혼재. 다문화 커뮤니티 활성. Tonsley Innovation District 첨단 산업단지. 기차+버스 교통 인프라 양호.',meta:[{l:'면적',v:'55 km²'},{l:'렌트',v:'주 $280~400'},{l:'교통',v:'기차(Flinders선)+버스'}], tags:['다문화','쇼핑인프라','Flinders인접']},
   port_adelaide:{cat:'north',  name:'City of Port Adelaide Enfield', sub:'Port Adelaide · Semaphore · Northfield',        pop:'약 135,800명',kw:'역사적 항구 도시 — 젠트리피케이션 진행 중', desc:'Adelaide 항구의 역사적 심장부. 창고 개조 카페·갤러리·바 등장하며 젠트리피케이션 진행 중. 역사 건축물·해양박물관. 다양한 계층 혼재. Semaphore Beach 포함.',         meta:[{l:'면적',v:'92 km²'},{l:'렌트',v:'주 $260~400'},{l:'특징',v:'항구역사, 젠트리파이'}],  tags:['역사항구','젠트리파이중','해양']},
-  salisbury:   {cat:'north',   name:'City of Salisbury',             sub:'Salisbury · Mawson Lakes · Para Hills',        pop:'약 148,000명',kw:'Adelaide 최대 인구 LGA — 다문화·저렴한 렌트', desc:'Adelaide에서 인구 가장 많은 LGA. 다문화 이민자 커뮤니티 강함. 전통적 제조업·물류 지역. Mawson Lakes는 UniSA 캠퍼스 인접으로 학생 거주 활발. 일부 구역 경제적 취약.',meta:[{l:'면적',v:'160 km²'},{l:'렌트',v:'주 $200~310'},{l:'특징',v:'UniSA Mawson Lakes'}],   tags:['다문화','저렴','제조업','UniSA인접']},
+  salisbury:   {cat:'north',   name:'City of Salisbury',             sub:'Salisbury · Mawson Lakes · Para Hills',        pop:'약 148,000명',kw:'북부 최대 인구 LGA — 다문화·저렴한 렌트', desc:'Adelaide 북부에서 인구가 가장 많은 LGA. 다문화 이민자 커뮤니티 강함. 전통적 제조업·물류 지역. Mawson Lakes는 UniSA 캠퍼스 인접으로 학생 거주 활발. 일부 구역 경제적 취약.',meta:[{l:'면적',v:'160 km²'},{l:'렌트',v:'주 $200~310'},{l:'특징',v:'UniSA Mawson Lakes'}],   tags:['다문화','저렴','제조업','UniSA인접']},
   playford:    {cat:'north',   name:'City of Playford',              sub:'Elizabeth · Davoren Park · Craigmore',         pop:'약 103,400명',kw:'Adelaide 최북단 — 전후 계획신도시의 쇠퇴와 재생', desc:'Elizabeth는 1950년대 전후 이민자를 위한 계획 신도시로 조성. 제조업 쇠퇴 후 실업률·사회주택 비중 높아짐. Adelaide에서 렌트 가장 저렴. 최근 일부 재개발 시도 중.',  meta:[{l:'면적',v:'345 km²'},{l:'렌트',v:'주 $150~260'},{l:'교통',v:'기차 약 50분'}],         tags:['렌트최저','사회주택','재개발중']},
   gawler:      {cat:'north',   name:'Town of Gawler',                sub:'Gawler · Evanston · Willaston',               pop:'약 26,100명', kw:'Adelaide 메트로 최북단 — 독자적 역사 소도시', desc:'1836년 설립된 S.A.에서 가장 오래된 마을 중 하나. 독자적인 타운 분위기와 역사 건축물 보유. 기차로 Adelaide CBD까지 약 1시간. 성장 중인 외곽 위성도시.',            meta:[{l:'면적',v:'41 km²'},{l:'렌트',v:'주 $210~310'},{l:'교통',v:'기차 CBD 약 60분'}],      tags:['역사소도시','저렴','외곽','위성도시']},
   onkaparinga: {cat:'south',   name:'City of Onkaparinga',           sub:'Reynella · Morphett Vale · Christies Beach · Happy Valley · McLaren Vale', pop:'약 178,500명',kw:'Adelaide 최대 인구·면적 LGA — 남부 해안·와인산지까지', desc:'Adelaide에서 인구·면적 모두 최대(518km²). 남부 해안선(Christies Beach·Maslin Beach)과 McLaren Vale 와인 산지 포함. Reynella·Happy Valley·Woodcroft 포함. 북쪽은 합리적, 남쪽으로 갈수록 경제적 취약 지역 있음.',meta:[{l:'면적',v:'518 km²'},{l:'렌트',v:'주 $230~370'},{l:'특징',v:'McLaren Vale 와인, 남부 해안'}],tags:['최대면적','와인산지','해안','남부외곽']},
@@ -287,6 +353,62 @@ const MARKERS = [
 ];
 
 // ═══════════════════════════════════════════
+// EN 번역 — LGA 상세 (pop/kw/desc/meta/tags)
+// ═══════════════════════════════════════════
+const EN_LGAS = {
+  adelaide:    {pop:'~26,000',  kw:'The commercial, administrative & cultural heart', desc:'Rundle Mall, Victoria Square and the city core — commerce, government and culture. Hub of every transit line. Hospitals, consulates and universities cluster here. Mostly high-rise apartment living; the highest rents in Adelaide.', meta:[{l:'Area',v:'16 km²'},{l:'Rent',v:'$480–700+/wk'},{l:'Transit',v:'Tram & bus hub'}], tags:['Commercial core','Transit hub','Highest rent']},
+  unley:       {pop:'~39,000',  kw:'One of Adelaide\'s most prestigious residential areas', desc:'Tree-lined, immaculate streets with many heritage homes. Upscale cafés and restaurants along King William Rd and Unley Rd. Very safe; favoured by families and professionals. With Burnside and Mitcham, one of Adelaide\'s top-3 premium residential councils.', meta:[{l:'Area',v:'14 km²'},{l:'Rent',v:'$380–560/wk'},{l:'Transit',v:'Good bus links'}], tags:['Premium','Leafy','Café strips','Safe']},
+  norwood:     {pop:'~38,000',  kw:'The Parade — Adelaide\'s best café & dining street', desc:'The Parade is Adelaide\'s liveliest café and restaurant strip, with deep Italian community roots. An inner-east suburb with great CBD access and relatively reasonable rents for the inner ring.', meta:[{l:'Area',v:'15 km²'},{l:'Rent',v:'$340–500/wk'},{l:'Transit',v:'Good bus links'}], tags:['Café strip','Trendy','Italian','Inner suburb']},
+  prospect:    {pop:'~23,000',  kw:'Adelaide\'s fastest-rising hip inner suburb', desc:'Transformed over the past decade into a young, trendy neighbourhood. Independent cafés, vintage shops and galleries along Prospect Road. Adelaide\'s second-smallest LGA (8 km²). Popular with young people and artists.', meta:[{l:'Area',v:'8 km²'},{l:'Rent',v:'$300–430/wk'},{l:'Transit',v:'Good bus links'}], tags:['Hip','Vintage','Indie cafés','Young']},
+  walkerville: {pop:'~8,200',   kw:'Adelaide\'s smallest LGA — riverside premium living', desc:'Beside the River Torrens. The smallest LGA in Adelaide (4 km²), with the smallest population. Quiet, exclusive atmosphere; leafy streets and high incomes.', meta:[{l:'Area',v:'4 km²'},{l:'Rent',v:'$420–600/wk'},{l:'Notes',v:'Smallest LGA'}], tags:['Tiny','Riverside','Upscale','Quiet']},
+  burnside:    {pop:'~46,700',  kw:'SA\'s top socio-economic LGA (ABS SEIFA #1)', desc:'Adelaide\'s highest property values and incomes. Leafy streets and heritage architecture. Penfolds Magill Estate winery and the premium Burnside Village shopping centre. Median house price around $1.3M.', meta:[{l:'Area',v:'27 km²'},{l:'Rent',v:'$480–750/wk'},{l:'Notes',v:'SEIFA #1 in SA'}], tags:['Top-end','Leafy','Winery','High income']},
+  campbelltown:{pop:'~56,000',  kw:'Quiet family suburbs at the foot of the Hills', desc:'Gateway to the Adelaide Hills. Green, quiet family neighbourhoods; relatively safe and peaceful, with many homes on large gardens.', meta:[{l:'Area',v:'24 km²'},{l:'Rent',v:'$280–400/wk'},{l:'Transit',v:'Buses; car recommended'}], tags:['Quiet','Family-friendly','Hills fringe','Safe']},
+  mitcham:     {pop:'~68,400',  kw:'Nature, safety and housing — the hills-fringe trifecta', desc:'At the foot of the Adelaide Hills. With Burnside and Unley, one of Adelaide\'s top-3 premium residential LGAs. Rich in bushland and greenery; quiet and family-friendly. Tree Canopy Award winner. Hilly terrain with great views.', meta:[{l:'Area',v:'76 km²'},{l:'Rent',v:'$300–450/wk'},{l:'Notes',v:'Tree Canopy Award'}], tags:['Nature','Quiet','Safe','Family-friendly']},
+  tea_tree:    {pop:'~102,700', kw:'Outer hills-fringe suburbia — big homes, quiet streets', desc:'Developed in the 1970s–80s suburban expansion. Large homes with big gardens; very quiet. Good access to the Adelaide Hills. Popular with young families and retirees. Far from the CBD and car-dependent.', meta:[{l:'Area',v:'95 km²'},{l:'Rent',v:'$270–380/wk'},{l:'Transit',v:'Buses; car essential'}], tags:['Suburban','Large homes','Quiet','Hills access']},
+  holdfast:    {pop:'~38,100',  kw:'Beachside city on the tram line — centred on Glenelg', desc:'Adelaide\'s signature beach LGA. The Glenelg tram terminus puts the CBD 20 minutes away. Jetty Road is packed with restaurants, cafés and surf shops. Lively with visitors year-round.', meta:[{l:'Area',v:'14 km²'},{l:'Rent',v:'$330–500/wk'},{l:'Transit',v:'Tram to CBD, 20 min'}], tags:['Beach','Tram line','Lively','Leisure']},
+  charles_sturt:{pop:'~124,900',kw:'Adelaide\'s western giant — coast to inner city', desc:'Adelaide\'s third most-populous LGA, stretching from the coast (Grange, Henley Beach) to the inner west. A mix of residential, industrial and commercial areas. Home to 105+ cultural communities.', meta:[{l:'Area',v:'55 km²'},{l:'Rent',v:'$280–420/wk'},{l:'Notes',v:'QEH, Adelaide Arena'}], tags:['Multicultural','Coastal','Mixed','Large LGA']},
+  west_torrens:{pop:'~63,100',  kw:'Next to Adelaide Airport — practical mixed-use living', desc:'Right beside Adelaide Airport. A mix of residential, industrial and commercial areas between the CBD and Marion, so access is good. No standout landmarks, but convenient and well-connected.', meta:[{l:'Area',v:'37 km²'},{l:'Rent',v:'$270–390/wk'},{l:'Notes',v:'Adelaide Airport'}], tags:['Airport','Practical','Access','Mid-priced']},
+  marion:      {pop:'~96,700',  kw:'Home of SA\'s biggest mall — multicultural central living', desc:'Westfield Marion, South Australia\'s largest shopping centre, is here. Residential, commercial and light-industrial mix with active multicultural communities. Tonsley Innovation District tech precinct. Good train (Flinders line) and bus links.', meta:[{l:'Area',v:'55 km²'},{l:'Rent',v:'$280–400/wk'},{l:'Transit',v:'Train (Flinders line) + bus'}], tags:['Multicultural','Shopping','Near Flinders']},
+  port_adelaide:{pop:'~135,800',kw:'Historic port city — gentrification underway', desc:'The historic heart of Adelaide\'s port. Warehouse-conversion cafés, galleries and bars are appearing as gentrification progresses. Heritage buildings and the maritime museum. Diverse communities; includes Semaphore Beach.', meta:[{l:'Area',v:'92 km²'},{l:'Rent',v:'$260–400/wk'},{l:'Notes',v:'Historic port, gentrifying'}], tags:['Historic port','Gentrifying','Maritime']},
+  salisbury:   {pop:'~148,000', kw:'Multicultural northern hub — affordable rents', desc:'The most populous LGA in Adelaide\'s north, with strong migrant communities. Traditional manufacturing and logistics area. Mawson Lakes, next to the UniSA campus, has a large student population. Some pockets of disadvantage.', meta:[{l:'Area',v:'160 km²'},{l:'Rent',v:'$200–310/wk'},{l:'Notes',v:'UniSA Mawson Lakes'}], tags:['Multicultural','Affordable','Industry','Near UniSA']},
+  playford:    {pop:'~103,400', kw:'Adelaide\'s far north — postwar new town, decline & renewal', desc:'Elizabeth was built in the 1950s as a planned town for postwar migrants. After manufacturing declined, unemployment and public housing rose. The cheapest rents in Adelaide; some renewal projects underway.', meta:[{l:'Area',v:'345 km²'},{l:'Rent',v:'$150–260/wk'},{l:'Transit',v:'Train ~50 min'}], tags:['Cheapest rent','Public housing','Renewal']},
+  gawler:      {pop:'~26,100',  kw:'Metro Adelaide\'s northern edge — a historic town of its own', desc:'Founded in 1836, one of South Australia\'s oldest towns, with its own township feel and heritage buildings. About an hour to the CBD by train. A growing satellite town.', meta:[{l:'Area',v:'41 km²'},{l:'Rent',v:'$210–310/wk'},{l:'Transit',v:'Train to CBD ~60 min'}], tags:['Historic town','Affordable','Outer','Satellite']},
+  onkaparinga: {pop:'~178,500', kw:'Adelaide\'s largest LGA — southern beaches to wine country', desc:'The largest LGA in Adelaide by both population and area (518 km²). Includes the southern coastline (Christies Beach, Maslin Beach) and the McLaren Vale wine region. Reynella, Happy Valley and Woodcroft. Reasonable in the north; disadvantage increases further south.', meta:[{l:'Area',v:'518 km²'},{l:'Rent',v:'$230–370/wk'},{l:'Notes',v:'McLaren Vale, south coast'}], tags:['Largest area','Wine region','Coast','Outer south']},
+};
+
+// EN 번역 — 마커 (sub는 한국어 포함된 것만)
+const EN_MARKERS = {
+  flinders:      {desc:'Adelaide\'s leading research university in the south. Strong in medicine, engineering and social sciences.'},
+  adelaide_uni:  {desc:'Founded 1874; one of Australia\'s Group of Eight. Strong in medicine, law, engineering and science.'},
+  unisa:         {desc:'University of South Australia — practical and career-focused.'},
+  glenelg:       {desc:'Adelaide\'s most famous beach. Tram terminus; Jetty Road dining strip.'},
+  westfield:     {desc:'South Australia\'s largest shopping centre — 250+ stores.'},
+  port_pt:       {desc:'Historic port district. Maritime museum, warehouse-conversion cafés and galleries.'},
+  tonsley:       {desc:'Australia\'s first innovation district, linked with Flinders University.'},
+  barossa:       {sub:'The Barossa Council · ~60 km NE of Adelaide', desc:'Australia\'s most famous wine region, world-renowned for Shiraz. Historic wineries such as Penfolds, Jacob\'s Creek and Seppeltsfield. Centred on Tanunda, Nuriootpa and Angaston. About 1 hour from the CBD by car.'},
+  airport:       {desc:'Domestic & international airport. ~15 min from the CBD by car; JetExpress buses. Harbour Town outlet nearby.'},
+  central_market:{desc:'One of the largest fresh-food markets in the southern hemisphere. Right next to Chinatown — the hub for Asian groceries.'},
+  rah:           {desc:'SA\'s largest public hospital; major emergency and acute care. Tram stop at the door.'},
+  ttp:           {desc:'The north-east\'s biggest shopping centre. O-Bahn busway terminus — about 20 min direct to the CBD.'},
+  colonnades:    {desc:'The south\'s biggest shopping centre, next to the Noarlunga train terminus.'},
+  elizabeth:     {desc:'The north\'s biggest shopping centre and the heart of Playford. Near Elizabeth station.'},
+  henley:        {desc:'Sunset hotspot. Restaurants and cafés around Henley Square; a local favourite.'},
+  semaphore:     {desc:'A vintage-feel northern beach — classic cinema, foreshore rides, café strip and summer markets.'},
+  mclaren:       {sub:'City of Onkaparinga · ~40 km south of the CBD', desc:'McLaren Vale rivals the Barossa — famous for Shiraz and Grenache, with quirky wineries like the d\'Arenberg Cube. Close to Port Willunga beach; a favourite day trip.'},
+  hahndorf:      {sub:'Adelaide Hills · ~25 km SE of the CBD', desc:'Australia\'s oldest surviving German settlement (1839). German pubs, smallgoods and craft shops. Gateway to Adelaide Hills wineries; the #1 day trip.'},
+};
+
+// 언어별 필드 접근 헬퍼
+function lgaField(d, field){
+  if(LANG==='en' && d.id && EN_LGAS[d.id] && EN_LGAS[d.id][field]!==undefined) return EN_LGAS[d.id][field];
+  return d[field];
+}
+function markerField(m, field){
+  if(LANG==='en' && EN_MARKERS[m.id] && EN_MARKERS[m.id][field]!==undefined) return EN_MARKERS[m.id][field];
+  return m[field];
+}
+
+// ═══════════════════════════════════════════
 // MAP INIT
 // ═══════════════════════════════════════════
 const map = L.map('map',{
@@ -305,6 +427,7 @@ map.on('click', () => {
   if (typeof deselectSuburb === 'function') deselectSuburb();
   if (selectedLgaId) {
     resetHighlight();
+    currentLga = null;
     document.getElementById('strip-idle').style.display = 'flex';
     document.getElementById('strip-data').classList.remove('on');
   }
@@ -359,20 +482,26 @@ function resetHighlight() {
   });
 }
 
+// LGAS 각 항목에 id 주입 (언어별 번역 lookup용)
+Object.entries(LGAS).forEach(([id,d])=>{ d.id = id; });
+
+let currentLga = null; // 현재 하단 스트립에 표시 중인 LGA
+
 function showInfo(d){
+  currentLga = d;
   document.getElementById('strip-idle').style.display='none';
   document.getElementById('strip-data').classList.add('on');
   const c=CAT_META[d.cat].color;
   document.getElementById('s-name').textContent=d.name;
   document.getElementById('s-name').style.color=c;
   document.getElementById('s-sub').textContent=d.sub;
-  document.getElementById('s-kw').textContent=d.kw;
+  document.getElementById('s-kw').textContent=lgaField(d,'kw');
   document.getElementById('s-kw').style.color=c;
-  document.getElementById('s-desc').textContent=d.desc;
-  document.getElementById('s-meta').innerHTML=d.meta.map(m=>`<div class="mr"><span class="mr-l">${m.l}</span><span class="mr-v">${m.v}</span></div>`).join('');
-  document.getElementById('s-tags').innerHTML=d.tags.map(t=>`<span class="sc-tag" style="color:${c};border-color:${c}30;background:${c}0a;">${t}</span>`).join('');
+  document.getElementById('s-desc').textContent=lgaField(d,'desc');
+  document.getElementById('s-meta').innerHTML=lgaField(d,'meta').map(m=>`<div class="mr"><span class="mr-l">${m.l}</span><span class="mr-v">${m.v}</span></div>`).join('');
+  document.getElementById('s-tags').innerHTML=lgaField(d,'tags').map(t=>`<span class="sc-tag" style="color:${c};border-color:${c}30;background:${c}0a;">${t}</span>`).join('');
   // 지도 강조
-  highlightLga(Object.keys(LGAS).find(k => LGAS[k] === d));
+  highlightLga(d.id);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -412,7 +541,9 @@ function renderBoundaries(){
   finishLoading(rendered);
 }
 
+let lgaCount = 0;
 function finishLoading(count){
+  lgaCount = count;
   const loadEl = document.getElementById('map-loading');
   const badge  = document.getElementById('src-badge');
   const tip    = document.getElementById('map-tip');
@@ -427,7 +558,16 @@ function finishLoading(count){
   document.getElementById('sub-toggle').style.display = 'block';
 
   badge.className = 'src-badge';
-  badge.textContent = `✓ 실측 경계 데이터 (${count}개 LGA)`;
+  badge.textContent = T().badge(count);
+}
+
+// 범례 — 언어 전환 시 재렌더링
+function renderLegend(){
+  const legend = document.getElementById('map-legend');
+  legend.innerHTML = `<div class="leg-title">${T().legTitle}</div>` +
+    Object.values(CAT_META).map(cm=>
+      `<div class="leg-item"><div class="leg-dot" style="background:${cm.color}"></div>${catLabel(cm)}</div>`
+    ).join('');
 }
 
 // ═══════════════════════════════════════════
@@ -466,7 +606,7 @@ function buildSuburbLayer(){
     // 두 카운실에 걸친 서버브(l2)는 보조 관할도 함께 표시
     const l2names = (s.l2||[]).map(id=>LGAS[id]?LGAS[id].name:id).join(' · ');
     const tipHtml = `${s.n}${s.pc?(' · '+s.pc):''}`+
-      (l2names?`<br><span style="font-size:9.5px;color:#8890a8">일부 ${l2names} 관할</span>`:'');
+      (l2names?`<br><span style="font-size:9.5px;color:#8890a8">${T().partly(l2names)}</span>`:'');
     poly.bindTooltip(tipHtml,{sticky:true,direction:'top',className:'sub-tip',opacity:1});
     poly.on('click',(e)=>{
       L.DomEvent.stopPropagation(e);
@@ -491,10 +631,14 @@ document.getElementById('sub-toggle').addEventListener('click',()=>{
     map.removeLayer(suburbLayer);
   }
   btn.classList.toggle('on', suburbOn);
-  btn.textContent = suburbOn ? '서버브 경계 ON' : '서버브 경계 OFF';
+  btn.textContent = suburbOn ? T().subOn : T().subOff;
 });
 
-// Markers
+// Markers — 팝업은 언어 전환 시 rebind
+const markerRefs = [];
+function markerPopupHtml(m){
+  return `<div class="popup-inner"><div class="popup-name">${m.name}</div><div class="popup-sub">${markerField(m,'sub')}</div><div class="popup-desc">${markerField(m,'desc')}</div></div>`;
+}
 MARKERS.forEach(m=>{
   const isUni=m.type==='uni';
   const isWine=m.type==='wine';
@@ -509,30 +653,40 @@ MARKERS.forEach(m=>{
     iconAnchor:[isUni?7.5:isWine?7:5, isUni?7.5:isWine?7:5]
   });
   const mkr=L.marker([m.lat,m.lng],{icon}).addTo(map);
-  mkr.bindPopup(`<div class="popup-inner"><div class="popup-name">${m.name}</div><div class="popup-sub">${m.sub}</div><div class="popup-desc">${m.desc}</div></div>`,{maxWidth:260});
+  mkr.bindPopup(markerPopupHtml(m),{maxWidth:260});
+  markerRefs.push({m, mkr});
 });
+function rebindMarkerPopups(){
+  markerRefs.forEach(({m,mkr})=>{
+    const p = mkr.getPopup();
+    if(p) p.setContent(markerPopupHtml(m));
+  });
+}
 
 // ═══════════════════════════════════════════
-// FILTER & CARDS
+// FILTER & CARDS — 언어 전환 시 재렌더링 가능하도록 함수화
 // ═══════════════════════════════════════════
 let activeFilter='all';
-const filterBar=document.getElementById('filter-bar');
-const allBtn=document.createElement('button');
-allBtn.className='filter-btn';
-allBtn.textContent='전체';
-allBtn.style.cssText='background:var(--text);color:var(--bg);border-color:var(--text);';
-allBtn.onclick=()=>setFilter('all',allBtn,'#dde1ec');
-filterBar.appendChild(allBtn);
-Object.entries(CAT_META).forEach(([key,cm])=>{
-  const btn=document.createElement('button');
-  btn.className='filter-btn';btn.textContent=cm.label;btn.dataset.cat=key;
-  btn.onclick=()=>setFilter(key,btn,cm.color);
-  filterBar.appendChild(btn);
-});
+
+function renderFilterBar(){
+  const filterBar=document.getElementById('filter-bar');
+  filterBar.innerHTML='';
+  const mkBtn=(cat,label,color)=>{
+    const btn=document.createElement('button');
+    btn.className='filter-btn';btn.textContent=label;btn.dataset.cat=cat;
+    btn.onclick=()=>setFilter(cat,btn,color);
+    if(activeFilter===cat) btn.style.cssText=`background:${color};color:#0c0f14;border-color:${color};`;
+    filterBar.appendChild(btn);
+  };
+  mkBtn('all',T().filterAll,'#dde1ec');
+  Object.entries(CAT_META).forEach(([key,cm])=>mkBtn(key,catLabel(cm),cm.color));
+}
+
 function setFilter(cat,clickedBtn,color){
   // 필터 변경 시 선택 상태 초기화
   resetHighlight();
   deselectSuburb();
+  currentLga=null;
   document.getElementById('strip-idle').style.display = 'flex';
   document.getElementById('strip-data').classList.remove('on');
   activeFilter=cat;
@@ -545,42 +699,47 @@ function setFilter(cat,clickedBtn,color){
   });
 }
 
-const grid=document.getElementById('lga-grid');
-Object.entries(LGAS).forEach(([id,d])=>{
-  const c=CAT_META[d.cat].color;
-  const card=document.createElement('div');
-  card.className='lga-card';card.dataset.cat=d.cat;
-  card.innerHTML=`
-    <div class="lga-card-bar" style="background:${c};"></div>
-    <div class="card-cat" style="color:${c};border-color:${c}30;background:${c}0a;">${CAT_META[d.cat].label}</div>
-    <div class="card-name">${d.name}</div><div class="card-sub">${d.sub}</div>
-    <div class="card-desc">${d.desc}</div>
-    <div class="card-footer">
-      <span class="card-pop">${d.pop}</span>
-      <div class="card-tags">${d.tags.slice(0,3).map(t=>`<span class="ctag" style="color:${c};border-color:${c}28;background:${c}08;">${t}</span>`).join('')}</div>
-    </div>`;
-  card.addEventListener('click',()=>{
-    deselectSuburb();
-    showInfo(d);
-    if(lgaLayers[id]) map.fitBounds(lgaLayers[id].getBounds(),{padding:[40,40],maxZoom:13});
+function renderCards(){
+  const grid=document.getElementById('lga-grid');
+  grid.innerHTML='';
+  Object.entries(LGAS).forEach(([id,d])=>{
+    const c=CAT_META[d.cat].color;
+    const card=document.createElement('div');
+    card.className='lga-card';card.dataset.cat=d.cat;
+    if(activeFilter!=='all'&&d.cat!==activeFilter) card.classList.add('hidden');
+    card.innerHTML=`
+      <div class="lga-card-bar" style="background:${c};"></div>
+      <div class="card-cat" style="color:${c};border-color:${c}30;background:${c}0a;">${catLabel(CAT_META[d.cat])}</div>
+      <div class="card-name">${d.name}</div><div class="card-sub">${d.sub}</div>
+      <div class="card-desc">${lgaField(d,'desc')}</div>
+      <div class="card-footer">
+        <span class="card-pop">${lgaField(d,'pop')}</span>
+        <div class="card-tags">${lgaField(d,'tags').slice(0,3).map(t=>`<span class="ctag" style="color:${c};border-color:${c}28;background:${c}08;">${t}</span>`).join('')}</div>
+      </div>`;
+    card.addEventListener('click',()=>{
+      deselectSuburb();
+      showInfo(d);
+      if(lgaLayers[id]) map.fitBounds(lgaLayers[id].getBounds(),{padding:[40,40],maxZoom:13});
+    });
+    grid.appendChild(card);
   });
-  grid.appendChild(card);
-});
+}
 
 // ═══════════════════════════════════════════
 // FEEDBACK — FormSubmit로 제작자 메일 전송
 // (첫 전송 시 FormSubmit이 수신 메일로 활성화 확인 메일을 1회 보냄)
 // ═══════════════════════════════════════════
 const FEEDBACK_ENDPOINT='https://formsubmit.co/ajax/chaos3787@naver.com';
+// 메일 본문의 유형 표기는 수신자(제작자)가 한국어 사용자라 항상 한국어로 전송
 function tl(t){return{tip:'💡 꿀팁',correction:'🔧 정정',experience:'✨ 경험담',question:'❓ 질문'}[t]||t;}
 let lastSent=0;
 async function submitFeedback(){
   const btn=document.getElementById('submit-btn'),status=document.getElementById('form-status');
   const body=document.getElementById('f-body').value.trim();
-  if(!body){status.textContent='내용을 입력해주세요.';status.className='fb-status err';return;}
-  if(body.length>2000){status.textContent='2,000자 이내로 줄여주세요.';status.className='fb-status err';return;}
-  if(Date.now()-lastSent<30000){status.textContent='잠시 후 다시 시도해주세요.';status.className='fb-status err';return;}
-  btn.disabled=true;status.textContent='전송 중...';status.className='fb-status';
+  if(!body){status.textContent=T().stEmpty;status.className='fb-status err';return;}
+  if(body.length>2000){status.textContent=T().stLong;status.className='fb-status err';return;}
+  if(Date.now()-lastSent<30000){status.textContent=T().stWait;status.className='fb-status err';return;}
+  btn.disabled=true;status.textContent=T().stSending;status.className='fb-status';
   const author=document.getElementById('f-author').value.trim()||'익명';
   const area=document.getElementById('f-area').value;
   const type=tl(document.getElementById('f-type').value);
@@ -597,16 +756,83 @@ async function submitFeedback(){
     });
     if(!r.ok) throw new Error('HTTP '+r.status);
     lastSent=Date.now();
-    status.textContent='✅ 전송되었습니다. 소중한 의견 감사합니다!';status.className='fb-status ok';
+    status.textContent=T().stOk;status.className='fb-status ok';
     document.getElementById('f-body').value='';document.getElementById('f-author').value='';
   }catch{
-    status.textContent='전송 실패 — 잠시 후 다시 시도해주세요.';status.className='fb-status err';
+    status.textContent=T().stFail;status.className='fb-status err';
   }
   btn.disabled=false;
 }
 
+// ═══════════════════════════════════════════
+// 언어 전환
+// ═══════════════════════════════════════════
+function applyLang(){
+  const t = T();
+  document.documentElement.lang = LANG;
+  document.title = t.docTitle;
+  document.getElementById('hd-title').textContent = t.title;
+  document.getElementById('lang-toggle').textContent = t.langBtn;
+
+  // 지도 위 UI
+  const badge = document.getElementById('src-badge');
+  if(lgaCount>0){ badge.textContent = t.badge(lgaCount); } else { badge.textContent = t.badgeLoading; }
+  const ldText=document.getElementById('ld-text'); if(ldText) ldText.textContent=t.ldText;
+  const ldSub=document.getElementById('ld-sub');   if(ldSub) ldSub.innerHTML=t.ldSub;
+  document.getElementById('map-tip').textContent = t.mapTip;
+  document.getElementById('sub-toggle').textContent = suburbOn ? t.subOn : t.subOff;
+  renderLegend();
+
+  // 정보 스트립
+  document.getElementById('strip-idle-text').textContent = t.stripIdle;
+  document.getElementById('lbl-desc').textContent = t.lblDesc;
+  document.getElementById('lbl-info').textContent = t.lblInfo;
+  document.getElementById('lbl-kw').textContent = t.lblKw;
+  if(currentLga) showInfo(currentLga); // 표시 중이면 새 언어로 재렌더
+
+  // 본문
+  document.getElementById('sec-title').textContent = t.secTitle;
+  document.getElementById('sec-sub').textContent = t.secSub;
+  renderFilterBar();
+  renderCards();
+
+  // 마커 팝업
+  rebindMarkerPopups();
+
+  // 서버브 레이어: 툴팁 언어 반영 위해 재생성
+  if(suburbLayer){
+    const wasOn = suburbOn;
+    if(wasOn) map.removeLayer(suburbLayer);
+    selectedSubPoly = null;
+    suburbLayer = null;
+    if(wasOn){ buildSuburbLayer(); suburbLayer.addTo(map); }
+  }
+
+  // 피드백 폼
+  document.getElementById('comm-title').textContent = t.commTitle;
+  document.getElementById('comm-sub').textContent = t.commSub;
+  document.getElementById('fb-title').textContent = t.fbTitle;
+  document.getElementById('lbl-author').textContent = t.lblAuthor;
+  document.getElementById('f-author').placeholder = t.phAuthor;
+  document.getElementById('lbl-area').textContent = t.lblArea;
+  document.getElementById('opt-none').textContent = t.optNone;
+  document.getElementById('lbl-type').textContent = t.lblType;
+  document.querySelectorAll('#f-type option').forEach(o=>{ o.textContent = t.types[o.value] || o.textContent; });
+  document.getElementById('lbl-body').textContent = t.lblBody;
+  document.getElementById('f-body').placeholder = t.phBody;
+  document.getElementById('submit-btn').textContent = t.btnSend;
+  document.getElementById('form-status').textContent = '';
+}
+
+document.getElementById('lang-toggle').addEventListener('click',()=>{
+  LANG = LANG==='ko' ? 'en' : 'ko';
+  try{ localStorage.setItem('adelaide-lang', LANG); }catch{}
+  applyLang();
+});
+
 // INIT
 renderBoundaries();
+applyLang();
 </script>
 </body>
 </html>
