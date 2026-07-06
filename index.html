@@ -729,7 +729,8 @@ function renderCards(){
 // FEEDBACK — FormSubmit로 제작자 메일 전송
 // (첫 전송 시 FormSubmit이 수신 메일로 활성화 확인 메일을 1회 보냄)
 // ═══════════════════════════════════════════
-const FEEDBACK_ENDPOINT='https://formsubmit.co/ajax/chaos3787@naver.com';
+// FormSubmit 랜덤 별칭 — 실제 메일 주소가 코드에 노출되지 않도록 함
+const FEEDBACK_ENDPOINT='https://formsubmit.co/ajax/4daba310c39387b2cac62a9e9796d9c6';
 // 메일 본문의 유형 표기는 수신자(제작자)가 한국어 사용자라 항상 한국어로 전송
 function tl(t){return{tip:'💡 꿀팁',correction:'🔧 정정',experience:'✨ 경험담',question:'❓ 질문'}[t]||t;}
 let lastSent=0;
