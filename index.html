@@ -154,12 +154,50 @@
     padding:7px 16px;font-size:11.5px;color:var(--text);opacity:0;transition:opacity 0.3s;pointer-events:none;}
   .toast.on{opacity:1;}
 
+  /* ── 모바일 전용 컴포넌트 (기본 숨김) ─────── */
+  #m-top{display:none;position:absolute;top:10px;left:10px;right:10px;z-index:1100;gap:8px;align-items:center;}
+  #m-search{flex:1;background:rgba(15,18,25,0.95);border:1px solid var(--border2);border-radius:18px;padding:8px 14px;
+    color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:12px;outline:none;min-width:0;}
+  #m-search::placeholder{color:var(--muted);}
+  #m-lang{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);background:rgba(15,18,25,0.95);
+    border:1px solid var(--border2);border-radius:14px;padding:6px 11px;cursor:pointer;white-space:nowrap;}
+  #m-results{display:none;position:absolute;top:46px;left:10px;right:10px;z-index:1100;
+    background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;max-height:200px;overflow-y:auto;}
+  #m-results.on{display:block;}
+  #m-chips{display:none;position:absolute;top:56px;left:0;right:0;z-index:1090;gap:6px;padding:0 10px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  #m-chips::-webkit-scrollbar{display:none;}
+  #m-chips .chip{flex-shrink:0;background:rgba(15,18,25,0.92);}
+  #m-chips .chip.on{background:var(--text);}
+  #m-fabs{display:none;position:absolute;right:10px;top:104px;z-index:1090;flex-direction:column;gap:8px;}
+  .fab{width:38px;height:38px;border-radius:50%;background:rgba(15,18,25,0.95);border:1px solid var(--border2);
+    display:flex;align-items:center;justify-content:center;color:var(--text);font-size:16px;cursor:pointer;user-select:none;}
+  .fab.active{background:var(--text);color:var(--bg);}
+  .m-pop{display:none;position:absolute;right:56px;z-index:1095;background:rgba(15,18,25,0.97);
+    border:1px solid var(--border2);border-radius:12px;padding:10px 12px;min-width:150px;}
+  .m-pop.on{display:block;}
+  #m-pop-layers{top:104px;}
+  #m-pop-color{top:150px;}
+  #ml-chip{display:none;position:absolute;left:10px;bottom:14px;z-index:1090;background:rgba(15,18,25,0.92);
+    border:1px solid var(--border2);border-radius:14px;padding:5px 12px;color:var(--muted2);font-size:11px;cursor:pointer;align-items:center;gap:4px;}
+  body.sheet-on #ml-chip{display:none!important;}
+
   @media(max-width:680px){
-    #side-panel{width:164px;padding:11px 10px;}
-    #bottom-sheet{left:14px;max-height:46vh;}
+    #side-panel{display:none;}
+    #m-top{display:flex;}
+    #m-chips{display:flex;}
+    #m-fabs{display:flex;}
+    #ml-chip{display:flex;}
+    #mini-legend{top:auto;right:auto;left:10px;bottom:52px;display:none;max-width:180px;}
+    #mini-legend.open{display:block;}
+    #bottom-sheet{left:10px;right:10px;max-height:44vh;padding:12px 14px;}
     .bs-grid{flex-direction:column;gap:12px;}
     .bs-bars{width:100%;}
-    #mini-legend{max-width:130px;}
+    .bs-kw{min-width:100%;}
+    .leaflet-bottom.leaflet-right{bottom:46px;}
+  }
+  @media(min-width:681px){
+    #m-top,#m-chips,#m-fabs,#ml-chip,#m-results,.m-pop{display:none!important;}
   }
 </style>
 </head>
@@ -189,6 +227,21 @@
 </div>
 
 <div id="mini-legend"></div>
+
+<div id="m-top">
+  <input id="m-search" placeholder="서버브·지역 검색" autocomplete="off"/>
+  <span id="m-lang">EN</span>
+</div>
+<div id="m-results"></div>
+<div id="m-chips"></div>
+<div id="m-fabs">
+  <div class="fab" id="fab-layers" title="레이어">⧉</div>
+  <div class="fab" id="fab-color" title="지도 색상">◑</div>
+  <div class="fab" id="fab-fb" title="피드백">✉</div>
+</div>
+<div class="m-pop" id="m-pop-layers"><div id="m-ov-rows"></div></div>
+<div class="m-pop" id="m-pop-color"><div class="seg" id="m-color-seg" style="flex-direction:column;border-radius:10px;"></div></div>
+<div id="ml-chip"><span id="ml-chip-label">범례</span> ▸</div>
 
 <div id="bottom-sheet">
   <div class="bs-top">
@@ -533,8 +586,9 @@ function openSheet(id){
   document.getElementById('bs-detail').classList.toggle('off',!detailOn);
   document.getElementById('bs-collapse').textContent=detailOn?'▾':'▴';
   document.getElementById('bottom-sheet').classList.add('on');
+  document.body.classList.add('sheet-on');
 }
-function closeSheet(){document.getElementById('bottom-sheet').classList.remove('on');}
+function closeSheet(){document.getElementById('bottom-sheet').classList.remove('on');document.body.classList.remove('sheet-on');}
 document.getElementById('bs-close').addEventListener('click',()=>{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
 document.getElementById('bs-collapse').addEventListener('click',()=>{
   detailOn=!detailOn;
@@ -651,15 +705,18 @@ map.on('zoomend',syncVibes);
 
 // ═══════════════ 좌측 패널 ═══════════════
 function renderChips(){
-  const el=document.getElementById('cat-chips');el.innerHTML='';
-  const mk=(key,label)=>{
-    const c=document.createElement('span');
-    c.className='chip'+(activeCat===key?' on':'');c.textContent=label;
-    c.onclick=()=>{activeCat=key;deselectSuburb();selectedLgaId=null;closeSheet();renderChips();restyleAll();};
-    el.appendChild(c);
-  };
-  mk('all',T().filterAll);
-  Object.entries(CAT_META).forEach(([k,cm])=>mk(k,catLabel(cm)));
+  ['cat-chips','m-chips'].forEach(cid=>{
+    const el=document.getElementById(cid);if(!el)return;
+    el.innerHTML='';
+    const mk=(key,label)=>{
+      const c=document.createElement('span');
+      c.className='chip'+(activeCat===key?' on':'');c.textContent=label;
+      c.onclick=()=>{activeCat=key;deselectSuburb();selectedLgaId=null;closeSheet();renderChips();restyleAll();};
+      el.appendChild(c);
+    };
+    mk('all',T().filterAll);
+    Object.entries(CAT_META).forEach(([k,cm])=>mk(k,catLabel(cm)));
+  });
 }
 const OVERLAYS=[
   {id:'suburb',color:'#dde1ec',swatch:'dash',get:()=>suburbOn,set:setSuburbLayer},
@@ -667,42 +724,43 @@ const OVERLAYS=[
   {id:'schools',color:'#a3e635',swatch:'dot',get:()=>schoolOn,set:setSchoolLayer},
 ];
 function renderOverlayRows(){
-  const el=document.getElementById('ov-rows');
-  el.innerHTML=OVERLAYS.map(o=>
-    `<div class="ov-row${o.get()?' on':''}" data-ov="${o.id}" style="--ac:${o.color}">
-      <span class="ov-check"></span><span class="ov-label">${T().layers[o.id]}</span>
-      <span class="ov-swatch ${o.swatch}" style="border-top-color:${o.color};${o.swatch==='dot'?`background:${o.color}`:''}"></span>
-    </div>`).join('');
-  el.querySelectorAll('.ov-row').forEach(row=>{
-    row.addEventListener('click',()=>{
-      const def=OVERLAYS.find(x=>x.id===row.dataset.ov);
-      def.set(!def.get());
+  ['ov-rows','m-ov-rows'].forEach(cid=>{
+    const el=document.getElementById(cid);if(!el)return;
+    el.innerHTML=OVERLAYS.map(o=>
+      `<div class="ov-row${o.get()?' on':''}" data-ov="${o.id}" style="--ac:${o.color}">
+        <span class="ov-check"></span><span class="ov-label">${T().layers[o.id]}</span>
+        <span class="ov-swatch ${o.swatch}" style="border-top-color:${o.color};${o.swatch==='dot'?`background:${o.color}`:''}"></span>
+      </div>`).join('');
+    el.querySelectorAll('.ov-row').forEach(row=>{
+      row.addEventListener('click',()=>{
+        const def=OVERLAYS.find(x=>x.id===row.dataset.ov);
+        def.set(!def.get());
+      });
     });
   });
 }
 function syncOverlayRows(){
-  document.querySelectorAll('#ov-rows .ov-row').forEach(row=>{
+  document.querySelectorAll('.ov-row[data-ov]').forEach(row=>{
     const def=OVERLAYS.find(x=>x.id===row.dataset.ov);
     if(def)row.classList.toggle('on',def.get());
   });
 }
 function renderColorSeg(){
-  const el=document.getElementById('color-seg');
-  el.innerHTML=['category','rent','crime'].map(m=>
-    `<span class="seg-btn${mapColorMode===m?' on':''}" data-mode="${m}">${T().colorModes[m]}</span>`).join('');
-  el.querySelectorAll('.seg-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      mapColorMode=btn.dataset.mode;
-      el.querySelectorAll('.seg-btn').forEach(b=>b.classList.toggle('on',b===btn));
-      restyleAll();
+  ['color-seg','m-color-seg'].forEach(cid=>{
+    const el=document.getElementById(cid);if(!el)return;
+    el.innerHTML=['category','rent','crime'].map(m=>
+      `<span class="seg-btn${mapColorMode===m?' on':''}" data-mode="${m}">${T().colorModes[m]}</span>`).join('');
+    el.querySelectorAll('.seg-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        mapColorMode=btn.dataset.mode;
+        document.querySelectorAll('.seg-btn[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===mapColorMode));
+        restyleAll();
+      });
     });
   });
 }
 
 // ═══════════════ 검색 ═══════════════
-const spSearch=document.getElementById('sp-search');
-const spResults=document.getElementById('sp-results');
-let searchItems=[],searchActive=-1;
 function searchQuery(q){
   q=q.trim().toLowerCase();
   if(q.length<2)return[];
@@ -719,31 +777,6 @@ function searchQuery(q){
   });
   return starts.concat(contains).slice(0,8);
 }
-function renderSearchResults(items){
-  searchItems=items;searchActive=-1;
-  if(!items.length){
-    spResults.innerHTML=`<div class="spr-item"><span class="spr-name" style="color:var(--muted)">${T().searchNone}</span></div>`;
-    spResults.classList.add('on');return;
-  }
-  spResults.innerHTML=items.map((it,i)=>{
-    if(it.type==='lga'){
-      const d=LGAS[it.id];
-      return `<div class="spr-item" data-i="${i}"><span class="spr-name">${d.name}</span><span class="spr-meta">${T().searchCouncil}</span></div>`;
-    }
-    const s=SUBURBS[it.si],d=LGAS[s.l];
-    return `<div class="spr-item" data-i="${i}"><span class="spr-name">${s.n}</span><span class="spr-meta">${s.pc?s.pc+' · ':''}${d?d.name.replace('City of ','').replace('Town of ','').replace('The City of ',''):''}</span></div>`;
-  }).join('');
-  spResults.classList.add('on');
-  spResults.querySelectorAll('.spr-item[data-i]').forEach(el=>{
-    el.addEventListener('mousedown',(e)=>{e.preventDefault();pickSearch(parseInt(el.dataset.i));});
-  });
-}
-function pickSearch(i){
-  const it=searchItems[i];if(!it)return;
-  spResults.classList.remove('on');searchItems=[];
-  spSearch.value=it.type==='lga'?LGAS[it.id].name:SUBURBS[it.si].n;
-  if(it.type==='lga')focusLga(it.id);else focusSuburb(it.si);
-}
 function focusSuburb(si){
   const s=SUBURBS[si];if(!s)return;
   if(!suburbOn)setSuburbLayer(true);
@@ -756,20 +789,52 @@ function focusLga(id){
   deselectSuburb();openSheet(id);
   if(lgaLayers[id])map.fitBounds(lgaLayers[id].getBounds(),{padding:[40,40],maxZoom:13});
 }
-spSearch.addEventListener('input',()=>{
-  if(spSearch.value.trim().length<2){spResults.classList.remove('on');return;}
-  renderSearchResults(searchQuery(spSearch.value));
-});
-spSearch.addEventListener('keydown',(e)=>{
-  if(!searchItems.length&&e.key!=='Escape')return;
-  if(e.key==='ArrowDown'||e.key==='ArrowUp'){
-    e.preventDefault();
-    searchActive=e.key==='ArrowDown'?Math.min(searchActive+1,searchItems.length-1):Math.max(searchActive-1,0);
-    spResults.querySelectorAll('.spr-item').forEach((el,i)=>el.classList.toggle('active',i===searchActive));
-  }else if(e.key==='Enter'){e.preventDefault();pickSearch(searchActive>=0?searchActive:0);spSearch.blur();}
-  else if(e.key==='Escape'){spResults.classList.remove('on');spSearch.blur();}
-});
-spSearch.addEventListener('blur',()=>setTimeout(()=>spResults.classList.remove('on'),150));
+// 검색 배선 — 데스크톱/모바일 입력창 공용
+function wireSearch(inputEl,resultsEl){
+  let items=[],active=-1;
+  function render(list){
+    items=list;active=-1;
+    if(!list.length){
+      resultsEl.innerHTML=`<div class="spr-item"><span class="spr-name" style="color:var(--muted)">${T().searchNone}</span></div>`;
+      resultsEl.classList.add('on');return;
+    }
+    resultsEl.innerHTML=list.map((it,i)=>{
+      if(it.type==='lga'){
+        const d=LGAS[it.id];
+        return `<div class="spr-item" data-i="${i}"><span class="spr-name">${d.name}</span><span class="spr-meta">${T().searchCouncil}</span></div>`;
+      }
+      const s=SUBURBS[it.si],d=LGAS[s.l];
+      return `<div class="spr-item" data-i="${i}"><span class="spr-name">${s.n}</span><span class="spr-meta">${s.pc?s.pc+' · ':''}${d?d.name.replace('City of ','').replace('Town of ','').replace('The City of ',''):''}</span></div>`;
+    }).join('');
+    resultsEl.classList.add('on');
+    resultsEl.querySelectorAll('.spr-item[data-i]').forEach(el=>{
+      el.addEventListener('mousedown',(e)=>{e.preventDefault();pick(parseInt(el.dataset.i));});
+    });
+  }
+  function pick(i){
+    const it=items[i];if(!it)return;
+    resultsEl.classList.remove('on');items=[];
+    inputEl.value=it.type==='lga'?LGAS[it.id].name:SUBURBS[it.si].n;
+    inputEl.blur();
+    if(it.type==='lga')focusLga(it.id);else focusSuburb(it.si);
+  }
+  inputEl.addEventListener('input',()=>{
+    if(inputEl.value.trim().length<2){resultsEl.classList.remove('on');return;}
+    render(searchQuery(inputEl.value));
+  });
+  inputEl.addEventListener('keydown',(e)=>{
+    if(!items.length&&e.key!=='Escape')return;
+    if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+      e.preventDefault();
+      active=e.key==='ArrowDown'?Math.min(active+1,items.length-1):Math.max(active-1,0);
+      resultsEl.querySelectorAll('.spr-item').forEach((el,i)=>el.classList.toggle('active',i===active));
+    }else if(e.key==='Enter'){e.preventDefault();pick(active>=0?active:0);}
+    else if(e.key==='Escape'){resultsEl.classList.remove('on');inputEl.blur();}
+  });
+  inputEl.addEventListener('blur',()=>setTimeout(()=>resultsEl.classList.remove('on'),150));
+}
+wireSearch(document.getElementById('sp-search'),document.getElementById('sp-results'));
+wireSearch(document.getElementById('m-search'),document.getElementById('m-results'));
 
 // ═══════════════ 미니 범례 ═══════════════
 function scaleBar(scale){return `<div class="ml-bar">${scale.map(c=>`<div style="flex:1;background:${c}"></div>`).join('')}</div>`;}
@@ -841,7 +906,10 @@ function applyLang(){
   document.documentElement.lang=LANG;document.title=t.docTitle;
   document.getElementById('sp-title').textContent=t.title;
   document.getElementById('lang-toggle').textContent=t.langBtn;
-  spSearch.placeholder=t.searchPh;
+  document.getElementById('sp-search').placeholder=t.searchPh;
+  document.getElementById('m-search').placeholder=t.searchPh;
+  document.getElementById('m-lang').textContent=t.langBtn;
+  document.getElementById('ml-chip-label').textContent=t.legTitle;
   document.getElementById('lbl-cat').textContent=t.lblCat;
   document.getElementById('lbl-overlay').textContent=t.lblOverlay;
   document.getElementById('lbl-color').textContent=t.lblColor;
@@ -876,10 +944,39 @@ function applyLang(){
   document.getElementById('fbm-send').textContent=t.btnSend;
   document.getElementById('fbm-status').textContent='';
 }
-document.getElementById('lang-toggle').addEventListener('click',()=>{
+function toggleLang(){
   LANG=LANG==='ko'?'en':'ko';
   try{localStorage.setItem('adelaide-lang',LANG);}catch{}
   applyLang();
+}
+document.getElementById('lang-toggle').addEventListener('click',toggleLang);
+document.getElementById('m-lang').addEventListener('click',toggleLang);
+
+// ═══════════════ 모바일: FAB 팝오버 & 범례 칩 ═══════════════
+function closePops(){
+  document.querySelectorAll('.m-pop').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.fab').forEach(f=>f.classList.remove('active'));
+}
+function togglePop(fabId,popId){
+  const pop=document.getElementById(popId),fab=document.getElementById(fabId);
+  const wasOn=pop.classList.contains('on');
+  closePops();
+  if(!wasOn){pop.classList.add('on');fab.classList.add('active');}
+}
+document.getElementById('fab-layers').addEventListener('click',(e)=>{e.stopPropagation();togglePop('fab-layers','m-pop-layers');});
+document.getElementById('fab-color').addEventListener('click',(e)=>{e.stopPropagation();togglePop('fab-color','m-pop-color');});
+document.getElementById('fab-fb').addEventListener('click',()=>{closePops();document.getElementById('fb-overlay').classList.add('on');});
+document.querySelectorAll('.m-pop').forEach(p=>p.addEventListener('click',(e)=>e.stopPropagation()));
+map.on('click',closePops);
+map.on('dragstart',closePops);
+
+document.getElementById('ml-chip').addEventListener('click',()=>{
+  document.getElementById('mini-legend').classList.toggle('open');
+});
+// 모바일에서 펼쳐진 범례를 탭하면 닫힘
+document.getElementById('mini-legend').addEventListener('click',()=>{
+  if(window.matchMedia('(max-width:680px)').matches)
+    document.getElementById('mini-legend').classList.remove('open');
 });
 
 // ═══════════════ INIT ═══════════════
