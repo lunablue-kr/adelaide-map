@@ -26,7 +26,7 @@
   #side-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
   .sp-head{display:flex;justify-content:space-between;align-items:center;gap:6px;}
   .sp-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;letter-spacing:0.3px;white-space:nowrap;}
-  .sp-lang{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);cursor:pointer;border:1px solid var(--border);border-radius:12px;padding:2px 9px;transition:all 0.15s;}
+  .sp-lang{font-family:'DM Mono',monospace;font-size:14px;line-height:1;color:var(--muted2);cursor:pointer;border:1px solid var(--border);border-radius:12px;padding:2px 9px;transition:all 0.15s;}
   .sp-lang:hover{color:var(--text);border-color:var(--muted2);}
   .sp-search{background:var(--surface2);border:1px solid transparent;border-radius:18px;padding:7px 12px;
     color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:11.5px;width:100%;outline:none;transition:border-color 0.15s;}
@@ -159,7 +159,7 @@
   #m-search{flex:1;background:rgba(15,18,25,0.95);border:1px solid var(--border2);border-radius:18px;padding:8px 14px;
     color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:12px;outline:none;min-width:0;}
   #m-search::placeholder{color:var(--muted);}
-  #m-lang{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2);background:rgba(15,18,25,0.95);
+  #m-lang{font-family:'DM Mono',monospace;font-size:15px;line-height:1;color:var(--muted2);background:rgba(15,18,25,0.95);
     border:1px solid var(--border2);border-radius:14px;padding:6px 11px;cursor:pointer;white-space:nowrap;}
   #m-results{display:none;position:absolute;top:46px;left:10px;right:10px;z-index:1100;
     background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;max-height:200px;overflow-y:auto;}
@@ -418,7 +418,7 @@ const VIBES = [
 
 const I18N = {
   ko:{
-    docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'EN',
+    docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'🇦🇺',
     searchPh:'서버브·지역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실',
     lblCat:'카테고리', lblOverlay:'오버레이', lblColor:'지도 색상', filterAll:'전체',
     layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교'},
@@ -446,7 +446,7 @@ const I18N = {
     sources:'렌트: SQM Research 주간 호가(2026-07) · 치안: SA Police 2025-26 · 학교·교통·경계: OpenStreetMap · 타일: CARTO · 마지막 검증 2026-07-06',
   },
   en:{
-    docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'한국어',
+    docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
     searchPh:'Search suburbs & districts', searchNone:'No results', searchCouncil:'Council',
     lblCat:'Category', lblOverlay:'Overlays', lblColor:'Map colour', filterAll:'All',
     layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools'},
@@ -499,7 +499,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
 
 // ═══════════════ 색상 모드 & LGA 스타일 ═══════════════
 let mapColorMode='category', activeCat='all', selectedLgaId=null;
-const RENT_SCALE=['#bfdbfe','#93c5fd','#60a5fa','#3b82f6','#1d4ed8'];
+const RENT_SCALE=['#34d399','#84cc16','#eab308','#f97316','#e11d48'];
 const CRIME_SCALE=['#4ade80','#a3e635','#facc15','#fb923c','#ef4444'];
 const RENT_MID={};Object.entries(RENT).forEach(([id,r])=>RENT_MID[id]=(r[0]+r[1])/2);
 function bucketize(byId,quantile){
@@ -522,13 +522,15 @@ const MAX_SCH=Math.max(...Object.values(LGA_STATS).map(s=>s.sch));
 const RENT_MIN=Math.min(...Object.values(RENT_MID)),RENT_MAX=Math.max(...Object.values(RENT_MID));
 
 function restyleAll(){
+  const choro=mapColorMode!=='category'; // 렌트/치안 모드는 진하게 채워야 높낮이가 읽힘
+  const fillBase=choro?0.52:0.18, fillDim=choro?0.14:0.03, fillSel=choro?0.72:0.5, fillOther=choro?0.12:0.05;
   Object.entries(lgaLayers).forEach(([id,layer])=>{
     const c=lgaColor(id);
-    if(id===selectedLgaId){layer.setStyle({color:'#fff',weight:3,opacity:1,fillColor:c,fillOpacity:0.5});layer.bringToFront();}
-    else if(selectedLgaId){layer.setStyle({color:c,weight:1,opacity:0.25,fillColor:c,fillOpacity:0.05});}
+    if(id===selectedLgaId){layer.setStyle({color:'#fff',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});layer.bringToFront();}
+    else if(selectedLgaId){layer.setStyle({color:c,weight:1,opacity:0.25,fillColor:c,fillOpacity:fillOther});}
     else{
       const dim=activeCat!=='all'&&LGAS[id].cat!==activeCat;
-      layer.setStyle({color:c,weight:1.8,opacity:dim?0.2:0.9,fillColor:c,fillOpacity:dim?0.03:0.18});
+      layer.setStyle({color:choro?'#0c0f14':c,weight:choro?1:1.8,opacity:dim?0.2:0.9,fillColor:c,fillOpacity:dim?fillDim:fillBase});
     }
   });
   renderMiniLegend();
@@ -541,7 +543,7 @@ Object.entries(LGA_BOUNDARIES).forEach(([id,geom])=>{
     style:{color:lgaColor(id),weight:1.8,opacity:0.9,fillColor:lgaColor(id),fillOpacity:0.18},
   }).addTo(map);
   layer.on('click',(e)=>{L.DomEvent.stopPropagation(e);deselectSuburb();openSheet(id);});
-  layer.on('mouseover',()=>{if(selectedLgaId)return;layer.setStyle({fillOpacity:0.32,weight:2.5});});
+  layer.on('mouseover',()=>{if(selectedLgaId)return;layer.setStyle({fillOpacity:mapColorMode==='category'?0.32:0.68,weight:2.5,color:mapColorMode==='category'?undefined:'#8890a8'});});
   layer.on('mouseout',()=>{if(selectedLgaId)return;restyleAll();});
   lgaLayers[id]=layer;
 });
@@ -985,6 +987,8 @@ setSuburbLayer(true);
 restyleAll();
 // 딥링크: ?lga=unley
 try{
+  const cm=new URLSearchParams(location.search).get('color');
+  if(cm==='rent'||cm==='crime'){mapColorMode=cm;renderColorSeg();restyleAll();}
   const sel=new URLSearchParams(location.search).get('lga');
   if(sel&&LGAS[sel]){openSheet(sel);map.fitBounds(lgaLayers[sel].getBounds(),{padding:[40,40],maxZoom:13});}
   else toast(T().hint,3200);
