@@ -50,18 +50,12 @@ const EN_LGAS = {
 };
 const MARKERS = [
   {id:'glenelg',lat:-34.9813,lng:138.5152,type:'dot',name:'Glenelg Beach',sub:'City of Holdfast Bay',desc:'Adelaide 최대 해변 명소. 트램 종점. Jetty Road 레스토랑·카페 밀집.',color:'#38bdf8'},
-  {id:'westfield',lat:-35.0052,lng:138.5427,type:'dot',name:'Westfield Marion',sub:'City of Marion',desc:'남호주 최대 쇼핑몰. 250개 이상 매장.',color:'#fb923c'},
   {id:'port_pt',lat:-34.8601,lng:138.4975,type:'dot',name:'Port Adelaide',sub:'City of Port Adelaide Enfield',desc:'역사적 항구 지구. 해양박물관, 창고 개조 카페·갤러리.',color:'#f87171'},
   {id:'tonsley',lat:-35.0114,lng:138.5720,type:'dot',name:'Tonsley Innovation District',sub:'City of Marion',desc:'호주 첫 번째 혁신 산업단지. Flinders University 연계.',color:'#fb923c'},
   {id:'barossa',lat:-34.5333,lng:138.9600,type:'wine',name:'Barossa Valley',sub:'The Barossa Council · Adelaide 북동 약 60km',desc:'호주를 대표하는 와인 산지. 특히 쉬라즈(Shiraz)로 세계적 명성. Penfolds·Jacob\'s Creek·Seppeltsfield 등 유서 깊은 와이너리 밀집. Tanunda·Nuriootpa·Angaston 등 소도시 중심. Adelaide CBD에서 차로 약 1시간.',color:'#9f1239'},
   // 교통·생활 필수
   {id:'airport',lat:-34.9450,lng:138.5310,type:'dot',name:'Adelaide Airport (ADL)',sub:'City of West Torrens',desc:'국내·국제선 공항. CBD에서 차로 약 15분, JetExpress 버스 운행. 인근에 Harbour Town 아울렛.',color:'#fb923c'},
-  {id:'central_market',lat:-34.9299,lng:138.5970,type:'dot',name:'Adelaide Central Market',sub:'City of Adelaide · Gouger St',desc:'남반구 최대급 재래시장. 신선식품·델리·다문화 먹거리. 차이나타운 바로 옆이라 아시안 장보기의 중심.',color:'#e879f9'},
-  {id:'rah',lat:-34.9206,lng:138.5857,type:'dot',name:'Royal Adelaide Hospital',sub:'City of Adelaide · North Tce',desc:'SA 최대 공공병원. 응급·중증 진료 거점. 트램 정거장 바로 앞.',color:'#e879f9'},
   // 권역별 쇼핑·생활 허브
-  {id:'ttp',lat:-34.8318,lng:138.6947,type:'dot',name:'Westfield Tea Tree Plaza',sub:'City of Tea Tree Gully · Modbury',desc:'동북부 최대 쇼핑센터. O-Bahn 전용도로 버스 종점(CBD 직행 약 20분)이라 동북부 대중교통 허브.',color:'#4ade80'},
-  {id:'colonnades',lat:-35.1398,lng:138.4977,type:'dot',name:'Colonnades Shopping Centre',sub:'City of Onkaparinga · Noarlunga Centre',desc:'남부 최대 쇼핑센터. Noarlunga 기차 종점 인접 — 남부 외곽 생활권의 중심.',color:'#fbbf24'},
-  {id:'elizabeth',lat:-34.7205,lng:138.6706,type:'dot',name:'Elizabeth City Centre',sub:'City of Playford',desc:'북부 최대 쇼핑센터이자 Playford 생활권 중심. Elizabeth 기차역 인접.',color:'#f87171'},
   // 해변
   {id:'henley',lat:-34.9201,lng:138.4935,type:'dot',name:'Henley Beach',sub:'City of Charles Sturt · Henley Square',desc:'노을 명소. Henley Square 광장을 둘러싼 레스토랑·카페로 저녁 시간 활기. 현지인 선호 해변.',color:'#38bdf8'},
   {id:'semaphore',lat:-34.8391,lng:138.4800,type:'dot',name:'Semaphore Beach',sub:'City of Port Adelaide Enfield',desc:'빈티지한 분위기의 북부 해변. 클래식 극장·놀이공원·카페 거리. 여름 주말 마켓.',color:'#f87171'},
@@ -71,16 +65,10 @@ const MARKERS = [
 ];
 const EN_MARKERS = {
   glenelg:       {desc:'Adelaide\'s most famous beach. Tram terminus; Jetty Road dining strip.'},
-  westfield:     {desc:'South Australia\'s largest shopping centre — 250+ stores.'},
   port_pt:       {desc:'Historic port district. Maritime museum, warehouse-conversion cafés and galleries.'},
   tonsley:       {desc:'Australia\'s first innovation district, linked with Flinders University.'},
   barossa:       {sub:'The Barossa Council · ~60 km NE of Adelaide', desc:'Australia\'s most famous wine region, world-renowned for Shiraz. Historic wineries such as Penfolds, Jacob\'s Creek and Seppeltsfield. Centred on Tanunda, Nuriootpa and Angaston. About 1 hour from the CBD by car.'},
   airport:       {desc:'Domestic & international airport. ~15 min from the CBD by car; JetExpress buses. Harbour Town outlet nearby.'},
-  central_market:{desc:'One of the largest fresh-food markets in the southern hemisphere. Right next to Chinatown — the hub for Asian groceries.'},
-  rah:           {desc:'SA\'s largest public hospital; major emergency and acute care. Tram stop at the door.'},
-  ttp:           {desc:'The north-east\'s biggest shopping centre. O-Bahn busway terminus — about 20 min direct to the CBD.'},
-  colonnades:    {desc:'The south\'s biggest shopping centre, next to the Noarlunga train terminus.'},
-  elizabeth:     {desc:'The north\'s biggest shopping centre and the heart of Playford. Near Elizabeth station.'},
   henley:        {desc:'Sunset hotspot. Restaurants and cafés around Henley Square; a local favourite.'},
   semaphore:     {desc:'A vintage-feel northern beach — classic cinema, foreshore rides, café strip and summer markets.'},
   mclaren:       {sub:'City of Onkaparinga · ~40 km south of the CBD', desc:'McLaren Vale rivals the Barossa — famous for Shiraz and Grenache, with quirky wineries like the d\'Arenberg Cube. Close to Port Willunga beach; a favourite day trip.'},
@@ -111,10 +99,11 @@ const I18N = {
     docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'🇦🇺',
     searchPh:'서버브·지역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실',
     lblCat:'카테고리', lblOverlay:'오버레이', lblColor:'지도 색상', filterAll:'전체',
-    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원'},
+    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원',marts:'마트',shopping:'쇼핑'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
     hospTypes:{pub:'공공병원',pri:'사립병원'},
+    martTypes:{big:'대형마트',local:'지역마트',ethnic:'민족마트'},
     train:'기차', tram:'트램',
     rentUnit:'주간 호가', crimeUnit:'1천명당·연', low:'낮음', high:'높음',
     crimeNote:'인구 1천명당 신고 건수(2025-26 연환산). CBD·상업지구는 유동인구·상업범죄로 높게 나타나며 거주 위험도와 다름.',
@@ -141,10 +130,11 @@ const I18N = {
     docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
     searchPh:'Search suburbs & districts', searchNone:'No results', searchCouncil:'Council',
     lblCat:'Category', lblOverlay:'Overlays', lblColor:'Map colour', filterAll:'All',
-    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals'},
+    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals',marts:'Groceries',shopping:'Shopping'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
     hospTypes:{pub:'Public',pri:'Private'},
+    martTypes:{big:'Major chain',local:'Local chain',ethnic:'Ethnic grocer'},
     train:'Train', tram:'Tram',
     rentUnit:'weekly asking', crimeUnit:'per 1k/yr', low:'Low', high:'High',
     crimeNote:'Reported offences per 1,000 residents (2025-26 annualised). CBD/commercial areas read high due to non-resident activity — not a measure of residential risk.',
@@ -435,6 +425,60 @@ function setHospitalLayer(on){
   renderMiniLegend();syncOverlayRows();
 }
 
+// ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 민족마트, LGA 클립) ═══════════════
+map.createPane('martPane');map.getPane('martPane').style.zIndex=464;
+const MART_COLOR={big:'#0ea5e9',local:'#14b8a6',ethnic:'#f43f5e'};
+const MART_R={ethnic:5};
+let martLayer=null,martOn=false;
+let martMarkers={big:[],local:[],ethnic:[]},martFilter=null;
+function applyMartFilter(){
+  Object.entries(martMarkers).forEach(([t,arr])=>{
+    const on=(!martFilter||martFilter===t);
+    arr.forEach(m=>m.setStyle({opacity:on?1:0.12,fillOpacity:on?1:0.12}));
+  });
+}
+function setMartFilter(t){martFilter=(martFilter===t)?null:t;applyMartFilter();renderMiniLegend();}
+function buildMartLayer(){
+  martLayer=L.layerGroup();
+  martMarkers={big:[],local:[],ethnic:[]};martFilter=null;
+  MARTS.forEach(m=>{
+    const mk=L.circleMarker(m.ll,{pane:'martPane',radius:MART_R[m.t]||3.6,color:'#0c0f14',weight:1.2,fillColor:MART_COLOR[m.t]||MART_COLOR.big,fillOpacity:1})
+      .bindTooltip(`${m.n}<br><span style="font-size:9px;color:#8890a8">${T().martTypes[m.t]}</span>`,{direction:'top',className:'sub-tip',opacity:1})
+      .bindPopup(`<div class="popup-inner"><div class="popup-name">${m.n}</div><div class="popup-sub">${T().martTypes[m.t]}</div></div>`,{maxWidth:220});
+    (martMarkers[m.t]||martMarkers.big).push(mk);mk.addTo(martLayer);
+  });
+}
+function setMartLayer(on){
+  martOn=on;
+  if(on){if(!martLayer)buildMartLayer();martLayer.addTo(map);}
+  else if(martLayer){map.removeLayer(martLayer);}
+  renderMiniLegend();syncOverlayRows();
+}
+
+// ═══════════════ 쇼핑 레이어 (주요 쇼핑센터 큐레이트) ═══════════════
+map.createPane('shopPane');map.getPane('shopPane').style.zIndex=465;
+const SHOP_COLOR='#a855f7';
+let shopLayer=null,shopOn=false;
+function shopPopupHtml(s){
+  const d=(LANG==='en'&&s.en)?s.en:s;
+  return `<div class="popup-inner"><div class="popup-name">${s.n}</div><div class="popup-sub">${d.sub}</div><div class="popup-desc">${d.desc}</div></div>`;
+}
+function buildShopLayer(){
+  shopLayer=L.layerGroup();
+  MALLS.forEach(s=>{
+    const sub=((LANG==='en'&&s.en)?s.en:s).sub;
+    L.circleMarker(s.ll,{pane:'shopPane',radius:5,color:'#fff',weight:1.4,fillColor:SHOP_COLOR,fillOpacity:1})
+      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${sub}</span>`,{direction:'top',className:'sub-tip',opacity:1})
+      .bindPopup(shopPopupHtml(s),{maxWidth:220}).addTo(shopLayer);
+  });
+}
+function setShopLayer(on){
+  shopOn=on;
+  if(on){if(!shopLayer)buildShopLayer();shopLayer.addTo(map);}
+  else if(shopLayer){map.removeLayer(shopLayer);}
+  renderMiniLegend();syncOverlayRows();
+}
+
 // ═══════════════ 랜드마크 마커 ═══════════════
 const markerRefs=[];
 function markerPopupHtml(m){
@@ -492,6 +536,8 @@ const OVERLAYS=[
   {id:'transit',color:'#22d3ee',swatch:'solid',get:()=>transitOn,set:setTransitLayer},
   {id:'schools',color:'#22c55e',swatch:'dot',get:()=>schoolOn,set:setSchoolLayer},
   {id:'hospitals',color:'#ef4444',swatch:'dot',get:()=>hospitalOn,set:setHospitalLayer},
+  {id:'marts',color:'#0ea5e9',swatch:'dot',get:()=>martOn,set:setMartLayer},
+  {id:'shopping',color:'#a855f7',swatch:'dot',get:()=>shopOn,set:setShopLayer},
 ];
 function renderOverlayRows(){
   ['ov-rows','m-ov-rows'].forEach(cid=>{
@@ -630,10 +676,19 @@ function renderMiniLegend(){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.hospitals}</div>`+
       ['pub','pri'].map(k=>`<div class="ml-item ml-click${hospitalFilter&&hospitalFilter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="background:${HOSP_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
   }
+  if(martOn){
+    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.marts}</div>`+
+      ['big','local','ethnic'].map(k=>`<div class="ml-item ml-click${martFilter&&martFilter!==k?' dim':''}" data-mart="${k}"><span class="ml-dot" style="background:${MART_COLOR[k]}"></span>${t.martTypes[k]}</div>`).join('');
+  }
+  if(shopOn){
+    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.shopping}</div>`+
+      `<div class="ml-item"><span class="ml-dot" style="background:${SHOP_COLOR}"></span>${LANG==='en'?'Major centre':'주요 쇼핑센터'}</div>`;
+  }
   el.innerHTML=html;
   el.querySelectorAll('.ml-item[data-sch]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSchoolFilter(it.dataset.sch);}));
   el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
+  el.querySelectorAll('.ml-item[data-mart]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setMartFilter(it.dataset.mart);}));
 }
 
 // ═══════════════ 피드백 모달 ═══════════════
@@ -695,7 +750,9 @@ function applyLang(){
   [['suburb',()=>suburbLayer,(v)=>suburbLayer=v,buildSuburbLayer,()=>suburbOn],
    ['transit',()=>transitLayer,(v)=>transitLayer=v,buildTransitLayer,()=>transitOn],
    ['school',()=>schoolLayer,(v)=>schoolLayer=v,buildSchoolLayer,()=>schoolOn],
-   ['hosp',()=>hospitalLayer,(v)=>hospitalLayer=v,buildHospitalLayer,()=>hospitalOn]].forEach(([_,get,set,build,isOn])=>{
+   ['hosp',()=>hospitalLayer,(v)=>hospitalLayer=v,buildHospitalLayer,()=>hospitalOn],
+   ['mart',()=>martLayer,(v)=>martLayer=v,buildMartLayer,()=>martOn],
+   ['shop',()=>shopLayer,(v)=>shopLayer=v,buildShopLayer,()=>shopOn]].forEach(([_,get,set,build,isOn])=>{
     if(get()){
       const wasOn=isOn();
       if(wasOn)map.removeLayer(get());
