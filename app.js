@@ -97,13 +97,14 @@ const VIBES = [
 const I18N = {
   ko:{
     docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'🇦🇺',
-    searchPh:'서버브·지역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실',
+    searchPh:'서버브·학교·마트·역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실', searchSuburb:'서버브',
     lblCat:'카테고리', lblOverlay:'오버레이', lblColor:'지도 색상', filterAll:'전체',
     layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원',marts:'마트',shopping:'쇼핑'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
     hospTypes:{pub:'공공병원',pri:'사립병원'},
-    martTypes:{big:'대형마트',local:'지역마트',ethnic:'민족마트'},
+    martTypes:{big:'대형마트',local:'지역마트',intl:'국가별 식료품점'},
+    origins:{kr:'한국',in:'인도',cn:'중국',vn:'베트남',lk:'스리랑카',af:'아프가니스탄',halal:'할랄',asia:'아시안'},
     train:'기차', tram:'트램',
     rentUnit:'주간 호가', crimeUnit:'1천명당·연', low:'낮음', high:'높음',
     crimeNote:'인구 1천명당 신고 건수(2025-26 연환산). CBD·상업지구는 유동인구·상업범죄로 높게 나타나며 거주 위험도와 다름.',
@@ -128,13 +129,14 @@ const I18N = {
   },
   en:{
     docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
-    searchPh:'Search suburbs & districts', searchNone:'No results', searchCouncil:'Council',
+    searchPh:'Search suburbs, schools, shops, stations', searchNone:'No results', searchCouncil:'Council', searchSuburb:'Suburb',
     lblCat:'Category', lblOverlay:'Overlays', lblColor:'Map colour', filterAll:'All',
     layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals',marts:'Groceries',shopping:'Shopping'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
     hospTypes:{pub:'Public',pri:'Private'},
-    martTypes:{big:'Major chain',local:'Local chain',ethnic:'Ethnic grocer'},
+    martTypes:{big:'Major chain',local:'Local chain',intl:'International grocers'},
+    origins:{kr:'Korean',in:'Indian',cn:'Chinese',vn:'Vietnamese',lk:'Sri Lankan',af:'Afghan',halal:'Halal',asia:'Asian'},
     train:'Train', tram:'Tram',
     rentUnit:'weekly asking', crimeUnit:'per 1k/yr', low:'Low', high:'High',
     crimeNote:'Reported offences per 1,000 residents (2025-26 annualised). CBD/commercial areas read high due to non-resident activity — not a measure of residential risk.',
@@ -425,12 +427,12 @@ function setHospitalLayer(on){
   renderMiniLegend();syncOverlayRows();
 }
 
-// ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 민족마트, LGA 클립) ═══════════════
+// ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 국가별 식료품점, LGA 클립) ═══════════════
 map.createPane('martPane');map.getPane('martPane').style.zIndex=464;
-const MART_COLOR={big:'#0ea5e9',local:'#14b8a6',ethnic:'#f43f5e'};
-const MART_R={ethnic:5};
+const MART_COLOR={big:'#0ea5e9',local:'#14b8a6',intl:'#f43f5e'};
+const MART_R={intl:5};
 let martLayer=null,martOn=false;
-let martMarkers={big:[],local:[],ethnic:[]},martFilter=null;
+let martMarkers={big:[],local:[],intl:[]},martFilter=null;
 function applyMartFilter(){
   Object.entries(martMarkers).forEach(([t,arr])=>{
     const on=(!martFilter||martFilter===t);
@@ -440,11 +442,12 @@ function applyMartFilter(){
 function setMartFilter(t){martFilter=(martFilter===t)?null:t;applyMartFilter();renderMiniLegend();}
 function buildMartLayer(){
   martLayer=L.layerGroup();
-  martMarkers={big:[],local:[],ethnic:[]};martFilter=null;
+  martMarkers={big:[],local:[],intl:[]};martFilter=null;
   MARTS.forEach(m=>{
+    const lab=(m.t==='intl'&&m.o&&T().origins[m.o])?`${T().martTypes.intl} · ${T().origins[m.o]}`:T().martTypes[m.t];
     const mk=L.circleMarker(m.ll,{pane:'martPane',radius:MART_R[m.t]||3.6,color:'#0c0f14',weight:1.2,fillColor:MART_COLOR[m.t]||MART_COLOR.big,fillOpacity:1})
-      .bindTooltip(`${m.n}<br><span style="font-size:9px;color:#8890a8">${T().martTypes[m.t]}</span>`,{direction:'top',className:'sub-tip',opacity:1})
-      .bindPopup(`<div class="popup-inner"><div class="popup-name">${m.n}</div><div class="popup-sub">${T().martTypes[m.t]}</div></div>`,{maxWidth:220});
+      .bindTooltip(`${m.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,{direction:'top',className:'sub-tip',opacity:1})
+      .bindPopup(`<div class="popup-inner"><div class="popup-name">${m.n}</div><div class="popup-sub">${lab}</div></div>`,{maxWidth:220});
     (martMarkers[m.t]||martMarkers.big).push(mk);mk.addTo(martLayer);
   });
 }
@@ -577,6 +580,85 @@ function renderColorSeg(){
 }
 
 // ═══════════════ 검색 ═══════════════
+// 검색 포커스 줌 (한 곳에서 조정)
+const ZOOM_SUB=13,ZOOM_POI=14,ZOOM_LGA=13;
+// ── POI 검색 인덱스 (학교·병원·마트·쇼핑·역·명소). 최근접 서버브명 붙여 구분 가능하게
+let POIS=null,SUB_CENT=null;
+function subCentroids(){
+  if(SUB_CENT)return SUB_CENT;
+  SUB_CENT=SUBURBS.map(s=>{
+    const ring=(s.g&&s.g[0])||[];let x=0,y=0,k=0;
+    ring.forEach(pt=>{if(Array.isArray(pt)&&pt.length>=2){x+=pt[0];y+=pt[1];k++;}});
+    return k?{n:s.n,lat:y/k,lng:x/k}:{n:s.n,lat:0,lng:0};
+  });
+  return SUB_CENT;
+}
+function nearestSub(ll){
+  let best='',bd=Infinity;
+  for(const s of subCentroids()){
+    const dx=s.lng-ll[1],dy=s.lat-ll[0],d=dx*dx+dy*dy;
+    if(d<bd){bd=d;best=s.n;}
+  }
+  return best;
+}
+function getPois(){
+  if(POIS)return POIS;
+  POIS=[];
+  const push=o=>{o.sub=nearestSub(o.ll);POIS.push(o);};
+  SCHOOLS.forEach(s=>push({kind:'school',st:s.t,n:s.n,ll:s.ll}));
+  CURATED_UNIS.forEach(u=>push({kind:'school',st:'u',n:u.n,ll:u.ll}));
+  HOSPITALS.forEach(h=>push({kind:'hosp',st:h.t,n:h.n,ll:h.ll}));
+  MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
+  MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
+  TRANSIT.stations.forEach(s=>push({kind:'station',st:s.t,n:s.n,ll:s.ll}));
+  MARKERS.forEach(m=>push({kind:'poi',n:m.name,ll:[m.lat,m.lng]}));
+  return POIS;
+}
+function poiMeta(p){
+  const t=T();let lab;
+  if(p.kind==='school')lab=t.schoolTypes[p.st]||t.layers.schools;
+  else if(p.kind==='hosp')lab=t.hospTypes[p.st];
+  else if(p.kind==='mart')lab=(p.st==='intl'&&p.o&&t.origins[p.o])?`${t.martTypes.intl} · ${t.origins[p.o]}`:t.martTypes[p.st];
+  else if(p.kind==='mall')lab=t.layers.shopping;
+  else if(p.kind==='station')lab=LANG==='en'?(p.st==='tram'?'Tram stop':'Train station'):(p.st==='tram'?'트램역':'기차역');
+  else lab=LANG==='en'?'Landmark':'명소';
+  return p.sub?`${lab} · ${p.sub}`:lab;
+}
+function poiColor(p){
+  if(p.kind==='school')return SCHOOL_COLOR[p.st]||SCHOOL_COLOR.o;
+  if(p.kind==='hosp')return HOSP_COLOR[p.st]||HOSP_COLOR.pub;
+  if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
+  if(p.kind==='mall')return SHOP_COLOR;
+  if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
+  return '#e8c87a';
+}
+function sprRow(i,color,name,meta){
+  return `<div class="spr-item" data-i="${i}"><span class="spr-dot" style="background:${color}"></span>`+
+    `<span class="spr-text"><span class="spr-name" title="${name}">${name}</span><span class="spr-meta">${meta}</span></span></div>`;
+}
+function openMarkerAt(layer,ll){
+  if(!layer)return;
+  layer.eachLayer(l=>{
+    if(!l.getLatLng||!l.getPopup)return;
+    const q=l.getLatLng();
+    if(Math.abs(q.lat-ll[0])<1e-6&&Math.abs(q.lng-ll[1])<1e-6&&l.getPopup())l.openPopup();
+  });
+}
+function focusPoi(p){
+  if(p.kind==='school'&&!schoolOn)setSchoolLayer(true);
+  else if(p.kind==='hosp'&&!hospitalOn)setHospitalLayer(true);
+  else if(p.kind==='mart'&&!martOn)setMartLayer(true);
+  else if(p.kind==='mall'&&!shopOn)setShopLayer(true);
+  else if(p.kind==='station'&&!transitOn)setTransitLayer(true);
+  map.setView(p.ll,ZOOM_POI);
+  if(p.kind==='poi'){
+    const r=markerRefs.find(x=>x.m.name===p.n);
+    if(r)r.mkr.openPopup();
+    return;
+  }
+  const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,mall:()=>shopLayer}[p.kind];
+  if(lay)setTimeout(()=>openMarkerAt(lay(),p.ll),140);
+}
 function searchQuery(q){
   q=q.trim().toLowerCase();
   if(q.length<2)return[];
@@ -591,7 +673,12 @@ function searchQuery(q){
     if(n.startsWith(q))starts.push({type:'sub',si});
     else if(n.includes(q)||(s.pc&&s.pc.startsWith(q)))contains.push({type:'sub',si});
   });
-  return starts.concat(contains).slice(0,8);
+  getPois().forEach((p,pi)=>{
+    const n=p.n.toLowerCase();
+    if(n.startsWith(q))starts.push({type:'poi',pi});
+    else if(n.includes(q))contains.push({type:'poi',pi});
+  });
+  return starts.concat(contains).slice(0,10);
 }
 function focusSuburb(si){
   const s=SUBURBS[si];if(!s)return;
@@ -599,11 +686,11 @@ function focusSuburb(si){
   const poly=suburbPolys[si];if(!poly)return;
   deselectSuburb();selectedSubPoly=poly;poly.setStyle(SUB_SEL);poly.bringToFront();
   openSheet(s.l);
-  map.fitBounds(poly.getBounds(),{padding:[60,60],maxZoom:14});
+  map.fitBounds(poly.getBounds(),{padding:[90,90],maxZoom:ZOOM_SUB});
 }
 function focusLga(id){
   deselectSuburb();openSheet(id);
-  if(lgaLayers[id])map.fitBounds(lgaLayers[id].getBounds(),{padding:[40,40],maxZoom:13});
+  if(lgaLayers[id])map.fitBounds(lgaLayers[id].getBounds(),{padding:[40,40],maxZoom:ZOOM_LGA});
 }
 // 검색 배선 — 데스크톱/모바일 입력창 공용
 function wireSearch(inputEl,resultsEl){
@@ -616,11 +703,16 @@ function wireSearch(inputEl,resultsEl){
     }
     resultsEl.innerHTML=list.map((it,i)=>{
       if(it.type==='lga'){
-        const d=LGAS[it.id];
-        return `<div class="spr-item" data-i="${i}"><span class="spr-name">${d.name}</span><span class="spr-meta">${T().searchCouncil}</span></div>`;
+        const d=LGAS[it.id],c=(CAT_META[d.cat]&&CAT_META[d.cat].color)||'#dde1ec';
+        return sprRow(i,c,d.name,T().searchCouncil);
+      }
+      if(it.type==='poi'){
+        const p=getPois()[it.pi];
+        return sprRow(i,poiColor(p),p.n,poiMeta(p));
       }
       const s=SUBURBS[it.si],d=LGAS[s.l];
-      return `<div class="spr-item" data-i="${i}"><span class="spr-name">${s.n}</span><span class="spr-meta">${s.pc?s.pc+' · ':''}${d?d.name.replace('City of ','').replace('Town of ','').replace('The City of ',''):''}</span></div>`;
+      const meta=`${T().searchSuburb} · ${s.pc?s.pc+' · ':''}${d?d.name.replace('City of ','').replace('Town of ','').replace('The City of ',''):''}`;
+      return sprRow(i,'#dde1ec',s.n,meta);
     }).join('');
     resultsEl.classList.add('on');
     resultsEl.querySelectorAll('.spr-item[data-i]').forEach(el=>{
@@ -630,9 +722,11 @@ function wireSearch(inputEl,resultsEl){
   function pick(i){
     const it=items[i];if(!it)return;
     resultsEl.classList.remove('on');items=[];
-    inputEl.value=it.type==='lga'?LGAS[it.id].name:SUBURBS[it.si].n;
+    inputEl.value=it.type==='lga'?LGAS[it.id].name:it.type==='poi'?getPois()[it.pi].n:SUBURBS[it.si].n;
     inputEl.blur();
-    if(it.type==='lga')focusLga(it.id);else focusSuburb(it.si);
+    if(it.type==='lga')focusLga(it.id);
+    else if(it.type==='poi')focusPoi(getPois()[it.pi]);
+    else focusSuburb(it.si);
   }
   inputEl.addEventListener('input',()=>{
     if(inputEl.value.trim().length<2){resultsEl.classList.remove('on');return;}
@@ -678,7 +772,7 @@ function renderMiniLegend(){
   }
   if(martOn){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.marts}</div>`+
-      ['big','local','ethnic'].map(k=>`<div class="ml-item ml-click${martFilter&&martFilter!==k?' dim':''}" data-mart="${k}"><span class="ml-dot" style="background:${MART_COLOR[k]}"></span>${t.martTypes[k]}</div>`).join('');
+      ['big','local','intl'].map(k=>`<div class="ml-item ml-click${martFilter&&martFilter!==k?' dim':''}" data-mart="${k}"><span class="ml-dot" style="background:${MART_COLOR[k]}"></span>${t.martTypes[k]}</div>`).join('');
   }
   if(shopOn){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.shopping}</div>`+
@@ -820,6 +914,6 @@ try{
   const cm=new URLSearchParams(location.search).get('color');
   if(cm==='rent'||cm==='crime'){mapColorMode=cm;renderColorSeg();restyleAll();}
   const sel=new URLSearchParams(location.search).get('lga');
-  if(sel&&LGAS[sel]){openSheet(sel);map.fitBounds(lgaLayers[sel].getBounds(),{padding:[40,40],maxZoom:13});}
+  if(sel&&LGAS[sel]){openSheet(sel);map.fitBounds(lgaLayers[sel].getBounds(),{padding:[40,40],maxZoom:ZOOM_LGA});}
   else toast(T().hint,3200);
 }catch{toast(T().hint,3200);}
