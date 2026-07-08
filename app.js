@@ -1,3 +1,4 @@
+const SCHOOLS=[...SCHOOLS_P,...SCHOOLS_S,...SCHOOLS_C,...SCHOOLS_O];
 const CAT_META = {
   cbd:     {label:'CBD',         en:'CBD',          color:'#e879f9'},
   inner:   {label:'이너 프리미엄',en:'Inner Premium',color:'#a78bfa'},
@@ -110,9 +111,10 @@ const I18N = {
     docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'🇦🇺',
     searchPh:'서버브·지역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실',
     lblCat:'카테고리', lblOverlay:'오버레이', lblColor:'지도 색상', filterAll:'전체',
-    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교'},
+    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
+    hospTypes:{pub:'공공병원',pri:'사립병원'},
     train:'기차', tram:'트램',
     rentUnit:'주간 호가', crimeUnit:'1천명당·연', low:'낮음', high:'높음',
     crimeNote:'인구 1천명당 신고 건수(2025-26 연환산). CBD·상업지구는 유동인구·상업범죄로 높게 나타나며 거주 위험도와 다름.',
@@ -139,9 +141,10 @@ const I18N = {
     docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
     searchPh:'Search suburbs & districts', searchNone:'No results', searchCouncil:'Council',
     lblCat:'Category', lblOverlay:'Overlays', lblColor:'Map colour', filterAll:'All',
-    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools'},
+    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
+    hospTypes:{pub:'Public',pri:'Private'},
     train:'Train', tram:'Tram',
     rentUnit:'weekly asking', crimeUnit:'per 1k/yr', low:'Low', high:'High',
     crimeNote:'Reported offences per 1,000 residents (2025-26 annualised). CBD/commercial areas read high due to non-resident activity — not a measure of residential risk.',
@@ -323,15 +326,26 @@ function setSuburbLayer(on){
 map.createPane('transitPane');map.getPane('transitPane').style.zIndex=460;
 const TRANSIT_COLOR={train:'#22d3ee',tram:'#f59e0b'};
 let transitLayer=null,transitOn=false;
+let transitMarkers={train:[],tram:[]},transitFilter=null;
+function applyTransitFilter(){
+  Object.entries(transitMarkers).forEach(([t,arr])=>{
+    const on=(!transitFilter||transitFilter===t);
+    arr.forEach(m=>m.setStyle({opacity:on?0.9:0.12,fillOpacity:on?1:0.12}));
+  });
+}
+function setTransitFilter(t){transitFilter=(transitFilter===t)?null:t;applyTransitFilter();renderMiniLegend();}
 function buildTransitLayer(){
   transitLayer=L.layerGroup();
+  transitMarkers={train:[],tram:[]};transitFilter=null;
   TRANSIT.lines.forEach(l=>{
-    L.polyline(l.c,{pane:'transitPane',color:TRANSIT_COLOR[l.t],weight:l.t==='train'?2.6:2,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false}).addTo(transitLayer);
+    const pl=L.polyline(l.c,{pane:'transitPane',color:TRANSIT_COLOR[l.t],weight:l.t==='train'?2.6:2,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false});
+    (transitMarkers[l.t]||transitMarkers.train).push(pl);pl.addTo(transitLayer);
   });
   TRANSIT.stations.forEach(s=>{
     const isTram=s.t==='tram';
-    L.circleMarker(s.ll,{pane:'transitPane',radius:isTram?2.8:3.6,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR[s.t],fillOpacity:1})
-      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${isTram?T().tram:T().train}</span>`,{direction:'top',className:'sub-tip',opacity:1}).addTo(transitLayer);
+    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:isTram?2.8:3.6,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR[s.t],fillOpacity:1})
+      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${isTram?T().tram:T().train}</span>`,{direction:'top',className:'sub-tip',opacity:1});
+    (transitMarkers[s.t]||transitMarkers.train).push(mk);mk.addTo(transitLayer);
   });
 }
 function setTransitLayer(on){
@@ -344,20 +358,6 @@ function setTransitLayer(on){
 // ═══════════════ 학교 레이어 ═══════════════
 map.createPane('schoolPane');map.getPane('schoolPane').style.zIndex=462;
 const SCHOOL_COLOR={p:'#22c55e',s:'#3b82f6',u:'#ec4899',c:'#f59e0b',o:'#9ca3af'};
-// 대학 — 공식(TEQSA/CRICOS·대학 공식사이트) 검증, 2026-07. Adelaide대+UniSA는 2026-01 합병→Adelaide University. Carnegie Mellon(2023 폐교)·U of Sunshine Coast(유령) 제외.
-const CURATED_UNIS=[
-  {n:'Adelaide University · City East',ll:[-34.91898,138.60423],sub:'North Terrace · City of Adelaide',desc:'2026년 Adelaide대+UniSA 합병으로 출범한 남호주 최대 대학. North Terrace 본 캠퍼스(구 University of Adelaide). 의학·법학·이공·인문.',en:{sub:'North Terrace · City of Adelaide',desc:'SA\'s largest university, formed by the 2026 merger of the University of Adelaide and UniSA. North Terrace flagship. Medicine, law, sciences, humanities.'}},
-  {n:'Adelaide University · City West',ll:[-34.92309,138.59104],sub:'City of Adelaide · RAH·BioMed 인접',desc:'Adelaide University 도심 서편 캠퍼스. Royal Adelaide 병원·BioMed City 인접. 비즈니스·건축·예술·보건.',en:{sub:'City of Adelaide · near RAH/BioMed',desc:'Adelaide University west-city campus, beside the Royal Adelaide Hospital and BioMed City. Business, architecture, art, health.'}},
-  {n:'Adelaide University · Magill',ll:[-34.91009,138.67416],sub:'Magill · City of Campbelltown',desc:'Adelaide University 매길 캠퍼스(도심 동쪽 7km, 공원 속). 미디어·예술.',en:{sub:'Magill · City of Campbelltown',desc:'Adelaide University Magill campus, 7 km east in parklands. Media and arts.'}},
-  {n:'Adelaide University · Mawson Lakes',ll:[-34.80999,138.61991],sub:'Mawson Lakes · City of Salisbury',desc:'Adelaide University 모슨레이크스 캠퍼스. 공학·IT·항공우주·방위산업. 기차 연결, 학생촌 인접.',en:{sub:'Mawson Lakes · City of Salisbury',desc:'Adelaide University Mawson Lakes campus. Engineering, IT, aerospace, defence. Train-connected, student precinct.'}},
-  {n:'Adelaide University · Waite',ll:[-34.96629,138.63567],sub:'Urrbrae · City of Mitcham',desc:'Adelaide University 웨이트 캠퍼스(구릉·포도밭). 와인과학·식물생물·농업·지속가능성 연구.',en:{sub:'Urrbrae · City of Mitcham',desc:'Adelaide University Waite campus in the foothills. Wine science, plant biology, agriculture, sustainability.'}},
-  {n:'Flinders University · Bedford Park',ll:[-35.02506,138.57517],sub:'Bedford Park · City of Marion',desc:'Flinders University 본 캠퍼스(도심 남쪽 12km). 의학·간호·공학·사회과학. Flinders 병원 병설.',en:{sub:'Bedford Park · City of Marion',desc:'Flinders University main campus, 12 km south. Medicine, nursing, engineering, social sciences; adjoins Flinders Medical Centre.'}},
-  {n:'Flinders University · Tonsley',ll:[-35.00796,138.57201],sub:'Tonsley · City of Marion',desc:'Flinders University 톤슬리 캠퍼스. 컴퓨터·IT·공학. Tonsley 혁신단지 내.',en:{sub:'Tonsley · City of Marion',desc:'Flinders University Tonsley campus in the Tonsley innovation district. Computing, IT, engineering.'}},
-  {n:'Flinders University · City',ll:[-34.9206,138.5992],sub:'North Terrace · City of Adelaide',desc:'Flinders University 도심 캠퍼스. North Terrace 수직형 8층. 세 캠퍼스 기차로 연결.',en:{sub:'North Terrace · City of Adelaide',desc:'Flinders University city campus — an eight-level vertical campus on North Terrace, rail-linked to the other campuses.'}},
-  {n:'Torrens University Australia',ll:[-34.9277,138.6050],sub:'88 Wakefield St · City of Adelaide',desc:'애들레이드 기반 사립대(2012 설립). 디자인·비즈니스·호스피탈리티·보건. 유학생 다수. 구 Menz 비스킷 공장 부지.',en:{sub:'88 Wakefield St · City of Adelaide',desc:'Adelaide-based private university (est. 2012). Design, business, hospitality, health; large international cohort. On the historic Menz factory site.'}},
-  {n:'CQUniversity Adelaide',ll:[-34.94219,138.59081],sub:'Wayville · City of Unley',desc:'Central Queensland University 애들레이드 캠퍼스(Wayville, Greenhill Rd). 실용·직업 중심, 원격+대면.',en:{sub:'Wayville · City of Unley',desc:'CQUniversity\'s Adelaide campus at Wayville (Greenhill Rd). Practical, career-focused; blended delivery.'}},
-  {n:'Australian Catholic University · Adelaide',ll:[-34.91878,138.57478],sub:'Thebarton · City of West Torrens',desc:'ACU 애들레이드 캠퍼스(Thebarton, 116 George St). 신학·철학 대학원 중심의 소규모 캠퍼스.',en:{sub:'Thebarton · City of West Torrens',desc:'ACU\'s small Adelaide campus (116 George St, Thebarton), focused on postgraduate theology and philosophy.'}}
-];
 function uniPopupHtml(u){
   const d=(LANG==='en'&&u.en)?u.en:u;
   return `<div class="popup-inner"><div class="popup-name">${u.n}</div><div class="popup-sub">${d.sub}</div><div class="popup-desc">${d.desc}</div></div>`;
@@ -399,6 +399,39 @@ function setSchoolLayer(on){
   schoolOn=on;
   if(on){if(!schoolLayer)buildSchoolLayer();schoolLayer.addTo(map);}
   else if(schoolLayer){map.removeLayer(schoolLayer);}
+  renderMiniLegend();syncOverlayRows();
+}
+
+// ═══════════════ 병원 레이어 (OSM amenity=hospital → 주요 공공·사립 큐레이트, 2026-07) ═══════════════
+map.createPane('hospPane');map.getPane('hospPane').style.zIndex=463;
+const HOSP_COLOR={pub:'#ef4444',pri:'#fb7185'};
+let hospitalLayer=null,hospitalOn=false;
+let hospitalMarkers={pub:[],pri:[]},hospitalFilter=null;
+function applyHospitalFilter(){
+  Object.entries(hospitalMarkers).forEach(([t,arr])=>{
+    const on=(!hospitalFilter||hospitalFilter===t);
+    arr.forEach(m=>m.setStyle({opacity:on?1:0.12,fillOpacity:on?1:0.12}));
+  });
+}
+function setHospitalFilter(t){hospitalFilter=(hospitalFilter===t)?null:t;applyHospitalFilter();renderMiniLegend();}
+function hospPopupHtml(h){
+  const desc=(LANG==='en'&&h.en)?h.en:h.desc;
+  return `<div class="popup-inner"><div class="popup-name">${h.n}</div><div class="popup-sub">${T().hospTypes[h.t]}</div><div class="popup-desc">${desc}</div></div>`;
+}
+function buildHospitalLayer(){
+  hospitalLayer=L.layerGroup();
+  hospitalMarkers={pub:[],pri:[]};hospitalFilter=null;
+  HOSPITALS.forEach(h=>{
+    const mk=L.circleMarker(h.ll,{pane:'hospPane',radius:5,color:'#fff',weight:1.4,fillColor:HOSP_COLOR[h.t],fillOpacity:1})
+      .bindTooltip(`${h.n}<br><span style="font-size:9px;color:#8890a8">${T().hospTypes[h.t]}</span>`,{direction:'top',className:'sub-tip',opacity:1})
+      .bindPopup(hospPopupHtml(h),{maxWidth:240});
+    (hospitalMarkers[h.t]||hospitalMarkers.pub).push(mk);mk.addTo(hospitalLayer);
+  });
+}
+function setHospitalLayer(on){
+  hospitalOn=on;
+  if(on){if(!hospitalLayer)buildHospitalLayer();hospitalLayer.addTo(map);}
+  else if(hospitalLayer){map.removeLayer(hospitalLayer);}
   renderMiniLegend();syncOverlayRows();
 }
 
@@ -458,6 +491,7 @@ const OVERLAYS=[
   {id:'suburb',color:'#dde1ec',swatch:'dash',get:()=>suburbOn,set:setSuburbLayer},
   {id:'transit',color:'#22d3ee',swatch:'solid',get:()=>transitOn,set:setTransitLayer},
   {id:'schools',color:'#22c55e',swatch:'dot',get:()=>schoolOn,set:setSchoolLayer},
+  {id:'hospitals',color:'#ef4444',swatch:'dot',get:()=>hospitalOn,set:setHospitalLayer},
 ];
 function renderOverlayRows(){
   ['ov-rows','m-ov-rows'].forEach(cid=>{
@@ -586,15 +620,20 @@ function renderMiniLegend(){
   }
   if(transitOn){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.transit}</div>`+
-      `<div class="ml-item"><span class="ml-dot" style="background:${TRANSIT_COLOR.train}"></span>${t.train}</div>`+
-      `<div class="ml-item"><span class="ml-dot" style="background:${TRANSIT_COLOR.tram}"></span>${t.tram}</div>`;
+      [['train',t.train],['tram',t.tram]].map(([k,lab])=>`<div class="ml-item ml-click${transitFilter&&transitFilter!==k?' dim':''}" data-tr="${k}"><span class="ml-dot" style="background:${TRANSIT_COLOR[k]}"></span>${lab}</div>`).join('');
   }
   if(schoolOn){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.schools}</div>`+
       ['p','s','u','c','o'].map(k=>`<div class="ml-item ml-click${schoolFilter&&schoolFilter!==k?' dim':''}" data-sch="${k}"><span class="ml-dot" style="background:${SCHOOL_COLOR[k]}"></span>${t.schoolTypes[k]}</div>`).join('');
   }
+  if(hospitalOn){
+    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.hospitals}</div>`+
+      ['pub','pri'].map(k=>`<div class="ml-item ml-click${hospitalFilter&&hospitalFilter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="background:${HOSP_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
+  }
   el.innerHTML=html;
   el.querySelectorAll('.ml-item[data-sch]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSchoolFilter(it.dataset.sch);}));
+  el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
+  el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
 }
 
 // ═══════════════ 피드백 모달 ═══════════════
@@ -655,7 +694,8 @@ function applyLang(){
   // 레이어 툴팁 언어 재생성
   [['suburb',()=>suburbLayer,(v)=>suburbLayer=v,buildSuburbLayer,()=>suburbOn],
    ['transit',()=>transitLayer,(v)=>transitLayer=v,buildTransitLayer,()=>transitOn],
-   ['school',()=>schoolLayer,(v)=>schoolLayer=v,buildSchoolLayer,()=>schoolOn]].forEach(([_,get,set,build,isOn])=>{
+   ['school',()=>schoolLayer,(v)=>schoolLayer=v,buildSchoolLayer,()=>schoolOn],
+   ['hosp',()=>hospitalLayer,(v)=>hospitalLayer=v,buildHospitalLayer,()=>hospitalOn]].forEach(([_,get,set,build,isOn])=>{
     if(get()){
       const wasOn=isOn();
       if(wasOn)map.removeLayer(get());
