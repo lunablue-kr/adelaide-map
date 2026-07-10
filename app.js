@@ -105,7 +105,7 @@ const I18N = {
     hospTypes:{pub:'공공병원',pri:'사립병원'},
     martTypes:{big:'대형마트',local:'지역마트',intl:'국가별 식료품점',liq:'주류 (보틀숍)'},
     origins:{kr:'한국',in:'인도',cn:'중국',jp:'일본',vn:'베트남',lk:'스리랑카',af:'아프가니스탄',halal:'할랄',latam:'라틴',med:'지중해',asia:'아시안'},
-    train:'기차', tram:'트램', bus:'버스 간선',
+    train:'기차', tram:'트램', bus:'버스 간선', busStop:'버스 정류장 (간선)',
     rentUnit:'주간 호가', crimeUnit:'1천명당·연', low:'낮음', high:'높음',
     crimeNote:'인구 1천명당 신고 건수(2025-26 연환산). CBD·상업지구는 유동인구·상업범죄로 높게 나타나며 거주 위험도와 다름.',
     rentNote:'LGA별 대표 우편번호의 유닛~주택 주간 중위 호가 범위(SQM Research, 2026-07). 실제 계약가는 매물·상태에 따라 다름.',
@@ -137,7 +137,7 @@ const I18N = {
     hospTypes:{pub:'Public',pri:'Private'},
     martTypes:{big:'Major chain',local:'Local chain',intl:'International grocers',liq:'Bottle shops'},
     origins:{kr:'Korean',in:'Indian',cn:'Chinese',jp:'Japanese',vn:'Vietnamese',lk:'Sri Lankan',af:'Afghan',halal:'Halal',latam:'Latin American',med:'Mediterranean',asia:'Asian'},
-    train:'Train', tram:'Tram', bus:'Trunk buses',
+    train:'Train', tram:'Tram', bus:'Trunk buses', busStop:'Bus stop (trunk)',
     rentUnit:'weekly asking', crimeUnit:'per 1k/yr', low:'Low', high:'High',
     crimeNote:'Reported offences per 1,000 residents (2025-26 annualised). CBD/commercial areas read high due to non-resident activity — not a measure of residential risk.',
     rentNote:'Median weekly asking range (unit–house) for a representative postcode per LGA (SQM Research, Jul 2026). Actual rents vary by listing.',
@@ -318,8 +318,14 @@ function setSuburbLayer(on){
 map.createPane('transitPane');map.getPane('transitPane').style.zIndex=460;
 const TRANSIT_COLOR={train:'#22d3ee',tram:'#f59e0b',bus:'#94a3b8'};
 const TRANSIT_BASE_OP={train:0.9,tram:0.9,bus:0.55};
-let transitLayer=null,transitOn=false;
+let transitLayer=null,transitOn=false,busStopGroup=null;
 let transitMarkers={train:[],tram:[],bus:[]},transitFilter=null;
+function syncBusStops(){
+  if(!transitLayer||!busStopGroup)return;
+  if(map.getZoom()>=14)busStopGroup.addTo(transitLayer);
+  else transitLayer.removeLayer(busStopGroup);
+}
+map.on('zoomend',syncBusStops);
 function applyTransitFilter(){
   Object.entries(transitMarkers).forEach(([t,arr])=>{
     const on=(!transitFilter||transitFilter===t);
@@ -336,6 +342,14 @@ function buildTransitLayer(){
     const pl=L.polyline(rt.segs,{pane:'transitPane',color:TRANSIT_COLOR.bus,weight:1.4,opacity:TRANSIT_BASE_OP.bus,lineCap:'round',lineJoin:'round',interactive:false});
     transitMarkers.bus.push(pl);pl.addTo(transitLayer);
   });
+  // 간선 정류장 603곳 — 줌 14+에서만 (syncBusStops)
+  busStopGroup=L.layerGroup();
+  BUS_STOPS.forEach(s=>{
+    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:1.9,color:'#0c0f14',weight:0.8,fillColor:TRANSIT_COLOR.bus,fillOpacity:1})
+      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${T().busStop}</span>`,{direction:'top',className:'sub-tip',opacity:1});
+    transitMarkers.bus.push(mk);mk.addTo(busStopGroup);
+  });
+  syncBusStops();
   TRANSIT.lines.forEach(l=>{
     const pl=L.polyline(l.c,{pane:'transitPane',color:TRANSIT_COLOR[l.t],weight:l.t==='train'?2.6:2,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false});
     (transitMarkers[l.t]||transitMarkers.train).push(pl);pl.addTo(transitLayer);
