@@ -524,7 +524,8 @@ function buildVibes(){
   vibeMarkers=[];
   VIBES.forEach(([lat,lng,cat,size],i)=>{
     const c=CAT_META[cat].color;
-    const icon=L.divIcon({html:`<div class="vibe-label" style="color:${c};font-size:${size}px">${T().vibes[i]}</div>`,className:'',iconSize:[0,0]});
+    const catName=catLabel(CAT_META[cat]);
+    const icon=L.divIcon({html:`<div class="vibe-label" style="color:${c};font-size:${size}px">${T().vibes[i]}<span class="vibe-cat">${catName}</span></div>`,className:'',iconSize:[0,0]});
     vibeMarkers.push(L.marker([lat,lng],{icon,interactive:false}));
   });
   syncVibes();
@@ -536,20 +537,6 @@ function syncVibes(){
 map.on('zoomend',syncVibes);
 
 // ═══════════════ 좌측 패널 ═══════════════
-function renderChips(){
-  ['cat-chips','m-chips'].forEach(cid=>{
-    const el=document.getElementById(cid);if(!el)return;
-    el.innerHTML='';
-    const mk=(key,label)=>{
-      const c=document.createElement('span');
-      c.className='chip'+(activeCat===key?' on':'');c.textContent=label;
-      c.onclick=()=>{activeCat=key;deselectSuburb();selectedLgaId=null;closeSheet();renderChips();restyleAll();};
-      el.appendChild(c);
-    };
-    mk('all',T().filterAll);
-    Object.entries(CAT_META).forEach(([k,cm])=>mk(k,catLabel(cm)));
-  });
-}
 const OVERLAYS=[
   {id:'suburb',color:'#dde1ec',swatch:'dash',get:()=>suburbOn,set:setSuburbLayer},
   {id:'transit',color:'#22d3ee',swatch:'solid',get:()=>transitOn,set:setTransitLayer},
@@ -852,12 +839,11 @@ function applyLang(){
   document.getElementById('m-search').placeholder=t.searchPh;
   document.getElementById('m-lang').textContent=t.langBtn;
   document.getElementById('ml-chip-label').textContent=t.legTitle;
-  document.getElementById('lbl-cat').textContent=t.lblCat;
   document.getElementById('lbl-overlay').textContent=t.lblOverlay;
   document.getElementById('lbl-color').textContent=t.lblColor;
   document.getElementById('fb-open').textContent=t.fbOpen;
   document.getElementById('sp-foot').textContent=t.sources;
-  renderChips();renderOverlayRows();renderColorSeg();renderMiniLegend();buildVibes();
+  renderOverlayRows();renderColorSeg();renderMiniLegend();buildVibes();
   if(selectedLgaId)openSheet(selectedLgaId);
   // 레이어 툴팁 언어 재생성
   [['suburb',()=>suburbLayer,(v)=>suburbLayer=v,buildSuburbLayer,()=>suburbOn],
