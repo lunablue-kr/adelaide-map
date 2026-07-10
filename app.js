@@ -317,7 +317,8 @@ function setSuburbLayer(on){
 // ═══════════════ 대중교통 레이어 (SVG — 클릭 통과) ═══════════════
 map.createPane('transitPane');map.getPane('transitPane').style.zIndex=460;
 const TRANSIT_COLOR={train:'#22d3ee',tram:'#f59e0b',bus:'#94a3b8'};
-const TRANSIT_BASE_OP={train:0.9,tram:0.9,bus:0.55};
+const TRANSIT_BASE_OP={train:0.9,tram:0.9,bus:0.9};
+const TRANSIT_W=2.6,TRANSIT_R=4; // 선 굵기·역/정류장 크기 3종 통일
 let transitLayer=null,transitOn=false,busStopGroup=null;
 let transitMarkers={train:[],tram:[],bus:[]},transitFilter=null;
 function syncBusStops(){
@@ -339,24 +340,24 @@ function buildTransitLayer(){
   transitMarkers={train:[],tram:[],bus:[]};transitFilter=null;
   // 버스 간선(Go Zone 코리도 대표 8노선) — 노선당 멀티폴리라인 1개, 얇고 흐리게
   BUS_TRUNK.forEach(rt=>{
-    const pl=L.polyline(rt.segs,{pane:'transitPane',color:TRANSIT_COLOR.bus,weight:1.4,opacity:TRANSIT_BASE_OP.bus,lineCap:'round',lineJoin:'round',interactive:false});
+    const pl=L.polyline(rt.segs,{pane:'transitPane',color:TRANSIT_COLOR.bus,weight:TRANSIT_W,opacity:TRANSIT_BASE_OP.bus,lineCap:'round',lineJoin:'round',interactive:false});
     transitMarkers.bus.push(pl);pl.addTo(transitLayer);
   });
   // 간선 정류장 603곳 — 줌 14+에서만 (syncBusStops)
   busStopGroup=L.layerGroup();
   BUS_STOPS.forEach(s=>{
-    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:1.9,color:'#0c0f14',weight:0.8,fillColor:TRANSIT_COLOR.bus,fillOpacity:1})
+    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR.bus,fillOpacity:1})
       .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${T().busStop}</span>`,{direction:'top',className:'sub-tip',opacity:1});
     transitMarkers.bus.push(mk);mk.addTo(busStopGroup);
   });
   syncBusStops();
   TRANSIT.lines.forEach(l=>{
-    const pl=L.polyline(l.c,{pane:'transitPane',color:TRANSIT_COLOR[l.t],weight:l.t==='train'?2.6:2,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false});
+    const pl=L.polyline(l.c,{pane:'transitPane',color:TRANSIT_COLOR[l.t],weight:TRANSIT_W,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false});
     (transitMarkers[l.t]||transitMarkers.train).push(pl);pl.addTo(transitLayer);
   });
   TRANSIT.stations.forEach(s=>{
     const isTram=s.t==='tram';
-    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:isTram?2.8:3.6,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR[s.t],fillOpacity:1})
+    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR[s.t],fillOpacity:1})
       .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${isTram?T().tram:T().train}</span>`,{direction:'top',className:'sub-tip',opacity:1});
     (transitMarkers[s.t]||transitMarkers.train).push(mk);mk.addTo(transitLayer);
   });
