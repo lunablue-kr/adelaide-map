@@ -103,7 +103,7 @@ const I18N = {
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
     hospTypes:{pub:'공공병원',pri:'사립병원'},
-    martTypes:{big:'대형마트',local:'지역마트',intl:'국가별 식료품점'},
+    martTypes:{big:'대형마트',local:'지역마트',intl:'국가별 식료품점',liq:'주류 (보틀숍)'},
     origins:{kr:'한국',in:'인도',cn:'중국',jp:'일본',vn:'베트남',lk:'스리랑카',af:'아프가니스탄',halal:'할랄',asia:'아시안'},
     train:'기차', tram:'트램',
     rentUnit:'주간 호가', crimeUnit:'1천명당·연', low:'낮음', high:'높음',
@@ -135,7 +135,7 @@ const I18N = {
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
     hospTypes:{pub:'Public',pri:'Private'},
-    martTypes:{big:'Major chain',local:'Local chain',intl:'International grocers'},
+    martTypes:{big:'Major chain',local:'Local chain',intl:'International grocers',liq:'Bottle shops'},
     origins:{kr:'Korean',in:'Indian',cn:'Chinese',jp:'Japanese',vn:'Vietnamese',lk:'Sri Lankan',af:'Afghan',halal:'Halal',asia:'Asian'},
     train:'Train', tram:'Tram',
     rentUnit:'weekly asking', crimeUnit:'per 1k/yr', low:'Low', high:'High',
@@ -429,10 +429,10 @@ function setHospitalLayer(on){
 
 // ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 국가별 식료품점, LGA 클립) ═══════════════
 map.createPane('martPane');map.getPane('martPane').style.zIndex=464;
-const MART_COLOR={big:'#0ea5e9',local:'#14b8a6',intl:'#f43f5e'};
+const MART_COLOR={big:'#0ea5e9',local:'#14b8a6',intl:'#f43f5e',liq:'#eab308'};
 const MART_R={intl:5};
 let martLayer=null,martOn=false;
-let martMarkers={big:[],local:[],intl:[]},martFilter=null;
+let martMarkers={big:[],local:[],intl:[],liq:[]},martFilter=null;
 function applyMartFilter(){
   Object.entries(martMarkers).forEach(([t,arr])=>{
     const on=(!martFilter||martFilter===t);
@@ -442,7 +442,7 @@ function applyMartFilter(){
 function setMartFilter(t){martFilter=(martFilter===t)?null:t;applyMartFilter();renderMiniLegend();}
 function buildMartLayer(){
   martLayer=L.layerGroup();
-  martMarkers={big:[],local:[],intl:[]};martFilter=null;
+  martMarkers={big:[],local:[],intl:[],liq:[]};martFilter=null;
   MARTS.forEach(m=>{
     const lab=(m.t==='intl'&&m.o&&T().origins[m.o])?`${T().martTypes.intl} · ${T().origins[m.o]}`:T().martTypes[m.t];
     const mk=L.circleMarker(m.ll,{pane:'martPane',radius:MART_R[m.t]||3.6,color:'#0c0f14',weight:1.2,fillColor:MART_COLOR[m.t]||MART_COLOR.big,fillOpacity:1})
@@ -772,7 +772,7 @@ function renderMiniLegend(){
   }
   if(martOn){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.marts}</div>`+
-      ['big','local','intl'].map(k=>`<div class="ml-item ml-click${martFilter&&martFilter!==k?' dim':''}" data-mart="${k}"><span class="ml-dot" style="background:${MART_COLOR[k]}"></span>${t.martTypes[k]}</div>`).join('');
+      ['big','local','intl','liq'].map(k=>`<div class="ml-item ml-click${martFilter&&martFilter!==k?' dim':''}" data-mart="${k}"><span class="ml-dot" style="background:${MART_COLOR[k]}"></span>${t.martTypes[k]}</div>`).join('');
   }
   if(shopOn){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.shopping}</div>`+
