@@ -97,7 +97,7 @@ const VIBES = [
 const I18N = {
   ko:{
     docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'🇦🇺',
-    searchPh:'서버브·학교·마트·역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실', searchSuburb:'서버브',
+    searchPh:'서버브·학교·마트·역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실', searchSuburb:'서버브', clearAll:'모두 해제',
     lblCat:'카테고리', lblOverlay:'오버레이', lblColor:'지도 색상', filterAll:'전체',
     layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원',marts:'마트',shopping:'쇼핑'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
@@ -129,7 +129,7 @@ const I18N = {
   },
   en:{
     docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
-    searchPh:'Search suburbs, schools, shops, stations', searchNone:'No results', searchCouncil:'Council', searchSuburb:'Suburb',
+    searchPh:'Search suburbs, schools, shops, stations', searchNone:'No results', searchCouncil:'Council', searchSuburb:'Suburb', clearAll:'Clear all',
     lblCat:'Category', lblOverlay:'Overlays', lblColor:'Map colour', filterAll:'All',
     layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals',marts:'Groceries',shopping:'Shopping'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
@@ -208,15 +208,15 @@ const MAX_SCH=Math.max(...Object.values(LGA_STATS).map(s=>s.sch));
 const RENT_MIN=Math.min(...Object.values(RENT_MID)),RENT_MAX=Math.max(...Object.values(RENT_MID));
 
 function restyleAll(){
-  const choro=mapColorMode!=='category'; // 렌트/치안 모드는 진하게 채워야 높낮이가 읽힘
-  const fillBase=choro?0.52:0.18, fillDim=choro?0.14:0.03, fillSel=choro?0.72:0.5, fillOther=choro?0.12:0.05;
+  // 세 모드 모두 동일 스타일(경계=해당 색, 채움 연하게) — 포인트·노선 가독 우선
+  const fillBase=0.11, fillDim=0.03, fillSel=0.5, fillOther=0.05;
   Object.entries(lgaLayers).forEach(([id,layer])=>{
     const c=lgaColor(id);
     if(id===selectedLgaId){layer.setStyle({color:'#fff',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});layer.bringToFront();}
     else if(selectedLgaId){layer.setStyle({color:c,weight:1,opacity:0.25,fillColor:c,fillOpacity:fillOther});}
     else{
       const dim=activeCat!=='all'&&LGAS[id].cat!==activeCat;
-      layer.setStyle({color:choro?'#0c0f14':c,weight:choro?1:1.8,opacity:dim?0.2:0.9,fillColor:c,fillOpacity:dim?fillDim:fillBase});
+      layer.setStyle({color:c,weight:1.8,opacity:dim?0.2:0.9,fillColor:c,fillOpacity:dim?fillDim:fillBase});
     }
   });
   renderMiniLegend();
@@ -226,10 +226,10 @@ const lgaLayers={};
 Object.entries(LGA_BOUNDARIES).forEach(([id,geom])=>{
   if(!LGAS[id])return;
   const layer=L.geoJSON({type:'Feature',properties:{},geometry:geom},{
-    style:{color:lgaColor(id),weight:1.8,opacity:0.9,fillColor:lgaColor(id),fillOpacity:0.18},
+    style:{color:lgaColor(id),weight:1.8,opacity:0.9,fillColor:lgaColor(id),fillOpacity:0.11},
   }).addTo(map);
   layer.on('click',(e)=>{L.DomEvent.stopPropagation(e);deselectSuburb();openSheet(id);});
-  layer.on('mouseover',()=>{if(selectedLgaId)return;layer.setStyle({fillOpacity:mapColorMode==='category'?0.32:0.68,weight:2.5,color:mapColorMode==='category'?undefined:'#8890a8'});});
+  layer.on('mouseover',()=>{if(selectedLgaId)return;layer.setStyle({fillOpacity:0.24,weight:2.5});});
   layer.on('mouseout',()=>{if(selectedLgaId)return;restyleAll();});
   lgaLayers[id]=layer;
 });
@@ -316,17 +316,11 @@ function setSuburbLayer(on){
 
 // ═══════════════ 대중교통 레이어 (SVG — 클릭 통과) ═══════════════
 map.createPane('transitPane');map.getPane('transitPane').style.zIndex=460;
-const TRANSIT_COLOR={train:'#22d3ee',tram:'#f59e0b',bus:'#94a3b8'};
+const TRANSIT_COLOR={train:'#22d3ee',tram:'#f59e0b',bus:'#a3e635'};
 const TRANSIT_BASE_OP={train:0.9,tram:0.9,bus:0.9};
 const TRANSIT_W=2.6,TRANSIT_R=4; // 선 굵기·역/정류장 크기 3종 통일
 let transitLayer=null,transitOn=false,busStopGroup=null;
 let transitMarkers={train:[],tram:[],bus:[]},transitFilter=null;
-function syncBusStops(){
-  if(!transitLayer||!busStopGroup)return;
-  if(map.getZoom()>=14)busStopGroup.addTo(transitLayer);
-  else transitLayer.removeLayer(busStopGroup);
-}
-map.on('zoomend',syncBusStops);
 function applyTransitFilter(){
   Object.entries(transitMarkers).forEach(([t,arr])=>{
     const on=(!transitFilter||transitFilter===t);
@@ -343,14 +337,14 @@ function buildTransitLayer(){
     const pl=L.polyline(rt.segs,{pane:'transitPane',color:TRANSIT_COLOR.bus,weight:TRANSIT_W,opacity:TRANSIT_BASE_OP.bus,lineCap:'round',lineJoin:'round',interactive:false});
     transitMarkers.bus.push(pl);pl.addTo(transitLayer);
   });
-  // 간선 정류장 603곳 — 줌 14+에서만 (syncBusStops)
+  // 간선 정류장 603곳 — 항상 표시
   busStopGroup=L.layerGroup();
   BUS_STOPS.forEach(s=>{
     const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR.bus,fillOpacity:1})
       .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${T().busStop}</span>`,{direction:'top',className:'sub-tip',opacity:1});
     transitMarkers.bus.push(mk);mk.addTo(busStopGroup);
   });
-  syncBusStops();
+  busStopGroup.addTo(transitLayer);
   TRANSIT.lines.forEach(l=>{
     const pl=L.polyline(l.c,{pane:'transitPane',color:TRANSIT_COLOR[l.t],weight:TRANSIT_W,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false});
     (transitMarkers[l.t]||transitMarkers.train).push(pl);pl.addTo(transitLayer);
@@ -418,7 +412,7 @@ function setSchoolLayer(on){
 
 // ═══════════════ 병원 레이어 (OSM amenity=hospital → 주요 공공·사립 큐레이트, 2026-07) ═══════════════
 map.createPane('hospPane');map.getPane('hospPane').style.zIndex=463;
-const HOSP_COLOR={pub:'#ef4444',pri:'#fb7185'};
+const HOSP_COLOR={pub:'#ef4444',pri:'#ffffff'};
 let hospitalLayer=null,hospitalOn=false;
 let hospitalMarkers={pub:[],pri:[]},hospitalFilter=null;
 function applyHospitalFilter(){
@@ -571,12 +565,15 @@ function renderOverlayRows(){
       `<div class="ov-row${o.get()?' on':''}" data-ov="${o.id}" style="--ac:${o.color}">
         <span class="ov-check"></span><span class="ov-label">${T().layers[o.id]}</span>
         <span class="ov-swatch ${o.swatch}" style="border-top-color:${o.color};${o.swatch==='dot'?`background:${o.color}`:''}"></span>
-      </div>`).join('');
+      </div>`).join('')+`<div class="ov-clear">${T().clearAll}</div>`;
     el.querySelectorAll('.ov-row').forEach(row=>{
       row.addEventListener('click',()=>{
         const def=OVERLAYS.find(x=>x.id===row.dataset.ov);
         def.set(!def.get());
       });
+    });
+    el.querySelector('.ov-clear').addEventListener('click',()=>{
+      OVERLAYS.filter(o=>o.id!=='suburb').forEach(o=>{if(o.get())o.set(false);}); // 서버브 경계는 유지
     });
   });
 }

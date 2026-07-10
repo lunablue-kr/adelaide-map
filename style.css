@@ -31,6 +31,8 @@
   .chip.on{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:500;}
   .ov-row{display:flex;align-items:center;gap:8px;padding:4px 2px;cursor:pointer;border-radius:6px;}
   .ov-row:hover{background:rgba(221,225,236,0.05);}
+  .ov-clear{font-size:10.5px;color:var(--muted);cursor:pointer;text-align:right;padding:4px 2px 0;}
+  .ov-clear:hover{color:var(--text);}
   .ov-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--muted);flex-shrink:0;position:relative;transition:all 0.15s;}
   .ov-row.on .ov-check{background:var(--ac);border-color:var(--ac);}
   .ov-row.on .ov-check::after{content:'';position:absolute;left:5px;top:2px;width:4px;height:8px;border:solid #0c0f14;border-width:0 2px 2px 0;transform:rotate(45deg);}
