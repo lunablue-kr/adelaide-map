@@ -48,20 +48,17 @@ const EN_LGAS = {
   gawler:      {pop:'~26,100',  kw:'Metro Adelaide\'s northern edge — a historic town of its own', desc:'Founded in 1836, one of South Australia\'s oldest towns, with its own township feel and heritage buildings. About an hour to the CBD by train. A growing satellite town.', meta:[{l:'Area',v:'41 km²'},{l:'Rent',v:'$490–610/wk'},{l:'Transit',v:'Train to CBD ~60 min'}], tags:['Historic town','Affordable','Outer','Satellite']},
   onkaparinga: {pop:'~178,500', kw:'Adelaide\'s largest LGA — southern beaches to wine country', desc:'The largest LGA in Adelaide by both population and area (518 km²). Includes the southern coastline (Christies Beach, Maslin Beach) and the McLaren Vale wine region. Reynella, Happy Valley and Woodcroft. Reasonable in the north; disadvantage increases further south.', meta:[{l:'Area',v:'518 km²'},{l:'Rent',v:'$480–630/wk'},{l:'Notes',v:'McLaren Vale, south coast'}], tags:['Largest area','Wine region','Coast','Outer south']},
 };
+// 명소(sight: 해변·와이너리) / 시설(facility: 공항·항구·혁신지구) — 오버레이 2종
 const MARKERS = [
-  {id:'glenelg',lat:-34.9813,lng:138.5152,type:'dot',name:'Glenelg Beach',sub:'City of Holdfast Bay',desc:'Adelaide 최대 해변 명소. 트램 종점. Jetty Road 레스토랑·카페 밀집.',color:'#38bdf8'},
-  {id:'port_pt',lat:-34.8601,lng:138.4975,type:'dot',name:'Port Adelaide',sub:'City of Port Adelaide Enfield',desc:'역사적 항구 지구. 해양박물관, 창고 개조 카페·갤러리.',color:'#f87171'},
-  {id:'tonsley',lat:-35.0114,lng:138.5720,type:'dot',name:'Tonsley Innovation District',sub:'City of Marion',desc:'호주 첫 번째 혁신 산업단지. Flinders University 연계.',color:'#fb923c'},
-  {id:'barossa',lat:-34.5333,lng:138.9600,type:'wine',name:'Barossa Valley',sub:'The Barossa Council · Adelaide 북동 약 60km',desc:'호주를 대표하는 와인 산지. 특히 쉬라즈(Shiraz)로 세계적 명성. Penfolds·Jacob\'s Creek·Seppeltsfield 등 유서 깊은 와이너리 밀집. Tanunda·Nuriootpa·Angaston 등 소도시 중심. Adelaide CBD에서 차로 약 1시간.',color:'#9f1239'},
-  // 교통·생활 필수
-  {id:'airport',lat:-34.9450,lng:138.5310,type:'dot',name:'Adelaide Airport (ADL)',sub:'City of West Torrens',desc:'국내·국제선 공항. CBD에서 차로 약 15분, JetExpress 버스 운행. 인근에 Harbour Town 아울렛.',color:'#fb923c'},
-  // 권역별 쇼핑·생활 허브
-  // 해변
-  {id:'henley',lat:-34.9201,lng:138.4935,type:'dot',name:'Henley Beach',sub:'City of Charles Sturt · Henley Square',desc:'노을 명소. Henley Square 광장을 둘러싼 레스토랑·카페로 저녁 시간 활기. 현지인 선호 해변.',color:'#38bdf8'},
-  {id:'semaphore',lat:-34.8391,lng:138.4800,type:'dot',name:'Semaphore Beach',sub:'City of Port Adelaide Enfield',desc:'빈티지한 분위기의 북부 해변. 클래식 극장·놀이공원·카페 거리. 여름 주말 마켓.',color:'#f87171'},
-  // 와인·근교 명소
-  {id:'mclaren',lat:-35.2196,lng:138.5430,type:'wine',name:'McLaren Vale',sub:'City of Onkaparinga · CBD 남쪽 약 40km',desc:'Barossa와 쌍벽을 이루는 와인 산지. 쉬라즈·그르나슈 명산지. d\'Arenberg Cube 등 개성 있는 와이너리. 해변(Port Willunga)과 가까워 당일치기 코스로 인기.',color:'#9f1239'},
-  {id:'hahndorf',lat:-35.0298,lng:138.8088,type:'wine',name:'Hahndorf',sub:'Adelaide Hills · CBD 동남쪽 약 25km',desc:'1839년 독일 이민자들이 세운 호주에서 가장 오래된 독일 마을. 독일식 펍·수제 소시지·공예품 거리. Adelaide Hills 와인산지 관문. 근교 여행 1순위.',color:'#b45309'},
+  {id:'glenelg',lat:-34.9813,lng:138.5152,ov:'sight',st:'beach',name:'Glenelg Beach',sub:'City of Holdfast Bay',desc:'Adelaide 최대 해변 명소. 트램 종점. Jetty Road 레스토랑·카페 밀집.'},
+  {id:'henley',lat:-34.9201,lng:138.4935,ov:'sight',st:'beach',name:'Henley Beach',sub:'City of Charles Sturt · Henley Square',desc:'노을 명소. Henley Square 광장을 둘러싼 레스토랑·카페로 저녁 시간 활기. 현지인 선호 해변.'},
+  {id:'semaphore',lat:-34.8391,lng:138.4800,ov:'sight',st:'beach',name:'Semaphore Beach',sub:'City of Port Adelaide Enfield',desc:'빈티지한 분위기의 북부 해변. 클래식 극장·놀이공원·카페 거리. 여름 주말 마켓.'},
+  {id:'barossa',lat:-34.5333,lng:138.9600,ov:'sight',st:'wine',name:'Barossa Valley',sub:'The Barossa Council · Adelaide 북동 약 60km',desc:'호주를 대표하는 와인 산지. 특히 쉬라즈(Shiraz)로 세계적 명성. Penfolds·Jacob\'s Creek·Seppeltsfield 등 유서 깊은 와이너리 밀집. Tanunda·Nuriootpa·Angaston 등 소도시 중심. Adelaide CBD에서 차로 약 1시간.'},
+  {id:'mclaren',lat:-35.2196,lng:138.5430,ov:'sight',st:'wine',name:'McLaren Vale',sub:'City of Onkaparinga · CBD 남쪽 약 40km',desc:'Barossa와 쌍벽을 이루는 와인 산지. 쉬라즈·그르나슈 명산지. d\'Arenberg Cube 등 개성 있는 와이너리. 해변(Port Willunga)과 가까워 당일치기 코스로 인기.'},
+  {id:'hahndorf',lat:-35.0298,lng:138.8088,ov:'sight',st:'wine',name:'Hahndorf',sub:'Adelaide Hills · CBD 동남쪽 약 25km',desc:'1839년 독일 이민자들이 세운 호주에서 가장 오래된 독일 마을. 독일식 펍·수제 소시지·공예품 거리. Adelaide Hills 와인산지 관문. 근교 여행 1순위.'},
+  {id:'airport',lat:-34.9450,lng:138.5310,ov:'facility',st:'air',name:'Adelaide Airport (ADL)',sub:'City of West Torrens',desc:'국내·국제선 공항. CBD에서 차로 약 15분, JetExpress 버스 운행. 인근에 Harbour Town 아울렛.'},
+  {id:'port_pt',lat:-34.8601,lng:138.4975,ov:'facility',st:'port',name:'Port Adelaide',sub:'City of Port Adelaide Enfield',desc:'역사적 항구 지구. 해양박물관, 창고 개조 카페·갤러리.'},
+  {id:'tonsley',lat:-35.0114,lng:138.5720,ov:'facility',st:'district',name:'Tonsley Innovation District',sub:'City of Marion',desc:'호주 첫 번째 혁신 산업단지. Flinders University 연계.'},
 ];
 const EN_MARKERS = {
   glenelg:       {desc:'Adelaide\'s most famous beach. Tram terminus; Jetty Road dining strip.'},
@@ -99,7 +96,9 @@ const I18N = {
     docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'🇦🇺',
     searchPh:'서버브·학교·마트·역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실', searchSuburb:'서버브', clearAll:'모두 해제',
     lblCat:'카테고리', lblOverlay:'오버레이', lblColor:'지도 색상', filterAll:'전체',
-    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원',marts:'마트',shopping:'쇼핑'},
+    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원',marts:'마트',shopping:'쇼핑',sight:'명소',facility:'시설'},
+    sightTypes:{beach:'해변',wine:'와이너리'},
+    facTypes:{air:'공항',port:'항구',district:'혁신지구'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
     hospTypes:{pub:'공공병원',pri:'사립병원'},
@@ -131,7 +130,9 @@ const I18N = {
     docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
     searchPh:'Search suburbs, schools, shops, stations', searchNone:'No results', searchCouncil:'Council', searchSuburb:'Suburb', clearAll:'Clear all',
     lblCat:'Category', lblOverlay:'Overlays', lblColor:'Map colour', filterAll:'All',
-    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals',marts:'Groceries',shopping:'Shopping'},
+    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals',marts:'Groceries',shopping:'Shopping',sight:'Sights',facility:'Facilities'},
+    sightTypes:{beach:'Beaches',wine:'Wineries'},
+    facTypes:{air:'Airport',port:'Port',district:'Innovation'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
     hospTypes:{pub:'Public',pri:'Private'},
@@ -338,7 +339,9 @@ const GLYPHS={
   hospital:'<rect fill="currentColor" x="9.2" y="4" width="5.6" height="16" rx="1.6"/><rect fill="currentColor" x="4" y="9.2" width="16" height="5.6" rx="1.6"/>',
   school:'<path fill="currentColor" d="M12 5.2 21.2 9.8 12 14.4 2.8 9.8Z"/><path fill="currentColor" d="M7.4 11.7v3.4c0 1.3 2.06 2.35 4.6 2.35s4.6-1.05 4.6-2.35v-3.4L12 14Z"/><path fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" d="M21.2 10.2v4.3"/><circle fill="currentColor" cx="21.2" cy="15.2" r="1.2"/>',
   mart:'<path fill="currentColor" d="M7 8.4H20a1 1 0 0 1 .97 1.26l-1.42 5.4A1.5 1.5 0 0 1 18.1 16.2H9.4Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3.6 5h2.2l3.6 11.2"/><circle fill="currentColor" cx="10.4" cy="18.8" r="1.55"/><circle fill="currentColor" cx="17.4" cy="18.8" r="1.55"/>',
-  shopping:'<path fill="currentColor" d="M6.4 8h11.2a1 1 0 0 1 1 .92l.8 9.5A1.4 1.4 0 0 1 18 20H6a1.4 1.4 0 0 1-1.4-1.58l.8-9.5A1 1 0 0 1 6.4 8Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 8V6.6a3 3 0 0 1 6 0V8"/>'
+  shopping:'<path fill="currentColor" d="M6.4 8h11.2a1 1 0 0 1 1 .92l.8 9.5A1.4 1.4 0 0 1 18 20H6a1.4 1.4 0 0 1-1.4-1.58l.8-9.5A1 1 0 0 1 6.4 8Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 8V6.6a3 3 0 0 1 6 0V8"/>',
+  landmark:'<path fill="currentColor" d="M12 3 14.6 9.2 21.3 9.7 16.2 14 17.8 20.6 12 17 6.2 20.6 7.8 14 2.7 9.7 9.4 9.2Z"/>',
+  facility:'<path fill="currentColor" d="M12 3.4 3.2 8.1V10h17.6V8.1Z"/><path fill="currentColor" d="M5 11h2v6.4H5zM9.2 11h2v6.4h-2zM13.4 11h2v6.4h-2zM17.6 11h2v6.4h-2z"/><rect fill="currentColor" x="3.2" y="18.1" width="17.6" height="2.3" rx="0.5"/>'
 };
 const ZOOM_GLYPH=13; // 이상이면 기호핀, 미만이면 작은 점 (14→13, 한 단계 일찍)
 const DOT_R=5.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
@@ -373,6 +376,8 @@ function refreshPoiZoom(){
   if(hospitalOn&&hospitalLayer){const f=hospitalFilter;map.removeLayer(hospitalLayer);hospitalLayer=null;buildHospitalLayer();hospitalLayer.addTo(map);hospitalFilter=f;applyHospitalFilter();}
   if(martOn&&martLayer){const f=martFilter;map.removeLayer(martLayer);martLayer=null;buildMartLayer();martLayer.addTo(map);martFilter=f;applyMartFilter();}
   if(shopOn&&shopLayer){map.removeLayer(shopLayer);shopLayer=null;buildShopLayer();shopLayer.addTo(map);}
+  if(sightOn&&sightLayer){const f=sightFilter;map.removeLayer(sightLayer);sightLayer=null;buildSightLayer();sightLayer.addTo(map);sightFilter=f;applyMarkerFilter(sightMarks,sightFilter);}
+  if(facOn&&facLayer){const f=facFilter;map.removeLayer(facLayer);facLayer=null;buildFacLayer();facLayer.addTo(map);facFilter=f;applyMarkerFilter(facMarks,facFilter);}
 }
 
 // ═══════════════ 대중교통 레이어 (SVG — 클릭 통과, 원 기호만) ═══════════════
@@ -558,24 +563,39 @@ function setShopLayer(on){
   renderMiniLegend();syncOverlayRows();
 }
 
-// ═══════════════ 랜드마크 마커 ═══════════════
-const markerRefs=[];
+// ═══════════════ 명소(sight) / 시설(facility) 레이어 ═══════════════
 function markerPopupHtml(m){
   return `<div class="popup-inner"><div class="popup-name">${m.name}</div><div class="popup-sub">${markerField(m,'sub')}</div><div class="popup-desc">${markerField(m,'desc')}</div></div>`;
 }
-MARKERS.forEach(m=>{
-  const isUni=m.type==='uni',isWine=m.type==='wine';
-  const icon=L.divIcon({
-    html:isUni?`<div class="uni-pulse"></div>`:isWine
-      ?`<div style="width:14px;height:14px;background:${m.color};transform:rotate(45deg);border:2px solid rgba(255,255,255,0.85);box-shadow:0 2px 8px rgba(0,0,0,0.55);"></div>`
-      :`<div style="width:10px;height:10px;background:${m.color};border-radius:50%;border:2px solid rgba(255,255,255,0.8);box-shadow:0 2px 8px rgba(0,0,0,0.5);"></div>`,
-    className:'',iconSize:[isUni?15:isWine?14:10,isUni?15:isWine?14:10],iconAnchor:[isUni?7.5:isWine?7:5,isUni?7.5:isWine?7:5]
+map.createPane('sightPane');map.getPane('sightPane').style.zIndex=466;
+map.createPane('facPane');map.getPane('facPane').style.zIndex=467;
+const SIGHT_COLOR={beach:PALETTE[4],wine:PALETTE[0]};      // 해변 시안·와이너리 빨강
+const FAC_COLOR={air:PALETTE[1],port:PALETTE[4],district:PALETTE[6]}; // 공항 주황·항구 시안·혁신 보라
+// 공통 빌더: ov='sight'|'facility'
+function buildMarkerLayer(ov,cat,colors,paneName){
+  const layer=L.layerGroup(),marks={};
+  MARKERS.filter(m=>m.ov===ov).forEach(m=>{
+    (marks[m.st]=marks[m.st]||[]);
+    const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],pane:paneName,maxWidth:260,
+      tooltip:`${m.name}<br><span style="font-size:9px;color:#8890a8">${markerField(m,'sub')}</span>`,
+      popup:markerPopupHtml(m)});
+    marks[m.st].push(mk);mk.addTo(layer);
   });
-  const mkr=L.marker([m.lat,m.lng],{icon}).addTo(map);
-  mkr.bindPopup(markerPopupHtml(m),{maxWidth:260});
-  markerRefs.push({m,mkr});
-});
-function rebindMarkerPopups(){markerRefs.forEach(({m,mkr})=>{const p=mkr.getPopup();if(p)p.setContent(markerPopupHtml(m));});}
+  return {layer,marks};
+}
+function applyMarkerFilter(marks,filter){
+  Object.entries(marks).forEach(([t,arr])=>{const on=(!filter||filter===t);arr.forEach(mk=>dimMarker(mk,on));});
+}
+// 명소
+let sightLayer=null,sightOn=false,sightMarks={},sightFilter=null;
+function buildSightLayer(){const r=buildMarkerLayer('sight','landmark',SIGHT_COLOR,'sightPane');sightLayer=r.layer;sightMarks=r.marks;sightFilter=null;}
+function setSightFilter(t){sightFilter=(sightFilter===t)?null:t;applyMarkerFilter(sightMarks,sightFilter);renderMiniLegend();}
+function setSightLayer(on){sightOn=on;if(on){if(!sightLayer)buildSightLayer();sightLayer.addTo(map);}else if(sightLayer){map.removeLayer(sightLayer);}renderMiniLegend();syncOverlayRows();}
+// 시설
+let facLayer=null,facOn=false,facMarks={},facFilter=null;
+function buildFacLayer(){const r=buildMarkerLayer('facility','facility',FAC_COLOR,'facPane');facLayer=r.layer;facMarks=r.marks;facFilter=null;}
+function setFacFilter(t){facFilter=(facFilter===t)?null:t;applyMarkerFilter(facMarks,facFilter);renderMiniLegend();}
+function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.addTo(map);}else if(facLayer){map.removeLayer(facLayer);}renderMiniLegend();syncOverlayRows();}
 
 // ═══════════════ 바이브 라벨 (줌 ≤ 11) ═══════════════
 let vibeMarkers=[];
@@ -605,6 +625,8 @@ const OVERLAYS=[
   {id:'hospitals',color:'#dde1ec',swatch:'glyph',cat:'hospital',get:()=>hospitalOn,set:setHospitalLayer},
   {id:'marts',color:'#dde1ec',swatch:'glyph',cat:'mart',get:()=>martOn,set:setMartLayer},
   {id:'shopping',color:'#dde1ec',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
+  {id:'sight',color:'#dde1ec',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
+  {id:'facility',color:'#dde1ec',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
 ];
 function renderOverlayRows(){
   ['ov-rows','m-ov-rows'].forEach(cid=>{
@@ -681,7 +703,7 @@ function getPois(){
   MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
   MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
   TRANSIT.stations.forEach(s=>push({kind:'station',st:s.t,n:s.n,ll:s.ll}));
-  MARKERS.forEach(m=>push({kind:'poi',n:m.name,ll:[m.lat,m.lng]}));
+  MARKERS.forEach(m=>push({kind:'poi',n:m.name,ll:[m.lat,m.lng],ov:m.ov}));
   return POIS;
 }
 function poiMeta(p){
@@ -720,10 +742,14 @@ function focusPoi(p){
   else if(p.kind==='mart'&&!martOn)setMartLayer(true);
   else if(p.kind==='mall'&&!shopOn)setShopLayer(true);
   else if(p.kind==='station'&&!transitOn)setTransitLayer(true);
+  if(p.kind==='poi'){
+    if(p.ov==='sight'&&!sightOn)setSightLayer(true);
+    else if(p.ov==='facility'&&!facOn)setFacLayer(true);
+  }
   map.setView(p.ll,ZOOM_POI);
   if(p.kind==='poi'){
-    const r=markerRefs.find(x=>x.m.name===p.n);
-    if(r)r.mkr.openPopup();
+    const lay=p.ov==='facility'?()=>facLayer:()=>sightLayer;
+    setTimeout(()=>openMarkerAt(lay(),p.ll),140);
     return;
   }
   const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,mall:()=>shopLayer}[p.kind];
@@ -846,12 +872,22 @@ function renderMiniLegend(){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.shopping}</svg></span>${t.layers.shopping}</div>`+
       `<div class="ml-item"><span class="ml-dot" style="background:${SHOP_COLOR}"></span>${LANG==='en'?'Major centre':'주요 쇼핑센터'}</div>`;
   }
+  if(sightOn){
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.landmark}</svg></span>${t.layers.sight}</div>`+
+      ['beach','wine'].map(k=>`<div class="ml-item ml-click${sightFilter&&sightFilter!==k?' dim':''}" data-sight="${k}"><span class="ml-dot" style="background:${SIGHT_COLOR[k]}"></span>${t.sightTypes[k]}</div>`).join('');
+  }
+  if(facOn){
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.facility}</svg></span>${t.layers.facility}</div>`+
+      ['air','port','district'].map(k=>`<div class="ml-item ml-click${facFilter&&facFilter!==k?' dim':''}" data-fac="${k}"><span class="ml-dot" style="background:${FAC_COLOR[k]}"></span>${t.facTypes[k]}</div>`).join('');
+  }
   el.innerHTML=html;
   el.style.display=html?'':'none';
   el.querySelectorAll('.ml-item[data-sch]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSchoolFilter(it.dataset.sch);}));
   el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
   el.querySelectorAll('.ml-item[data-mart]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setMartFilter(it.dataset.mart);}));
+  el.querySelectorAll('.ml-item[data-sight]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSightFilter(it.dataset.sight);}));
+  el.querySelectorAll('.ml-item[data-fac]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setFacFilter(it.dataset.fac);}));
 }
 
 // ═══════════════ 피드백 모달 ═══════════════
@@ -914,7 +950,9 @@ function applyLang(){
    ['school',()=>schoolLayer,(v)=>schoolLayer=v,buildSchoolLayer,()=>schoolOn],
    ['hosp',()=>hospitalLayer,(v)=>hospitalLayer=v,buildHospitalLayer,()=>hospitalOn],
    ['mart',()=>martLayer,(v)=>martLayer=v,buildMartLayer,()=>martOn],
-   ['shop',()=>shopLayer,(v)=>shopLayer=v,buildShopLayer,()=>shopOn]].forEach(([_,get,set,build,isOn])=>{
+   ['shop',()=>shopLayer,(v)=>shopLayer=v,buildShopLayer,()=>shopOn],
+   ['sight',()=>sightLayer,(v)=>sightLayer=v,buildSightLayer,()=>sightOn],
+   ['facility',()=>facLayer,(v)=>facLayer=v,buildFacLayer,()=>facOn]].forEach(([_,get,set,build,isOn])=>{
     if(get()){
       const wasOn=isOn();
       if(wasOn)map.removeLayer(get());
@@ -923,7 +961,6 @@ function applyLang(){
       if(wasOn){build();get().addTo(map);}
     }
   });
-  rebindMarkerPopups();
   // 모달
   document.getElementById('fbm-title').textContent=t.fbTitle;
   document.getElementById('fbm-sub').textContent=t.fbSub;
@@ -953,6 +990,8 @@ const M_SUB={
   schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>schoolFilter,setF:setSchoolFilter},
   hospitals:{items:()=>['pub','pri'].map(k=>[k,T().hospTypes[k]]),colors:HOSP_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
+  sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
+  facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
 let mExpanded=null;
 function movMark(o){
@@ -1039,6 +1078,8 @@ map.on('click',()=>document.getElementById('m-colorpop').classList.remove('on'))
 // ═══════════════ INIT ═══════════════
 applyLang();
 setSuburbLayer(true);
+setSightLayer(true);
+setFacLayer(true);
 restyleAll();
 // 딥링크: ?lga=unley
 try{
