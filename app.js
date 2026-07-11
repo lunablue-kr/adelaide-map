@@ -377,7 +377,7 @@ function refreshPoiZoom(){
 
 // ═══════════════ 대중교통 레이어 (SVG — 클릭 통과, 원 기호만) ═══════════════
 map.createPane('transitPane');map.getPane('transitPane').style.zIndex=460;
-const TRANSIT_COLOR={train:PALETTE[0],tram:PALETTE[1],bus:PALETTE[2]}; // 순차: 기차 빨·트램 주·버스 노
+const TRANSIT_COLOR={train:PALETTE[0],tram:PALETTE[1],bus:PALETTE[5]}; // 기차 빨·트램 주·버스 파랑(고빈도라 노랑→파랑, 쏠림 방지)
 const TRANSIT_BASE_OP={train:0.9,tram:0.9,bus:0.9};
 const TRANSIT_W=2.6,TRANSIT_R=4; // 선 굵기·역/정류장 크기 3종 통일
 let transitLayer=null,transitOn=false,busStopGroup=null;
