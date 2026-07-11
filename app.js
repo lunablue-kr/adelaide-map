@@ -307,9 +307,53 @@ function setSuburbLayer(on){
   syncOverlayRows();
 }
 
-// ═══════════════ 대중교통 레이어 (SVG — 클릭 통과) ═══════════════
+// ═══════════════ POI 공통 — 7색 팔레트 · 카테고리 기호 · 줌기반 점↔기호 ═══════════════
+// 팔레트 규칙: 앞으로 모든 핀 색은 이 7색 안에서만 지정. 오버레이별 하위타입은 순차 배정.
+const PALETTE=['#f87171','#fb923c','#facc15','#4ade80','#22d3ee','#60a5fa','#c084fc']; // 빨 주 노 초 시안 파 보
+// 카테고리 기호(흰색 currentColor) — 볼드 솔리드 + 미세 악센트. 교통은 기호 없이 원만.
+const GLYPHS={
+  hospital:'<rect fill="currentColor" x="9.2" y="4" width="5.6" height="16" rx="1.6"/><rect fill="currentColor" x="4" y="9.2" width="16" height="5.6" rx="1.6"/>',
+  school:'<path fill="currentColor" d="M12 5.2 21.2 9.8 12 14.4 2.8 9.8Z"/><path fill="currentColor" d="M7.4 11.7v3.4c0 1.3 2.06 2.35 4.6 2.35s4.6-1.05 4.6-2.35v-3.4L12 14Z"/><path fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" d="M21.2 10.2v4.3"/><circle fill="currentColor" cx="21.2" cy="15.2" r="1.2"/>',
+  mart:'<path fill="currentColor" d="M7 8.4H20a1 1 0 0 1 .97 1.26l-1.42 5.4A1.5 1.5 0 0 1 18.1 16.2H9.4Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3.6 5h2.2l3.6 11.2"/><circle fill="currentColor" cx="10.4" cy="18.8" r="1.55"/><circle fill="currentColor" cx="17.4" cy="18.8" r="1.55"/>',
+  shopping:'<path fill="currentColor" d="M6.4 8h11.2a1 1 0 0 1 1 .92l.8 9.5A1.4 1.4 0 0 1 18 20H6a1.4 1.4 0 0 1-1.4-1.58l.8-9.5A1 1 0 0 1 6.4 8Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 8V6.6a3 3 0 0 1 6 0V8"/>'
+};
+const ZOOM_GLYPH=14; // 이상이면 기호핀, 미만이면 작은 점
+function glyphHtml(cat,color,d){
+  const s=Math.round(d*0.62);
+  return `<div class="gpin" style="width:${d}px;height:${d}px;background:${color}"><svg width="${s}" height="${s}" viewBox="0 0 24 24">${GLYPHS[cat]}</svg></div>`;
+}
+function poiMarker(ll,o){
+  let mk;
+  if(map.getZoom()>=ZOOM_GLYPH){
+    const d=o.glyph||22;
+    mk=L.marker(ll,{pane:o.pane,icon:L.divIcon({className:'',html:glyphHtml(o.cat,o.color,d),iconSize:[d,d],iconAnchor:[d/2,d/2]})});
+  }else{
+    mk=L.circleMarker(ll,{pane:o.pane,radius:o.dot||4.4,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
+  }
+  if(o.tooltip)mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1});
+  if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240});
+  return mk;
+}
+function dimMarker(mk,visible){ // 필터 격리 — circleMarker/divIcon 무관
+  const op=visible?1:0.12;
+  if(mk instanceof L.CircleMarker)mk.setStyle({opacity:op,fillOpacity:op});
+  else mk.setOpacity(op);
+}
+// 줌 임계 넘으면 켜져있는 POI 레이어만 재생성(점↔기호 전환), 필터 상태 보존
+let _poiGlyph=null;
+function refreshPoiZoom(){
+  const g=map.getZoom()>=ZOOM_GLYPH;
+  if(g===_poiGlyph)return;
+  _poiGlyph=g;
+  if(schoolOn&&schoolLayer){const f=schoolFilter;map.removeLayer(schoolLayer);schoolLayer=null;buildSchoolLayer();schoolLayer.addTo(map);schoolFilter=f;applySchoolFilter();}
+  if(hospitalOn&&hospitalLayer){const f=hospitalFilter;map.removeLayer(hospitalLayer);hospitalLayer=null;buildHospitalLayer();hospitalLayer.addTo(map);hospitalFilter=f;applyHospitalFilter();}
+  if(martOn&&martLayer){const f=martFilter;map.removeLayer(martLayer);martLayer=null;buildMartLayer();martLayer.addTo(map);martFilter=f;applyMartFilter();}
+  if(shopOn&&shopLayer){map.removeLayer(shopLayer);shopLayer=null;buildShopLayer();shopLayer.addTo(map);}
+}
+
+// ═══════════════ 대중교통 레이어 (SVG — 클릭 통과, 원 기호만) ═══════════════
 map.createPane('transitPane');map.getPane('transitPane').style.zIndex=460;
-const TRANSIT_COLOR={train:'#22d3ee',tram:'#f59e0b',bus:'#a3e635'};
+const TRANSIT_COLOR={train:PALETTE[0],tram:PALETTE[1],bus:PALETTE[2]}; // 순차: 기차 빨·트램 주·버스 노
 const TRANSIT_BASE_OP={train:0.9,tram:0.9,bus:0.9};
 const TRANSIT_W=2.6,TRANSIT_R=4; // 선 굵기·역/정류장 크기 3종 통일
 let transitLayer=null,transitOn=false,busStopGroup=null;
@@ -358,7 +402,7 @@ function setTransitLayer(on){
 
 // ═══════════════ 학교 레이어 ═══════════════
 map.createPane('schoolPane');map.getPane('schoolPane').style.zIndex=462;
-const SCHOOL_COLOR={p:'#22c55e',s:'#3b82f6',u:'#ec4899',c:'#f59e0b',o:'#9ca3af'};
+const SCHOOL_COLOR={p:PALETTE[0],s:PALETTE[1],u:PALETTE[2],c:PALETTE[3],o:PALETTE[4]}; // 초 중고 대학 칼리지 기타
 function uniPopupHtml(u){
   const d=(LANG==='en'&&u.en)?u.en:u;
   return `<div class="popup-inner"><div class="popup-name">${u.n}</div><div class="popup-sub">${d.sub}</div><div class="popup-desc">${d.desc}</div></div>`;
@@ -368,7 +412,7 @@ let schoolMarkers={p:[],s:[],u:[],c:[],o:[]},schoolFilter=null;
 function applySchoolFilter(){
   Object.entries(schoolMarkers).forEach(([t,arr])=>{
     const on=(!schoolFilter||schoolFilter===t);
-    arr.forEach(mk=>mk.setStyle({opacity:on?1:0.12,fillOpacity:on?1:0.12}));
+    arr.forEach(mk=>dimMarker(mk,on));
   });
 }
 function setSchoolFilter(t){
@@ -382,16 +426,16 @@ function buildSchoolLayer(){
   schoolLayer=L.layerGroup();
   schoolMarkers={p:[],s:[],u:[],c:[],o:[]};schoolFilter=null;
   SCHOOLS.forEach(s=>{
-    const mk=L.circleMarker(s.ll,{pane:'schoolPane',radius:4.4,color:'#0c0f14',weight:1.3,fillColor:SCHOOL_COLOR[s.t]||SCHOOL_COLOR.o,fillOpacity:1})
-      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${T().schoolTypes[s.t]}</span>`,{direction:'top',className:'sub-tip',opacity:1})
-      .bindPopup(schoolPopupHtml(s),{maxWidth:240});
+    const mk=poiMarker(s.ll,{cat:'school',color:SCHOOL_COLOR[s.t]||SCHOOL_COLOR.o,pane:'schoolPane',
+      tooltip:`${s.n}<br><span style="font-size:9px;color:#8890a8">${T().schoolTypes[s.t]}</span>`,
+      popup:schoolPopupHtml(s)});
     (schoolMarkers[s.t]||schoolMarkers.o).push(mk);
     mk.addTo(schoolLayer);
   });
   CURATED_UNIS.forEach(u=>{
-    const mk=L.circleMarker(u.ll,{pane:'schoolPane',radius:4.4,color:'#0c0f14',weight:1.3,fillColor:SCHOOL_COLOR.u,fillOpacity:1})
-      .bindTooltip(`${u.n}<br><span style="font-size:9px;color:#8890a8">${T().schoolTypes.u}</span>`,{direction:'top',className:'sub-tip',opacity:1})
-      .bindPopup(uniPopupHtml(u),{maxWidth:240});
+    const mk=poiMarker(u.ll,{cat:'school',color:SCHOOL_COLOR.u,pane:'schoolPane',
+      tooltip:`${u.n}<br><span style="font-size:9px;color:#8890a8">${T().schoolTypes.u}</span>`,
+      popup:uniPopupHtml(u)});
     schoolMarkers.u.push(mk);
     mk.addTo(schoolLayer);
   });
@@ -405,13 +449,13 @@ function setSchoolLayer(on){
 
 // ═══════════════ 병원 레이어 (OSM amenity=hospital → 주요 공공·사립 큐레이트, 2026-07) ═══════════════
 map.createPane('hospPane');map.getPane('hospPane').style.zIndex=463;
-const HOSP_COLOR={pub:'#ef4444',pri:'#ffffff'};
+const HOSP_COLOR={pub:PALETTE[0],pri:PALETTE[1]}; // 공공 빨·사립 주
 let hospitalLayer=null,hospitalOn=false;
 let hospitalMarkers={pub:[],pri:[]},hospitalFilter=null;
 function applyHospitalFilter(){
   Object.entries(hospitalMarkers).forEach(([t,arr])=>{
     const on=(!hospitalFilter||hospitalFilter===t);
-    arr.forEach(m=>m.setStyle({opacity:on?1:0.12,fillOpacity:on?1:0.12}));
+    arr.forEach(m=>dimMarker(m,on));
   });
 }
 function setHospitalFilter(t){hospitalFilter=(hospitalFilter===t)?null:t;applyHospitalFilter();renderMiniLegend();}
@@ -423,9 +467,9 @@ function buildHospitalLayer(){
   hospitalLayer=L.layerGroup();
   hospitalMarkers={pub:[],pri:[]};hospitalFilter=null;
   HOSPITALS.forEach(h=>{
-    const mk=L.circleMarker(h.ll,{pane:'hospPane',radius:5,color:'#fff',weight:1.4,fillColor:HOSP_COLOR[h.t],fillOpacity:1})
-      .bindTooltip(`${h.n}<br><span style="font-size:9px;color:#8890a8">${T().hospTypes[h.t]}</span>`,{direction:'top',className:'sub-tip',opacity:1})
-      .bindPopup(hospPopupHtml(h),{maxWidth:240});
+    const mk=poiMarker(h.ll,{cat:'hospital',color:HOSP_COLOR[h.t],pane:'hospPane',dot:5,
+      tooltip:`${h.n}<br><span style="font-size:9px;color:#8890a8">${T().hospTypes[h.t]}</span>`,
+      popup:hospPopupHtml(h)});
     (hospitalMarkers[h.t]||hospitalMarkers.pub).push(mk);mk.addTo(hospitalLayer);
   });
 }
@@ -438,14 +482,14 @@ function setHospitalLayer(on){
 
 // ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 국가별 식료품점, LGA 클립) ═══════════════
 map.createPane('martPane');map.getPane('martPane').style.zIndex=464;
-const MART_COLOR={big:'#0ea5e9',local:'#14b8a6',intl:'#f43f5e',liq:'#eab308'};
+const MART_COLOR={big:PALETTE[0],local:PALETTE[1],intl:PALETTE[2],liq:PALETTE[3]}; // 대형 지역 국가별 주류
 const MART_R={intl:5};
 let martLayer=null,martOn=false;
 let martMarkers={big:[],local:[],intl:[],liq:[]},martFilter=null;
 function applyMartFilter(){
   Object.entries(martMarkers).forEach(([t,arr])=>{
     const on=(!martFilter||martFilter===t);
-    arr.forEach(m=>m.setStyle({opacity:on?1:0.12,fillOpacity:on?1:0.12}));
+    arr.forEach(m=>dimMarker(m,on));
   });
 }
 function setMartFilter(t){martFilter=(martFilter===t)?null:t;applyMartFilter();renderMiniLegend();}
@@ -454,9 +498,9 @@ function buildMartLayer(){
   martMarkers={big:[],local:[],intl:[],liq:[]};martFilter=null;
   MARTS.forEach(m=>{
     const lab=(m.t==='intl'&&m.o&&T().origins[m.o])?`${T().martTypes.intl} · ${T().origins[m.o]}`:T().martTypes[m.t];
-    const mk=L.circleMarker(m.ll,{pane:'martPane',radius:MART_R[m.t]||3.6,color:'#0c0f14',weight:1.2,fillColor:MART_COLOR[m.t]||MART_COLOR.big,fillOpacity:1})
-      .bindTooltip(`${m.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,{direction:'top',className:'sub-tip',opacity:1})
-      .bindPopup(`<div class="popup-inner"><div class="popup-name">${m.n}</div><div class="popup-sub">${lab}</div></div>`,{maxWidth:220});
+    const mk=poiMarker(m.ll,{cat:'mart',color:MART_COLOR[m.t]||MART_COLOR.big,pane:'martPane',dot:MART_R[m.t]||3.6,maxWidth:220,
+      tooltip:`${m.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
+      popup:`<div class="popup-inner"><div class="popup-name">${m.n}</div><div class="popup-sub">${lab}</div></div>`});
     (martMarkers[m.t]||martMarkers.big).push(mk);mk.addTo(martLayer);
   });
 }
@@ -469,7 +513,7 @@ function setMartLayer(on){
 
 // ═══════════════ 쇼핑 레이어 (주요 쇼핑센터 큐레이트) ═══════════════
 map.createPane('shopPane');map.getPane('shopPane').style.zIndex=465;
-const SHOP_COLOR='#a855f7';
+const SHOP_COLOR=PALETTE[0]; // 단일
 let shopLayer=null,shopOn=false;
 function shopPopupHtml(s){
   const d=(LANG==='en'&&s.en)?s.en:s;
@@ -479,9 +523,9 @@ function buildShopLayer(){
   shopLayer=L.layerGroup();
   MALLS.forEach(s=>{
     const sub=((LANG==='en'&&s.en)?s.en:s).sub;
-    L.circleMarker(s.ll,{pane:'shopPane',radius:5,color:'#fff',weight:1.4,fillColor:SHOP_COLOR,fillOpacity:1})
-      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${sub}</span>`,{direction:'top',className:'sub-tip',opacity:1})
-      .bindPopup(shopPopupHtml(s),{maxWidth:220}).addTo(shopLayer);
+    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,pane:'shopPane',dot:5,maxWidth:220,
+      tooltip:`${s.n}<br><span style="font-size:9px;color:#8890a8">${sub}</span>`,
+      popup:shopPopupHtml(s)}).addTo(shopLayer);
   });
 }
 function setShopLayer(on){
@@ -528,15 +572,16 @@ function syncVibes(){
   vibeMarkers.forEach(mk=>{if(show){mk.addTo(map);}else{map.removeLayer(mk);}});
 }
 map.on('zoomend',syncVibes);
+map.on('zoomend',refreshPoiZoom);
 
 // ═══════════════ 좌측 패널 ═══════════════
 const OVERLAYS=[
   {id:'suburb',color:'#dde1ec',swatch:'dash',get:()=>suburbOn,set:setSuburbLayer},
-  {id:'transit',color:'#22d3ee',swatch:'solid',get:()=>transitOn,set:setTransitLayer},
-  {id:'schools',color:'#22c55e',swatch:'dot',get:()=>schoolOn,set:setSchoolLayer},
-  {id:'hospitals',color:'#ef4444',swatch:'dot',get:()=>hospitalOn,set:setHospitalLayer},
-  {id:'marts',color:'#0ea5e9',swatch:'dot',get:()=>martOn,set:setMartLayer},
-  {id:'shopping',color:'#a855f7',swatch:'dot',get:()=>shopOn,set:setShopLayer},
+  {id:'transit',color:'#dde1ec',swatch:'dot',get:()=>transitOn,set:setTransitLayer}, // 원 기호
+  {id:'schools',color:'#dde1ec',swatch:'glyph',cat:'school',get:()=>schoolOn,set:setSchoolLayer},
+  {id:'hospitals',color:'#dde1ec',swatch:'glyph',cat:'hospital',get:()=>hospitalOn,set:setHospitalLayer},
+  {id:'marts',color:'#dde1ec',swatch:'glyph',cat:'mart',get:()=>martOn,set:setMartLayer},
+  {id:'shopping',color:'#dde1ec',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
 ];
 function renderOverlayRows(){
   ['ov-rows','m-ov-rows'].forEach(cid=>{
@@ -544,7 +589,9 @@ function renderOverlayRows(){
     el.innerHTML=OVERLAYS.map(o=>
       `<div class="ov-row${o.get()?' on':''}" data-ov="${o.id}" style="--ac:${o.color}">
         <span class="ov-check"></span><span class="ov-label">${T().layers[o.id]}</span>
-        <span class="ov-swatch ${o.swatch}" style="border-top-color:${o.color};${o.swatch==='dot'?`background:${o.color}`:''}"></span>
+        ${o.swatch==='glyph'
+          ?`<span class="ov-swatch glyph"><svg width="15" height="15" viewBox="0 0 24 24">${GLYPHS[o.cat]}</svg></span>`
+          :`<span class="ov-swatch ${o.swatch}" style="border-top-color:${o.color};${o.swatch==='dot'?`background:${o.color}`:''}"></span>`}
       </div>`).join('')+`<div class="ov-clear">${T().clearAll}</div>`;
     el.querySelectorAll('.ov-row').forEach(row=>{
       row.addEventListener('click',()=>{
@@ -760,19 +807,19 @@ function renderMiniLegend(){
       [['train',t.train],['tram',t.tram],['bus',t.bus]].map(([k,lab])=>`<div class="ml-item ml-click${transitFilter&&transitFilter!==k?' dim':''}" data-tr="${k}"><span class="ml-dot" style="background:${TRANSIT_COLOR[k]}"></span>${lab}</div>`).join('');
   }
   if(schoolOn){
-    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.schools}</div>`+
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.school}</svg></span>${t.layers.schools}</div>`+
       ['p','s','u','c','o'].map(k=>`<div class="ml-item ml-click${schoolFilter&&schoolFilter!==k?' dim':''}" data-sch="${k}"><span class="ml-dot" style="background:${SCHOOL_COLOR[k]}"></span>${t.schoolTypes[k]}</div>`).join('');
   }
   if(hospitalOn){
-    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.hospitals}</div>`+
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.hospital}</svg></span>${t.layers.hospitals}</div>`+
       ['pub','pri'].map(k=>`<div class="ml-item ml-click${hospitalFilter&&hospitalFilter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="background:${HOSP_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
   }
   if(martOn){
-    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.marts}</div>`+
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.mart}</svg></span>${t.layers.marts}</div>`+
       ['big','local','intl','liq'].map(k=>`<div class="ml-item ml-click${martFilter&&martFilter!==k?' dim':''}" data-mart="${k}"><span class="ml-dot" style="background:${MART_COLOR[k]}"></span>${t.martTypes[k]}</div>`).join('');
   }
   if(shopOn){
-    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.shopping}</div>`+
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.shopping}</svg></span>${t.layers.shopping}</div>`+
       `<div class="ml-item"><span class="ml-dot" style="background:${SHOP_COLOR}"></span>${LANG==='en'?'Major centre':'주요 쇼핑센터'}</div>`;
   }
   el.innerHTML=html;

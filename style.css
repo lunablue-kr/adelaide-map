@@ -41,6 +41,9 @@
   .ov-swatch{width:14px;border-top:2px solid;flex-shrink:0;}
   .ov-swatch.dash{border-top-style:dashed;}
   .ov-swatch.dot{border:none;width:8px;height:8px;border-radius:50%;}
+  .ov-swatch.glyph{border:none;width:16px;height:16px;color:var(--muted);display:flex;align-items:center;justify-content:center;}
+  .ov-swatch.glyph svg{display:block;}
+  .ov-row.on .ov-swatch.glyph{color:var(--text);}
   .seg{display:flex;gap:3px;background:var(--surface2);border-radius:16px;padding:3px;}
   .seg-btn{flex:1;text-align:center;font-size:12px;color:var(--muted2);border-radius:12px;padding:5px 0;cursor:pointer;transition:all 0.15s;}
   .seg-btn.on{background:var(--text);color:var(--bg);font-weight:500;}
@@ -111,6 +114,9 @@
   .vibe-label{font-family:'Noto Sans KR',sans-serif;font-weight:700;white-space:nowrap;text-align:center;
     text-shadow:0 1px 8px rgba(0,0,0,0.9),0 0 3px rgba(0,0,0,0.9);pointer-events:none;transform:translate(-50%,-50%);}
   .vibe-cat{display:block;font-size:0.85em;font-weight:600;opacity:0.9;letter-spacing:0.3px;margin-top:2px;}
+  .gpin{color:#fff;border-radius:50%;border:1.6px solid #0c0f14;box-shadow:0 1px 4px rgba(0,0,0,0.55);box-sizing:border-box;display:flex;align-items:center;justify-content:center;}
+  .gpin svg{display:block;}
+  .ml-glyph{display:inline-flex;color:var(--muted2);margin-right:5px;vertical-align:-2px;}
   .uni-pulse{width:15px;height:15px;background:#e8c87a;border-radius:50%;border:2px solid #fff;animation:pulse 2s infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(232,200,122,0.65)}70%{box-shadow:0 0 0 13px rgba(232,200,122,0)}100%{box-shadow:0 0 0 0 rgba(232,200,122,0)}}
   .sub-tip{background:var(--surface2)!important;border:1px solid var(--border)!important;color:var(--text)!important;font-family:'Noto Sans KR',sans-serif!important;font-size:10.5px!important;border-radius:6px!important;box-shadow:0 6px 20px rgba(0,0,0,0.6)!important;padding:3px 9px!important;}
