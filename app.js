@@ -236,7 +236,6 @@ Object.entries(LGA_BOUNDARIES).forEach(([id,geom])=>{
 map.on('click',()=>{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
 
 // ═══════════════ 바텀시트 ═══════════════
-let detailOn=!window.matchMedia('(max-width:680px)').matches; // 모바일=peek 기본, 데스크톱=펼침
 function chip(text,fg,bg){return `<span class="bs-chip" style="color:${fg};background:${bg}">${text}</span>`;}
 function barRow(label,pct,color,val){
   return `<div class="bar-row"><span class="bar-lbl">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,Math.round(pct*100))}%;background:${color}"></div></div><span class="bar-val">${val}</span></div>`;
@@ -271,18 +270,12 @@ function openSheet(id){
     barRow(t.barTransit, st.st/MAX_ST, '#22d3ee', t.barStVal(st.st))+
     barRow(t.barSchools, st.sch/MAX_SCH, '#a3e635', t.barSchVal(st.sch));
 
-  document.getElementById('bs-detail').classList.toggle('off',!detailOn);
-  document.getElementById('bs-collapse').textContent=detailOn?'▾':'▴';
-  document.getElementById('bottom-sheet').classList.add('on');
+  const bs=document.getElementById('bottom-sheet');
+  bs.classList.add('on');bs.scrollTop=0;
   document.body.classList.add('sheet-on');
 }
 function closeSheet(){document.getElementById('bottom-sheet').classList.remove('on');document.body.classList.remove('sheet-on');}
 document.getElementById('bs-close').addEventListener('click',()=>{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
-document.getElementById('bs-collapse').addEventListener('click',()=>{
-  detailOn=!detailOn;
-  document.getElementById('bs-detail').classList.toggle('off',!detailOn);
-  document.getElementById('bs-collapse').textContent=detailOn?'▾':'▴';
-});
 
 // ═══════════════ 서버브 레이어 ═══════════════
 map.createPane('suburbPane');map.getPane('suburbPane').style.zIndex=450;
