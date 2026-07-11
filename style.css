@@ -214,7 +214,7 @@
     #m-colorbtn{display:flex;}
     #mini-legend{display:none;}
     .leaflet-control-zoom{display:none!important;}
-    #m-scale.on{display:block;position:absolute;left:10px;right:70px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;
+    #m-scale.on{display:block;position:absolute;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;
       background:rgba(15,18,25,0.95);border:1px solid var(--border2);border-radius:10px;padding:7px 11px;}
     /* 바텀시트 peek ↔ 확장 */
     #bottom-sheet{left:10px;right:10px;max-height:46vh;padding:8px 13px calc(12px + env(safe-area-inset-bottom));overflow:hidden;}

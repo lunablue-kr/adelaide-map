@@ -285,15 +285,16 @@ document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropaga
     if(isMobile()){bs.classList.toggle('expanded');updateMScalePos();}
   });
   bs.querySelector('.bs-grab').addEventListener('click',()=>{if(isMobile()){bs.classList.toggle('expanded');updateMScalePos();}});
-  let y0=null;
-  bs.addEventListener('touchstart',e=>{y0=e.touches[0].clientY;},{passive:true});
+  let y0=null,top0=0;
+  bs.addEventListener('touchstart',e=>{y0=e.touches[0].clientY;top0=bs.scrollTop;},{passive:true});
   bs.addEventListener('touchend',e=>{
     if(y0==null||!isMobile())return;
     const dy=e.changedTouches[0].clientY-y0;y0=null;
     if(dy<-28)bs.classList.add('expanded');
     else if(dy>28){
-      if(bs.classList.contains('expanded'))bs.classList.remove('expanded');
-      else{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();}
+      if(bs.classList.contains('expanded')){
+        if(top0<=0)bs.classList.remove('expanded'); // 맨 위에서 시작한 스와이프만 축소(내용 스크롤과 분리)
+      }else{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();}
     }
     updateMScalePos();
   },{passive:true});
