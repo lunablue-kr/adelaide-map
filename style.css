@@ -166,41 +166,61 @@
   #m-search{flex:1;background:rgba(15,18,25,0.95);border:1px solid var(--border2);border-radius:16px;min-height:46px;padding:0 16px;
     color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;outline:none;min-width:0;}
   #m-search::placeholder{color:var(--muted);}
-  #m-lang{font-family:'DM Mono',monospace;font-size:26px;line-height:1;color:var(--muted2);background:rgba(15,18,25,0.95);
-    border:1px solid var(--border2);border-radius:14px;min-height:46px;padding:0 8px;display:flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap;}
+  .m-icon{flex-shrink:0;width:46px;height:46px;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
+    background:rgba(15,18,25,0.95);border:1px solid var(--border2);border-radius:14px;color:var(--muted2);white-space:nowrap;}
+  #m-lang{font-family:'DM Mono',monospace;font-size:26px;line-height:1;}
+  #m-fb{font-size:21px;color:var(--text);}
   #m-results{display:none;position:absolute;top:calc(62px + env(safe-area-inset-top));left:10px;right:10px;z-index:1100;
     background:var(--surface2);border:1px solid var(--border);border-radius:10px;overflow:hidden;max-height:250px;overflow-y:auto;}
   #m-results.on{display:block;}
-  #m-chips{display:none;position:absolute;top:56px;left:0;right:0;z-index:1090;gap:6px;padding:0 10px;
+  /* 오버레이/하위 칩바 */
+  #m-overlaybar,#m-subbar{display:none;position:absolute;left:10px;right:62px;z-index:1090;gap:7px;
     overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-  #m-chips::-webkit-scrollbar{display:none;}
-  #m-chips .chip{flex-shrink:0;background:rgba(15,18,25,0.92);}
-  #m-chips .chip.on{background:var(--text);}
-  #m-fabs{display:none;position:absolute;right:10px;top:calc(112px + env(safe-area-inset-top));z-index:1090;flex-direction:column;gap:10px;}
-  .fab{width:46px;height:46px;border-radius:50%;background:rgba(15,18,25,0.95);border:1px solid var(--border2);
-    display:flex;align-items:center;justify-content:center;color:var(--text);font-size:19px;cursor:pointer;user-select:none;}
-  .fab.active{background:var(--text);color:var(--bg);}
-  .m-pop{display:none;position:absolute;right:64px;z-index:1095;background:rgba(15,18,25,0.97);
-    border:1px solid var(--border2);border-radius:12px;padding:10px 12px;min-width:150px;}
-  .m-pop.on{display:block;}
-  #m-pop-layers{top:calc(112px + env(safe-area-inset-top));}
-  #m-pop-color{top:calc(168px + env(safe-area-inset-top));}
+  #m-overlaybar::-webkit-scrollbar,#m-subbar::-webkit-scrollbar{display:none;}
+  #m-overlaybar{top:calc(64px + env(safe-area-inset-top));}
+  #m-subbar{top:calc(110px + env(safe-area-inset-top));}
+  .mov-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;height:36px;padding:0 13px;border-radius:18px;cursor:pointer;
+    background:rgba(15,18,25,0.95);border:1px solid var(--border2);color:var(--muted2);font-size:12.5px;white-space:nowrap;}
+  .mov-chip.on{background:var(--text);color:var(--bg);border-color:var(--text);}
+  .mov-g{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;color:currentColor;}
+  .mov-caret{font-size:9px;opacity:0.75;margin-left:-1px;}
+  .msub-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:16px;cursor:pointer;
+    background:rgba(15,18,25,0.95);border:1px solid var(--border2);color:var(--text);font-size:12px;white-space:nowrap;}
+  .msub-chip.dim{opacity:0.4;}
+  .msub-g{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;}
+  .msub-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  /* 렌트/치안 (국기 밑 세로) */
+  #m-colorcol{display:none;position:absolute;right:10px;top:calc(64px + env(safe-area-inset-top));z-index:1090;flex-direction:column;gap:8px;}
+  .mcol-btn{width:46px;height:46px;border-radius:14px;background:rgba(15,18,25,0.95);border:1px solid var(--border2);
+    display:flex;align-items:center;justify-content:center;color:var(--muted2);cursor:pointer;}
+  .mcol-btn.on{background:var(--text);color:var(--bg);border-color:var(--text);}
+  .mcol-btn svg{display:block;}
+  /* 렌트/치안 스케일(하단) */
+  #m-scale{display:none;}
+  .bs-grab{display:none;}
 
   @media(max-width:680px){
     #side-panel{display:none;}
     #m-top{display:flex;}
-    #m-chips{display:flex;}
-    #m-fabs{display:flex;}
-    #mini-legend{top:calc(62px + env(safe-area-inset-top));left:10px;right:auto;bottom:auto;width:auto;max-width:190px;max-height:52vh;}
-    #bottom-sheet{left:10px;right:10px;max-height:44vh;padding:11px 13px calc(30px + env(safe-area-inset-bottom));
+    #m-overlaybar{display:flex;}
+    #m-subbar.on{display:flex;}
+    #m-colorcol{display:flex;}
+    #mini-legend{display:none;}
+    .leaflet-control-zoom{display:none!important;}
+    #m-scale.on{display:block;position:absolute;left:10px;right:70px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;
+      background:rgba(15,18,25,0.95);border:1px solid var(--border2);border-radius:10px;padding:7px 11px;}
+    /* 바텀시트 peek ↔ 확장 */
+    #bottom-sheet{left:10px;right:10px;max-height:46vh;padding:8px 13px calc(12px + env(safe-area-inset-bottom));overflow:hidden;}
+    .bs-grab{display:block;width:34px;height:4px;border-radius:2px;background:var(--border);margin:0 auto 8px;}
+    #bottom-sheet .bs-detail{display:none;}
+    #bottom-sheet.expanded{overflow-y:auto;padding-bottom:calc(30px + env(safe-area-inset-bottom));
       -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 26px),transparent);}
-    .bs-top{padding-right:44px;}
+    #bottom-sheet.expanded .bs-detail{display:block;}
+    .bs-top{padding-right:40px;}
     .bs-grid{flex-direction:column;gap:12px;}
     .bs-bars{width:100%;}
-    .bs-kw{min-width:100%;}
-    .bs-close{font-size:22px;padding:10px 12px;top:5px;right:8px;}
-    .leaflet-bottom.leaflet-right{bottom:calc(46px + env(safe-area-inset-bottom));}
-    .leaflet-touch .leaflet-control-zoom a{width:42px;height:42px;line-height:42px;font-size:22px;}
+    .bs-kw{display:none;}
+    .bs-close{font-size:22px;padding:8px 10px;top:2px;right:6px;}
   }
   @media(min-width:681px){
     #m-top,#m-chips,#m-fabs,#m-results,.m-pop{display:none!important;}

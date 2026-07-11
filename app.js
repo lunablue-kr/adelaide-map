@@ -271,11 +271,31 @@ function openSheet(id){
     barRow(t.barSchools, st.sch/MAX_SCH, '#a3e635', t.barSchVal(st.sch));
 
   const bs=document.getElementById('bottom-sheet');
-  bs.classList.add('on');bs.scrollTop=0;
+  bs.classList.add('on');bs.classList.remove('expanded');bs.scrollTop=0; // 모바일: 기본 peek
   document.body.classList.add('sheet-on');
 }
-function closeSheet(){document.getElementById('bottom-sheet').classList.remove('on');document.body.classList.remove('sheet-on');}
-document.getElementById('bs-close').addEventListener('click',()=>{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
+function closeSheet(){const bs=document.getElementById('bottom-sheet');bs.classList.remove('on');bs.classList.remove('expanded');document.body.classList.remove('sheet-on');}
+document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropagation();deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
+// 모바일 peek↔확장: bs-top 탭 토글, 위/아래 스와이프
+(function(){
+  const bs=document.getElementById('bottom-sheet');
+  bs.querySelector('.bs-top').addEventListener('click',(e)=>{
+    if(e.target.closest('.bs-close'))return;
+    if(isMobile())bs.classList.toggle('expanded');
+  });
+  bs.querySelector('.bs-grab').addEventListener('click',()=>{if(isMobile())bs.classList.toggle('expanded');});
+  let y0=null;
+  bs.addEventListener('touchstart',e=>{y0=e.touches[0].clientY;},{passive:true});
+  bs.addEventListener('touchend',e=>{
+    if(y0==null||!isMobile())return;
+    const dy=e.changedTouches[0].clientY-y0;y0=null;
+    if(dy<-28)bs.classList.add('expanded');
+    else if(dy>28){
+      if(bs.classList.contains('expanded'))bs.classList.remove('expanded');
+      else{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();}
+    }
+  },{passive:true});
+})();
 
 // ═══════════════ 서버브 레이어 ═══════════════
 map.createPane('suburbPane');map.getPane('suburbPane').style.zIndex=450;
@@ -609,6 +629,7 @@ function syncOverlayRows(){
     const def=OVERLAYS.find(x=>x.id===row.dataset.ov);
     if(def)row.classList.toggle('on',def.get());
   });
+  if(typeof renderMOverlayBar==='function'){renderMOverlayBar();renderMSubBar();}
 }
 function renderColorSeg(){
   ['color-seg','m-color-seg'].forEach(cid=>{
@@ -882,6 +903,7 @@ function applyLang(){
   document.getElementById('fb-open').textContent=t.fbOpen;
   document.getElementById('sp-foot').textContent=t.sources;
   renderOverlayRows();renderColorSeg();renderMiniLegend();buildVibes();
+  renderMOverlayBar();renderMSubBar();renderMColorCol();renderMScale();
   if(selectedLgaId)openSheet(selectedLgaId);
   // 레이어 툴팁 언어 재생성
   [['suburb',()=>suburbLayer,(v)=>suburbLayer=v,buildSuburbLayer,()=>suburbOn],
@@ -921,23 +943,73 @@ function toggleLang(){
 document.getElementById('lang-toggle').addEventListener('click',toggleLang);
 document.getElementById('m-lang').addEventListener('click',toggleLang);
 
-// ═══════════════ 모바일: FAB 팝오버 & 범례 칩 ═══════════════
-function closePops(){
-  document.querySelectorAll('.m-pop').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.fab').forEach(f=>f.classList.remove('active'));
+// ═══════════════ 모바일: 오버레이 칩바 · 하위칩 · 렌트/치안 · 스케일 ═══════════════
+const isMobile=()=>matchMedia('(max-width:680px)').matches;
+const M_SUB={
+  transit:{items:()=>[['train',T().train],['tram',T().tram],['bus',T().bus]],colors:TRANSIT_COLOR,glyph:null,getF:()=>transitFilter,setF:setTransitFilter},
+  schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>schoolFilter,setF:setSchoolFilter},
+  hospitals:{items:()=>['pub','pri'].map(k=>[k,T().hospTypes[k]]),colors:HOSP_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
+  marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
+};
+let mExpanded=null;
+function movMark(o){
+  if(o.cat)return `<span class="mov-g"><svg width="15" height="15" viewBox="0 0 24 24">${GLYPHS[o.cat]}</svg></span>`;
+  if(o.id==='transit')return `<span class="mov-g"><span style="width:9px;height:9px;border-radius:50%;background:currentColor"></span></span>`;
+  if(o.id==='suburb')return `<span class="mov-g"><span style="width:13px;border-top:2px dashed currentColor"></span></span>`;
+  return '';
 }
-function togglePop(fabId,popId){
-  const pop=document.getElementById(popId),fab=document.getElementById(fabId);
-  const wasOn=pop.classList.contains('on');
-  closePops();
-  if(!wasOn){pop.classList.add('on');fab.classList.add('active');}
+function renderMOverlayBar(){
+  const bar=document.getElementById('m-overlaybar');if(!bar)return;
+  bar.innerHTML=OVERLAYS.map(o=>{
+    const hasSub=!!M_SUB[o.id];
+    return `<span class="mov-chip${o.get()?' on':''}" data-ov="${o.id}">${movMark(o)}${T().layers[o.id]}${hasSub?'<span class="mov-caret">▾</span>':''}</span>`;
+  }).join('');
+  bar.querySelectorAll('.mov-chip').forEach(c=>c.addEventListener('click',()=>onMChip(c.dataset.ov)));
 }
-document.getElementById('fab-layers').addEventListener('click',(e)=>{e.stopPropagation();togglePop('fab-layers','m-pop-layers');});
-document.getElementById('fab-color').addEventListener('click',(e)=>{e.stopPropagation();togglePop('fab-color','m-pop-color');});
-document.getElementById('fab-fb').addEventListener('click',()=>{closePops();document.getElementById('fb-overlay').classList.add('on');});
-document.querySelectorAll('.m-pop').forEach(p=>p.addEventListener('click',(e)=>e.stopPropagation()));
-map.on('click',closePops);
-map.on('dragstart',closePops);
+function onMChip(id){
+  const o=OVERLAYS.find(x=>x.id===id),hasSub=!!M_SUB[id];
+  if(!o.get()){o.set(true);mExpanded=hasSub?id:null;}
+  else if(hasSub&&mExpanded!==id){mExpanded=id;}      // 다른 켜진 칩 → 그 하위 펼침
+  else{o.set(false);if(mExpanded===id)mExpanded=null;} // 펼친 칩 다시 탭 → 끔
+  renderMOverlayBar();renderMSubBar();
+}
+function renderMSubBar(){
+  const sb=document.getElementById('m-subbar');if(!sb)return;
+  const cfg=mExpanded&&M_SUB[mExpanded],o=mExpanded&&OVERLAYS.find(x=>x.id===mExpanded);
+  if(!cfg||!o||!o.get()){sb.classList.remove('on');sb.innerHTML='';return;}
+  const f=cfg.getF();
+  sb.innerHTML=cfg.items().map(([k,lab])=>{
+    const col=cfg.colors[k];
+    const mark=cfg.glyph?`<span class="msub-g" style="color:${col}"><svg width="14" height="14" viewBox="0 0 24 24">${GLYPHS[cfg.glyph]}</svg></span>`
+              :`<span class="msub-dot" style="background:${col}"></span>`;
+    return `<span class="msub-chip${f&&f!==k?' dim':''}" data-k="${k}">${mark}${lab}</span>`;
+  }).join('');
+  sb.classList.add('on');
+  sb.querySelectorAll('.msub-chip').forEach(c=>c.addEventListener('click',()=>{cfg.setF(c.dataset.k);renderMSubBar();}));
+}
+const MCOL_ICON={
+  rent:'<path fill="currentColor" d="M12 3.5 2.5 11.5h2.6v8.5h5.1v-5.4h3.6v5.4h5.1v-8.5h2.6z"/>',
+  crime:'<path fill="currentColor" d="M12 2.5 4.5 5.5v6.2c0 4.4 3.2 7.6 7.5 8.8 4.3-1.2 7.5-4.4 7.5-8.8V5.5z"/>'
+};
+function renderMColorCol(){
+  const el=document.getElementById('m-colorcol');if(!el)return;
+  el.innerHTML=['rent','crime'].map(m=>
+    `<span class="mcol-btn${mapColorMode===m?' on':''}" data-mode="${m}" title="${T().colorModes[m]}"><svg width="21" height="21" viewBox="0 0 24 24">${MCOL_ICON[m]}</svg></span>`).join('');
+  el.querySelectorAll('.mcol-btn').forEach(b=>b.addEventListener('click',()=>{
+    mapColorMode=(mapColorMode===b.dataset.mode)?'category':b.dataset.mode;
+    renderColorSeg();renderMColorCol();renderMScale();restyleAll();
+  }));
+}
+function renderMScale(){
+  const el=document.getElementById('m-scale');if(!el)return;const t=T();
+  if(mapColorMode==='rent'||mapColorMode==='crime'){
+    const isR=mapColorMode==='rent';
+    el.innerHTML=`<div class="ml-title">${t.colorModes[mapColorMode]} · ${isR?t.rentUnit:t.crimeUnit}</div>`+
+      scaleBar(isR?RENT_SCALE:CRIME_SCALE)+`<div class="ml-ends"><span>${t.low}</span><span>${t.high}</span></div>`;
+    el.classList.add('on');
+  }else{el.innerHTML='';el.classList.remove('on');}
+}
+document.getElementById('m-fb').addEventListener('click',()=>document.getElementById('fb-overlay').classList.add('on'));
 
 
 // ═══════════════ INIT ═══════════════
@@ -947,7 +1019,7 @@ restyleAll();
 // 딥링크: ?lga=unley
 try{
   const cm=new URLSearchParams(location.search).get('color');
-  if(cm==='rent'||cm==='crime'){mapColorMode=cm;renderColorSeg();restyleAll();}
+  if(cm==='rent'||cm==='crime'){mapColorMode=cm;renderColorSeg();renderMColorCol();renderMScale();restyleAll();}
   const sel=new URLSearchParams(location.search).get('lga');
   if(sel&&LGAS[sel]){openSheet(sel);map.fitBounds(lgaLayers[sel].getBounds(),{padding:[40,40],maxZoom:ZOOM_LGA});}
   else toast(T().hint,3200);
