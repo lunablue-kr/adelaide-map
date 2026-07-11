@@ -236,7 +236,7 @@ Object.entries(LGA_BOUNDARIES).forEach(([id,geom])=>{
 map.on('click',()=>{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
 
 // ═══════════════ 바텀시트 ═══════════════
-let detailOn=true; // 상세는 기본 펼침
+let detailOn=!window.matchMedia('(max-width:680px)').matches; // 모바일=peek 기본, 데스크톱=펼침
 function chip(text,fg,bg){return `<span class="bs-chip" style="color:${fg};background:${bg}">${text}</span>`;}
 function barRow(label,pct,color,val){
   return `<div class="bar-row"><span class="bar-lbl">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,Math.round(pct*100))}%;background:${color}"></div></div><span class="bar-val">${val}</span></div>`;
@@ -837,7 +837,6 @@ function applyLang(){
   document.getElementById('sp-search').placeholder=t.searchPh;
   document.getElementById('m-search').placeholder=t.searchPh;
   document.getElementById('m-lang').textContent=t.langBtn;
-  document.getElementById('ml-chip-label').textContent=t.legTitle;
   document.getElementById('lbl-overlay').textContent=t.lblOverlay;
   document.getElementById('lbl-color').textContent=t.lblColor;
   document.getElementById('fb-open').textContent=t.fbOpen;
@@ -900,14 +899,6 @@ document.querySelectorAll('.m-pop').forEach(p=>p.addEventListener('click',(e)=>e
 map.on('click',closePops);
 map.on('dragstart',closePops);
 
-document.getElementById('ml-chip').addEventListener('click',()=>{
-  document.getElementById('mini-legend').classList.toggle('open');
-});
-// 모바일에서 펼쳐진 범례를 탭하면 닫힘
-document.getElementById('mini-legend').addEventListener('click',()=>{
-  if(window.matchMedia('(max-width:680px)').matches)
-    document.getElementById('mini-legend').classList.remove('open');
-});
 
 // ═══════════════ INIT ═══════════════
 applyLang();
