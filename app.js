@@ -340,7 +340,8 @@ const GLYPHS={
   mart:'<path fill="currentColor" d="M7 8.4H20a1 1 0 0 1 .97 1.26l-1.42 5.4A1.5 1.5 0 0 1 18.1 16.2H9.4Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3.6 5h2.2l3.6 11.2"/><circle fill="currentColor" cx="10.4" cy="18.8" r="1.55"/><circle fill="currentColor" cx="17.4" cy="18.8" r="1.55"/>',
   shopping:'<path fill="currentColor" d="M6.4 8h11.2a1 1 0 0 1 1 .92l.8 9.5A1.4 1.4 0 0 1 18 20H6a1.4 1.4 0 0 1-1.4-1.58l.8-9.5A1 1 0 0 1 6.4 8Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 8V6.6a3 3 0 0 1 6 0V8"/>'
 };
-const ZOOM_GLYPH=14; // 이상이면 기호핀, 미만이면 작은 점
+const ZOOM_GLYPH=13; // 이상이면 기호핀, 미만이면 작은 점 (14→13, 한 단계 일찍)
+const DOT_R=5.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
 function glyphHtml(cat,color,d){
   const s=Math.round(d*0.62);
   return `<div class="gpin" style="width:${d}px;height:${d}px;background:${color}"><svg width="${s}" height="${s}" viewBox="0 0 24 24">${GLYPHS[cat]}</svg></div>`;
@@ -351,7 +352,7 @@ function poiMarker(ll,o){
     const d=o.glyph||22;
     mk=L.marker(ll,{pane:o.pane,icon:L.divIcon({className:'',html:glyphHtml(o.cat,o.color,d),iconSize:[d,d],iconAnchor:[d/2,d/2]})});
   }else{
-    mk=L.circleMarker(ll,{pane:o.pane,radius:o.dot||4.4,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
+    mk=L.circleMarker(ll,{pane:o.pane,radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
   if(o.tooltip)mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1});
   if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240});
@@ -490,7 +491,7 @@ function buildHospitalLayer(){
   hospitalLayer=L.layerGroup();
   hospitalMarkers={pub:[],pri:[]};hospitalFilter=null;
   HOSPITALS.forEach(h=>{
-    const mk=poiMarker(h.ll,{cat:'hospital',color:HOSP_COLOR[h.t],pane:'hospPane',dot:5,
+    const mk=poiMarker(h.ll,{cat:'hospital',color:HOSP_COLOR[h.t],pane:'hospPane',
       tooltip:`${h.n}<br><span style="font-size:9px;color:#8890a8">${T().hospTypes[h.t]}</span>`,
       popup:hospPopupHtml(h)});
     (hospitalMarkers[h.t]||hospitalMarkers.pub).push(mk);mk.addTo(hospitalLayer);
@@ -506,7 +507,6 @@ function setHospitalLayer(on){
 // ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 국가별 식료품점, LGA 클립) ═══════════════
 map.createPane('martPane');map.getPane('martPane').style.zIndex=464;
 const MART_COLOR={big:PALETTE[0],local:PALETTE[1],intl:PALETTE[2],liq:PALETTE[3]}; // 대형 지역 국가별 주류
-const MART_R={intl:5};
 let martLayer=null,martOn=false;
 let martMarkers={big:[],local:[],intl:[],liq:[]},martFilter=null;
 function applyMartFilter(){
@@ -521,7 +521,7 @@ function buildMartLayer(){
   martMarkers={big:[],local:[],intl:[],liq:[]};martFilter=null;
   MARTS.forEach(m=>{
     const lab=(m.t==='intl'&&m.o&&T().origins[m.o])?`${T().martTypes.intl} · ${T().origins[m.o]}`:T().martTypes[m.t];
-    const mk=poiMarker(m.ll,{cat:'mart',color:MART_COLOR[m.t]||MART_COLOR.big,pane:'martPane',dot:MART_R[m.t]||3.6,maxWidth:220,
+    const mk=poiMarker(m.ll,{cat:'mart',color:MART_COLOR[m.t]||MART_COLOR.big,pane:'martPane',maxWidth:220,
       tooltip:`${m.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
       popup:`<div class="popup-inner"><div class="popup-name">${m.n}</div><div class="popup-sub">${lab}</div></div>`});
     (martMarkers[m.t]||martMarkers.big).push(mk);mk.addTo(martLayer);
@@ -546,7 +546,7 @@ function buildShopLayer(){
   shopLayer=L.layerGroup();
   MALLS.forEach(s=>{
     const sub=((LANG==='en'&&s.en)?s.en:s).sub;
-    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,pane:'shopPane',dot:5,maxWidth:220,
+    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,pane:'shopPane',maxWidth:220,
       tooltip:`${s.n}<br><span style="font-size:9px;color:#8890a8">${sub}</span>`,
       popup:shopPopupHtml(s)}).addTo(shopLayer);
   });
