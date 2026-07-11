@@ -189,12 +189,19 @@
   .msub-chip.dim{opacity:0.4;}
   .msub-g{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;}
   .msub-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
-  /* 렌트/치안 (국기 밑 세로) */
-  #m-colorcol{display:none;position:absolute;right:10px;top:calc(64px + env(safe-area-inset-top));z-index:1090;flex-direction:column;gap:8px;}
-  .mcol-btn{width:46px;height:46px;border-radius:14px;background:rgba(15,18,25,0.95);border:1px solid var(--border2);
-    display:flex;align-items:center;justify-content:center;color:var(--muted2);cursor:pointer;}
-  .mcol-btn.on{background:var(--text);color:var(--bg);border-color:var(--text);}
-  .mcol-btn svg{display:block;}
+  /* 지도 색상 (국기 밑 단일 버튼 + 팝업) */
+  #m-colorbtn{display:none;position:absolute;right:10px;top:calc(64px + env(safe-area-inset-top));z-index:1090;
+    width:46px;height:46px;border-radius:14px;background:rgba(15,18,25,0.95);border:1px solid var(--border2);
+    align-items:center;justify-content:center;color:var(--muted2);cursor:pointer;}
+  #m-colorbtn.on{background:var(--text);color:var(--bg);border-color:var(--text);}
+  #m-colorbtn svg{display:block;}
+  #m-colorpop{display:none;position:absolute;right:10px;top:calc(116px + env(safe-area-inset-top));z-index:1095;
+    background:rgba(15,18,25,0.97);border:1px solid var(--border2);border-radius:12px;padding:5px;min-width:132px;}
+  #m-colorpop.on{display:block;}
+  .mcol-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;cursor:pointer;color:var(--muted2);font-size:13px;white-space:nowrap;}
+  .mcol-item.on{color:var(--text);background:rgba(221,225,236,0.08);}
+  .mcol-item svg{display:block;flex-shrink:0;}
+  .mov-reset{color:var(--muted2);}
   /* 렌트/치안 스케일(하단) */
   #m-scale{display:none;}
   .bs-grab{display:none;}
@@ -204,7 +211,7 @@
     #m-top{display:flex;}
     #m-overlaybar{display:flex;}
     #m-subbar.on{display:flex;}
-    #m-colorcol{display:flex;}
+    #m-colorbtn{display:flex;}
     #mini-legend{display:none;}
     .leaflet-control-zoom{display:none!important;}
     #m-scale.on{display:block;position:absolute;left:10px;right:70px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;

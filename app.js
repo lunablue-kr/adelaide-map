@@ -273,17 +273,18 @@ function openSheet(id){
   const bs=document.getElementById('bottom-sheet');
   bs.classList.add('on');bs.classList.remove('expanded');bs.scrollTop=0; // 모바일: 기본 peek
   document.body.classList.add('sheet-on');
+  if(typeof updateMScalePos==='function')updateMScalePos();
 }
-function closeSheet(){const bs=document.getElementById('bottom-sheet');bs.classList.remove('on');bs.classList.remove('expanded');document.body.classList.remove('sheet-on');}
+function closeSheet(){const bs=document.getElementById('bottom-sheet');bs.classList.remove('on');bs.classList.remove('expanded');document.body.classList.remove('sheet-on');if(typeof updateMScalePos==='function')updateMScalePos();}
 document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropagation();deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
 // 모바일 peek↔확장: bs-top 탭 토글, 위/아래 스와이프
 (function(){
   const bs=document.getElementById('bottom-sheet');
   bs.querySelector('.bs-top').addEventListener('click',(e)=>{
     if(e.target.closest('.bs-close'))return;
-    if(isMobile())bs.classList.toggle('expanded');
+    if(isMobile()){bs.classList.toggle('expanded');updateMScalePos();}
   });
-  bs.querySelector('.bs-grab').addEventListener('click',()=>{if(isMobile())bs.classList.toggle('expanded');});
+  bs.querySelector('.bs-grab').addEventListener('click',()=>{if(isMobile()){bs.classList.toggle('expanded');updateMScalePos();}});
   let y0=null;
   bs.addEventListener('touchstart',e=>{y0=e.touches[0].clientY;},{passive:true});
   bs.addEventListener('touchend',e=>{
@@ -294,6 +295,7 @@ document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropaga
       if(bs.classList.contains('expanded'))bs.classList.remove('expanded');
       else{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();}
     }
+    updateMScalePos();
   },{passive:true});
 })();
 
@@ -903,7 +905,7 @@ function applyLang(){
   document.getElementById('fb-open').textContent=t.fbOpen;
   document.getElementById('sp-foot').textContent=t.sources;
   renderOverlayRows();renderColorSeg();renderMiniLegend();buildVibes();
-  renderMOverlayBar();renderMSubBar();renderMColorCol();renderMScale();
+  renderMOverlayBar();renderMSubBar();renderMColorBtn();renderMScale();
   if(selectedLgaId)openSheet(selectedLgaId);
   // 레이어 툴팁 언어 재생성
   [['suburb',()=>suburbLayer,(v)=>suburbLayer=v,buildSuburbLayer,()=>suburbOn],
@@ -960,11 +962,15 @@ function movMark(o){
 }
 function renderMOverlayBar(){
   const bar=document.getElementById('m-overlaybar');if(!bar)return;
-  bar.innerHTML=OVERLAYS.map(o=>{
+  const anyOn=OVERLAYS.some(o=>o.id!=='suburb'&&o.get());
+  const reset=anyOn?`<span class="mov-chip mov-reset" data-reset="1"><span class="mov-g"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19.4 12a7.4 7.4 0 1 1-2.1-5.2M18 3.5V8h-4.5"/></svg></span>${T().clearAll}</span>`:'';
+  bar.innerHTML=reset+OVERLAYS.map(o=>{
     const hasSub=!!M_SUB[o.id];
     return `<span class="mov-chip${o.get()?' on':''}" data-ov="${o.id}">${movMark(o)}${T().layers[o.id]}${hasSub?'<span class="mov-caret">▾</span>':''}</span>`;
   }).join('');
-  bar.querySelectorAll('.mov-chip').forEach(c=>c.addEventListener('click',()=>onMChip(c.dataset.ov)));
+  const rc=bar.querySelector('.mov-reset');
+  if(rc)rc.addEventListener('click',()=>{OVERLAYS.filter(o=>o.id!=='suburb').forEach(o=>{if(o.get())o.set(false);});mExpanded=null;renderMOverlayBar();renderMSubBar();});
+  bar.querySelectorAll('.mov-chip[data-ov]').forEach(c=>c.addEventListener('click',()=>onMChip(c.dataset.ov)));
 }
 function onMChip(id){
   const o=OVERLAYS.find(x=>x.id===id),hasSub=!!M_SUB[id];
@@ -987,17 +993,22 @@ function renderMSubBar(){
   sb.classList.add('on');
   sb.querySelectorAll('.msub-chip').forEach(c=>c.addEventListener('click',()=>{cfg.setF(c.dataset.k);renderMSubBar();}));
 }
-const MCOL_ICON={
+// 지도 색상: 단일 버튼 + 팝업(카테고리/렌트/치안 … 향후 항목 추가만 하면 됨)
+const COLOR_ICON={
+  category:'<path fill="currentColor" d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>',
   rent:'<path fill="currentColor" d="M12 3.5 2.5 11.5h2.6v8.5h5.1v-5.4h3.6v5.4h5.1v-8.5h2.6z"/>',
   crime:'<path fill="currentColor" d="M12 2.5 4.5 5.5v6.2c0 4.4 3.2 7.6 7.5 8.8 4.3-1.2 7.5-4.4 7.5-8.8V5.5z"/>'
 };
-function renderMColorCol(){
-  const el=document.getElementById('m-colorcol');if(!el)return;
-  el.innerHTML=['rent','crime'].map(m=>
-    `<span class="mcol-btn${mapColorMode===m?' on':''}" data-mode="${m}" title="${T().colorModes[m]}"><svg width="21" height="21" viewBox="0 0 24 24">${MCOL_ICON[m]}</svg></span>`).join('');
-  el.querySelectorAll('.mcol-btn').forEach(b=>b.addEventListener('click',()=>{
-    mapColorMode=(mapColorMode===b.dataset.mode)?'category':b.dataset.mode;
-    renderColorSeg();renderMColorCol();renderMScale();restyleAll();
+const COLOR_BTN_ICON='<circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="currentColor" d="M12 3.6a8.4 8.4 0 0 0 0 16.8z"/>';
+function renderMColorBtn(){
+  const btn=document.getElementById('m-colorbtn'),pop=document.getElementById('m-colorpop');if(!btn)return;
+  btn.classList.toggle('on',mapColorMode!=='category');
+  btn.innerHTML=`<svg width="21" height="21" viewBox="0 0 24 24">${COLOR_BTN_ICON}</svg>`;
+  pop.innerHTML=['category','rent','crime'].map(m=>
+    `<div class="mcol-item${mapColorMode===m?' on':''}" data-mode="${m}"><svg width="16" height="16" viewBox="0 0 24 24">${COLOR_ICON[m]}</svg>${T().colorModes[m]}</div>`).join('');
+  pop.querySelectorAll('.mcol-item').forEach(it=>it.addEventListener('click',(e)=>{
+    e.stopPropagation();mapColorMode=it.dataset.mode;pop.classList.remove('on');
+    renderColorSeg();renderMColorBtn();renderMScale();restyleAll();
   }));
 }
 function renderMScale(){
@@ -1005,11 +1016,23 @@ function renderMScale(){
   if(mapColorMode==='rent'||mapColorMode==='crime'){
     const isR=mapColorMode==='rent';
     el.innerHTML=`<div class="ml-title">${t.colorModes[mapColorMode]} · ${isR?t.rentUnit:t.crimeUnit}</div>`+
-      scaleBar(isR?RENT_SCALE:CRIME_SCALE)+`<div class="ml-ends"><span>${t.low}</span><span>${t.high}</span></div>`;
+      scaleBar(isR?RENT_SCALE:CRIME_SCALE)+`<div class="ml-ends"><span>${t.low}</span><span>${t.high}</span></div>`+
+      `<div class="ml-note">${isR?t.rentNote:t.crimeNote}</div>`;
     el.classList.add('on');
   }else{el.innerHTML='';el.classList.remove('on');}
+  updateMScalePos();
+}
+function updateMScalePos(){ // 스케일을 LGA 시트 위로 띄움 (offsetHeight=transform 애니메이션 무관)
+  const el=document.getElementById('m-scale');if(!el)return;
+  const bs=document.getElementById('bottom-sheet');
+  if(isMobile()&&el.classList.contains('on')&&bs.classList.contains('on')){
+    el.style.bottom=(bs.offsetHeight+26)+'px';
+  }else{el.style.bottom='';}
 }
 document.getElementById('m-fb').addEventListener('click',()=>document.getElementById('fb-overlay').classList.add('on'));
+document.getElementById('m-colorbtn').addEventListener('click',(e)=>{e.stopPropagation();document.getElementById('m-colorpop').classList.toggle('on');});
+document.getElementById('m-colorpop').addEventListener('click',(e)=>e.stopPropagation());
+map.on('click',()=>document.getElementById('m-colorpop').classList.remove('on'));
 
 
 // ═══════════════ INIT ═══════════════
@@ -1019,7 +1042,7 @@ restyleAll();
 // 딥링크: ?lga=unley
 try{
   const cm=new URLSearchParams(location.search).get('color');
-  if(cm==='rent'||cm==='crime'){mapColorMode=cm;renderColorSeg();renderMColorCol();renderMScale();restyleAll();}
+  if(cm==='rent'||cm==='crime'){mapColorMode=cm;renderColorSeg();renderMColorBtn();renderMScale();restyleAll();}
   const sel=new URLSearchParams(location.search).get('lga');
   if(sel&&LGAS[sel]){openSheet(sel);map.fitBounds(lgaLayers[sel].getBounds(),{padding:[40,40],maxZoom:ZOOM_LGA});}
   else toast(T().hint,3200);
