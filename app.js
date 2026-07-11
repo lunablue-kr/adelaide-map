@@ -340,7 +340,7 @@ const GLYPHS={
   school:'<path fill="currentColor" d="M12 5.2 21.2 9.8 12 14.4 2.8 9.8Z"/><path fill="currentColor" d="M7.4 11.7v3.4c0 1.3 2.06 2.35 4.6 2.35s4.6-1.05 4.6-2.35v-3.4L12 14Z"/><path fill="none" stroke="currentColor" stroke-width="1.15" stroke-linecap="round" d="M21.2 10.2v4.3"/><circle fill="currentColor" cx="21.2" cy="15.2" r="1.2"/>',
   mart:'<path fill="currentColor" d="M7 8.4H20a1 1 0 0 1 .97 1.26l-1.42 5.4A1.5 1.5 0 0 1 18.1 16.2H9.4Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3.6 5h2.2l3.6 11.2"/><circle fill="currentColor" cx="10.4" cy="18.8" r="1.55"/><circle fill="currentColor" cx="17.4" cy="18.8" r="1.55"/>',
   shopping:'<path fill="currentColor" d="M6.4 8h11.2a1 1 0 0 1 1 .92l.8 9.5A1.4 1.4 0 0 1 18 20H6a1.4 1.4 0 0 1-1.4-1.58l.8-9.5A1 1 0 0 1 6.4 8Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 8V6.6a3 3 0 0 1 6 0V8"/>',
-  landmark:'<path fill="currentColor" d="M12 3 14.6 9.2 21.3 9.7 16.2 14 17.8 20.6 12 17 6.2 20.6 7.8 14 2.7 9.7 9.4 9.2Z"/>',
+  landmark:'<path fill="currentColor" fill-rule="evenodd" d="M9 4.8 7.8 7H4.5A1.5 1.5 0 0 0 3 8.5v9A1.5 1.5 0 0 0 4.5 19h15A1.5 1.5 0 0 0 21 17.5v-9A1.5 1.5 0 0 0 19.5 7h-3.3L15 4.8ZM12 16.4a3.3 3.3 0 1 1 0-6.6 3.3 3.3 0 0 1 0 6.6Z"/>',
   facility:'<path fill="currentColor" d="M12 3.4 3.2 8.1V10h17.6V8.1Z"/><path fill="currentColor" d="M5 11h2v6.4H5zM9.2 11h2v6.4h-2zM13.4 11h2v6.4h-2zM17.6 11h2v6.4h-2z"/><rect fill="currentColor" x="3.2" y="18.1" width="17.6" height="2.3" rx="0.5"/>'
 };
 const ZOOM_GLYPH=13; // 이상이면 기호핀, 미만이면 작은 점 (14→13, 한 단계 일찍)
