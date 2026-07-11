@@ -112,7 +112,7 @@
   /* ── 바이브 라벨 / 마커 / 툴팁 ─────────── */
   .vibe-label{font-family:'Noto Sans KR',sans-serif;font-weight:700;white-space:nowrap;text-align:center;
     text-shadow:0 1px 8px rgba(0,0,0,0.9),0 0 3px rgba(0,0,0,0.9);pointer-events:none;transform:translate(-50%,-50%);}
-  .vibe-cat{display:block;font-size:0.62em;font-weight:500;opacity:0.72;letter-spacing:0.5px;margin-top:1px;}
+  .vibe-cat{display:block;font-size:0.85em;font-weight:600;opacity:0.9;letter-spacing:0.3px;margin-top:2px;}
   .uni-pulse{width:15px;height:15px;background:#e8c87a;border-radius:50%;border:2px solid #fff;animation:pulse 2s infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(232,200,122,0.65)}70%{box-shadow:0 0 0 13px rgba(232,200,122,0)}100%{box-shadow:0 0 0 0 rgba(232,200,122,0)}}
   .sub-tip{background:var(--surface2)!important;border:1px solid var(--border)!important;color:var(--text)!important;font-family:'Noto Sans KR',sans-serif!important;font-size:10.5px!important;border-radius:6px!important;box-shadow:0 6px 20px rgba(0,0,0,0.6)!important;padding:3px 9px!important;}

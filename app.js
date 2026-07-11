@@ -83,7 +83,7 @@ try{LANG=localStorage.getItem('adelaide-lang')||'ko';}catch{}
 try{const u=new URLSearchParams(location.search).get('lang');if(u==='en'||u==='ko')LANG=u;}catch{}
 
 const VIBES = [
-  [-34.925,138.600,'cbd',17],
+  [-34.9295,138.5985,'cbd',17],
   [-34.882,138.598,'inner',14],
   [-34.945,138.655,'easthill',16],
   [-35.010,138.630,'easthill',13],
@@ -525,7 +525,7 @@ function buildVibes(){
   VIBES.forEach(([lat,lng,cat,size],i)=>{
     const c=CAT_META[cat].color;
     const catName=catLabel(CAT_META[cat]);
-    const icon=L.divIcon({html:`<div class="vibe-label" style="color:${c};font-size:${size}px">${T().vibes[i]}<span class="vibe-cat">${catName}</span></div>`,className:'',iconSize:[0,0]});
+    const icon=L.divIcon({html:`<div class="vibe-label" style="color:${c};font-size:15px">${T().vibes[i]}<span class="vibe-cat">${catName}</span></div>`,className:'',iconSize:[0,0]});
     vibeMarkers.push(L.marker([lat,lng],{icon,interactive:false}));
   });
   syncVibes();
@@ -761,8 +761,6 @@ function renderMiniLegend(){
     html+=`<div class="ml-title">${t.colorModes.rent} · ${t.rentUnit}</div>`+scaleBar(RENT_SCALE)+`<div class="ml-ends"><span>${t.low}</span><span>${t.high}</span></div><div class="ml-note">${t.rentNote}</div>`;
   }else if(mapColorMode==='crime'){
     html+=`<div class="ml-title">${t.colorModes.crime} · ${t.crimeUnit}</div>`+scaleBar(CRIME_SCALE)+`<div class="ml-ends"><span>${t.low}</span><span>${t.high}</span></div><div class="ml-note">${t.crimeNote}</div>`;
-  }else{
-    html+=`<div class="ml-title">${t.legTitle}</div>`+Object.values(CAT_META).map(cm=>`<div class="ml-item"><span class="ml-dot" style="background:${cm.color}"></span>${catLabel(cm)}</div>`).join('');
   }
   if(transitOn){
     html+=`<div class="ml-title" style="margin-top:7px">${t.layers.transit}</div>`+
@@ -785,6 +783,7 @@ function renderMiniLegend(){
       `<div class="ml-item"><span class="ml-dot" style="background:${SHOP_COLOR}"></span>${LANG==='en'?'Major centre':'주요 쇼핑센터'}</div>`;
   }
   el.innerHTML=html;
+  el.style.display=html?'':'none';
   el.querySelectorAll('.ml-item[data-sch]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSchoolFilter(it.dataset.sch);}));
   el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
