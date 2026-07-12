@@ -343,8 +343,8 @@ const GLYPHS={
   landmark:'<path fill="currentColor" fill-rule="evenodd" d="M9 4.8 7.8 7H4.5A1.5 1.5 0 0 0 3 8.5v9A1.5 1.5 0 0 0 4.5 19h15A1.5 1.5 0 0 0 21 17.5v-9A1.5 1.5 0 0 0 19.5 7h-3.3L15 4.8ZM12 16.4a3.3 3.3 0 1 1 0-6.6 3.3 3.3 0 0 1 0 6.6Z"/>',
   facility:'<path fill="currentColor" d="M12 3.4 3.2 8.1V10h17.6V8.1Z"/><path fill="currentColor" d="M5 11h2v6.4H5zM9.2 11h2v6.4h-2zM13.4 11h2v6.4h-2zM17.6 11h2v6.4h-2z"/><rect fill="currentColor" x="3.2" y="18.1" width="17.6" height="2.3" rx="0.5"/>'
 };
-const ZOOM_GLYPH=13; // 이상이면 기호핀, 미만이면 작은 점 (14→13, 한 단계 일찍)
-const DOT_R=5.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
+const ZOOM_GLYPH=12; // 이상이면 기호핀, 미만이면 작은 점 (12=바닥, ≤11은 바이브 라벨 구간)
+const DOT_R=6.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
 function glyphHtml(cat,color,d){
   const s=Math.round(d*0.62);
   return `<div class="gpin" style="width:${d}px;height:${d}px;background:${color}"><svg width="${s}" height="${s}" viewBox="0 0 24 24">${GLYPHS[cat]}</svg></div>`;
