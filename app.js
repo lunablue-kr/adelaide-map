@@ -96,12 +96,14 @@ const I18N = {
     docTitle:'Adelaide 지역 가이드', title:'Adelaide 가이드', langBtn:'🇦🇺',
     searchPh:'서버브·학교·마트·역 검색', searchNone:'검색 결과 없음', searchCouncil:'카운실', searchSuburb:'서버브', clearAll:'모두 해제',
     lblCat:'카테고리', lblOverlay:'오버레이', lblColor:'지도 색상', filterAll:'전체',
-    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'병원',marts:'마트',shopping:'쇼핑',sight:'명소',facility:'시설'},
+    layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'의료',marts:'마트',restaurant:'식당',shopping:'쇼핑',sight:'명소',facility:'시설'},
     sightTypes:{beach:'해변',wine:'와이너리'},
     facTypes:{air:'공항',port:'항구',district:'혁신지구'},
+    restTypes:{kr:'한식',as:'아시안',in:'인도'},
+    hospOwn:{pub:'공공',pri:'사립'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
-    hospTypes:{pub:'공공병원',pri:'사립병원'},
+    hospTypes:{hos:'병원',ph:'약국',dr:'의원',de:'치과'},
     martTypes:{big:'대형마트',local:'지역마트',intl:'국가별 식료품점',liq:'주류 (보틀숍)'},
     origins:{kr:'한국',in:'인도',cn:'중국',jp:'일본',vn:'베트남',lk:'스리랑카',af:'아프가니스탄',halal:'할랄',latam:'라틴',med:'지중해',asia:'아시안'},
     train:'기차', tram:'트램', bus:'버스 간선', busStop:'버스 정류장 (간선)',
@@ -130,12 +132,14 @@ const I18N = {
     docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
     searchPh:'Search suburbs, schools, shops, stations', searchNone:'No results', searchCouncil:'Council', searchSuburb:'Suburb', clearAll:'Clear all',
     lblCat:'Category', lblOverlay:'Overlays', lblColor:'Map colour', filterAll:'All',
-    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Hospitals',marts:'Groceries',shopping:'Shopping',sight:'Sights',facility:'Facilities'},
+    layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Healthcare',marts:'Groceries',restaurant:'Restaurants',shopping:'Shopping',sight:'Sights',facility:'Facilities'},
     sightTypes:{beach:'Beaches',wine:'Wineries'},
     facTypes:{air:'Airport',port:'Port',district:'Innovation'},
+    restTypes:{kr:'Korean',as:'Asian',in:'Indian'},
+    hospOwn:{pub:'Public',pri:'Private'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
-    hospTypes:{pub:'Public',pri:'Private'},
+    hospTypes:{hos:'Hospital',ph:'Pharmacy',dr:'Clinic',de:'Dentist'},
     martTypes:{big:'Major chain',local:'Local chain',intl:'International grocers',liq:'Bottle shops'},
     origins:{kr:'Korean',in:'Indian',cn:'Chinese',jp:'Japanese',vn:'Vietnamese',lk:'Sri Lankan',af:'Afghan',halal:'Halal',latam:'Latin American',med:'Mediterranean',asia:'Asian'},
     train:'Train', tram:'Tram', bus:'Trunk buses', busStop:'Bus stop (trunk)',
@@ -341,7 +345,8 @@ const GLYPHS={
   mart:'<path fill="currentColor" d="M7 8.4H20a1 1 0 0 1 .97 1.26l-1.42 5.4A1.5 1.5 0 0 1 18.1 16.2H9.4Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" d="M3.6 5h2.2l3.6 11.2"/><circle fill="currentColor" cx="10.4" cy="18.8" r="1.55"/><circle fill="currentColor" cx="17.4" cy="18.8" r="1.55"/>',
   shopping:'<path fill="currentColor" d="M6.4 8h11.2a1 1 0 0 1 1 .92l.8 9.5A1.4 1.4 0 0 1 18 20H6a1.4 1.4 0 0 1-1.4-1.58l.8-9.5A1 1 0 0 1 6.4 8Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 8V6.6a3 3 0 0 1 6 0V8"/>',
   landmark:'<path fill="currentColor" fill-rule="evenodd" d="M9 4.8 7.8 7H4.5A1.5 1.5 0 0 0 3 8.5v9A1.5 1.5 0 0 0 4.5 19h15A1.5 1.5 0 0 0 21 17.5v-9A1.5 1.5 0 0 0 19.5 7h-3.3L15 4.8ZM12 16.4a3.3 3.3 0 1 1 0-6.6 3.3 3.3 0 0 1 0 6.6Z"/>',
-  facility:'<path fill="currentColor" d="M12 3.4 3.2 8.1V10h17.6V8.1Z"/><path fill="currentColor" d="M5 11h2v6.4H5zM9.2 11h2v6.4h-2zM13.4 11h2v6.4h-2zM17.6 11h2v6.4h-2z"/><rect fill="currentColor" x="3.2" y="18.1" width="17.6" height="2.3" rx="0.5"/>'
+  facility:'<path fill="currentColor" d="M12 3.4 3.2 8.1V10h17.6V8.1Z"/><path fill="currentColor" d="M5 11h2v6.4H5zM9.2 11h2v6.4h-2zM13.4 11h2v6.4h-2zM17.6 11h2v6.4h-2z"/><rect fill="currentColor" x="3.2" y="18.1" width="17.6" height="2.3" rx="0.5"/>',
+  restaurant:'<path fill="currentColor" d="M6.3 3a.62.62 0 0 1 1.24 0v3.4a1.35 1.35 0 0 0 2.7 0V3a.62.62 0 0 1 1.24 0v3.4a2.6 2.6 0 0 1-1.97 2.52V21H8.27V8.92A2.6 2.6 0 0 1 6.3 6.4Z"/><path fill="currentColor" d="M15.7 3c1.27 0 1.97 1.9 1.97 4.8 0 2.1-.6 3.3-1.5 3.7V21h-1.24V3.08c.24-.05.5-.08.77-.08Z"/>'
 };
 const ZOOM_GLYPH=12; // 이상이면 기호핀, 미만이면 작은 점 (12=바닥, ≤11은 바이브 라벨 구간)
 const DOT_R=6.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
@@ -375,6 +380,7 @@ function refreshPoiZoom(){
   if(schoolOn&&schoolLayer){const f=schoolFilter;map.removeLayer(schoolLayer);schoolLayer=null;buildSchoolLayer();schoolLayer.addTo(map);schoolFilter=f;applySchoolFilter();}
   if(hospitalOn&&hospitalLayer){const f=hospitalFilter;map.removeLayer(hospitalLayer);hospitalLayer=null;buildHospitalLayer();hospitalLayer.addTo(map);hospitalFilter=f;applyHospitalFilter();}
   if(martOn&&martLayer){const f=martFilter;map.removeLayer(martLayer);martLayer=null;buildMartLayer();martLayer.addTo(map);martFilter=f;applyMartFilter();}
+  if(restOn&&restLayer){const f=restFilter;map.removeLayer(restLayer);restLayer=null;buildRestLayer();restLayer.addTo(map);restFilter=f;applyRestFilter();}
   if(shopOn&&shopLayer){map.removeLayer(shopLayer);shopLayer=null;buildShopLayer();shopLayer.addTo(map);}
   if(sightOn&&sightLayer){const f=sightFilter;map.removeLayer(sightLayer);sightLayer=null;buildSightLayer();sightLayer.addTo(map);sightFilter=f;applyMarkerFilter(sightMarks,sightFilter);}
   if(facOn&&facLayer){const f=facFilter;map.removeLayer(facLayer);facLayer=null;buildFacLayer();facLayer.addTo(map);facFilter=f;applyMarkerFilter(facMarks,facFilter);}
@@ -478,9 +484,10 @@ function setSchoolLayer(on){
 
 // ═══════════════ 병원 레이어 (OSM amenity=hospital → 주요 공공·사립 큐레이트, 2026-07) ═══════════════
 map.createPane('hospPane');map.getPane('hospPane').style.zIndex=463;
-const HOSP_COLOR={pub:PALETTE[0],pri:PALETTE[1]}; // 공공 빨·사립 주
+// 의료: 병원(큐레이트 14) + 약국·의원·치과(OSM, LGA 클립). 십자 글리프 공유
+const MED_COLOR={hos:PALETTE[0],ph:PALETTE[3],dr:PALETTE[1],de:PALETTE[4]}; // 병원 빨·약국 초·의원 주·치과 시안
 let hospitalLayer=null,hospitalOn=false;
-let hospitalMarkers={pub:[],pri:[]},hospitalFilter=null;
+let hospitalMarkers={hos:[],ph:[],dr:[],de:[]},hospitalFilter=null;
 function applyHospitalFilter(){
   Object.entries(hospitalMarkers).forEach(([t,arr])=>{
     const on=(!hospitalFilter||hospitalFilter===t);
@@ -488,18 +495,28 @@ function applyHospitalFilter(){
   });
 }
 function setHospitalFilter(t){hospitalFilter=(hospitalFilter===t)?null:t;applyHospitalFilter();renderMiniLegend();}
-function hospPopupHtml(h){
-  const desc=(LANG==='en'&&h.en)?h.en:h.desc;
-  return `<div class="popup-inner"><div class="popup-name">${h.n}</div><div class="popup-sub">${T().hospTypes[h.t]}</div><div class="popup-desc">${desc}</div></div>`;
+function medPopupHtml(item){
+  const t=T();
+  if(item.hos){
+    const desc=(LANG==='en'&&item.en)?item.en:item.desc;
+    const own=t.hospOwn[item.own]||'';
+    return `<div class="popup-inner"><div class="popup-name">${item.n}</div><div class="popup-sub">${t.hospTypes.hos}${own?' · '+own:''}</div><div class="popup-desc">${desc}</div></div>`;
+  }
+  return `<div class="popup-inner"><div class="popup-name">${item.n}</div><div class="popup-sub">${t.hospTypes[item.t]}</div></div>`;
 }
 function buildHospitalLayer(){
   hospitalLayer=L.layerGroup();
-  hospitalMarkers={pub:[],pri:[]};hospitalFilter=null;
-  HOSPITALS.forEach(h=>{
-    const mk=poiMarker(h.ll,{cat:'hospital',color:HOSP_COLOR[h.t],pane:'hospPane',
-      tooltip:`${h.n}<br><span style="font-size:9px;color:#8890a8">${T().hospTypes[h.t]}</span>`,
-      popup:hospPopupHtml(h)});
-    (hospitalMarkers[h.t]||hospitalMarkers.pub).push(mk);mk.addTo(hospitalLayer);
+  hospitalMarkers={hos:[],ph:[],dr:[],de:[]};hospitalFilter=null;
+  const items=[
+    ...HOSPITALS.map(h=>({ll:h.ll,n:h.n,t:'hos',hos:true,own:h.t,desc:h.desc,en:h.en})),
+    ...MEDICAL.map(m=>({ll:m.ll,n:m.n,t:m.t}))
+  ];
+  items.forEach(item=>{
+    const lab=T().hospTypes[item.t];
+    const mk=poiMarker(item.ll,{cat:'hospital',color:MED_COLOR[item.t]||MED_COLOR.hos,pane:'hospPane',
+      tooltip:`${item.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
+      popup:medPopupHtml(item)});
+    (hospitalMarkers[item.t]||hospitalMarkers.hos).push(mk);mk.addTo(hospitalLayer);
   });
 }
 function setHospitalLayer(on){
@@ -597,6 +614,24 @@ function buildFacLayer(){const r=buildMarkerLayer('facility','facility',FAC_COLO
 function setFacFilter(t){facFilter=(facFilter===t)?null:t;applyMarkerFilter(facMarks,facFilter);renderMiniLegend();}
 function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.addTo(map);}else if(facLayer){map.removeLayer(facLayer);}renderMiniLegend();syncOverlayRows();}
 
+// ═══════════════ 식당 (아시아계, OSM cuisine → LGA 클립) ═══════════════
+map.createPane('restPane');map.getPane('restPane').style.zIndex=468;
+const REST_COLOR={kr:PALETTE[0],as:PALETTE[1],in:PALETTE[3]}; // 한식 빨·아시안 주·인도 초
+let restLayer=null,restOn=false,restMarkers={kr:[],as:[],in:[]},restFilter=null;
+function applyRestFilter(){Object.entries(restMarkers).forEach(([t,arr])=>{const on=(!restFilter||restFilter===t);arr.forEach(m=>dimMarker(m,on));});}
+function setRestFilter(t){restFilter=(restFilter===t)?null:t;applyRestFilter();renderMiniLegend();}
+function buildRestLayer(){
+  restLayer=L.layerGroup();restMarkers={kr:[],as:[],in:[]};restFilter=null;
+  RESTAURANTS.forEach(r=>{
+    const lab=T().restTypes[r.t];
+    const mk=poiMarker(r.ll,{cat:'restaurant',color:REST_COLOR[r.t]||REST_COLOR.as,pane:'restPane',maxWidth:220,
+      tooltip:`${r.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
+      popup:`<div class="popup-inner"><div class="popup-name">${r.n}</div><div class="popup-sub">${lab}</div></div>`});
+    (restMarkers[r.t]||restMarkers.as).push(mk);mk.addTo(restLayer);
+  });
+}
+function setRestLayer(on){restOn=on;if(on){if(!restLayer)buildRestLayer();restLayer.addTo(map);}else if(restLayer){map.removeLayer(restLayer);}renderMiniLegend();syncOverlayRows();}
+
 // ═══════════════ 바이브 라벨 (줌 ≤ 11) ═══════════════
 let vibeMarkers=[];
 function buildVibes(){
@@ -624,6 +659,7 @@ const OVERLAYS=[
   {id:'schools',color:'#dde1ec',swatch:'glyph',cat:'school',get:()=>schoolOn,set:setSchoolLayer},
   {id:'hospitals',color:'#dde1ec',swatch:'glyph',cat:'hospital',get:()=>hospitalOn,set:setHospitalLayer},
   {id:'marts',color:'#dde1ec',swatch:'glyph',cat:'mart',get:()=>martOn,set:setMartLayer},
+  {id:'restaurant',color:'#dde1ec',swatch:'glyph',cat:'restaurant',get:()=>restOn,set:setRestLayer},
   {id:'shopping',color:'#dde1ec',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
   {id:'sight',color:'#dde1ec',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
   {id:'facility',color:'#dde1ec',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
@@ -699,7 +735,9 @@ function getPois(){
   const push=o=>{o.sub=nearestSub(o.ll);POIS.push(o);};
   SCHOOLS.forEach(s=>push({kind:'school',st:s.t,n:s.n,ll:s.ll}));
   CURATED_UNIS.forEach(u=>push({kind:'school',st:'u',n:u.n,ll:u.ll}));
-  HOSPITALS.forEach(h=>push({kind:'hosp',st:h.t,n:h.n,ll:h.ll}));
+  HOSPITALS.forEach(h=>push({kind:'hosp',st:'hos',n:h.n,ll:h.ll}));
+  MEDICAL.forEach(m=>push({kind:'hosp',st:m.t,n:m.n,ll:m.ll}));
+  RESTAURANTS.forEach(r=>push({kind:'rest',st:r.t,n:r.n,ll:r.ll}));
   MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
   MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
   TRANSIT.stations.forEach(s=>push({kind:'station',st:s.t,n:s.n,ll:s.ll}));
@@ -711,6 +749,7 @@ function poiMeta(p){
   if(p.kind==='school')lab=t.schoolTypes[p.st]||t.layers.schools;
   else if(p.kind==='hosp')lab=t.hospTypes[p.st];
   else if(p.kind==='mart')lab=(p.st==='intl'&&p.o&&t.origins[p.o])?`${t.martTypes.intl} · ${t.origins[p.o]}`:t.martTypes[p.st];
+  else if(p.kind==='rest')lab=t.restTypes[p.st]||t.layers.restaurant;
   else if(p.kind==='mall')lab=t.layers.shopping;
   else if(p.kind==='station')lab=LANG==='en'?(p.st==='tram'?'Tram stop':'Train station'):(p.st==='tram'?'트램역':'기차역');
   else lab=LANG==='en'?'Landmark':'명소';
@@ -718,7 +757,8 @@ function poiMeta(p){
 }
 function poiColor(p){
   if(p.kind==='school')return SCHOOL_COLOR[p.st]||SCHOOL_COLOR.o;
-  if(p.kind==='hosp')return HOSP_COLOR[p.st]||HOSP_COLOR.pub;
+  if(p.kind==='hosp')return MED_COLOR[p.st]||MED_COLOR.hos;
+  if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.as;
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
   if(p.kind==='mall')return SHOP_COLOR;
   if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
@@ -740,6 +780,7 @@ function focusPoi(p){
   if(p.kind==='school'&&!schoolOn)setSchoolLayer(true);
   else if(p.kind==='hosp'&&!hospitalOn)setHospitalLayer(true);
   else if(p.kind==='mart'&&!martOn)setMartLayer(true);
+  else if(p.kind==='rest'&&!restOn)setRestLayer(true);
   else if(p.kind==='mall'&&!shopOn)setShopLayer(true);
   else if(p.kind==='station'&&!transitOn)setTransitLayer(true);
   if(p.kind==='poi'){
@@ -752,7 +793,7 @@ function focusPoi(p){
     setTimeout(()=>openMarkerAt(lay(),p.ll),140);
     return;
   }
-  const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,mall:()=>shopLayer}[p.kind];
+  const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,rest:()=>restLayer,mall:()=>shopLayer}[p.kind];
   if(lay)setTimeout(()=>openMarkerAt(lay(),p.ll),140);
 }
 function searchQuery(q){
@@ -862,11 +903,15 @@ function renderMiniLegend(){
   }
   if(hospitalOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.hospital}</svg></span>${t.layers.hospitals}</div>`+
-      ['pub','pri'].map(k=>`<div class="ml-item ml-click${hospitalFilter&&hospitalFilter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="background:${HOSP_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
+      ['hos','ph','dr','de'].map(k=>`<div class="ml-item ml-click${hospitalFilter&&hospitalFilter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="background:${MED_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
   }
   if(martOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.mart}</svg></span>${t.layers.marts}</div>`+
       ['big','local','intl','liq'].map(k=>`<div class="ml-item ml-click${martFilter&&martFilter!==k?' dim':''}" data-mart="${k}"><span class="ml-dot" style="background:${MART_COLOR[k]}"></span>${t.martTypes[k]}</div>`).join('');
+  }
+  if(restOn){
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.restaurant}</svg></span>${t.layers.restaurant}</div>`+
+      ['kr','as','in'].map(k=>`<div class="ml-item ml-click${restFilter&&restFilter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="background:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
   }
   if(shopOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.shopping}</svg></span>${t.layers.shopping}</div>`+
@@ -886,6 +931,7 @@ function renderMiniLegend(){
   el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
   el.querySelectorAll('.ml-item[data-mart]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setMartFilter(it.dataset.mart);}));
+  el.querySelectorAll('.ml-item[data-rest]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setRestFilter(it.dataset.rest);}));
   el.querySelectorAll('.ml-item[data-sight]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSightFilter(it.dataset.sight);}));
   el.querySelectorAll('.ml-item[data-fac]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setFacFilter(it.dataset.fac);}));
 }
@@ -950,6 +996,7 @@ function applyLang(){
    ['school',()=>schoolLayer,(v)=>schoolLayer=v,buildSchoolLayer,()=>schoolOn],
    ['hosp',()=>hospitalLayer,(v)=>hospitalLayer=v,buildHospitalLayer,()=>hospitalOn],
    ['mart',()=>martLayer,(v)=>martLayer=v,buildMartLayer,()=>martOn],
+   ['rest',()=>restLayer,(v)=>restLayer=v,buildRestLayer,()=>restOn],
    ['shop',()=>shopLayer,(v)=>shopLayer=v,buildShopLayer,()=>shopOn],
    ['sight',()=>sightLayer,(v)=>sightLayer=v,buildSightLayer,()=>sightOn],
    ['facility',()=>facLayer,(v)=>facLayer=v,buildFacLayer,()=>facOn]].forEach(([_,get,set,build,isOn])=>{
@@ -988,8 +1035,9 @@ const isMobile=()=>matchMedia('(max-width:680px)').matches;
 const M_SUB={
   transit:{items:()=>[['train',T().train],['tram',T().tram],['bus',T().bus]],colors:TRANSIT_COLOR,glyph:null,getF:()=>transitFilter,setF:setTransitFilter},
   schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>schoolFilter,setF:setSchoolFilter},
-  hospitals:{items:()=>['pub','pri'].map(k=>[k,T().hospTypes[k]]),colors:HOSP_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
+  hospitals:{items:()=>['hos','ph','dr','de'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
+  restaurant:{items:()=>['kr','as','in'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
