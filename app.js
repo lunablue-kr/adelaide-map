@@ -103,7 +103,7 @@ const I18N = {
     hospOwn:{pub:'공공',pri:'사립'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
-    hospTypes:{hos:'병원',dr:'의원',de:'치과',km:'한의원',ph:'약국'},
+    hospTypes:{hos:'병원',dr:'의원',de:'치과',km:'한방·침',ph:'약국'},
     martTypes:{big:'대형마트',local:'지역마트',intl:'국가별 식료품점',liq:'주류 (보틀숍)'},
     origins:{kr:'한국',in:'인도',cn:'중국',jp:'일본',vn:'베트남',lk:'스리랑카',af:'아프가니스탄',halal:'할랄',latam:'라틴',med:'지중해',asia:'아시안'},
     train:'기차', tram:'트램', bus:'버스 간선', busStop:'버스 정류장 (간선)',
@@ -366,10 +366,10 @@ function poiMarker(ll,o){
   if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240});
   return mk;
 }
-function dimMarker(mk,visible){ // 필터 격리 — circleMarker/divIcon 무관
-  const op=visible?1:0.12;
-  if(mk instanceof L.CircleMarker)mk.setStyle({opacity:op,fillOpacity:op});
-  else mk.setOpacity(op);
+function dimMarker(mk,visible,front){ // 격리: 안 뽑힌 건 더 투명(0.07), 뽑힌 건 맨 앞으로
+  const op=visible?1:0.07;
+  if(mk instanceof L.CircleMarker){mk.setStyle({opacity:op,fillOpacity:op});if(visible&&front)mk.bringToFront();}
+  else{mk.setOpacity(op);if(mk.setZIndexOffset)mk.setZIndexOffset(visible&&front?1000:0);}
 }
 // 줌 임계 넘으면 켜져있는 POI 레이어만 재생성(점↔기호 전환), 필터 상태 보존
 let _poiGlyph=null;
@@ -397,7 +397,7 @@ function applyTransitFilter(){
   Object.entries(transitMarkers).forEach(([t,arr])=>{
     const on=(!transitFilter||transitFilter===t);
     const op=transitFilter===t?0.9:(TRANSIT_BASE_OP[t]||0.9); // 격리 시 또렷하게
-    arr.forEach(m=>m.setStyle({opacity:on?op:0.12,fillOpacity:on?1:0.12}));
+    arr.forEach(m=>{m.setStyle({opacity:on?op:0.07,fillOpacity:on?1:0.07});if(on&&transitFilter&&m.bringToFront)m.bringToFront();});
   });
 }
 function setTransitFilter(t){transitFilter=(transitFilter===t)?null:t;applyTransitFilter();renderMiniLegend();}
@@ -447,7 +447,7 @@ let schoolMarkers={p:[],s:[],u:[],c:[],o:[]},schoolFilter=null;
 function applySchoolFilter(){
   Object.entries(schoolMarkers).forEach(([t,arr])=>{
     const on=(!schoolFilter||schoolFilter===t);
-    arr.forEach(mk=>dimMarker(mk,on));
+    arr.forEach(mk=>dimMarker(mk,on,!!schoolFilter));
   });
 }
 function setSchoolFilter(t){
@@ -491,7 +491,7 @@ let hospitalMarkers={hos:[],dr:[],de:[],km:[],ph:[]},hospitalFilter=null;
 function applyHospitalFilter(){
   Object.entries(hospitalMarkers).forEach(([t,arr])=>{
     const on=(!hospitalFilter||hospitalFilter===t);
-    arr.forEach(m=>dimMarker(m,on));
+    arr.forEach(m=>dimMarker(m,on,!!hospitalFilter));
   });
 }
 function setHospitalFilter(t){hospitalFilter=(hospitalFilter===t)?null:t;applyHospitalFilter();renderMiniLegend();}
@@ -534,7 +534,7 @@ let martMarkers={big:[],local:[],intl:[],liq:[]},martFilter=null;
 function applyMartFilter(){
   Object.entries(martMarkers).forEach(([t,arr])=>{
     const on=(!martFilter||martFilter===t);
-    arr.forEach(m=>dimMarker(m,on));
+    arr.forEach(m=>dimMarker(m,on,!!martFilter));
   });
 }
 function setMartFilter(t){martFilter=(martFilter===t)?null:t;applyMartFilter();renderMiniLegend();}
@@ -601,7 +601,7 @@ function buildMarkerLayer(ov,cat,colors,paneName){
   return {layer,marks};
 }
 function applyMarkerFilter(marks,filter){
-  Object.entries(marks).forEach(([t,arr])=>{const on=(!filter||filter===t);arr.forEach(mk=>dimMarker(mk,on));});
+  Object.entries(marks).forEach(([t,arr])=>{const on=(!filter||filter===t);arr.forEach(mk=>dimMarker(mk,on,!!filter));});
 }
 // 명소
 let sightLayer=null,sightOn=false,sightMarks={},sightFilter=null;
@@ -618,7 +618,7 @@ function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.a
 map.createPane('restPane');map.getPane('restPane').style.zIndex=468;
 const REST_COLOR={kr:PALETTE[0],as:PALETTE[1],in:PALETTE[3]}; // 한식 빨·아시안 주·인도 초
 let restLayer=null,restOn=false,restMarkers={kr:[],as:[],in:[]},restFilter=null;
-function applyRestFilter(){Object.entries(restMarkers).forEach(([t,arr])=>{const on=(!restFilter||restFilter===t);arr.forEach(m=>dimMarker(m,on));});}
+function applyRestFilter(){Object.entries(restMarkers).forEach(([t,arr])=>{const on=(!restFilter||restFilter===t);arr.forEach(m=>dimMarker(m,on,!!restFilter));});}
 function setRestFilter(t){restFilter=(restFilter===t)?null:t;applyRestFilter();renderMiniLegend();}
 function buildRestLayer(){
   restLayer=L.layerGroup();restMarkers={kr:[],as:[],in:[]};restFilter=null;

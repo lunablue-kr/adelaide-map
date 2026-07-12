@@ -322,7 +322,5 @@ const MEDICAL=[
 {ll:[-34.91323,138.67454],n:"the dentists",t:"de"}
 ,
 {ll:[-34.92351,138.60409],n:"Chinese Traditional Clinic",t:"km"},
-{ll:[-34.84383,138.50725],n:"East Of West",t:"km"},
-{ll:[-34.83889,138.48497],n:"Happy Herbs",t:"km"},
-{ll:[-34.98011,138.517],n:"Happy Herbs",t:"km"}
+{ll:[-34.84383,138.50725],n:"East Of West",t:"km"}
 ];
