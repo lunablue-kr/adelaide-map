@@ -103,7 +103,7 @@ const I18N = {
     hospOwn:{pub:'공공',pri:'사립'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
-    hospTypes:{hos:'병원',ph:'약국',dr:'의원',de:'치과'},
+    hospTypes:{hos:'병원',dr:'의원',de:'치과',km:'한의원',ph:'약국'},
     martTypes:{big:'대형마트',local:'지역마트',intl:'국가별 식료품점',liq:'주류 (보틀숍)'},
     origins:{kr:'한국',in:'인도',cn:'중국',jp:'일본',vn:'베트남',lk:'스리랑카',af:'아프가니스탄',halal:'할랄',latam:'라틴',med:'지중해',asia:'아시안'},
     train:'기차', tram:'트램', bus:'버스 간선', busStop:'버스 정류장 (간선)',
@@ -139,7 +139,7 @@ const I18N = {
     hospOwn:{pub:'Public',pri:'Private'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
-    hospTypes:{hos:'Hospital',ph:'Pharmacy',dr:'Clinic',de:'Dentist'},
+    hospTypes:{hos:'Hospital',dr:'Clinic',de:'Dentist',km:'Oriental medicine',ph:'Pharmacy'},
     martTypes:{big:'Major chain',local:'Local chain',intl:'International grocers',liq:'Bottle shops'},
     origins:{kr:'Korean',in:'Indian',cn:'Chinese',jp:'Japanese',vn:'Vietnamese',lk:'Sri Lankan',af:'Afghan',halal:'Halal',latam:'Latin American',med:'Mediterranean',asia:'Asian'},
     train:'Train', tram:'Tram', bus:'Trunk buses', busStop:'Bus stop (trunk)',
@@ -485,9 +485,9 @@ function setSchoolLayer(on){
 // ═══════════════ 병원 레이어 (OSM amenity=hospital → 주요 공공·사립 큐레이트, 2026-07) ═══════════════
 map.createPane('hospPane');map.getPane('hospPane').style.zIndex=463;
 // 의료: 병원(큐레이트 14) + 약국·의원·치과(OSM, LGA 클립). 십자 글리프 공유
-const MED_COLOR={hos:PALETTE[0],ph:PALETTE[3],dr:PALETTE[1],de:PALETTE[4]}; // 병원 빨·약국 초·의원 주·치과 시안
+const MED_COLOR={hos:PALETTE[0],dr:PALETTE[1],de:PALETTE[4],km:PALETTE[6],ph:PALETTE[3]}; // 병원 빨·의원 주·치과 시안·한의원 보라·약국 초
 let hospitalLayer=null,hospitalOn=false;
-let hospitalMarkers={hos:[],ph:[],dr:[],de:[]},hospitalFilter=null;
+let hospitalMarkers={hos:[],dr:[],de:[],km:[],ph:[]},hospitalFilter=null;
 function applyHospitalFilter(){
   Object.entries(hospitalMarkers).forEach(([t,arr])=>{
     const on=(!hospitalFilter||hospitalFilter===t);
@@ -506,7 +506,7 @@ function medPopupHtml(item){
 }
 function buildHospitalLayer(){
   hospitalLayer=L.layerGroup();
-  hospitalMarkers={hos:[],ph:[],dr:[],de:[]};hospitalFilter=null;
+  hospitalMarkers={hos:[],dr:[],de:[],km:[],ph:[]};hospitalFilter=null;
   const items=[
     ...HOSPITALS.map(h=>({ll:h.ll,n:h.n,t:'hos',hos:true,own:h.t,desc:h.desc,en:h.en})),
     ...MEDICAL.map(m=>({ll:m.ll,n:m.n,t:m.t}))
@@ -903,7 +903,7 @@ function renderMiniLegend(){
   }
   if(hospitalOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.hospital}</svg></span>${t.layers.hospitals}</div>`+
-      ['hos','ph','dr','de'].map(k=>`<div class="ml-item ml-click${hospitalFilter&&hospitalFilter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="background:${MED_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
+      ['hos','dr','de','km','ph'].map(k=>`<div class="ml-item ml-click${hospitalFilter&&hospitalFilter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="background:${MED_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
   }
   if(martOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.mart}</svg></span>${t.layers.marts}</div>`+
@@ -1035,7 +1035,7 @@ const isMobile=()=>matchMedia('(max-width:680px)').matches;
 const M_SUB={
   transit:{items:()=>[['train',T().train],['tram',T().tram],['bus',T().bus]],colors:TRANSIT_COLOR,glyph:null,getF:()=>transitFilter,setF:setTransitFilter},
   schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>schoolFilter,setF:setSchoolFilter},
-  hospitals:{items:()=>['hos','ph','dr','de'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
+  hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
   restaurant:{items:()=>['kr','as','in'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
