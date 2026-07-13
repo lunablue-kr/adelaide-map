@@ -273,7 +273,9 @@ const GLYPHS={
   shopping:'<path fill="currentColor" d="M6.4 8h11.2a1 1 0 0 1 1 .92l.8 9.5A1.4 1.4 0 0 1 18 20H6a1.4 1.4 0 0 1-1.4-1.58l.8-9.5A1 1 0 0 1 6.4 8Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M9 8V6.6a3 3 0 0 1 6 0V8"/>',
   landmark:'<path fill="currentColor" fill-rule="evenodd" d="M9 4.8 7.8 7H4.5A1.5 1.5 0 0 0 3 8.5v9A1.5 1.5 0 0 0 4.5 19h15A1.5 1.5 0 0 0 21 17.5v-9A1.5 1.5 0 0 0 19.5 7h-3.3L15 4.8ZM12 16.4a3.3 3.3 0 1 1 0-6.6 3.3 3.3 0 0 1 0 6.6Z"/>',
   facility:'<path fill="currentColor" d="M12 3.4 3.2 8.1V10h17.6V8.1Z"/><path fill="currentColor" d="M5 11h2v6.4H5zM9.2 11h2v6.4h-2zM13.4 11h2v6.4h-2zM17.6 11h2v6.4h-2z"/><rect fill="currentColor" x="3.2" y="18.1" width="17.6" height="2.3" rx="0.5"/>',
-  restaurant:'<path fill="currentColor" d="M6.3 3a.62.62 0 0 1 1.24 0v3.4a1.35 1.35 0 0 0 2.7 0V3a.62.62 0 0 1 1.24 0v3.4a2.6 2.6 0 0 1-1.97 2.52V21H8.27V8.92A2.6 2.6 0 0 1 6.3 6.4Z"/><path fill="currentColor" d="M15.7 3c1.27 0 1.97 1.9 1.97 4.8 0 2.1-.6 3.3-1.5 3.7V21h-1.24V3.08c.24-.05.5-.08.77-.08Z"/>'
+  restaurant:'<path fill="currentColor" d="M6.3 3a.62.62 0 0 1 1.24 0v3.4a1.35 1.35 0 0 0 2.7 0V3a.62.62 0 0 1 1.24 0v3.4a2.6 2.6 0 0 1-1.97 2.52V21H8.27V8.92A2.6 2.6 0 0 1 6.3 6.4Z"/><path fill="currentColor" d="M15.7 3c1.27 0 1.97 1.9 1.97 4.8 0 2.1-.6 3.3-1.5 3.7V21h-1.24V3.08c.24-.05.5-.08.77-.08Z"/>',
+  cafe:'<path fill="currentColor" d="M4 8.5h12.5v4.5a4.2 4.2 0 0 1-4.2 4.2H8.2A4.2 4.2 0 0 1 4 13Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M16.5 9.8h1.6a2.3 2.3 0 0 1 0 4.6h-1.6"/><rect fill="currentColor" x="4.2" y="18.6" width="12.1" height="1.9" rx="0.6"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M7.5 5.5V3.6M11 5.5V3.6"/>',
+  pub:'<path fill="currentColor" d="M6 6.5h8.2v12.4a1.6 1.6 0 0 1-1.6 1.6H7.6A1.6 1.6 0 0 1 6 18.9Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M14.4 9h2.4a1.6 1.6 0 0 1 1.6 1.6v3.6a1.6 1.6 0 0 1-1.6 1.6h-2.4"/><path fill="currentColor" d="M6 6.5c0-1.7 1.8-2.9 4.1-2.9s4.1 1.2 4.1 2.9Z"/>'
 };
 const ZOOM_GLYPH=12; // 이상이면 기호핀, 미만이면 작은 점 (12=바닥, ≤11은 바이브 라벨 구간)
 const DOT_R=6.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
@@ -308,6 +310,8 @@ function refreshPoiZoom(){
   if(hospitalOn&&hospitalLayer){const f=hospitalFilter;map.removeLayer(hospitalLayer);hospitalLayer=null;buildHospitalLayer();hospitalLayer.addTo(map);hospitalFilter=f;applyHospitalFilter();}
   if(martOn&&martLayer){const f=martFilter;map.removeLayer(martLayer);martLayer=null;buildMartLayer();martLayer.addTo(map);martFilter=f;applyMartFilter();}
   if(restOn&&restLayer){const f=restFilter;map.removeLayer(restLayer);restLayer=null;buildRestLayer();restLayer.addTo(map);restFilter=f;applyRestFilter();}
+  if(cafeOn&&cafeLayer){map.removeLayer(cafeLayer);cafeLayer=null;buildCafeLayer();cafeLayer.addTo(map);}
+  if(pubOn&&pubLayer){const f=pubFilter;map.removeLayer(pubLayer);pubLayer=null;buildPubLayer();pubLayer.addTo(map);pubFilter=f;applyPubFilter();}
   if(shopOn&&shopLayer){map.removeLayer(shopLayer);shopLayer=null;buildShopLayer();shopLayer.addTo(map);}
   if(sightOn&&sightLayer){const f=sightFilter;map.removeLayer(sightLayer);sightLayer=null;buildSightLayer();sightLayer.addTo(map);sightFilter=f;applyMarkerFilter(sightMarks,sightFilter);}
   if(facOn&&facLayer){const f=facFilter;map.removeLayer(facLayer);facLayer=null;buildFacLayer();facLayer.addTo(map);facFilter=f;applyMarkerFilter(facMarks,facFilter);}
@@ -563,6 +567,38 @@ function buildRestLayer(){
 }
 function setRestLayer(on){restOn=on;if(on){if(!restLayer)buildRestLayer();restLayer.addTo(map);}else if(restLayer){map.removeLayer(restLayer);}renderMiniLegend();syncOverlayRows();}
 
+// ═══════════════ 카페 (OSM amenity=cafe, 단일) ═══════════════
+map.createPane('cafePane');map.getPane('cafePane').style.zIndex=469;
+const CAFE_COLOR=PALETTE[6]; // 보라
+let cafeLayer=null,cafeOn=false;
+function buildCafeLayer(){
+  cafeLayer=L.layerGroup();
+  CAFES.forEach(c=>{
+    poiMarker(c.ll,{cat:'cafe',color:CAFE_COLOR,pane:'cafePane',maxWidth:200,
+      tooltip:`${c.n}<br><span style="font-size:9px;color:#8890a8">${T().layers.cafe}</span>`,
+      popup:`<div class="popup-inner"><div class="popup-name">${c.n}</div><div class="popup-sub">${T().layers.cafe}</div></div>`}).addTo(cafeLayer);
+  });
+}
+function setCafeLayer(on){cafeOn=on;if(on){if(!cafeLayer)buildCafeLayer();cafeLayer.addTo(map);}else if(cafeLayer){map.removeLayer(cafeLayer);}renderMiniLegend();syncOverlayRows();}
+
+// ═══════════════ 술집 (OSM amenity=pub/bar → 펍·바) ═══════════════
+map.createPane('pubPane');map.getPane('pubPane').style.zIndex=470;
+const PUB_COLOR={pub:PALETTE[2],bar:PALETTE[5]}; // 펍 노랑·바 파랑
+let pubLayer=null,pubOn=false,pubMarkers={pub:[],bar:[]},pubFilter=null;
+function applyPubFilter(){Object.entries(pubMarkers).forEach(([t,arr])=>{const on=(!pubFilter||pubFilter===t);arr.forEach(m=>dimMarker(m,on,!!pubFilter));});}
+function setPubFilter(t){pubFilter=(pubFilter===t)?null:t;applyPubFilter();renderMiniLegend();}
+function buildPubLayer(){
+  pubLayer=L.layerGroup();pubMarkers={pub:[],bar:[]};pubFilter=null;
+  PUBS.forEach(p=>{
+    const lab=T().pubTypes[p.t];
+    const mk=poiMarker(p.ll,{cat:'pub',color:PUB_COLOR[p.t]||PUB_COLOR.pub,pane:'pubPane',maxWidth:200,
+      tooltip:`${p.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
+      popup:`<div class="popup-inner"><div class="popup-name">${p.n}</div><div class="popup-sub">${lab}</div></div>`});
+    (pubMarkers[p.t]||pubMarkers.pub).push(mk);mk.addTo(pubLayer);
+  });
+}
+function setPubLayer(on){pubOn=on;if(on){if(!pubLayer)buildPubLayer();pubLayer.addTo(map);}else if(pubLayer){map.removeLayer(pubLayer);}renderMiniLegend();syncOverlayRows();}
+
 // ═══════════════ 바이브 라벨 (줌 ≤ 11) ═══════════════
 let vibeMarkers=[];
 function buildVibes(){
@@ -591,6 +627,8 @@ const OVERLAYS=[
   {id:'hospitals',color:'#dde1ec',swatch:'glyph',cat:'hospital',get:()=>hospitalOn,set:setHospitalLayer},
   {id:'marts',color:'#dde1ec',swatch:'glyph',cat:'mart',get:()=>martOn,set:setMartLayer},
   {id:'restaurant',color:'#dde1ec',swatch:'glyph',cat:'restaurant',get:()=>restOn,set:setRestLayer},
+  {id:'cafe',color:'#dde1ec',swatch:'glyph',cat:'cafe',get:()=>cafeOn,set:setCafeLayer},
+  {id:'pubs',color:'#dde1ec',swatch:'glyph',cat:'pub',get:()=>pubOn,set:setPubLayer},
   {id:'shopping',color:'#dde1ec',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
   {id:'sight',color:'#dde1ec',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
   {id:'facility',color:'#dde1ec',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
@@ -669,6 +707,8 @@ function getPois(){
   HOSPITALS.forEach(h=>push({kind:'hosp',st:'hos',n:h.n,ll:h.ll}));
   MEDICAL.forEach(m=>push({kind:'hosp',st:m.t,n:m.n,ll:m.ll}));
   RESTAURANTS.forEach(r=>push({kind:'rest',st:r.t,c:r.c,n:r.n,ll:r.ll}));
+  CAFES.forEach(c=>push({kind:'cafe',n:c.n,ll:c.ll}));
+  PUBS.forEach(p=>push({kind:'pub',st:p.t,n:p.n,ll:p.ll}));
   MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
   MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
   TRANSIT.stations.forEach(s=>push({kind:'station',st:s.t,n:s.n,ll:s.ll}));
@@ -681,6 +721,8 @@ function poiMeta(p){
   else if(p.kind==='hosp')lab=t.hospTypes[p.st];
   else if(p.kind==='mart')lab=(p.st==='intl'&&p.o&&t.origins[p.o])?`${t.martTypes.intl} · ${t.origins[p.o]}`:t.martTypes[p.st];
   else if(p.kind==='rest'){lab=t.restTypes[p.st]||t.layers.restaurant;if(p.c)lab+=' · '+cuisineLabel(p.c);}
+  else if(p.kind==='cafe')lab=t.layers.cafe;
+  else if(p.kind==='pub')lab=t.pubTypes[p.st]||t.layers.pubs;
   else if(p.kind==='mall')lab=t.layers.shopping;
   else if(p.kind==='station')lab=LANG==='en'?(p.st==='tram'?'Tram stop':'Train station'):(p.st==='tram'?'트램역':'기차역');
   else lab=LANG==='en'?'Landmark':'명소';
@@ -690,6 +732,8 @@ function poiColor(p){
   if(p.kind==='school')return SCHOOL_COLOR[p.st]||SCHOOL_COLOR.o;
   if(p.kind==='hosp')return MED_COLOR[p.st]||MED_COLOR.hos;
   if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.etc;
+  if(p.kind==='cafe')return CAFE_COLOR;
+  if(p.kind==='pub')return PUB_COLOR[p.st]||PUB_COLOR.pub;
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
   if(p.kind==='mall')return SHOP_COLOR;
   if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
@@ -712,6 +756,8 @@ function focusPoi(p){
   else if(p.kind==='hosp'&&!hospitalOn)setHospitalLayer(true);
   else if(p.kind==='mart'&&!martOn)setMartLayer(true);
   else if(p.kind==='rest'&&!restOn)setRestLayer(true);
+  else if(p.kind==='cafe'&&!cafeOn)setCafeLayer(true);
+  else if(p.kind==='pub'&&!pubOn)setPubLayer(true);
   else if(p.kind==='mall'&&!shopOn)setShopLayer(true);
   else if(p.kind==='station'&&!transitOn)setTransitLayer(true);
   if(p.kind==='poi'){
@@ -724,7 +770,7 @@ function focusPoi(p){
     setTimeout(()=>openMarkerAt(lay(),p.ll),140);
     return;
   }
-  const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,rest:()=>restLayer,mall:()=>shopLayer}[p.kind];
+  const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,rest:()=>restLayer,cafe:()=>cafeLayer,pub:()=>pubLayer,mall:()=>shopLayer}[p.kind];
   if(lay)setTimeout(()=>openMarkerAt(lay(),p.ll),140);
 }
 function searchQuery(q){
@@ -857,8 +903,17 @@ function renderMiniLegend(){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.facility}</svg></span>${t.layers.facility}</div>`+
       ['air','port','district'].map(k=>`<div class="ml-item ml-click${facFilter&&facFilter!==k?' dim':''}" data-fac="${k}"><span class="ml-dot" style="background:${FAC_COLOR[k]}"></span>${t.facTypes[k]}</div>`).join('');
   }
+  if(cafeOn){
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.cafe}</svg></span>${t.layers.cafe}</div>`+
+      `<div class="ml-item"><span class="ml-dot" style="background:${CAFE_COLOR}"></span>${t.layers.cafe}</div>`;
+  }
+  if(pubOn){
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.pub}</svg></span>${t.layers.pubs}</div>`+
+      ['pub','bar'].map(k=>`<div class="ml-item ml-click${pubFilter&&pubFilter!==k?' dim':''}" data-pub="${k}"><span class="ml-dot" style="background:${PUB_COLOR[k]}"></span>${t.pubTypes[k]}</div>`).join('');
+  }
   el.innerHTML=html;
   el.style.display=html?'':'none';
+  el.querySelectorAll('.ml-item[data-pub]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setPubFilter(it.dataset.pub);}));
   el.querySelectorAll('.ml-item[data-sch]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSchoolFilter(it.dataset.sch);}));
   el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
@@ -929,6 +984,8 @@ function applyLang(){
    ['hosp',()=>hospitalLayer,(v)=>hospitalLayer=v,buildHospitalLayer,()=>hospitalOn],
    ['mart',()=>martLayer,(v)=>martLayer=v,buildMartLayer,()=>martOn],
    ['rest',()=>restLayer,(v)=>restLayer=v,buildRestLayer,()=>restOn],
+   ['cafe',()=>cafeLayer,(v)=>cafeLayer=v,buildCafeLayer,()=>cafeOn],
+   ['pubs',()=>pubLayer,(v)=>pubLayer=v,buildPubLayer,()=>pubOn],
    ['shop',()=>shopLayer,(v)=>shopLayer=v,buildShopLayer,()=>shopOn],
    ['sight',()=>sightLayer,(v)=>sightLayer=v,buildSightLayer,()=>sightOn],
    ['facility',()=>facLayer,(v)=>facLayer=v,buildFacLayer,()=>facOn]].forEach(([_,get,set,build,isOn])=>{
@@ -970,6 +1027,7 @@ const M_SUB={
   hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
   restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
+  pubs:{items:()=>['pub','bar'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>pubFilter,setF:setPubFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
