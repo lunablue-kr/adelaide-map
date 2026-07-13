@@ -99,7 +99,7 @@ const I18N = {
     layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'의료',marts:'마트',restaurant:'식당',shopping:'쇼핑',sight:'명소',facility:'시설'},
     sightTypes:{beach:'해변',wine:'와이너리'},
     facTypes:{air:'공항',port:'항구',district:'혁신지구'},
-    restTypes:{kr:'한식',as:'아시안',in:'인도'},
+    restTypes:{kr:'한식',as:'아시안',in:'인도',world:'세계음식',fr:'프랜차이즈',ff:'패스트푸드'},
     hospOwn:{pub:'공공',pri:'사립'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
@@ -135,7 +135,7 @@ const I18N = {
     layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Healthcare',marts:'Groceries',restaurant:'Restaurants',shopping:'Shopping',sight:'Sights',facility:'Facilities'},
     sightTypes:{beach:'Beaches',wine:'Wineries'},
     facTypes:{air:'Airport',port:'Port',district:'Innovation'},
-    restTypes:{kr:'Korean',as:'Asian',in:'Indian'},
+    restTypes:{kr:'Korean',as:'Asian',in:'Indian',world:'World cuisine',fr:'Chains',ff:'Fast food'},
     hospOwn:{pub:'Public',pri:'Private'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
@@ -616,12 +616,12 @@ function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.a
 
 // ═══════════════ 식당 (아시아계, OSM cuisine → LGA 클립) ═══════════════
 map.createPane('restPane');map.getPane('restPane').style.zIndex=468;
-const REST_COLOR={kr:PALETTE[0],as:PALETTE[1],in:PALETTE[3]}; // 한식 빨·아시안 주·인도 초
-let restLayer=null,restOn=false,restMarkers={kr:[],as:[],in:[]},restFilter=null;
+const REST_COLOR={kr:PALETTE[0],as:PALETTE[1],in:PALETTE[3],world:PALETTE[5],fr:PALETTE[6],ff:PALETTE[2]}; // 한식빨·아시안주·인도초·세계파랑·프랜보라·패푸노랑
+let restLayer=null,restOn=false,restMarkers={kr:[],as:[],in:[],world:[],fr:[],ff:[]},restFilter=null;
 function applyRestFilter(){Object.entries(restMarkers).forEach(([t,arr])=>{const on=(!restFilter||restFilter===t);arr.forEach(m=>dimMarker(m,on,!!restFilter));});}
 function setRestFilter(t){restFilter=(restFilter===t)?null:t;applyRestFilter();renderMiniLegend();}
 function buildRestLayer(){
-  restLayer=L.layerGroup();restMarkers={kr:[],as:[],in:[]};restFilter=null;
+  restLayer=L.layerGroup();restMarkers={kr:[],as:[],in:[],world:[],fr:[],ff:[]};restFilter=null;
   RESTAURANTS.forEach(r=>{
     const lab=T().restTypes[r.t];
     const mk=poiMarker(r.ll,{cat:'restaurant',color:REST_COLOR[r.t]||REST_COLOR.as,pane:'restPane',maxWidth:220,
@@ -911,7 +911,7 @@ function renderMiniLegend(){
   }
   if(restOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.restaurant}</svg></span>${t.layers.restaurant}</div>`+
-      ['kr','as','in'].map(k=>`<div class="ml-item ml-click${restFilter&&restFilter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="background:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
+      ['kr','as','in','world','fr','ff'].map(k=>`<div class="ml-item ml-click${restFilter&&restFilter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="background:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
   }
   if(shopOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.shopping}</svg></span>${t.layers.shopping}</div>`+
@@ -1037,7 +1037,7 @@ const M_SUB={
   schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>schoolFilter,setF:setSchoolFilter},
   hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
-  restaurant:{items:()=>['kr','as','in'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
+  restaurant:{items:()=>['kr','as','in','world','fr','ff'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
