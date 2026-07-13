@@ -569,12 +569,12 @@ function setRestLayer(on){restOn=on;if(on){if(!restLayer)buildRestLayer();restLa
 
 // ═══════════════ 카페 (OSM amenity=cafe, 단일) ═══════════════
 map.createPane('cafePane');map.getPane('cafePane').style.zIndex=469;
-const CAFE_COLOR={cafe:PALETTE[6],bakery:PALETTE[1]}; // 카페 보라·베이커리 주황
-let cafeLayer=null,cafeOn=false,cafeMarkers={cafe:[],bakery:[]},cafeFilter=null;
+const CAFE_COLOR={cafe:PALETTE[6],bakery:PALETTE[1],brunch:PALETTE[3]}; // 카페 보라·베이커리 주황·브런치 초록
+let cafeLayer=null,cafeOn=false,cafeMarkers={cafe:[],bakery:[],brunch:[]},cafeFilter=null;
 function applyCafeFilter(){Object.entries(cafeMarkers).forEach(([t,arr])=>{const on=(!cafeFilter||cafeFilter===t);arr.forEach(m=>dimMarker(m,on,!!cafeFilter));});}
 function setCafeFilter(t){cafeFilter=(cafeFilter===t)?null:t;applyCafeFilter();renderMiniLegend();}
 function buildCafeLayer(){
-  cafeLayer=L.layerGroup();cafeMarkers={cafe:[],bakery:[]};cafeFilter=null;
+  cafeLayer=L.layerGroup();cafeMarkers={cafe:[],bakery:[],brunch:[]};cafeFilter=null;
   CAFES.forEach(c=>{
     const lab=T().cafeTypes[c.t];
     const mk=poiMarker(c.ll,{cat:'cafe',color:CAFE_COLOR[c.t]||CAFE_COLOR.cafe,pane:'cafePane',maxWidth:200,
@@ -909,7 +909,7 @@ function renderMiniLegend(){
   }
   if(cafeOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.cafe}</svg></span>${t.layers.cafe}</div>`+
-      ['cafe','bakery'].map(k=>`<div class="ml-item ml-click${cafeFilter&&cafeFilter!==k?' dim':''}" data-cafe="${k}"><span class="ml-dot" style="background:${CAFE_COLOR[k]}"></span>${t.cafeTypes[k]}</div>`).join('');
+      ['cafe','bakery','brunch'].map(k=>`<div class="ml-item ml-click${cafeFilter&&cafeFilter!==k?' dim':''}" data-cafe="${k}"><span class="ml-dot" style="background:${CAFE_COLOR[k]}"></span>${t.cafeTypes[k]}</div>`).join('');
   }
   if(pubOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.pub}</svg></span>${t.layers.pubs}</div>`+
@@ -1032,7 +1032,7 @@ const M_SUB={
   hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
   restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
-  cafe:{items:()=>['cafe','bakery'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,glyph:'cafe',getF:()=>cafeFilter,setF:setCafeFilter},
+  cafe:{items:()=>['cafe','bakery','brunch'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,glyph:'cafe',getF:()=>cafeFilter,setF:setCafeFilter},
   pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>pubFilter,setF:setPubFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
