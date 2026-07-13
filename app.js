@@ -298,7 +298,7 @@ function poiMarker(ll,o){
   return mk;
 }
 function dimMarker(mk,visible,front){ // 격리: 안 뽑힌 건 더 투명(0.07), 뽑힌 건 맨 앞으로
-  const op=visible?1:0.07;
+  const op=visible?1:0.22; // 격리 시 비선택 흐림(0.07은 너무 안 보여 상향)
   if(mk instanceof L.CircleMarker){mk.setStyle({opacity:op,fillOpacity:op});if(visible&&front)mk.bringToFront();}
   else{mk.setOpacity(op);if(mk.setZIndexOffset)mk.setZIndexOffset(visible&&front?1000:0);}
 }

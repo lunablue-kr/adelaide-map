@@ -175,7 +175,7 @@
   #m-results.on{display:block;}
   /* 오버레이/하위 칩바 */
   #m-overlaybar,#m-subbar{display:none;position:absolute;left:10px;right:62px;z-index:1090;gap:7px;
-    overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-x;overscroll-behavior:contain;}
   #m-overlaybar::-webkit-scrollbar,#m-subbar::-webkit-scrollbar{display:none;}
   #m-overlaybar{top:calc(64px + env(safe-area-inset-top));}
   #m-subbar{top:calc(110px + env(safe-area-inset-top));}
