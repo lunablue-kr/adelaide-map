@@ -99,7 +99,7 @@ const I18N = {
     layers:{suburb:'서버브 경계',transit:'대중교통',schools:'학교',hospitals:'의료',marts:'마트',restaurant:'식당',shopping:'쇼핑',sight:'명소',facility:'시설'},
     sightTypes:{beach:'해변',wine:'와이너리'},
     facTypes:{air:'공항',port:'항구',district:'혁신지구'},
-    restTypes:{kr:'한식',as:'아시안',in:'인도',world:'세계음식',fr:'프랜차이즈',ff:'패스트푸드'},
+    restTypes:{world:'세계음식',fr:'프랜차이즈',ff:'패스트푸드'},
     hospOwn:{pub:'공공',pri:'사립'},
     colorModes:{category:'카테고리',rent:'렌트',crime:'치안'},
     schoolTypes:{p:'초등학교',s:'중·고등학교',u:'대학교',c:'칼리지·TAFE',o:'기타'},
@@ -135,7 +135,7 @@ const I18N = {
     layers:{suburb:'Suburbs',transit:'Public transport',schools:'Schools',hospitals:'Healthcare',marts:'Groceries',restaurant:'Restaurants',shopping:'Shopping',sight:'Sights',facility:'Facilities'},
     sightTypes:{beach:'Beaches',wine:'Wineries'},
     facTypes:{air:'Airport',port:'Port',district:'Innovation'},
-    restTypes:{kr:'Korean',as:'Asian',in:'Indian',world:'World cuisine',fr:'Chains',ff:'Fast food'},
+    restTypes:{world:'World cuisine',fr:'Chains',ff:'Fast food'},
     hospOwn:{pub:'Public',pri:'Private'},
     colorModes:{category:'Category',rent:'Rent',crime:'Safety'},
     schoolTypes:{p:'Primary',s:'Secondary',u:'University',c:'College·TAFE',o:'Other'},
@@ -616,18 +616,22 @@ function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.a
 
 // ═══════════════ 식당 (아시아계, OSM cuisine → LGA 클립) ═══════════════
 map.createPane('restPane');map.getPane('restPane').style.zIndex=468;
-const REST_COLOR={kr:PALETTE[0],as:PALETTE[1],in:PALETTE[3],world:PALETTE[5],fr:PALETTE[6],ff:PALETTE[2]}; // 한식빨·아시안주·인도초·세계파랑·프랜보라·패푸노랑
-let restLayer=null,restOn=false,restMarkers={kr:[],as:[],in:[],world:[],fr:[],ff:[]},restFilter=null;
+const REST_COLOR={world:PALETTE[1],fr:PALETTE[6],ff:PALETTE[2]}; // 세계음식 주황·프랜차이즈 보라·패스트푸드 노랑
+// cuisine 원본키 → [KO,EN] (팝업 국가 표기). 미매핑은 영문 타이틀케이스
+const CUISINE={korean:['한식','Korean'],japanese:['일식','Japanese'],chinese:['중식','Chinese'],vietnamese:['베트남','Vietnamese'],thai:['태국','Thai'],indian:['인도','Indian'],italian:['이탈리안','Italian'],pizza:['피자','Pizza'],burger:['버거','Burger'],mexican:['멕시칸','Mexican'],greek:['그리스','Greek'],sushi:['스시','Sushi'],noodle:['면','Noodle'],ramen:['라멘','Ramen'],asian:['아시안','Asian'],sandwich:['샌드위치','Sandwich'],chicken:['치킨','Chicken'],kebab:['케밥','Kebab'],fish_and_chips:['피시앤칩스','Fish & chips'],lebanese:['레바논','Lebanese'],turkish:['터키','Turkish'],malaysian:['말레이시아','Malaysian'],indonesian:['인도네시아','Indonesian'],spanish:['스페인','Spanish'],french:['프렌치','French'],seafood:['해산물','Seafood'],bakery:['베이커리','Bakery'],fusion:['퓨전','Fusion'],modern_australian:['호주식','Modern Australian'],australian:['호주식','Australian'],bbq:['바베큐','BBQ'],breakfast:['브런치','Breakfast'],nepalese:['네팔','Nepalese'],sri_lankan:['스리랑카','Sri Lankan'],american:['아메리칸','American'],mediterranean:['지중해','Mediterranean'],tapas:['타파스','Tapas'],portuguese:['포르투갈','Portuguese'],german:['독일','German'],african:['아프리카','African'],curry:['커리','Curry'],pho:['베트남','Pho'],dumpling:['만두','Dumpling'],taiwanese:['대만','Taiwanese'],cantonese:['중식','Cantonese'],steak_house:['스테이크','Steak'],ice_cream:['아이스크림','Ice cream'],donut:['도넛','Donut'],coffee_shop:['커피','Coffee']};
+function cuisineLabel(c){if(!c)return '';const m=CUISINE[c];if(m)return LANG==='en'?m[1]:m[0];return c.replace(/_/g,' ').replace(/\b\w/g,x=>x.toUpperCase());}
+let restLayer=null,restOn=false,restMarkers={world:[],fr:[],ff:[]},restFilter=null;
 function applyRestFilter(){Object.entries(restMarkers).forEach(([t,arr])=>{const on=(!restFilter||restFilter===t);arr.forEach(m=>dimMarker(m,on,!!restFilter));});}
 function setRestFilter(t){restFilter=(restFilter===t)?null:t;applyRestFilter();renderMiniLegend();}
 function buildRestLayer(){
-  restLayer=L.layerGroup();restMarkers={kr:[],as:[],in:[],world:[],fr:[],ff:[]};restFilter=null;
+  restLayer=L.layerGroup();restMarkers={world:[],fr:[],ff:[]};restFilter=null;
   RESTAURANTS.forEach(r=>{
-    const lab=T().restTypes[r.t];
-    const mk=poiMarker(r.ll,{cat:'restaurant',color:REST_COLOR[r.t]||REST_COLOR.as,pane:'restPane',maxWidth:220,
+    const cz=cuisineLabel(r.c);
+    const lab=T().restTypes[r.t]+(cz?' · '+cz:'');
+    const mk=poiMarker(r.ll,{cat:'restaurant',color:REST_COLOR[r.t]||REST_COLOR.world,pane:'restPane',maxWidth:220,
       tooltip:`${r.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
       popup:`<div class="popup-inner"><div class="popup-name">${r.n}</div><div class="popup-sub">${lab}</div></div>`});
-    (restMarkers[r.t]||restMarkers.as).push(mk);mk.addTo(restLayer);
+    (restMarkers[r.t]||restMarkers.world).push(mk);mk.addTo(restLayer);
   });
 }
 function setRestLayer(on){restOn=on;if(on){if(!restLayer)buildRestLayer();restLayer.addTo(map);}else if(restLayer){map.removeLayer(restLayer);}renderMiniLegend();syncOverlayRows();}
@@ -737,7 +741,7 @@ function getPois(){
   CURATED_UNIS.forEach(u=>push({kind:'school',st:'u',n:u.n,ll:u.ll}));
   HOSPITALS.forEach(h=>push({kind:'hosp',st:'hos',n:h.n,ll:h.ll}));
   MEDICAL.forEach(m=>push({kind:'hosp',st:m.t,n:m.n,ll:m.ll}));
-  RESTAURANTS.forEach(r=>push({kind:'rest',st:r.t,n:r.n,ll:r.ll}));
+  RESTAURANTS.forEach(r=>push({kind:'rest',st:r.t,c:r.c,n:r.n,ll:r.ll}));
   MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
   MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
   TRANSIT.stations.forEach(s=>push({kind:'station',st:s.t,n:s.n,ll:s.ll}));
@@ -749,7 +753,7 @@ function poiMeta(p){
   if(p.kind==='school')lab=t.schoolTypes[p.st]||t.layers.schools;
   else if(p.kind==='hosp')lab=t.hospTypes[p.st];
   else if(p.kind==='mart')lab=(p.st==='intl'&&p.o&&t.origins[p.o])?`${t.martTypes.intl} · ${t.origins[p.o]}`:t.martTypes[p.st];
-  else if(p.kind==='rest')lab=t.restTypes[p.st]||t.layers.restaurant;
+  else if(p.kind==='rest'){lab=t.restTypes[p.st]||t.layers.restaurant;if(p.c)lab+=' · '+cuisineLabel(p.c);}
   else if(p.kind==='mall')lab=t.layers.shopping;
   else if(p.kind==='station')lab=LANG==='en'?(p.st==='tram'?'Tram stop':'Train station'):(p.st==='tram'?'트램역':'기차역');
   else lab=LANG==='en'?'Landmark':'명소';
@@ -758,7 +762,7 @@ function poiMeta(p){
 function poiColor(p){
   if(p.kind==='school')return SCHOOL_COLOR[p.st]||SCHOOL_COLOR.o;
   if(p.kind==='hosp')return MED_COLOR[p.st]||MED_COLOR.hos;
-  if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.as;
+  if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.world;
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
   if(p.kind==='mall')return SHOP_COLOR;
   if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
@@ -911,7 +915,7 @@ function renderMiniLegend(){
   }
   if(restOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.restaurant}</svg></span>${t.layers.restaurant}</div>`+
-      ['kr','as','in','world','fr','ff'].map(k=>`<div class="ml-item ml-click${restFilter&&restFilter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="background:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
+      ['world','fr','ff'].map(k=>`<div class="ml-item ml-click${restFilter&&restFilter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="background:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
   }
   if(shopOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.shopping}</svg></span>${t.layers.shopping}</div>`+
@@ -1037,7 +1041,7 @@ const M_SUB={
   schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>schoolFilter,setF:setSchoolFilter},
   hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
-  restaurant:{items:()=>['kr','as','in','world','fr','ff'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
+  restaurant:{items:()=>['world','fr','ff'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
