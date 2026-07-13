@@ -310,7 +310,7 @@ function refreshPoiZoom(){
   if(hospitalOn&&hospitalLayer){const f=hospitalFilter;map.removeLayer(hospitalLayer);hospitalLayer=null;buildHospitalLayer();hospitalLayer.addTo(map);hospitalFilter=f;applyHospitalFilter();}
   if(martOn&&martLayer){const f=martFilter;map.removeLayer(martLayer);martLayer=null;buildMartLayer();martLayer.addTo(map);martFilter=f;applyMartFilter();}
   if(restOn&&restLayer){const f=restFilter;map.removeLayer(restLayer);restLayer=null;buildRestLayer();restLayer.addTo(map);restFilter=f;applyRestFilter();}
-  if(cafeOn&&cafeLayer){map.removeLayer(cafeLayer);cafeLayer=null;buildCafeLayer();cafeLayer.addTo(map);}
+  if(cafeOn&&cafeLayer){const f=cafeFilter;map.removeLayer(cafeLayer);cafeLayer=null;buildCafeLayer();cafeLayer.addTo(map);cafeFilter=f;applyCafeFilter();}
   if(pubOn&&pubLayer){const f=pubFilter;map.removeLayer(pubLayer);pubLayer=null;buildPubLayer();pubLayer.addTo(map);pubFilter=f;applyPubFilter();}
   if(shopOn&&shopLayer){map.removeLayer(shopLayer);shopLayer=null;buildShopLayer();shopLayer.addTo(map);}
   if(sightOn&&sightLayer){const f=sightFilter;map.removeLayer(sightLayer);sightLayer=null;buildSightLayer();sightLayer.addTo(map);sightFilter=f;applyMarkerFilter(sightMarks,sightFilter);}
@@ -569,26 +569,30 @@ function setRestLayer(on){restOn=on;if(on){if(!restLayer)buildRestLayer();restLa
 
 // ═══════════════ 카페 (OSM amenity=cafe, 단일) ═══════════════
 map.createPane('cafePane');map.getPane('cafePane').style.zIndex=469;
-const CAFE_COLOR=PALETTE[6]; // 보라
-let cafeLayer=null,cafeOn=false;
+const CAFE_COLOR={cafe:PALETTE[6],bakery:PALETTE[1]}; // 카페 보라·베이커리 주황
+let cafeLayer=null,cafeOn=false,cafeMarkers={cafe:[],bakery:[]},cafeFilter=null;
+function applyCafeFilter(){Object.entries(cafeMarkers).forEach(([t,arr])=>{const on=(!cafeFilter||cafeFilter===t);arr.forEach(m=>dimMarker(m,on,!!cafeFilter));});}
+function setCafeFilter(t){cafeFilter=(cafeFilter===t)?null:t;applyCafeFilter();renderMiniLegend();}
 function buildCafeLayer(){
-  cafeLayer=L.layerGroup();
+  cafeLayer=L.layerGroup();cafeMarkers={cafe:[],bakery:[]};cafeFilter=null;
   CAFES.forEach(c=>{
-    poiMarker(c.ll,{cat:'cafe',color:CAFE_COLOR,pane:'cafePane',maxWidth:200,
-      tooltip:`${c.n}<br><span style="font-size:9px;color:#8890a8">${T().layers.cafe}</span>`,
-      popup:`<div class="popup-inner"><div class="popup-name">${c.n}</div><div class="popup-sub">${T().layers.cafe}</div></div>`}).addTo(cafeLayer);
+    const lab=T().cafeTypes[c.t];
+    const mk=poiMarker(c.ll,{cat:'cafe',color:CAFE_COLOR[c.t]||CAFE_COLOR.cafe,pane:'cafePane',maxWidth:200,
+      tooltip:`${c.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
+      popup:`<div class="popup-inner"><div class="popup-name">${c.n}</div><div class="popup-sub">${lab}</div></div>`});
+    (cafeMarkers[c.t]||cafeMarkers.cafe).push(mk);mk.addTo(cafeLayer);
   });
 }
 function setCafeLayer(on){cafeOn=on;if(on){if(!cafeLayer)buildCafeLayer();cafeLayer.addTo(map);}else if(cafeLayer){map.removeLayer(cafeLayer);}renderMiniLegend();syncOverlayRows();}
 
 // ═══════════════ 술집 (OSM amenity=pub/bar → 펍·바) ═══════════════
 map.createPane('pubPane');map.getPane('pubPane').style.zIndex=470;
-const PUB_COLOR={pub:PALETTE[2],bar:PALETTE[5]}; // 펍 노랑·바 파랑
-let pubLayer=null,pubOn=false,pubMarkers={pub:[],bar:[]},pubFilter=null;
+const PUB_COLOR={pub:PALETTE[2],bar:PALETTE[5],wine:PALETTE[0],brew:PALETTE[1],club:PALETTE[6]}; // 펍노랑·바파랑·와인빨·브루주황·클럽보라
+let pubLayer=null,pubOn=false,pubMarkers={pub:[],bar:[],wine:[],brew:[],club:[]},pubFilter=null;
 function applyPubFilter(){Object.entries(pubMarkers).forEach(([t,arr])=>{const on=(!pubFilter||pubFilter===t);arr.forEach(m=>dimMarker(m,on,!!pubFilter));});}
 function setPubFilter(t){pubFilter=(pubFilter===t)?null:t;applyPubFilter();renderMiniLegend();}
 function buildPubLayer(){
-  pubLayer=L.layerGroup();pubMarkers={pub:[],bar:[]};pubFilter=null;
+  pubLayer=L.layerGroup();pubMarkers={pub:[],bar:[],wine:[],brew:[],club:[]};pubFilter=null;
   PUBS.forEach(p=>{
     const lab=T().pubTypes[p.t];
     const mk=poiMarker(p.ll,{cat:'pub',color:PUB_COLOR[p.t]||PUB_COLOR.pub,pane:'pubPane',maxWidth:200,
@@ -707,7 +711,7 @@ function getPois(){
   HOSPITALS.forEach(h=>push({kind:'hosp',st:'hos',n:h.n,ll:h.ll}));
   MEDICAL.forEach(m=>push({kind:'hosp',st:m.t,n:m.n,ll:m.ll}));
   RESTAURANTS.forEach(r=>push({kind:'rest',st:r.t,c:r.c,n:r.n,ll:r.ll}));
-  CAFES.forEach(c=>push({kind:'cafe',n:c.n,ll:c.ll}));
+  CAFES.forEach(c=>push({kind:'cafe',st:c.t,n:c.n,ll:c.ll}));
   PUBS.forEach(p=>push({kind:'pub',st:p.t,n:p.n,ll:p.ll}));
   MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
   MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
@@ -721,7 +725,7 @@ function poiMeta(p){
   else if(p.kind==='hosp')lab=t.hospTypes[p.st];
   else if(p.kind==='mart')lab=(p.st==='intl'&&p.o&&t.origins[p.o])?`${t.martTypes.intl} · ${t.origins[p.o]}`:t.martTypes[p.st];
   else if(p.kind==='rest'){lab=t.restTypes[p.st]||t.layers.restaurant;if(p.c)lab+=' · '+cuisineLabel(p.c);}
-  else if(p.kind==='cafe')lab=t.layers.cafe;
+  else if(p.kind==='cafe')lab=t.cafeTypes[p.st]||t.layers.cafe;
   else if(p.kind==='pub')lab=t.pubTypes[p.st]||t.layers.pubs;
   else if(p.kind==='mall')lab=t.layers.shopping;
   else if(p.kind==='station')lab=LANG==='en'?(p.st==='tram'?'Tram stop':'Train station'):(p.st==='tram'?'트램역':'기차역');
@@ -732,7 +736,7 @@ function poiColor(p){
   if(p.kind==='school')return SCHOOL_COLOR[p.st]||SCHOOL_COLOR.o;
   if(p.kind==='hosp')return MED_COLOR[p.st]||MED_COLOR.hos;
   if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.etc;
-  if(p.kind==='cafe')return CAFE_COLOR;
+  if(p.kind==='cafe')return CAFE_COLOR[p.st]||CAFE_COLOR.cafe;
   if(p.kind==='pub')return PUB_COLOR[p.st]||PUB_COLOR.pub;
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
   if(p.kind==='mall')return SHOP_COLOR;
@@ -905,15 +909,16 @@ function renderMiniLegend(){
   }
   if(cafeOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.cafe}</svg></span>${t.layers.cafe}</div>`+
-      `<div class="ml-item"><span class="ml-dot" style="background:${CAFE_COLOR}"></span>${t.layers.cafe}</div>`;
+      ['cafe','bakery'].map(k=>`<div class="ml-item ml-click${cafeFilter&&cafeFilter!==k?' dim':''}" data-cafe="${k}"><span class="ml-dot" style="background:${CAFE_COLOR[k]}"></span>${t.cafeTypes[k]}</div>`).join('');
   }
   if(pubOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.pub}</svg></span>${t.layers.pubs}</div>`+
-      ['pub','bar'].map(k=>`<div class="ml-item ml-click${pubFilter&&pubFilter!==k?' dim':''}" data-pub="${k}"><span class="ml-dot" style="background:${PUB_COLOR[k]}"></span>${t.pubTypes[k]}</div>`).join('');
+      ['pub','bar','wine','brew','club'].map(k=>`<div class="ml-item ml-click${pubFilter&&pubFilter!==k?' dim':''}" data-pub="${k}"><span class="ml-dot" style="background:${PUB_COLOR[k]}"></span>${t.pubTypes[k]}</div>`).join('');
   }
   el.innerHTML=html;
   el.style.display=html?'':'none';
   el.querySelectorAll('.ml-item[data-pub]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setPubFilter(it.dataset.pub);}));
+  el.querySelectorAll('.ml-item[data-cafe]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setCafeFilter(it.dataset.cafe);}));
   el.querySelectorAll('.ml-item[data-sch]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSchoolFilter(it.dataset.sch);}));
   el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
@@ -1027,7 +1032,8 @@ const M_SUB={
   hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
   restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
-  pubs:{items:()=>['pub','bar'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>pubFilter,setF:setPubFilter},
+  cafe:{items:()=>['cafe','bakery'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,glyph:'cafe',getF:()=>cafeFilter,setF:setCafeFilter},
+  pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>pubFilter,setF:setPubFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
