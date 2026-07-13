@@ -275,7 +275,8 @@ const GLYPHS={
   facility:'<path fill="currentColor" d="M12 3.4 3.2 8.1V10h17.6V8.1Z"/><path fill="currentColor" d="M5 11h2v6.4H5zM9.2 11h2v6.4h-2zM13.4 11h2v6.4h-2zM17.6 11h2v6.4h-2z"/><rect fill="currentColor" x="3.2" y="18.1" width="17.6" height="2.3" rx="0.5"/>',
   restaurant:'<path fill="currentColor" d="M6.3 3a.62.62 0 0 1 1.24 0v3.4a1.35 1.35 0 0 0 2.7 0V3a.62.62 0 0 1 1.24 0v3.4a2.6 2.6 0 0 1-1.97 2.52V21H8.27V8.92A2.6 2.6 0 0 1 6.3 6.4Z"/><path fill="currentColor" d="M15.7 3c1.27 0 1.97 1.9 1.97 4.8 0 2.1-.6 3.3-1.5 3.7V21h-1.24V3.08c.24-.05.5-.08.77-.08Z"/>',
   cafe:'<path fill="currentColor" d="M4 8.5h12.5v4.5a4.2 4.2 0 0 1-4.2 4.2H8.2A4.2 4.2 0 0 1 4 13Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M16.5 9.8h1.6a2.3 2.3 0 0 1 0 4.6h-1.6"/><rect fill="currentColor" x="4.2" y="18.6" width="12.1" height="1.9" rx="0.6"/><path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" d="M7.5 5.5V3.6M11 5.5V3.6"/>',
-  pub:'<path fill="currentColor" d="M6 6.5h8.2v12.4a1.6 1.6 0 0 1-1.6 1.6H7.6A1.6 1.6 0 0 1 6 18.9Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M14.4 9h2.4a1.6 1.6 0 0 1 1.6 1.6v3.6a1.6 1.6 0 0 1-1.6 1.6h-2.4"/><path fill="currentColor" d="M6 6.5c0-1.7 1.8-2.9 4.1-2.9s4.1 1.2 4.1 2.9Z"/>'
+  pub:'<path fill="currentColor" d="M6 6.5h8.2v12.4a1.6 1.6 0 0 1-1.6 1.6H7.6A1.6 1.6 0 0 1 6 18.9Z"/><path fill="none" stroke="currentColor" stroke-width="1.7" d="M14.4 9h2.4a1.6 1.6 0 0 1 1.6 1.6v3.6a1.6 1.6 0 0 1-1.6 1.6h-2.4"/><path fill="currentColor" d="M6 6.5c0-1.7 1.8-2.9 4.1-2.9s4.1 1.2 4.1 2.9Z"/>',
+  park:'<path fill="currentColor" d="M12 3 6.4 11.6h11.2L12 3Z"/><path fill="currentColor" d="M12 8.2 6.8 16.4h10.4L12 8.2Z"/><rect fill="currentColor" x="10.9" y="15.6" width="2.2" height="5" rx="0.6"/>'
 };
 const ZOOM_GLYPH=12; // 이상이면 기호핀, 미만이면 작은 점 (12=바닥, ≤11은 바이브 라벨 구간)
 const DOT_R=6.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
@@ -312,6 +313,7 @@ function refreshPoiZoom(){
   if(restOn&&restLayer){const f=restFilter;map.removeLayer(restLayer);restLayer=null;buildRestLayer();restLayer.addTo(map);restFilter=f;applyRestFilter();}
   if(cafeOn&&cafeLayer){const f=cafeFilter;map.removeLayer(cafeLayer);cafeLayer=null;buildCafeLayer();cafeLayer.addTo(map);cafeFilter=f;applyCafeFilter();}
   if(pubOn&&pubLayer){const f=pubFilter;map.removeLayer(pubLayer);pubLayer=null;buildPubLayer();pubLayer.addTo(map);pubFilter=f;applyPubFilter();}
+  if(parkOn&&parkLayer){const f=parkFilter;map.removeLayer(parkLayer);parkLayer=null;buildParkLayer();parkLayer.addTo(map);parkFilter=f;applyParkFilter();}
   if(shopOn&&shopLayer){map.removeLayer(shopLayer);shopLayer=null;buildShopLayer();shopLayer.addTo(map);}
   if(sightOn&&sightLayer){const f=sightFilter;map.removeLayer(sightLayer);sightLayer=null;buildSightLayer();sightLayer.addTo(map);sightFilter=f;applyMarkerFilter(sightMarks,sightFilter);}
   if(facOn&&facLayer){const f=facFilter;map.removeLayer(facLayer);facLayer=null;buildFacLayer();facLayer.addTo(map);facFilter=f;applyMarkerFilter(facMarks,facFilter);}
@@ -603,6 +605,24 @@ function buildPubLayer(){
 }
 function setPubLayer(on){pubOn=on;if(on){if(!pubLayer)buildPubLayer();pubLayer.addTo(map);}else if(pubLayer){map.removeLayer(pubLayer);}renderMiniLegend();syncOverlayRows();}
 
+// ═══════════════ 공원·레저 (OSM leisure=park/nature_reserve/garden + drinking_water/toilets/fitness) ═══════════════
+map.createPane('parkPane');map.getPane('parkPane').style.zIndex=468;
+const PARK_COLOR={park:PALETTE[3],water:PALETTE[4],toilet:PALETTE[5],fitness:PALETTE[0]}; // 공원 초록·음수대 시안·화장실 파랑·헬스 빨강
+let parkLayer=null,parkOn=false,parkMarkers={park:[],water:[],toilet:[],fitness:[]},parkFilter=null;
+function applyParkFilter(){Object.entries(parkMarkers).forEach(([t,arr])=>{const on=(!parkFilter||parkFilter===t);arr.forEach(m=>dimMarker(m,on,!!parkFilter));});}
+function setParkFilter(t){parkFilter=(parkFilter===t)?null:t;applyParkFilter();renderMiniLegend();}
+function buildParkLayer(){
+  parkLayer=L.layerGroup();parkMarkers={park:[],water:[],toilet:[],fitness:[]};parkFilter=null;
+  PARKS.forEach(p=>{
+    const lab=T().parkTypes[p.t],nm=p.n||lab;
+    const mk=poiMarker(p.ll,{cat:'park',color:PARK_COLOR[p.t]||PARK_COLOR.park,pane:'parkPane',maxWidth:200,
+      tooltip:`${nm}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
+      popup:`<div class="popup-inner"><div class="popup-name">${nm}</div><div class="popup-sub">${lab}</div></div>`});
+    (parkMarkers[p.t]||parkMarkers.park).push(mk);mk.addTo(parkLayer);
+  });
+}
+function setParkLayer(on){parkOn=on;if(on){if(!parkLayer)buildParkLayer();parkLayer.addTo(map);}else if(parkLayer){map.removeLayer(parkLayer);}renderMiniLegend();syncOverlayRows();}
+
 // ═══════════════ 바이브 라벨 (줌 ≤ 11) ═══════════════
 let vibeMarkers=[];
 function buildVibes(){
@@ -633,6 +653,7 @@ const OVERLAYS=[
   {id:'restaurant',color:'#dde1ec',swatch:'glyph',cat:'restaurant',get:()=>restOn,set:setRestLayer},
   {id:'cafe',color:'#dde1ec',swatch:'glyph',cat:'cafe',get:()=>cafeOn,set:setCafeLayer},
   {id:'pubs',color:'#dde1ec',swatch:'glyph',cat:'pub',get:()=>pubOn,set:setPubLayer},
+  {id:'parks',color:'#dde1ec',swatch:'glyph',cat:'park',get:()=>parkOn,set:setParkLayer},
   {id:'shopping',color:'#dde1ec',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
   {id:'sight',color:'#dde1ec',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
   {id:'facility',color:'#dde1ec',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
@@ -713,6 +734,7 @@ function getPois(){
   RESTAURANTS.forEach(r=>push({kind:'rest',st:r.t,c:r.c,n:r.n,ll:r.ll}));
   CAFES.forEach(c=>push({kind:'cafe',st:c.t,n:c.n,ll:c.ll}));
   PUBS.forEach(p=>push({kind:'pub',st:p.t,n:p.n,ll:p.ll}));
+  PARKS.forEach(p=>{if(p.n)push({kind:'park',st:p.t,n:p.n,ll:p.ll});}); // 이름있는 것만 검색(음수대·화장실 무명 제외)
   MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
   MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
   TRANSIT.stations.forEach(s=>push({kind:'station',st:s.t,n:s.n,ll:s.ll}));
@@ -727,6 +749,7 @@ function poiMeta(p){
   else if(p.kind==='rest'){lab=t.restTypes[p.st]||t.layers.restaurant;if(p.c)lab+=' · '+cuisineLabel(p.c);}
   else if(p.kind==='cafe')lab=t.cafeTypes[p.st]||t.layers.cafe;
   else if(p.kind==='pub')lab=t.pubTypes[p.st]||t.layers.pubs;
+  else if(p.kind==='park')lab=t.parkTypes[p.st]||t.layers.parks;
   else if(p.kind==='mall')lab=t.layers.shopping;
   else if(p.kind==='station')lab=LANG==='en'?(p.st==='tram'?'Tram stop':'Train station'):(p.st==='tram'?'트램역':'기차역');
   else lab=LANG==='en'?'Landmark':'명소';
@@ -738,6 +761,7 @@ function poiColor(p){
   if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.etc;
   if(p.kind==='cafe')return CAFE_COLOR[p.st]||CAFE_COLOR.cafe;
   if(p.kind==='pub')return PUB_COLOR[p.st]||PUB_COLOR.pub;
+  if(p.kind==='park')return PARK_COLOR[p.st]||PARK_COLOR.park;
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
   if(p.kind==='mall')return SHOP_COLOR;
   if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
@@ -762,6 +786,7 @@ function focusPoi(p){
   else if(p.kind==='rest'&&!restOn)setRestLayer(true);
   else if(p.kind==='cafe'&&!cafeOn)setCafeLayer(true);
   else if(p.kind==='pub'&&!pubOn)setPubLayer(true);
+  else if(p.kind==='park'&&!parkOn)setParkLayer(true);
   else if(p.kind==='mall'&&!shopOn)setShopLayer(true);
   else if(p.kind==='station'&&!transitOn)setTransitLayer(true);
   if(p.kind==='poi'){
@@ -774,7 +799,7 @@ function focusPoi(p){
     setTimeout(()=>openMarkerAt(lay(),p.ll),140);
     return;
   }
-  const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,rest:()=>restLayer,cafe:()=>cafeLayer,pub:()=>pubLayer,mall:()=>shopLayer}[p.kind];
+  const lay={school:()=>schoolLayer,hosp:()=>hospitalLayer,mart:()=>martLayer,rest:()=>restLayer,cafe:()=>cafeLayer,pub:()=>pubLayer,park:()=>parkLayer,mall:()=>shopLayer}[p.kind];
   if(lay)setTimeout(()=>openMarkerAt(lay(),p.ll),140);
 }
 function searchQuery(q){
@@ -915,10 +940,15 @@ function renderMiniLegend(){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.pub}</svg></span>${t.layers.pubs}</div>`+
       ['pub','bar','wine','brew','club'].map(k=>`<div class="ml-item ml-click${pubFilter&&pubFilter!==k?' dim':''}" data-pub="${k}"><span class="ml-dot" style="background:${PUB_COLOR[k]}"></span>${t.pubTypes[k]}</div>`).join('');
   }
+  if(parkOn){
+    html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.park}</svg></span>${t.layers.parks}</div>`+
+      ['park','water','toilet','fitness'].map(k=>`<div class="ml-item ml-click${parkFilter&&parkFilter!==k?' dim':''}" data-park="${k}"><span class="ml-dot" style="background:${PARK_COLOR[k]}"></span>${t.parkTypes[k]}</div>`).join('');
+  }
   el.innerHTML=html;
   el.style.display=html?'':'none';
   el.querySelectorAll('.ml-item[data-pub]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setPubFilter(it.dataset.pub);}));
   el.querySelectorAll('.ml-item[data-cafe]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setCafeFilter(it.dataset.cafe);}));
+  el.querySelectorAll('.ml-item[data-park]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setParkFilter(it.dataset.park);}));
   el.querySelectorAll('.ml-item[data-sch]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSchoolFilter(it.dataset.sch);}));
   el.querySelectorAll('.ml-item[data-tr]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setTransitFilter(it.dataset.tr);}));
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
@@ -991,6 +1021,7 @@ function applyLang(){
    ['rest',()=>restLayer,(v)=>restLayer=v,buildRestLayer,()=>restOn],
    ['cafe',()=>cafeLayer,(v)=>cafeLayer=v,buildCafeLayer,()=>cafeOn],
    ['pubs',()=>pubLayer,(v)=>pubLayer=v,buildPubLayer,()=>pubOn],
+   ['parks',()=>parkLayer,(v)=>parkLayer=v,buildParkLayer,()=>parkOn],
    ['shop',()=>shopLayer,(v)=>shopLayer=v,buildShopLayer,()=>shopOn],
    ['sight',()=>sightLayer,(v)=>sightLayer=v,buildSightLayer,()=>sightOn],
    ['facility',()=>facLayer,(v)=>facLayer=v,buildFacLayer,()=>facOn]].forEach(([_,get,set,build,isOn])=>{
@@ -1034,6 +1065,7 @@ const M_SUB={
   restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
   cafe:{items:()=>['cafe','bakery','brunch'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,glyph:'cafe',getF:()=>cafeFilter,setF:setCafeFilter},
   pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>pubFilter,setF:setPubFilter},
+  parks:{items:()=>['park','water','toilet','fitness'].map(k=>[k,T().parkTypes[k]]),colors:PARK_COLOR,glyph:'park',getF:()=>parkFilter,setF:setParkFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
