@@ -543,22 +543,22 @@ function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.a
 
 // ═══════════════ 식당 (아시아계, OSM cuisine → LGA 클립) ═══════════════
 map.createPane('restPane');map.getPane('restPane').style.zIndex=468;
-const REST_COLOR={world:PALETTE[1],fr:PALETTE[6],ff:PALETTE[2]}; // 세계음식 주황·프랜차이즈 보라·패스트푸드 노랑
+const REST_COLOR={as:PALETTE[0],eu:PALETTE[3],am:PALETTE[5],etc:PALETTE[4]}; // 권역: 아시안 빨·유럽중동 초·아메리카 파·기타 시안
 // cuisine 원본키 → [KO,EN] (팝업 국가 표기). 미매핑은 영문 타이틀케이스
 const CUISINE={korean:['한식','Korean'],japanese:['일식','Japanese'],chinese:['중식','Chinese'],vietnamese:['베트남','Vietnamese'],thai:['태국','Thai'],indian:['인도','Indian'],italian:['이탈리안','Italian'],pizza:['피자','Pizza'],burger:['버거','Burger'],mexican:['멕시칸','Mexican'],greek:['그리스','Greek'],sushi:['스시','Sushi'],noodle:['면','Noodle'],ramen:['라멘','Ramen'],asian:['아시안','Asian'],sandwich:['샌드위치','Sandwich'],chicken:['치킨','Chicken'],kebab:['케밥','Kebab'],fish_and_chips:['피시앤칩스','Fish & chips'],lebanese:['레바논','Lebanese'],turkish:['터키','Turkish'],malaysian:['말레이시아','Malaysian'],indonesian:['인도네시아','Indonesian'],spanish:['스페인','Spanish'],french:['프렌치','French'],seafood:['해산물','Seafood'],bakery:['베이커리','Bakery'],fusion:['퓨전','Fusion'],modern_australian:['호주식','Modern Australian'],australian:['호주식','Australian'],bbq:['바베큐','BBQ'],breakfast:['브런치','Breakfast'],nepalese:['네팔','Nepalese'],sri_lankan:['스리랑카','Sri Lankan'],american:['아메리칸','American'],mediterranean:['지중해','Mediterranean'],tapas:['타파스','Tapas'],portuguese:['포르투갈','Portuguese'],german:['독일','German'],african:['아프리카','African'],curry:['커리','Curry'],pho:['베트남','Pho'],dumpling:['만두','Dumpling'],taiwanese:['대만','Taiwanese'],cantonese:['중식','Cantonese'],steak_house:['스테이크','Steak'],ice_cream:['아이스크림','Ice cream'],donut:['도넛','Donut'],coffee_shop:['커피','Coffee']};
 function cuisineLabel(c){if(!c)return '';const m=CUISINE[c];if(m)return LANG==='en'?m[1]:m[0];return c.replace(/_/g,' ').replace(/\b\w/g,x=>x.toUpperCase());}
-let restLayer=null,restOn=false,restMarkers={world:[],fr:[],ff:[]},restFilter=null;
+let restLayer=null,restOn=false,restMarkers={as:[],eu:[],am:[],etc:[]},restFilter=null;
 function applyRestFilter(){Object.entries(restMarkers).forEach(([t,arr])=>{const on=(!restFilter||restFilter===t);arr.forEach(m=>dimMarker(m,on,!!restFilter));});}
 function setRestFilter(t){restFilter=(restFilter===t)?null:t;applyRestFilter();renderMiniLegend();}
 function buildRestLayer(){
-  restLayer=L.layerGroup();restMarkers={world:[],fr:[],ff:[]};restFilter=null;
+  restLayer=L.layerGroup();restMarkers={as:[],eu:[],am:[],etc:[]};restFilter=null;
   RESTAURANTS.forEach(r=>{
     const cz=cuisineLabel(r.c);
     const lab=T().restTypes[r.t]+(cz?' · '+cz:'');
-    const mk=poiMarker(r.ll,{cat:'restaurant',color:REST_COLOR[r.t]||REST_COLOR.world,pane:'restPane',maxWidth:220,
+    const mk=poiMarker(r.ll,{cat:'restaurant',color:REST_COLOR[r.t]||REST_COLOR.etc,pane:'restPane',maxWidth:220,
       tooltip:`${r.n}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
       popup:`<div class="popup-inner"><div class="popup-name">${r.n}</div><div class="popup-sub">${lab}</div></div>`});
-    (restMarkers[r.t]||restMarkers.world).push(mk);mk.addTo(restLayer);
+    (restMarkers[r.t]||restMarkers.etc).push(mk);mk.addTo(restLayer);
   });
 }
 function setRestLayer(on){restOn=on;if(on){if(!restLayer)buildRestLayer();restLayer.addTo(map);}else if(restLayer){map.removeLayer(restLayer);}renderMiniLegend();syncOverlayRows();}
@@ -689,7 +689,7 @@ function poiMeta(p){
 function poiColor(p){
   if(p.kind==='school')return SCHOOL_COLOR[p.st]||SCHOOL_COLOR.o;
   if(p.kind==='hosp')return MED_COLOR[p.st]||MED_COLOR.hos;
-  if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.world;
+  if(p.kind==='rest')return REST_COLOR[p.st]||REST_COLOR.etc;
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
   if(p.kind==='mall')return SHOP_COLOR;
   if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
@@ -743,8 +743,9 @@ function searchQuery(q){
   });
   getPois().forEach((p,pi)=>{
     const n=p.n.toLowerCase();
+    const cz=p.c?(CUISINE[p.c]?CUISINE[p.c].join(' '):p.c).toLowerCase():'';
     if(n.startsWith(q))starts.push({type:'poi',pi});
-    else if(n.includes(q))contains.push({type:'poi',pi});
+    else if(n.includes(q)||(cz&&cz.includes(q)))contains.push({type:'poi',pi});
   });
   return starts.concat(contains).slice(0,10);
 }
@@ -842,7 +843,7 @@ function renderMiniLegend(){
   }
   if(restOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.restaurant}</svg></span>${t.layers.restaurant}</div>`+
-      ['world','fr','ff'].map(k=>`<div class="ml-item ml-click${restFilter&&restFilter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="background:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
+      ['as','eu','am','etc'].map(k=>`<div class="ml-item ml-click${restFilter&&restFilter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="background:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
   }
   if(shopOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.shopping}</svg></span>${t.layers.shopping}</div>`+
@@ -968,7 +969,7 @@ const M_SUB={
   schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>schoolFilter,setF:setSchoolFilter},
   hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>hospitalFilter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>martFilter,setF:setMartFilter},
-  restaurant:{items:()=>['world','fr','ff'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
+  restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>restFilter,setF:setRestFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
