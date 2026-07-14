@@ -104,8 +104,9 @@
   .ml-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted2);padding:2px 0;}
   .ml-item.ml-click{cursor:pointer;transition:opacity 0.15s;}
   .ml-item.ml-click:hover{color:var(--text);}
-  .ml-item.dim{opacity:0.34;}
-  .ml-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .ml-item.dim{opacity:0.72;} /* 비선택: 하지만 점은 테두리만(아래) */
+  .ml-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:currentColor;border:1.6px solid currentColor;box-sizing:border-box;}
+  .ml-item.dim .ml-dot{background:transparent;} /* 비선택 카테고리 = 색 테두리만 */
   .ml-bar{display:flex;height:8px;border-radius:3px;overflow:hidden;margin:3px 0;}
   .ml-ends{display:flex;justify-content:space-between;font-size:10px;color:var(--muted2);}
   .ml-note{font-size:9.5px;color:var(--muted);line-height:1.5;margin-top:4px;}
@@ -116,7 +117,6 @@
   .vibe-cat{display:block;font-size:0.85em;font-weight:600;opacity:0.9;letter-spacing:0.3px;margin-top:2px;}
   .gpin{color:#fff;border-radius:50%;border:1.6px solid #0c0f14;box-shadow:0 1px 4px rgba(0,0,0,0.55);box-sizing:border-box;display:flex;align-items:center;justify-content:center;}
   .gpin svg{display:block;}
-  .gpin.ghost{background:transparent!important;color:var(--pc);border-color:var(--pc);box-shadow:none;} /* 격리: 테두리만 */
   .ml-glyph{display:inline-flex;color:var(--muted2);margin-right:5px;vertical-align:-2px;}
   .uni-pulse{width:15px;height:15px;background:#e8c87a;border-radius:50%;border:2px solid #fff;animation:pulse 2s infinite;}
   @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(232,200,122,0.65)}70%{box-shadow:0 0 0 13px rgba(232,200,122,0)}100%{box-shadow:0 0 0 0 rgba(232,200,122,0)}}
@@ -188,9 +188,11 @@
   .mov-chip>*,.msub-chip>*{pointer-events:none;} /* 히트타깃을 칩(touch-action:pan-x)으로 고정 → 지도 팬 딸림 방지 */
   .msub-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:16px;cursor:pointer;touch-action:pan-x;
     background:rgba(15,18,25,0.95);border:1px solid var(--border2);color:var(--text);font-size:12px;white-space:nowrap;}
-  .msub-chip.dim{opacity:0.4;}
+  .msub-chip.dim{background:transparent;color:var(--muted2);} /* 비선택 = 테두리만 남는 아웃라인 칩 */
   .msub-g{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;}
-  .msub-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .msub-chip.dim .msub-g{opacity:0.8;}
+  .msub-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:currentColor;border:1.6px solid currentColor;box-sizing:border-box;}
+  .msub-chip.dim .msub-dot{background:transparent;}
   /* 지도 색상 (국기 밑 단일 버튼 + 팝업) */
   #m-colorbtn{display:none;position:absolute;right:10px;top:calc(64px + env(safe-area-inset-top));z-index:1090;
     width:46px;height:46px;border-radius:14px;background:rgba(15,18,25,0.95);border:1px solid var(--border2);
