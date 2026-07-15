@@ -186,13 +186,17 @@
   .mov-g{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;color:currentColor;}
   .mov-caret{font-size:9px;opacity:0.75;margin-left:-1px;}
   .mov-chip>*,.msub-chip>*{pointer-events:none;} /* 히트타깃을 칩(touch-action:pan-x)으로 고정 → 지도 팬 딸림 방지 */
-  .msub-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:16px;cursor:pointer;touch-action:pan-x;
-    background:rgba(15,18,25,0.95);border:1px solid var(--border2);color:var(--text);font-size:12px;white-space:nowrap;}
-  .msub-chip.dim{background:transparent;color:var(--muted2);} /* 비선택 = 테두리만 남는 아웃라인 칩 */
+  /* 칩=투명 탭 컨테이너, 시각 경계는 텍스트를 감싼 .msub-tag가 담당 */
+  .msub-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;height:32px;cursor:pointer;touch-action:pan-x;
+    background:transparent;border:none;font-size:12px;white-space:nowrap;}
   .msub-g{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;}
   .msub-chip.dim .msub-g{opacity:0.8;}
   .msub-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:currentColor;border:1.6px solid currentColor;box-sizing:border-box;}
   .msub-chip.dim .msub-dot{background:transparent;}
+  /* 텍스트 감싼 테두리 박스: 선택=채움, 비선택=테두리만 */
+  .msub-tag{display:inline-flex;align-items:center;padding:3px 9px;border-radius:9px;border:1.5px solid var(--text);
+    background:var(--text);color:var(--bg);font-weight:600;}
+  .msub-chip.dim .msub-tag{background:transparent;border-color:var(--border2);color:var(--muted2);font-weight:500;}
   /* 지도 색상 (국기 밑 단일 버튼 + 팝업) */
   #m-colorbtn{display:none;position:absolute;right:10px;top:calc(64px + env(safe-area-inset-top));z-index:1090;
     width:46px;height:46px;border-radius:14px;background:rgba(15,18,25,0.95);border:1px solid var(--border2);

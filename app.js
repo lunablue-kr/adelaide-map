@@ -1136,7 +1136,7 @@ function renderMSubBar(){
     const col=cfg.colors[k];
     const mark=cfg.glyph?`<span class="msub-g" style="color:${col}"><svg width="14" height="14" viewBox="0 0 24 24">${GLYPHS[cfg.glyph]}</svg></span>`
               :`<span class="msub-dot" style="color:${col}"></span>`;
-    return `<span class="msub-chip${f&&f!==k?' dim':''}" data-k="${k}">${mark}${lab}</span>`;
+    return `<span class="msub-chip${f&&f!==k?' dim':''}" data-k="${k}">${mark}<span class="msub-tag">${lab}</span></span>`;
   }).join('');
   sb.classList.add('on');
   sb.querySelectorAll('.msub-chip').forEach(c=>c.addEventListener('click',()=>{cfg.setF(c.dataset.k);renderMSubBar();}));
