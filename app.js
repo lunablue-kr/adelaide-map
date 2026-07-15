@@ -627,12 +627,12 @@ function setParkLayer(on){parkOn=on;if(on){if(!parkLayer)buildParkLayer();parkLa
 
 // ═══════════════ 생활·행정 (OSM bank/post_office/office=government/mobile_phone) ═══════════════
 map.createPane('adminPane');map.getPane('adminPane').style.zIndex=467;
-const ADMIN_COLOR={govt:PALETTE[5],bank:PALETTE[3],post:PALETTE[0],telecom:PALETTE[1]}; // 관공서 파랑·은행 초록·우체국 빨강(호주우체국)·통신 주황
-let adminLayer=null,adminOn=false,adminMarkers={govt:[],bank:[],post:[],telecom:[]},adminFilter=null;
+const ADMIN_COLOR={govt:PALETTE[5],bank:PALETTE[3],post:PALETTE[0],telecom:PALETTE[1],lib:PALETTE[6]}; // 관공서 파랑·은행 초록·우체국 빨강(호주우체국)·통신 주황·도서관 보라
+let adminLayer=null,adminOn=false,adminMarkers={govt:[],bank:[],post:[],telecom:[],lib:[]},adminFilter=null;
 function applyAdminFilter(){Object.entries(adminMarkers).forEach(([t,arr])=>{const on=(!adminFilter||adminFilter===t);arr.forEach(m=>dimMarker(m,on,!!adminFilter));});}
 function setAdminFilter(t){adminFilter=(adminFilter===t)?null:t;applyAdminFilter();renderMiniLegend();}
 function buildAdminLayer(){
-  adminLayer=L.layerGroup();adminMarkers={govt:[],bank:[],post:[],telecom:[]};adminFilter=null;
+  adminLayer=L.layerGroup();adminMarkers={govt:[],bank:[],post:[],telecom:[],lib:[]};adminFilter=null;
   ADMIN.forEach(a=>{
     const lab=T().adminTypes[a.t],nm=a.n||lab;
     const mk=poiMarker(a.ll,{cat:'admin',color:ADMIN_COLOR[a.t]||ADMIN_COLOR.govt,pane:'adminPane',maxWidth:200,
@@ -971,7 +971,7 @@ function renderMiniLegend(){
   }
   if(adminOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.admin}</svg></span>${t.layers.admin}</div>`+
-      ['govt','bank','post','telecom'].map(k=>`<div class="ml-item ml-click${adminFilter&&adminFilter!==k?' dim':''}" data-admin="${k}"><span class="ml-dot" style="color:${ADMIN_COLOR[k]}"></span>${t.adminTypes[k]}</div>`).join('');
+      ['govt','bank','post','telecom','lib'].map(k=>`<div class="ml-item ml-click${adminFilter&&adminFilter!==k?' dim':''}" data-admin="${k}"><span class="ml-dot" style="color:${ADMIN_COLOR[k]}"></span>${t.adminTypes[k]}</div>`).join('');
   }
   el.innerHTML=html;
   el.style.display=html?'':'none';
@@ -1097,7 +1097,7 @@ const M_SUB={
   cafe:{items:()=>['cafe','bakery','brunch'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,glyph:'cafe',getF:()=>cafeFilter,setF:setCafeFilter},
   pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>pubFilter,setF:setPubFilter},
   parks:{items:()=>['park','water','toilet','fitness'].map(k=>[k,T().parkTypes[k]]),colors:PARK_COLOR,glyph:'park',getF:()=>parkFilter,setF:setParkFilter},
-  admin:{items:()=>['govt','bank','post','telecom'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,glyph:'admin',getF:()=>adminFilter,setF:setAdminFilter},
+  admin:{items:()=>['govt','bank','post','telecom','lib'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,glyph:'admin',getF:()=>adminFilter,setF:setAdminFilter},
   sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
