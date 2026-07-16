@@ -56,6 +56,12 @@ const MARKERS = [
   {id:'barossa',lat:-34.5333,lng:138.9600,ov:'sight',st:'wine',name:'Barossa Valley',sub:'The Barossa Council · Adelaide 북동 약 60km',desc:'호주를 대표하는 와인 산지. 특히 쉬라즈(Shiraz)로 세계적 명성. Penfolds·Jacob\'s Creek·Seppeltsfield 등 유서 깊은 와이너리 밀집. Tanunda·Nuriootpa·Angaston 등 소도시 중심. Adelaide CBD에서 차로 약 1시간.'},
   {id:'mclaren',lat:-35.2196,lng:138.5430,ov:'sight',st:'wine',name:'McLaren Vale',sub:'City of Onkaparinga · CBD 남쪽 약 40km',desc:'Barossa와 쌍벽을 이루는 와인 산지. 쉬라즈·그르나슈 명산지. d\'Arenberg Cube 등 개성 있는 와이너리. 해변(Port Willunga)과 가까워 당일치기 코스로 인기.'},
   {id:'hahndorf',lat:-35.0298,lng:138.8088,ov:'sight',st:'wine',name:'Hahndorf',sub:'Adelaide Hills · CBD 동남쪽 약 25km',desc:'1839년 독일 이민자들이 세운 호주에서 가장 오래된 독일 마을. 독일식 펍·수제 소시지·공예품 거리. Adelaide Hills 와인산지 관문. 근교 여행 1순위.'},
+  {id:'adeloval',lat:-34.91554,lng:138.59609,ov:'sight',st:'venue',name:'Adelaide Oval',sub:'City of Adelaide · North Adelaide',desc:'크리켓·AFL 성지이자 애들레이드 상징 경기장. RoofClimb·스타디움 투어 운영. CBD에서 River Torrens 다리 건너 도보권.'},
+  {id:'coopers',lat:-34.9074,lng:138.56893,ov:'sight',st:'venue',name:'Coopers Stadium',sub:'City of Charles Sturt · Hindmarsh',desc:'A리그 축구 Adelaide United 홈구장(구 Hindmarsh Stadium). 축구 전용 경기장.'},
+  {id:'36ers',lat:-34.90034,lng:138.54626,ov:'sight',st:'venue',name:'Adelaide Arena (36ers Arena)',sub:'City of Charles Sturt · Findon',desc:'NBL 농구 Adelaide 36ers 홈 아레나.'},
+  {id:'aec',lat:-34.90792,lng:138.57361,ov:'sight',st:'venue',name:'Adelaide Entertainment Centre',sub:'City of Charles Sturt · Hindmarsh',desc:'대형 콘서트·공연 아레나. 트램으로 CBD 직결. 애들레이드 최대 실내 공연장.'},
+  {id:'memdrive',lat:-34.91754,lng:138.59592,ov:'sight',st:'venue',name:'Memorial Drive',sub:'City of Adelaide · North Adelaide',desc:'테니스 센터. Adelaide International 등 국제 대회 개최. Adelaide Oval 바로 옆.'},
+  {id:'netballsa',lat:-34.93255,lng:138.57871,ov:'sight',st:'venue',name:'Netball SA Stadium',sub:'City of West Torrens · Mile End',desc:'네트볼 전용 경기장. Adelaide Thunderbirds 홈.'},
   {id:'airport',lat:-34.9450,lng:138.5310,ov:'facility',st:'air',name:'Adelaide Airport (ADL)',sub:'City of West Torrens',desc:'국내·국제선 공항. CBD에서 차로 약 15분, JetExpress 버스 운행. 인근에 Harbour Town 아울렛.'},
   {id:'port_pt',lat:-34.8601,lng:138.4975,ov:'facility',st:'port',name:'Port Adelaide',sub:'City of Port Adelaide Enfield',desc:'역사적 항구 지구. 해양박물관, 창고 개조 카페·갤러리.'},
   {id:'tonsley',lat:-35.0114,lng:138.5720,ov:'facility',st:'district',name:'Tonsley Innovation District',sub:'City of Marion',desc:'호주 첫 번째 혁신 산업단지. Flinders University 연계.'},
@@ -70,6 +76,12 @@ const EN_MARKERS = {
   semaphore:     {desc:'A vintage-feel northern beach — classic cinema, foreshore rides, café strip and summer markets.'},
   mclaren:       {sub:'City of Onkaparinga · ~40 km south of the CBD', desc:'McLaren Vale rivals the Barossa — famous for Shiraz and Grenache, with quirky wineries like the d\'Arenberg Cube. Close to Port Willunga beach; a favourite day trip.'},
   hahndorf:      {sub:'Adelaide Hills · ~25 km SE of the CBD', desc:'Australia\'s oldest surviving German settlement (1839). German pubs, smallgoods and craft shops. Gateway to Adelaide Hills wineries; the #1 day trip.'},
+  adeloval:      {desc:'Adelaide\'s iconic cricket and AFL stadium — RoofClimb and stadium tours. Walkable from the CBD across the River Torrens footbridge.'},
+  coopers:       {desc:'Home of A-League football side Adelaide United (formerly Hindmarsh Stadium) — a dedicated rectangular football ground.'},
+  '36ers':       {desc:'Home arena of NBL basketball\'s Adelaide 36ers.'},
+  aec:           {desc:'Adelaide\'s largest indoor concert and events arena — connected to the CBD by tram.'},
+  memdrive:      {desc:'Tennis centre hosting the Adelaide International and other events — right beside Adelaide Oval.'},
+  netballsa:     {desc:'Netball-dedicated stadium — home of the Adelaide Thunderbirds.'},
 };
 
 const LGA_STATS = {"adelaide":{"st":15,"sch":17},"onkaparinga":{"st":5,"sch":47},"holdfast":{"st":8,"sch":10},"marion":{"st":12,"sch":24},"mitcham":{"st":11,"sch":26},"burnside":{"st":0,"sch":14},"gawler":{"st":7,"sch":6},"unley":{"st":11,"sch":11},"west_torrens":{"st":7,"sch":12},"norwood":{"st":0,"sch":13},"campbelltown":{"st":0,"sch":9},"tea_tree":{"st":0,"sch":27},"charles_sturt":{"st":13,"sch":28},"prospect":{"st":2,"sch":4},"walkerville":{"st":0,"sch":5},"port_adelaide":{"st":18,"sch":26},"salisbury":{"st":8,"sch":17},"playford":{"st":5,"sch":10}};
@@ -521,7 +533,7 @@ function markerPopupHtml(m){
 }
 map.createPane('sightPane');map.getPane('sightPane').style.zIndex=466;
 map.createPane('facPane');map.getPane('facPane').style.zIndex=467;
-const SIGHT_COLOR={beach:PALETTE[4],wine:PALETTE[0]};      // 해변 시안·와이너리 빨강
+const SIGHT_COLOR={beach:PALETTE[4],wine:PALETTE[0],venue:PALETTE[1]};      // 해변 시안·와이너리 빨강·경기장 주황
 const FAC_COLOR={air:PALETTE[1],port:PALETTE[4],district:PALETTE[6]}; // 공항 주황·항구 시안·혁신 보라
 // 공통 빌더: ov='sight'|'facility'
 function buildMarkerLayer(ov,cat,colors,paneName){
@@ -951,7 +963,7 @@ function renderMiniLegend(){
   }
   if(sightOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.landmark}</svg></span>${t.layers.sight}</div>`+
-      ['beach','wine'].map(k=>`<div class="ml-item ml-click${sightFilter&&sightFilter!==k?' dim':''}" data-sight="${k}"><span class="ml-dot" style="color:${SIGHT_COLOR[k]}"></span>${t.sightTypes[k]}</div>`).join('');
+      ['beach','wine','venue'].map(k=>`<div class="ml-item ml-click${sightFilter&&sightFilter!==k?' dim':''}" data-sight="${k}"><span class="ml-dot" style="color:${SIGHT_COLOR[k]}"></span>${t.sightTypes[k]}</div>`).join('');
   }
   if(facOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.facility}</svg></span>${t.layers.facility}</div>`+
@@ -1098,7 +1110,7 @@ const M_SUB={
   pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>pubFilter,setF:setPubFilter},
   parks:{items:()=>['park','water','toilet','fitness'].map(k=>[k,T().parkTypes[k]]),colors:PARK_COLOR,glyph:'park',getF:()=>parkFilter,setF:setParkFilter},
   admin:{items:()=>['govt','bank','post','telecom','lib'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,glyph:'admin',getF:()=>adminFilter,setF:setAdminFilter},
-  sight:{items:()=>['beach','wine'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
+  sight:{items:()=>['beach','wine','venue'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
 };
 let mExpanded=null;
