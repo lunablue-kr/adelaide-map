@@ -1,3 +1,19 @@
+// ═══════════════ 애널리틱스 (GoatCounter, 안전 래퍼) ═══════════════
+(function(){
+  var skip=false;
+  try{
+    if(location.hash==='#skip-analytics'){localStorage.setItem('skip-analytics','1');}
+    if(localStorage.getItem('skip-analytics')==='1')skip=true;
+  }catch(e){}
+  if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname))skip=true;
+  if(skip)window.goatcounter={no_onload:true}; // 페이지뷰·이벤트 자동집계 차단
+  window.__ANALYTICS_SKIP__=skip;
+})();
+function track(path){
+  if(window.__ANALYTICS_SKIP__)return;
+  if(window.goatcounter&&goatcounter.count)goatcounter.count({path:path,event:true});
+}
+
 const SCHOOLS=[...SCHOOLS_P,...SCHOOLS_S,...SCHOOLS_C,...SCHOOLS_O];
 const CAT_META = {
   cbd:     {label:'CBD',         en:'CBD',          color:'#e879f9'},
@@ -185,6 +201,7 @@ function barRow(label,pct,color,val){
   return `<div class="bar-row"><span class="bar-lbl">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,Math.round(pct*100))}%;background:${color}"></div></div><span class="bar-val">${val}</span></div>`;
 }
 function openSheet(id){
+  track('lga-'+id);
   selectedLgaId=id;restyleAll();
   const d=LGAS[id],t=T(),c=CAT_META[d.cat].color;
   document.getElementById('bs-name').textContent=d.name;
@@ -347,7 +364,7 @@ function applyTransitFilter(){
     arr.forEach(m=>{m.setStyle({opacity:on?op:0.07,fillOpacity:on?1:0.07});if(on&&transitFilter&&m.bringToFront)m.bringToFront();});
   });
 }
-function setTransitFilter(t){transitFilter=(transitFilter===t)?null:t;applyTransitFilter();renderMiniLegend();}
+function setTransitFilter(t){transitFilter=(transitFilter===t)?null:t;applyTransitFilter();renderMiniLegend();if(transitFilter===t)track('sub-transit-'+t);}
 function buildTransitLayer(){
   transitLayer=L.layerGroup();
   transitMarkers={train:[],tram:[],bus:[]};transitFilter=null;
@@ -400,6 +417,7 @@ function applySchoolFilter(){
 function setSchoolFilter(t){
   schoolFilter=(schoolFilter===t)?null:t;
   applySchoolFilter();renderMiniLegend();
+  if(schoolFilter===t)track('sub-schools-'+t);
 }
 function schoolPopupHtml(s){
   return `<div class="popup-inner"><div class="popup-name">${s.n}</div><div class="popup-sub">${T().schoolTypes[s.t]}</div></div>`;
@@ -441,7 +459,7 @@ function applyHospitalFilter(){
     arr.forEach(m=>dimMarker(m,on,!!hospitalFilter));
   });
 }
-function setHospitalFilter(t){hospitalFilter=(hospitalFilter===t)?null:t;applyHospitalFilter();renderMiniLegend();}
+function setHospitalFilter(t){hospitalFilter=(hospitalFilter===t)?null:t;applyHospitalFilter();renderMiniLegend();if(hospitalFilter===t)track('sub-hospitals-'+t);}
 function medPopupHtml(item){
   const t=T();
   if(item.hos){
@@ -484,7 +502,7 @@ function applyMartFilter(){
     arr.forEach(m=>dimMarker(m,on,!!martFilter));
   });
 }
-function setMartFilter(t){martFilter=(martFilter===t)?null:t;applyMartFilter();renderMiniLegend();}
+function setMartFilter(t){martFilter=(martFilter===t)?null:t;applyMartFilter();renderMiniLegend();if(martFilter===t)track('sub-marts-'+t);}
 function buildMartLayer(){
   martLayer=L.layerGroup();
   martMarkers={big:[],local:[],intl:[],liq:[]};martFilter=null;
@@ -553,12 +571,12 @@ function applyMarkerFilter(marks,filter){
 // 명소
 let sightLayer=null,sightOn=false,sightMarks={},sightFilter=null;
 function buildSightLayer(){const r=buildMarkerLayer('sight','landmark',SIGHT_COLOR,'sightPane');sightLayer=r.layer;sightMarks=r.marks;sightFilter=null;}
-function setSightFilter(t){sightFilter=(sightFilter===t)?null:t;applyMarkerFilter(sightMarks,sightFilter);renderMiniLegend();}
+function setSightFilter(t){sightFilter=(sightFilter===t)?null:t;applyMarkerFilter(sightMarks,sightFilter);renderMiniLegend();if(sightFilter===t)track('sub-sight-'+t);}
 function setSightLayer(on){sightOn=on;if(on){if(!sightLayer)buildSightLayer();sightLayer.addTo(map);}else if(sightLayer){map.removeLayer(sightLayer);}renderMiniLegend();syncOverlayRows();}
 // 시설
 let facLayer=null,facOn=false,facMarks={},facFilter=null;
 function buildFacLayer(){const r=buildMarkerLayer('facility','facility',FAC_COLOR,'facPane');facLayer=r.layer;facMarks=r.marks;facFilter=null;}
-function setFacFilter(t){facFilter=(facFilter===t)?null:t;applyMarkerFilter(facMarks,facFilter);renderMiniLegend();}
+function setFacFilter(t){facFilter=(facFilter===t)?null:t;applyMarkerFilter(facMarks,facFilter);renderMiniLegend();if(facFilter===t)track('sub-facility-'+t);}
 function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.addTo(map);}else if(facLayer){map.removeLayer(facLayer);}renderMiniLegend();syncOverlayRows();}
 
 // ═══════════════ 식당 (아시아계, OSM cuisine → LGA 클립) ═══════════════
@@ -569,7 +587,7 @@ const CUISINE={korean:['한식','Korean'],japanese:['일식','Japanese'],chinese
 function cuisineLabel(c){if(!c)return '';const m=CUISINE[c];if(m)return LANG==='en'?m[1]:m[0];return c.replace(/_/g,' ').replace(/\b\w/g,x=>x.toUpperCase());}
 let restLayer=null,restOn=false,restMarkers={as:[],eu:[],am:[],etc:[]},restFilter=null;
 function applyRestFilter(){Object.entries(restMarkers).forEach(([t,arr])=>{const on=(!restFilter||restFilter===t);arr.forEach(m=>dimMarker(m,on,!!restFilter));});}
-function setRestFilter(t){restFilter=(restFilter===t)?null:t;applyRestFilter();renderMiniLegend();}
+function setRestFilter(t){restFilter=(restFilter===t)?null:t;applyRestFilter();renderMiniLegend();if(restFilter===t)track('sub-restaurant-'+t);}
 function buildRestLayer(){
   restLayer=L.layerGroup();restMarkers={as:[],eu:[],am:[],etc:[]};restFilter=null;
   RESTAURANTS.forEach(r=>{
@@ -588,7 +606,7 @@ map.createPane('cafePane');map.getPane('cafePane').style.zIndex=469;
 const CAFE_COLOR={cafe:PALETTE[6],bakery:PALETTE[1],brunch:PALETTE[3]}; // 카페 보라·베이커리 주황·브런치 초록
 let cafeLayer=null,cafeOn=false,cafeMarkers={cafe:[],bakery:[],brunch:[]},cafeFilter=null;
 function applyCafeFilter(){Object.entries(cafeMarkers).forEach(([t,arr])=>{const on=(!cafeFilter||cafeFilter===t);arr.forEach(m=>dimMarker(m,on,!!cafeFilter));});}
-function setCafeFilter(t){cafeFilter=(cafeFilter===t)?null:t;applyCafeFilter();renderMiniLegend();}
+function setCafeFilter(t){cafeFilter=(cafeFilter===t)?null:t;applyCafeFilter();renderMiniLegend();if(cafeFilter===t)track('sub-cafe-'+t);}
 function buildCafeLayer(){
   cafeLayer=L.layerGroup();cafeMarkers={cafe:[],bakery:[],brunch:[]};cafeFilter=null;
   CAFES.forEach(c=>{
@@ -606,7 +624,7 @@ map.createPane('pubPane');map.getPane('pubPane').style.zIndex=470;
 const PUB_COLOR={pub:PALETTE[2],bar:PALETTE[5],wine:PALETTE[0],brew:PALETTE[1],club:PALETTE[6]}; // 펍노랑·바파랑·와인빨·브루주황·클럽보라
 let pubLayer=null,pubOn=false,pubMarkers={pub:[],bar:[],wine:[],brew:[],club:[]},pubFilter=null;
 function applyPubFilter(){Object.entries(pubMarkers).forEach(([t,arr])=>{const on=(!pubFilter||pubFilter===t);arr.forEach(m=>dimMarker(m,on,!!pubFilter));});}
-function setPubFilter(t){pubFilter=(pubFilter===t)?null:t;applyPubFilter();renderMiniLegend();}
+function setPubFilter(t){pubFilter=(pubFilter===t)?null:t;applyPubFilter();renderMiniLegend();if(pubFilter===t)track('sub-pubs-'+t);}
 function buildPubLayer(){
   pubLayer=L.layerGroup();pubMarkers={pub:[],bar:[],wine:[],brew:[],club:[]};pubFilter=null;
   PUBS.forEach(p=>{
@@ -624,7 +642,7 @@ map.createPane('parkPane');map.getPane('parkPane').style.zIndex=468;
 const PARK_COLOR={park:PALETTE[3],water:PALETTE[4],toilet:PALETTE[5],fitness:PALETTE[0]}; // 공원 초록·음수대 시안·화장실 파랑·헬스 빨강
 let parkLayer=null,parkOn=false,parkMarkers={park:[],water:[],toilet:[],fitness:[]},parkFilter=null;
 function applyParkFilter(){Object.entries(parkMarkers).forEach(([t,arr])=>{const on=(!parkFilter||parkFilter===t);arr.forEach(m=>dimMarker(m,on,!!parkFilter));});}
-function setParkFilter(t){parkFilter=(parkFilter===t)?null:t;applyParkFilter();renderMiniLegend();}
+function setParkFilter(t){parkFilter=(parkFilter===t)?null:t;applyParkFilter();renderMiniLegend();if(parkFilter===t)track('sub-parks-'+t);}
 function buildParkLayer(){
   parkLayer=L.layerGroup();parkMarkers={park:[],water:[],toilet:[],fitness:[]};parkFilter=null;
   PARKS.forEach(p=>{
@@ -642,7 +660,7 @@ map.createPane('adminPane');map.getPane('adminPane').style.zIndex=467;
 const ADMIN_COLOR={govt:PALETTE[5],bank:PALETTE[3],post:PALETTE[0],telecom:PALETTE[1],lib:PALETTE[6]}; // 관공서 파랑·은행 초록·우체국 빨강(호주우체국)·통신 주황·도서관 보라
 let adminLayer=null,adminOn=false,adminMarkers={govt:[],bank:[],post:[],telecom:[],lib:[]},adminFilter=null;
 function applyAdminFilter(){Object.entries(adminMarkers).forEach(([t,arr])=>{const on=(!adminFilter||adminFilter===t);arr.forEach(m=>dimMarker(m,on,!!adminFilter));});}
-function setAdminFilter(t){adminFilter=(adminFilter===t)?null:t;applyAdminFilter();renderMiniLegend();}
+function setAdminFilter(t){adminFilter=(adminFilter===t)?null:t;applyAdminFilter();renderMiniLegend();if(adminFilter===t)track('sub-admin-'+t);}
 function buildAdminLayer(){
   adminLayer=L.layerGroup();adminMarkers={govt:[],bank:[],post:[],telecom:[],lib:[]};adminFilter=null;
   ADMIN.forEach(a=>{
@@ -704,7 +722,9 @@ function renderOverlayRows(){
     el.querySelectorAll('.ov-row').forEach(row=>{
       row.addEventListener('click',()=>{
         const def=OVERLAYS.find(x=>x.id===row.dataset.ov);
-        def.set(!def.get());
+        const turnOn=!def.get();
+        def.set(turnOn);
+        if(turnOn)track('ov-'+def.id);
       });
     });
     el.querySelector('.ov-clear').addEventListener('click',()=>{
@@ -729,6 +749,7 @@ function renderColorSeg(){
         mapColorMode=btn.dataset.mode;
         document.querySelectorAll('.seg-btn[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===mapColorMode));
         restyleAll();
+        if(mapColorMode!=='category')track('color-'+mapColorMode);
       });
     });
   });
@@ -1026,6 +1047,7 @@ document.getElementById('fbm-send').addEventListener('click',async()=>{
     });
     if(!r.ok)throw new Error('HTTP '+r.status);
     lastSent=Date.now();
+    track('feedback-submit');
     status.textContent=t.stOk;status.className='fbm-status ok';
     document.getElementById('f-body').value='';document.getElementById('f-author').value='';
   }catch{status.textContent=t.stFail;status.className='fbm-status err';}
@@ -1094,6 +1116,7 @@ function toggleLang(){
   LANG=LANG==='ko'?'en':'ko';
   try{localStorage.setItem('adelaide-lang',LANG);}catch{}
   applyLang();
+  track('lang-'+LANG);
 }
 document.getElementById('lang-toggle').addEventListener('click',toggleLang);
 document.getElementById('m-lang').addEventListener('click',toggleLang);
@@ -1134,7 +1157,7 @@ function renderMOverlayBar(){
 }
 function onMChip(id){
   const o=OVERLAYS.find(x=>x.id===id),hasSub=!!M_SUB[id];
-  if(!o.get()){o.set(true);mExpanded=hasSub?id:null;}
+  if(!o.get()){o.set(true);mExpanded=hasSub?id:null;track('ov-'+id);}
   else if(hasSub&&mExpanded!==id){mExpanded=id;}      // 다른 켜진 칩 → 그 하위 펼침
   else{o.set(false);if(mExpanded===id)mExpanded=null;} // 펼친 칩 다시 탭 → 끔
   renderMOverlayBar();renderMSubBar();
@@ -1169,6 +1192,7 @@ function renderMColorBtn(){
   pop.querySelectorAll('.mcol-item').forEach(it=>it.addEventListener('click',(e)=>{
     e.stopPropagation();mapColorMode=it.dataset.mode;pop.classList.remove('on');
     renderColorSeg();renderMColorBtn();renderMScale();restyleAll();
+    if(mapColorMode!=='category')track('color-'+mapColorMode);
   }));
 }
 function renderMScale(){
