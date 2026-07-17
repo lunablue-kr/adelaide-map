@@ -384,7 +384,7 @@ const GLYPHS={
   park:'<path fill="currentColor" d="M12 3 6.4 11.6h11.2L12 3Z"/><path fill="currentColor" d="M12 8.2 6.8 16.4h10.4L12 8.2Z"/><rect fill="currentColor" x="10.9" y="15.6" width="2.2" height="5" rx="0.6"/>',
   admin:'<path fill="currentColor" d="M12 3 2.8 7.5h18.4Z"/><rect fill="currentColor" x="4.4" y="9" width="1.9" height="7"/><rect fill="currentColor" x="8.2" y="9" width="1.9" height="7"/><rect fill="currentColor" x="13.9" y="9" width="1.9" height="7"/><rect fill="currentColor" x="17.7" y="9" width="1.9" height="7"/><rect fill="currentColor" x="3" y="17.4" width="18" height="2.3" rx="0.5"/>'
 };
-const ZOOM_GLYPH=12; // 이상이면 기호핀, 미만이면 작은 점 (12=바닥, ≤11은 바이브 라벨 구간)
+const ZOOM_GLYPH=13; // 이상이면 기호핀, 미만이면 작은 점. 전 오버레이 공통(핀 사이즈 균일) — 12로 내리면 z12 기호 재빌드 ~2.8s 프리즈(실측)라 13 통일(2026-07-18)
 const DOT_R=6.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
 function glyphHtml(cat,color,d){
   const s=Math.round(d*0.62);
@@ -622,14 +622,14 @@ const POI_REG={
   marts:{id:'marts',cat:'mart',pane:'martPane',color:MART_COLOR,def:'big',types:['big','local','intl','liq'],maxWidth:220,
     data:()=>MARTS,
     label:m=>(m.t==='intl'&&m.o&&T().origins[m.o])?`${T().martTypes.intl} · ${T().origins[m.o]}`:T().martTypes[m.t]},
-  restaurant:{id:'restaurant',cat:'restaurant',pane:'restPane',color:REST_COLOR,def:'etc',types:['as','eu','am','etc'],maxWidth:220,cull:true,zoomGlyph:14,
+  restaurant:{id:'restaurant',cat:'restaurant',pane:'restPane',color:REST_COLOR,def:'etc',types:['as','eu','am','etc'],maxWidth:220,cull:true,
     data:()=>RESTAURANTS,
     label:r=>{const cz=cuisineLabel(r.c);return T().restTypes[r.t]+(cz?' · '+cz:'');}},
-  cafe:{id:'cafe',cat:'cafe',pane:'cafePane',color:CAFE_COLOR,def:'cafe',types:['cafe','bakery','brunch'],maxWidth:200,cull:true,zoomGlyph:13,
+  cafe:{id:'cafe',cat:'cafe',pane:'cafePane',color:CAFE_COLOR,def:'cafe',types:['cafe','bakery','brunch'],maxWidth:200,cull:true,
     data:()=>CAFES,label:c=>T().cafeTypes[c.t]},
   pubs:{id:'pubs',cat:'pub',pane:'pubPane',color:PUB_COLOR,def:'pub',types:['pub','bar','wine','brew','club'],maxWidth:200,
     data:()=>PUBS,label:p=>T().pubTypes[p.t]},
-  parks:{id:'parks',cat:'park',pane:'parkPane',color:PARK_COLOR,def:'park',types:['park','water','toilet','fitness'],maxWidth:200,cull:true,zoomGlyph:14,
+  parks:{id:'parks',cat:'park',pane:'parkPane',color:PARK_COLOR,def:'park',types:['park','water','toilet','fitness'],maxWidth:200,cull:true,
     data:()=>PARKS,label:p=>T().parkTypes[p.t],nameOf:p=>p.n||T().parkTypes[p.t]},
   admin:{id:'admin',cat:'admin',pane:'adminPane',color:ADMIN_COLOR,def:'govt',types:['govt','bank','post','telecom','lib'],maxWidth:200,
     data:()=>ADMIN,label:a=>T().adminTypes[a.t],nameOf:a=>a.n||T().adminTypes[a.t]},
@@ -1189,15 +1189,20 @@ function movMark(o){
 function renderMOverlayBar(){
   const bar=document.getElementById('m-overlaybar');if(!bar)return;
   const anyOn=OVERLAYS.some(o=>o.id!=='suburb'&&o.get());
-  const reset=anyOn?`<span class="mov-chip mov-reset" data-reset="1"><span class="mov-g"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19.4 12a7.4 7.4 0 1 1-2.1-5.2M18 3.5V8h-4.5"/></svg></span>${T().clearAll}</span>`:'';
-  bar.innerHTML=reset+OVERLAYS.map(o=>{
+  const rc=document.getElementById('m-ovreset'); // 칩바 밖 고정 버튼(아이콘만) — 스크롤 무관 상시 노출
+  if(rc){rc.classList.toggle('on',anyOn);rc.title=T().clearAll;}
+  bar.classList.toggle('reset-pad',anyOn);
+  bar.innerHTML=OVERLAYS.map(o=>{
     const hasSub=!!M_SUB[o.id];
     return `<span class="mov-chip${o.get()?' on':''}${o.get()&&ovDataPending(o.id)?' loading':''}" data-ov="${o.id}">${movMark(o)}${T().layers[o.id]}${hasSub?'<span class="mov-caret">▾</span>':''}</span>`;
   }).join('');
-  const rc=bar.querySelector('.mov-reset');
-  if(rc)rc.addEventListener('click',()=>{OVERLAYS.filter(o=>o.id!=='suburb').forEach(o=>{if(o.get())o.set(false);});mExpanded=null;renderMOverlayBar();renderMSubBar();});
   bar.querySelectorAll('.mov-chip[data-ov]').forEach(c=>c.addEventListener('click',()=>onMChip(c.dataset.ov)));
 }
+(function(){ // 모두 해제 버튼: 1회 배선(아이콘 고정, on/off는 renderMOverlayBar가 토글)
+  const rc=document.getElementById('m-ovreset');if(!rc)return;
+  rc.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M19.4 12a7.4 7.4 0 1 1-2.1-5.2M18 3.5V8h-4.5"/></svg>';
+  rc.addEventListener('click',()=>{OVERLAYS.filter(o=>o.id!=='suburb').forEach(o=>{if(o.get())o.set(false);});mExpanded=null;renderMOverlayBar();renderMSubBar();});
+})();
 function onMChip(id){
   const o=OVERLAYS.find(x=>x.id===id),hasSub=!!M_SUB[id];
   if(!o.get()){o.set(true);mExpanded=hasSub?id:null;track('ov-'+id);}
