@@ -34,7 +34,17 @@
 
 ---
 
-## B. 오버레이 레지스트리 리팩터
+## B. 오버레이 레지스트리 리팩터 — ✅ 완료 (2026-07-18, v=20260718a 배포)
+
+완료 요약: POI 8종(schools/hospitals/marts/restaurant/cafe/pubs/parks/admin)을
+`POI_REG` 선언형 레지스트리 + 제네릭 4함수(ovBuild/ovApply/ovSetFilter/ovSetLayer)로 통합.
+상태(layer/on/filter/markers)는 항목 내부. 기존 `setXLayer/setXFilter`는 얇은 래퍼로 유지(배선 무변경).
+refreshPoiZoom·applyLang 재빌드는 레지스트리 루프. `sub-*` 이벤트명 8종 동일 확인(JS 캡처 검증).
+app.js 1276→1173줄. sight/facility/shopping/transit/suburb 특례는 그대로.
+검증: 8종 마커수=데이터수, 특례 팝업(uni desc·병원 공공/사립·mart origins·rest cuisine·무명 park/admin),
+격리 완전숨김+줌 11↔14 필터보존, 미니범례·모바일 칩바 dim, ko↔en 재빌드, 콘솔 에러 0.
+
+원문 지시 (참고):
 
 **세션 시작 시 커밋 먼저 (되돌릴 지점 확보).**
 
