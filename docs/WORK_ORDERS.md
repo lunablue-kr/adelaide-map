@@ -64,6 +64,27 @@ setXFilter 4종 함수 + 전역변수(xOn/xLayer/xFilter/xMarkers)가 거의 동
 검증: 리팩터 전후 각 오버레이 켜기/하위필터/줌 11↔13 전환/격리 표시를
 전부 눈으로 대조. 콘솔 에러 0.
 
+### 구현 설계 (2026-07-17 사전 분석 — 다음 세션 시작점)
+
+대상 = POI 오버레이 8종만: schools/hospitals/marts/restaurant/cafe/pubs/parks/admin.
+(sight·facility는 이미 buildMarkerLayer/applyMarkerFilter로 반쯤 제네릭 — 그대로 두거나 나중에 흡수.
+ shopping=단일 필터없음, suburb·transit=특례 → 손대지 않음.)
+
+**레지스트리 항목 필드**: `{id, cat(글리프), pane, color(색맵), types[], def(기본키), maxWidth?, data:()=>[items], label:(item)=>sub문자열, popup?:(item)=>html, nameOf?:(item)=>표시명}`
+- 상태는 항목 내부: `layer,on,filter,markers` (초기화 루프로 주입).
+- popup 없으면 제네릭이 `simplePopup(nameOf||item.n, label)` 사용. school/hospital만 popup 함수 필요.
+- 오버레이별 특이점(반드시 보존): **school**=SCHOOLS+CURATED_UNIS(uni는 t:'u', 팝업 uniPopupHtml) / **hospital**=HOSPITALS+MEDICAL 병합, medPopupHtml(공공·사립 own) / **mart**=intl+origins 라벨 / **rest**=cuisineLabel 붙는 라벨 / **park·admin**=무명 항목 nameOf=n||라벨.
+
+**제네릭 4함수**: ovBuild(r)/ovApply(r)/ovSetFilter(r,t)/ovSetLayer(r,on). track 이벤트명은 `'sub-'+r.id+'-'+t` — **id를 schools/hospitals/marts/restaurant/cafe/pubs/parks/admin로 두면 현재 이벤트명과 정확히 일치**(애널리틱스 연속성 유지).
+
+**협응 필수(빠뜨리면 깨짐)**:
+1. 옛 8종 `let 상태 + buildX + applyX + setXFilter + setXLayer` **삭제**. 단 **`X_COLOR` const·`createPane` 호출·팝업헬퍼(schoolPopupHtml/uniPopupHtml/medPopupHtml/cuisineLabel/CUISINE)는 보존**(인터리브돼 있으니 주의).
+2. **명명 충돌**: 옛 `setXLayer/setXFilter` 함수를 지운 뒤라야 동명 얇은 래퍼(const setSchoolLayer=on=>ovSetLayer(POI_REG.schools,on) 등) 선언 가능.
+3. **상태 참조 재배선 6곳**: ① OVERLAYS 배열 get/set → `()=>POI_REG.x.on`/래퍼 ② refreshPoiZoom의 if 8개 → `Object.values(POI_REG).forEach(...)` 루프(sight/fac/shop은 별도 유지) ③ renderMiniLegend의 `if(xOn)`·`xFilter` → `POI_REG.x.on`·`.filter` ④ M_SUB의 `getF:()=>xFilter` → `.filter`(setF는 래퍼) ⑤ focusPoi의 `!xOn`·lay맵 `()=>xLayer` → reg ⑥ 언어재빌드 리스트 → reg 루프.
+4. **getPois는 무변경**(데이터 배열 직접 참조, 상태 안 읽음).
+
+**검증**: 8종 각각 켜기/팝업(특히 uni·hospital 공공사립·mart origins·rest cuisine)/하위필터/줌11↔14 점↔기호/격리(완전숨김)를 ko·en 양쪽 대조. `sub-*` 이벤트명 동일 확인. 콘솔 0.
+
 ---
 
 ## C. 성능 (B 완료 후)
