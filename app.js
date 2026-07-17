@@ -5,7 +5,7 @@
     if(location.hash==='#skip-analytics'){localStorage.setItem('skip-analytics','1');}
     if(localStorage.getItem('skip-analytics')==='1')skip=true;
   }catch(e){}
-  if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname))skip=true;
+  if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)||location.protocol==='file:')skip=true; // 로컬·파일 직접열기 제외
   if(skip){
     window.goatcounter={no_onload:true};              // GoatCounter 자동집계 차단
     try{localStorage.setItem('umami.disabled','1');}catch(e){} // Umami 자동집계 차단
@@ -40,6 +40,7 @@ function trackWhenReady(path){
     var count=parseInt(localStorage.getItem('av_count')||'0',10),last=localStorage.getItem('av_last');
     if(count===0)trackWhenReady('visitor-new');
     else{trackWhenReady('visitor-returning');if(last===today)trackWhenReady('visit-sameday');}
+    var bl=(navigator.language||'').slice(0,2).toLowerCase();if(bl)trackWhenReady('browserlang-'+bl); // 브라우저 언어(Umami서도 언어 파악)
     localStorage.setItem('av_count',count+1);localStorage.setItem('av_last',today);
   }catch(e){}
 })();
