@@ -357,10 +357,16 @@ function poiMarker(ll,o){
   if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240});
   return mk;
 }
-function dimMarker(mk,visible,front){ // 격리: 안 뽑힌 건 흐림, 뽑힌 건 맨 앞으로
-  const op=visible?1:0.22;
-  if(mk instanceof L.CircleMarker){mk.setStyle({opacity:op,fillOpacity:op});if(visible&&front)mk.bringToFront();}
-  else{mk.setOpacity(op);if(mk.setZIndexOffset)mk.setZIndexOffset(visible&&front?1000:0);}
+function dimMarker(mk,visible,front){ // 격리: 비선택은 완전 숨김+비인터랙티브, 선택은 맨 앞으로
+  if(mk instanceof L.CircleMarker){
+    mk.setStyle({opacity:visible?1:0,fillOpacity:visible?1:0});
+    if(mk._path)mk._path.style.pointerEvents=visible?'':'none';
+    if(visible&&front)mk.bringToFront();
+  }else{
+    mk.setOpacity(visible?1:0);
+    if(mk._icon)mk._icon.style.pointerEvents=visible?'':'none';
+    if(mk.setZIndexOffset)mk.setZIndexOffset(visible&&front?1000:0);
+  }
 }
 // 줌 임계 넘으면 켜져있는 POI 레이어만 재생성(점↔기호 전환), 필터 상태 보존
 let _poiGlyph=null;
@@ -1254,6 +1260,11 @@ map.on('click',()=>document.getElementById('m-colorpop').classList.remove('on'))
 applyLang();
 setSuburbLayer(true);
 restyleAll();
+// 모바일 칩바: 스크롤/클릭 전파 차단(touch-action:pan-x와 병행)
+['m-overlaybar','m-subbar'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el){L.DomEvent.disableScrollPropagation(el);L.DomEvent.disableClickPropagation(el);}
+});
 // 딥링크: ?lga=unley
 try{
   const cm=new URLSearchParams(location.search).get('color');
