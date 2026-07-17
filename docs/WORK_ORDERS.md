@@ -97,9 +97,26 @@ setXFilter 4종 함수 + 전역변수(xOn/xLayer/xFilter/xMarkers)가 거의 동
 
 ---
 
-## C. 성능 (B 완료 후)
+## C. 성능 (B 완료 후) — ✅ 완료 (2026-07-18, v=20260718b 배포)
 
-성능 개선. B의 레지스트리 구조 전제.
+완료 요약:
+1. **지연 로딩**: 초기 로드=data-i18n·data-geo(기본ON 경계)·data-core만(539KB, 이전 ~1047KB의 51%).
+   나머지 11파일은 `OV_FILES` 맵 + `loadDataScript`(이중 주입 방지, 기존 ?v= URL 유지)로
+   오버레이 첫 토글 시 주입. 칩 로딩 펄스(`.loading`). 실패 시 토스트+칩 원복.
+   검색창 포커스 시 `ensureAllData()`로 전체 로드(인덱스 완전성, 로드 후 열린 검색어 재질의).
+   딥링크 ?lga=·?color=는 eager 데이터만 사용 — 순서 문제 없음.
+2. **뷰포트 컬링**: restaurant·parks·cafe(500+)에 `cull:true` — `ovCull()`이 bounds+패딩 1화면분만
+   증분 add/remove(moveend). 격리 상태는 새로 들어온 마커에 즉시 적용. 데이터·마커 전량 보존.
+   실측: 식당 z15 CBD 632/1391, 외곽 팬 시 64/1391만 DOM에.
+3. **기호 전환 임계 차등**: 레지스트리 `zoomGlyph` — restaurant·parks 14, cafe 13, 나머지 기본 12.
+   refreshPoiZoom이 항목별 교차한 것만 재생성. 검색 팝업은 `openRegMarkerAt`(컬링 밖 마커 강제 추가).
+4. **좌표 절삭**: 스크립트 검사 결과 전 데이터 파일이 이미 5자리 이하(생성 시 절삭됨) — 무변경.
+
+검증: 초기 네트워크 4파일 539KB(51%), 첫 토글 정상(로딩 표시→표시), 컬링 증분,
+임계 차등(z13 식당 점·학교 기호), 격리+컬링 연동, 검색 전체 인덱스(4682)·cuisine 검색·자동 on+팝업,
+transit·shopping 지연, ko↔en, 딥링크 — 전부 JS 단언 통과, 콘솔 에러 0.
+
+원문 지시 (참고): 성능 개선. B의 레지스트리 구조 전제.
 
 1. 데이터 지연 로딩:
    - 기본 ON인 것(서버브 경계 = data-geo 일부, data-core)만 초기 로드.

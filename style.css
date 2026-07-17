@@ -252,3 +252,7 @@
     .bs-desc{font-size:13.5px;}
     .bs-bars{width:330px;}
   }
+
+/* 오버레이 데이터 로딩 중 표시(지연 로딩) */
+.ov-row.loading,.mov-chip.loading{animation:ovload .8s ease-in-out infinite alternate}
+@keyframes ovload{from{opacity:.95}to{opacity:.4}}
