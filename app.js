@@ -13,6 +13,27 @@ function track(path){
   if(window.__ANALYTICS_SKIP__)return;
   if(window.goatcounter&&goatcounter.count)goatcounter.count({path:path,event:true});
 }
+// 로드 직후 이벤트용: count.js(async) 로드 대기 후 발화
+function trackWhenReady(path){
+  if(window.__ANALYTICS_SKIP__)return;
+  var n=0;(function a(){
+    if(window.goatcounter&&goatcounter.count){goatcounter.count({path:path,event:true});return;}
+    if(n++<40)setTimeout(a,150);
+  })();
+}
+// 재방문 근사(로컬 플래그·브라우저 단위. GoatCounter는 영구ID 없어 못 함 → 로컬로 대체)
+(function(){
+  if(window.__ANALYTICS_SKIP__)return;
+  try{
+    if(sessionStorage.getItem('av_session'))return; // 세션당 1회만
+    sessionStorage.setItem('av_session','1');
+    var d=new Date(),today=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+    var count=parseInt(localStorage.getItem('av_count')||'0',10),last=localStorage.getItem('av_last');
+    if(count===0)trackWhenReady('visitor-new');
+    else{trackWhenReady('visitor-returning');if(last===today)trackWhenReady('visit-sameday');}
+    localStorage.setItem('av_count',count+1);localStorage.setItem('av_last',today);
+  }catch(e){}
+})();
 
 const SCHOOLS=[...SCHOOLS_P,...SCHOOLS_S,...SCHOOLS_C,...SCHOOLS_O];
 const CAT_META = {
@@ -926,9 +947,9 @@ function wireSearch(inputEl,resultsEl){
     resultsEl.classList.remove('on');items=[];
     inputEl.value=it.type==='lga'?LGAS[it.id].name:it.type==='poi'?getPois()[it.pi].n:SUBURBS[it.si].n;
     inputEl.blur();
-    if(it.type==='lga')focusLga(it.id);
-    else if(it.type==='poi')focusPoi(getPois()[it.pi]);
-    else focusSuburb(it.si);
+    if(it.type==='lga'){track('search-lga');focusLga(it.id);}
+    else if(it.type==='poi'){const pp=getPois()[it.pi];track('search-'+pp.kind);focusPoi(pp);}
+    else{track('search-suburb');focusSuburb(it.si);}
   }
   inputEl.addEventListener('input',()=>{
     if(inputEl.value.trim().length<2){resultsEl.classList.remove('on');return;}
