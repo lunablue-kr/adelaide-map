@@ -1,4 +1,4 @@
-// ═══════════════ 애널리틱스 (GoatCounter, 안전 래퍼) ═══════════════
+// ═══════════════ 애널리틱스 (GoatCounter + Umami 이중, 안전 래퍼) ═══════════════
 (function(){
   var skip=false;
   try{
@@ -6,19 +6,28 @@
     if(localStorage.getItem('skip-analytics')==='1')skip=true;
   }catch(e){}
   if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname))skip=true;
-  if(skip)window.goatcounter={no_onload:true}; // 페이지뷰·이벤트 자동집계 차단
+  if(skip){
+    window.goatcounter={no_onload:true};              // GoatCounter 자동집계 차단
+    try{localStorage.setItem('umami.disabled','1');}catch(e){} // Umami 자동집계 차단
+  }else{
+    try{localStorage.removeItem('umami.disabled');}catch(e){}
+  }
   window.__ANALYTICS_SKIP__=skip;
 })();
 function track(path){
   if(window.__ANALYTICS_SKIP__)return;
   if(window.goatcounter&&goatcounter.count)goatcounter.count({path:path,event:true});
+  if(window.umami&&umami.track)umami.track(path);
 }
-// 로드 직후 이벤트용: count.js(async) 로드 대기 후 발화
+// 로드 직후 이벤트용: 스크립트(async) 로드 대기 후 발화(양쪽 각각 한 번)
 function trackWhenReady(path){
   if(window.__ANALYTICS_SKIP__)return;
-  var n=0;(function a(){
-    if(window.goatcounter&&goatcounter.count){goatcounter.count({path:path,event:true});return;}
-    if(n++<40)setTimeout(a,150);
+  var n=0,g=false,u=false;
+  (function a(){
+    if(!g&&window.goatcounter&&goatcounter.count){goatcounter.count({path:path,event:true});g=true;}
+    if(!u&&window.umami&&umami.track){umami.track(path);u=true;}
+    if((g&&u)||n++>40)return;
+    setTimeout(a,150);
   })();
 }
 // 재방문 근사(로컬 플래그·브라우저 단위. GoatCounter는 영구ID 없어 못 함 → 로컬로 대체)
