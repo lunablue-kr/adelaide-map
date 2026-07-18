@@ -1219,11 +1219,9 @@ function renderMSubBar(){
   const cfg=mExpanded&&M_SUB[mExpanded],o=mExpanded&&OVERLAYS.find(x=>x.id===mExpanded);
   if(!cfg||!o||!o.get()){sb.classList.remove('on');sb.innerHTML='';return;}
   const f=cfg.getF();
-  sb.innerHTML=cfg.items().map(([k,lab])=>{
+  sb.innerHTML=cfg.items().map(([k,lab])=>{ // 상위칩과 동일 필 + 컬러 도트 내장. 선택=다크 필, 격리 비선택=dim(도트 색 유지)
     const col=cfg.colors[k];
-    const mark=cfg.glyph?`<span class="msub-g" style="color:${col}"><svg width="14" height="14" viewBox="0 0 24 24">${GLYPHS[cfg.glyph]}</svg></span>`
-              :`<span class="msub-dot" style="color:${col}"></span>`;
-    return `<span class="msub-chip${f&&f!==k?' dim':''}" data-k="${k}">${mark}<span class="msub-tag">${lab}</span></span>`;
+    return `<span class="msub-chip${f===k?' on':(f?' dim':'')}" data-k="${k}"><span class="msub-dot" style="color:${col}"></span>${lab}</span>`;
   }).join('');
   sb.classList.add('on');
   sb.querySelectorAll('.msub-chip').forEach(c=>c.addEventListener('click',()=>{cfg.setF(c.dataset.k);renderMSubBar();}));
@@ -1238,7 +1236,7 @@ const COLOR_BTN_ICON='<circle cx="12" cy="12" r="8.4" fill="none" stroke="curren
 function renderMColorBtn(){
   const btn=document.getElementById('m-colorbtn'),pop=document.getElementById('m-colorpop');if(!btn)return;
   btn.classList.toggle('on',mapColorMode!=='category');
-  btn.innerHTML=`<svg width="21" height="21" viewBox="0 0 24 24">${COLOR_BTN_ICON}</svg>`;
+  btn.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24">${COLOR_BTN_ICON}</svg>`;
   pop.innerHTML=['category','rent','crime'].map(m=>
     `<div class="mcol-item${mapColorMode===m?' on':''}" data-mode="${m}"><svg width="16" height="16" viewBox="0 0 24 24">${COLOR_ICON[m]}</svg>${T().colorModes[m]}</div>`).join('');
   pop.querySelectorAll('.mcol-item').forEach(it=>it.addEventListener('click',(e)=>{
