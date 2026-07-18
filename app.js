@@ -214,7 +214,7 @@ const map=L.map('map',{
   maxBounds:[[-35.65,138.1],[-34.3,139.1]],maxBoundsViscosity:0.85,
 }).setView([-34.95,138.62],11);
 L.control.zoom({position:'bottomright'}).addTo(map);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
   attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors © <a href="https://carto.com">CARTO</a>',
   subdomains:'abcd',maxZoom:19
 }).addTo(map);
@@ -248,7 +248,7 @@ function restyleAll(){
   const fillBase=0.11, fillDim=0.03, fillSel=0.5, fillOther=0.05;
   Object.entries(lgaLayers).forEach(([id,layer])=>{
     const c=lgaColor(id);
-    if(id===selectedLgaId){layer.setStyle({color:'#fff',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});layer.bringToFront();}
+    if(id===selectedLgaId){layer.setStyle({color:'#1c2333',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});layer.bringToFront();}
     else if(selectedLgaId){layer.setStyle({color:c,weight:1,opacity:0.25,fillColor:c,fillOpacity:fillOther});}
     else{
       const dim=activeCat!=='all'&&LGAS[id].cat!==activeCat;
@@ -290,10 +290,10 @@ function openSheet(id){
   const rank=CRIME_RANK[id]||9;
   const [lo,hi]=RENT[id];
   document.getElementById('bs-chips').innerHTML=
-    chip(t.chipRent(lo,hi),'#93c5fd','#1a2433')+
-    chip(st.st>0?t.chipStations(st.st):t.chipBus,'#22d3ee','#132430')+
-    chip(t.chipSchools(st.sch),'#a3e635','#1d2617')+
-    chip(t.chipSafety(rank),rank<=6?'#4ade80':(rank<=12?'#fac775':'#fb923c'),rank<=6?'#152a1d':'#26221a');
+    chip(t.chipRent(lo,hi),'#1d4ed8','#dbeafe')+
+    chip(st.st>0?t.chipStations(st.st):t.chipBus,'#0e7490','#cffafe')+
+    chip(t.chipSchools(st.sch),'#3f6212','#ecfccb')+
+    chip(t.chipSafety(rank),rank<=6?'#15803d':(rank<=12?'#a16207':'#c2410c'),rank<=6?'#dcfce7':'#fef3c7');
 
   document.getElementById('bs-desc').textContent=lgaField(d,'desc');
   document.getElementById('bs-tags').innerHTML=lgaField(d,'tags').map(tag=>
@@ -302,10 +302,10 @@ function openSheet(id){
   const afford=1-(RENT_MID[id]-RENT_MIN)/(RENT_MAX-RENT_MIN);
   const safety=(18-rank)/17;
   document.getElementById('bs-bars').innerHTML=
-    barRow(t.barRent, afford, '#60a5fa', t.barRentVal(lo,hi))+
-    barRow(t.barSafety, safety, '#4ade80', t.barSafetyVal(rank))+
-    barRow(t.barTransit, st.st/MAX_ST, '#22d3ee', t.barStVal(st.st))+
-    barRow(t.barSchools, st.sch/MAX_SCH, '#a3e635', t.barSchVal(st.sch));
+    barRow(t.barRent, afford, '#2f6fe0', t.barRentVal(lo,hi))+
+    barRow(t.barSafety, safety, '#16a34a', t.barSafetyVal(rank))+
+    barRow(t.barTransit, st.st/MAX_ST, '#0891b2', t.barStVal(st.st))+
+    barRow(t.barSchools, st.sch/MAX_SCH, '#65a30d', t.barSchVal(st.sch));
 
   const bs=document.getElementById('bottom-sheet');
   bs.classList.add('on');bs.classList.remove('expanded');bs.scrollTop=0; // 모바일: 기본 peek
@@ -340,8 +340,8 @@ document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropaga
 // ═══════════════ 서버브 레이어 ═══════════════
 map.createPane('suburbPane');map.getPane('suburbPane').style.zIndex=450;
 let suburbLayer=null,suburbOn=false,selectedSubPoly=null,suburbPolys={};
-const SUB_BASE={color:'rgba(221,225,236,0.5)',weight:0.8,opacity:1,dashArray:'3 3',fillOpacity:0.02};
-const SUB_SEL={color:'#ffffff',weight:3,opacity:1,dashArray:null,fillOpacity:0.1};
+const SUB_BASE={color:'rgba(60,70,100,0.55)',weight:0.8,opacity:1,dashArray:'3 3',fillOpacity:0.02};
+const SUB_SEL={color:'#1c2333',weight:3,opacity:1,dashArray:null,fillOpacity:0.1};
 function deselectSuburb(){if(selectedSubPoly){selectedSubPoly.setStyle(SUB_BASE);selectedSubPoly=null;}}
 function buildSuburbLayer(){
   suburbLayer=L.layerGroup();suburbPolys={};
@@ -350,7 +350,7 @@ function buildSuburbLayer(){
     const latlngs=s.g.map(ring=>[ring.map(([lng,lat])=>[lat,lng])]);
     const poly=L.polygon(latlngs,{pane:'suburbPane',fillColor:CAT_META[d.cat].color,...SUB_BASE});
     const l2n=(s.l2||[]).map(id=>LGAS[id]?LGAS[id].name:id).join(' · ');
-    const tip=`${s.n}${s.pc?(' · '+s.pc):''}`+(l2n?`<br><span style="font-size:9.5px;color:#8890a8">${T().partly(l2n)}</span>`:'');
+    const tip=`${s.n}${s.pc?(' · '+s.pc):''}`+(l2n?`<br><span style="font-size:9.5px;color:#5b6377">${T().partly(l2n)}</span>`:'');
     poly.bindTooltip(tip,{sticky:true,direction:'top',className:'sub-tip',opacity:1});
     poly.on('click',(e)=>{
       L.DomEvent.stopPropagation(e);
@@ -457,7 +457,7 @@ function buildTransitLayer(){
   busStopGroup=L.layerGroup();
   BUS_STOPS.forEach(s=>{
     const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR.bus,fillOpacity:1})
-      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${T().busStop}</span>`,{direction:'top',className:'sub-tip',opacity:1});
+      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#5b6377">${T().busStop}</span>`,{direction:'top',className:'sub-tip',opacity:1});
     transitMarkers.bus.push(mk);mk.addTo(busStopGroup);
   });
   busStopGroup.addTo(transitLayer);
@@ -468,7 +468,7 @@ function buildTransitLayer(){
   TRANSIT.stations.forEach(s=>{
     const isTram=s.t==='tram';
     const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR[s.t],fillOpacity:1})
-      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#8890a8">${isTram?T().tram:T().train}</span>`,{direction:'top',className:'sub-tip',opacity:1});
+      .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#5b6377">${isTram?T().tram:T().train}</span>`,{direction:'top',className:'sub-tip',opacity:1});
     (transitMarkers[s.t]||transitMarkers.train).push(mk);mk.addTo(transitLayer);
   });
 }
@@ -530,7 +530,7 @@ function buildShopLayer(){
   MALLS.forEach(s=>{
     const sub=((LANG==='en'&&s.en)?s.en:s).sub;
     poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,pane:'shopPane',maxWidth:220,
-      tooltip:`${s.n}<br><span style="font-size:9px;color:#8890a8">${sub}</span>`,
+      tooltip:`${s.n}<br><span style="font-size:9px;color:#5b6377">${sub}</span>`,
       popup:shopPopupHtml(s)}).addTo(shopLayer);
   });
 }
@@ -564,7 +564,7 @@ function buildMarkerLayer(ov,cat,colors,paneName){
   MARKERS.filter(m=>m.ov===ov).forEach(m=>{
     (marks[m.st]=marks[m.st]||[]);
     const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],pane:paneName,maxWidth:260,
-      tooltip:`${m.name}<br><span style="font-size:9px;color:#8890a8">${markerField(m,'sub')}</span>`,
+      tooltip:`${m.name}<br><span style="font-size:9px;color:#5b6377">${markerField(m,'sub')}</span>`,
       popup:markerPopupHtml(m)});
     marks[m.st].push(mk);mk.addTo(layer);
   });
@@ -643,7 +643,7 @@ function ovBuild(r){
   r.data().forEach(item=>{
     const lab=r.label(item),nm=r.nameOf?r.nameOf(item):item.n;
     const mk=poiMarker(item.ll,{cat:r.cat,color:r.color[item.t]||r.color[r.def],pane:r.pane,maxWidth:r.maxWidth,zoomGlyph:r.zoomGlyph,
-      tooltip:`${nm}<br><span style="font-size:9px;color:#8890a8">${lab}</span>`,
+      tooltip:`${nm}<br><span style="font-size:9px;color:#5b6377">${lab}</span>`,
       popup:r.popup?r.popup(item):`<div class="popup-inner"><div class="popup-name">${nm}</div><div class="popup-sub">${lab}</div></div>`});
     (r.markers[item.t]||r.markers[r.def]).push(mk);
     if(!r.cull)mk.addTo(r.layer); // 컬링 오버레이는 ovCull이 뷰포트분만 추가
@@ -702,11 +702,15 @@ const setAdminLayer=on=>ovSetLayer(POI_REG.admin,on),      setAdminFilter=t=>ovS
 
 // ═══════════════ 바이브 라벨 (줌 ≤ 11) ═══════════════
 let vibeMarkers=[];
+function vibeColor(hex){ // 라이트 지도용: 카테고리색 38% 어둡게(라벨 가독) — 범례·채움은 원색 유지
+  const n=parseInt(hex.slice(1),16),f=0.62;
+  return `rgb(${Math.round((n>>16&255)*f)},${Math.round((n>>8&255)*f)},${Math.round((n&255)*f)})`;
+}
 function buildVibes(){
   vibeMarkers.forEach(mk=>map.removeLayer(mk));
   vibeMarkers=[];
   VIBES.forEach(([lat,lng,cat,size],i)=>{
-    const c=CAT_META[cat].color;
+    const c=vibeColor(CAT_META[cat].color);
     const catName=catLabel(CAT_META[cat]);
     const icon=L.divIcon({html:`<div class="vibe-label" style="color:${c};font-size:15px">${T().vibes[i]}<span class="vibe-cat">${catName}</span></div>`,className:'',iconSize:[0,0]});
     vibeMarkers.push(L.marker([lat,lng],{icon,interactive:false}));
@@ -722,19 +726,19 @@ map.on('zoomend',refreshPoiZoom);
 
 // ═══════════════ 좌측 패널 ═══════════════
 const OVERLAYS=[
-  {id:'suburb',color:'#dde1ec',swatch:'dash',get:()=>suburbOn,set:setSuburbLayer},
-  {id:'transit',color:'#dde1ec',swatch:'dot',get:()=>transitOn,set:setTransitLayer}, // 원 기호
-  {id:'schools',color:'#dde1ec',swatch:'glyph',cat:'school',get:()=>POI_REG.schools.on,set:setSchoolLayer},
-  {id:'hospitals',color:'#dde1ec',swatch:'glyph',cat:'hospital',get:()=>POI_REG.hospitals.on,set:setHospitalLayer},
-  {id:'marts',color:'#dde1ec',swatch:'glyph',cat:'mart',get:()=>POI_REG.marts.on,set:setMartLayer},
-  {id:'restaurant',color:'#dde1ec',swatch:'glyph',cat:'restaurant',get:()=>POI_REG.restaurant.on,set:setRestLayer},
-  {id:'cafe',color:'#dde1ec',swatch:'glyph',cat:'cafe',get:()=>POI_REG.cafe.on,set:setCafeLayer},
-  {id:'pubs',color:'#dde1ec',swatch:'glyph',cat:'pub',get:()=>POI_REG.pubs.on,set:setPubLayer},
-  {id:'parks',color:'#dde1ec',swatch:'glyph',cat:'park',get:()=>POI_REG.parks.on,set:setParkLayer},
-  {id:'shopping',color:'#dde1ec',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
-  {id:'sight',color:'#dde1ec',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
-  {id:'facility',color:'#dde1ec',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
-  {id:'admin',color:'#dde1ec',swatch:'glyph',cat:'admin',get:()=>POI_REG.admin.on,set:setAdminLayer},
+  {id:'suburb',color:'#39415a',swatch:'dash',get:()=>suburbOn,set:setSuburbLayer},
+  {id:'transit',color:'#39415a',swatch:'dot',get:()=>transitOn,set:setTransitLayer}, // 원 기호
+  {id:'schools',color:'#39415a',swatch:'glyph',cat:'school',get:()=>POI_REG.schools.on,set:setSchoolLayer},
+  {id:'hospitals',color:'#39415a',swatch:'glyph',cat:'hospital',get:()=>POI_REG.hospitals.on,set:setHospitalLayer},
+  {id:'marts',color:'#39415a',swatch:'glyph',cat:'mart',get:()=>POI_REG.marts.on,set:setMartLayer},
+  {id:'restaurant',color:'#39415a',swatch:'glyph',cat:'restaurant',get:()=>POI_REG.restaurant.on,set:setRestLayer},
+  {id:'cafe',color:'#39415a',swatch:'glyph',cat:'cafe',get:()=>POI_REG.cafe.on,set:setCafeLayer},
+  {id:'pubs',color:'#39415a',swatch:'glyph',cat:'pub',get:()=>POI_REG.pubs.on,set:setPubLayer},
+  {id:'parks',color:'#39415a',swatch:'glyph',cat:'park',get:()=>POI_REG.parks.on,set:setParkLayer},
+  {id:'shopping',color:'#39415a',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
+  {id:'sight',color:'#39415a',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
+  {id:'facility',color:'#39415a',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
+  {id:'admin',color:'#39415a',swatch:'glyph',cat:'admin',get:()=>POI_REG.admin.on,set:setAdminLayer},
 ];
 function renderOverlayRows(){
   ['ov-rows','m-ov-rows'].forEach(cid=>{
@@ -849,7 +853,7 @@ function poiColor(p){
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
   if(p.kind==='mall')return SHOP_COLOR;
   if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
-  return '#e8c87a';
+  return '#b8860b';
 }
 function sprRow(i,color,name,meta){
   return `<div class="spr-item" data-i="${i}"><span class="spr-dot" style="background:${color}"></span>`+
@@ -943,7 +947,7 @@ function wireSearch(inputEl,resultsEl){
     }
     resultsEl.innerHTML=list.map((it,i)=>{
       if(it.type==='lga'){
-        const d=LGAS[it.id],c=(CAT_META[d.cat]&&CAT_META[d.cat].color)||'#dde1ec';
+        const d=LGAS[it.id],c=(CAT_META[d.cat]&&CAT_META[d.cat].color)||'#39415a';
         return sprRow(i,c,d.name,T().searchCouncil);
       }
       if(it.type==='poi'){
@@ -952,7 +956,7 @@ function wireSearch(inputEl,resultsEl){
       }
       const s=SUBURBS[it.si],d=LGAS[s.l];
       const meta=`${T().searchSuburb} · ${s.pc?s.pc+' · ':''}${d?d.name.replace('City of ','').replace('Town of ','').replace('The City of ',''):''}`;
-      return sprRow(i,'#dde1ec',s.n,meta);
+      return sprRow(i,'#39415a',s.n,meta);
     }).join('');
     resultsEl.classList.add('on');
     resultsEl.querySelectorAll('.spr-item[data-i]').forEach(el=>{
