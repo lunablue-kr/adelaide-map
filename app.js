@@ -224,6 +224,11 @@ map.on('popupclose',e=>{
   const s=e.popup&&e.popup._source;
   if(s&&s._ttSaved){s.bindTooltip(s._ttSaved);delete s._ttSaved;}
 });
+// 단일 벡터 캔버스 — 캔버스를 pane마다 두면 맨 위 캔버스(전면 DOM)가 아래 레이어 이벤트를 전부 가로챔.
+// LGA·서버브·교통·POI 전부 이 한 장에 그림. 겹침 순서=추가순(폴리곤 먼저, 선·핀 나중).
+map.createPane('vecPane');map.getPane('vecPane').style.zIndex=455;
+const VEC_CANVAS=L.canvas({pane:'vecPane'});
+const NO_HOVER=matchMedia('(hover: none)').matches; // 터치 기기: 팝업 있는 마커는 호버 툴팁 생략(탭 시 플래시 방지)
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
   attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors © <a href="https://carto.com">CARTO</a>',
   subdomains:'abcd',maxZoom:19
@@ -258,7 +263,7 @@ function restyleAll(){
   const fillBase=0.11, fillDim=0.03, fillSel=0.5, fillOther=0.05;
   Object.entries(lgaLayers).forEach(([id,layer])=>{
     const c=lgaColor(id);
-    if(id===selectedLgaId){layer.setStyle({color:'#1c2333',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});layer.bringToFront();}
+    if(id===selectedLgaId){layer.setStyle({color:'#1c2333',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});} // bringToFront 금지(단일 캔버스라 핀 위로 올라옴)
     else if(selectedLgaId){layer.setStyle({color:c,weight:1,opacity:0.25,fillColor:c,fillOpacity:fillOther});}
     else{
       const dim=activeCat!=='all'&&LGAS[id].cat!==activeCat;
@@ -272,6 +277,7 @@ const lgaLayers={};
 Object.entries(LGA_BOUNDARIES).forEach(([id,geom])=>{
   if(!LGAS[id])return;
   const layer=L.geoJSON({type:'Feature',properties:{},geometry:geom},{
+    renderer:VEC_CANVAS,
     style:{color:lgaColor(id),weight:1.8,opacity:0.9,fillColor:lgaColor(id),fillOpacity:0.11},
   }).addTo(map);
   layer.on('click',(e)=>{L.DomEvent.stopPropagation(e);deselectSuburb();openSheet(id);});
@@ -358,13 +364,13 @@ function buildSuburbLayer(){
   SUBURBS.forEach((s,si)=>{
     const d=LGAS[s.l];if(!d)return;
     const latlngs=s.g.map(ring=>[ring.map(([lng,lat])=>[lat,lng])]);
-    const poly=L.polygon(latlngs,{pane:'suburbPane',fillColor:CAT_META[d.cat].color,...SUB_BASE});
+    const poly=L.polygon(latlngs,{renderer:VEC_CANVAS,fillColor:CAT_META[d.cat].color,...SUB_BASE});
     const l2n=(s.l2||[]).map(id=>LGAS[id]?LGAS[id].name:id).join(' · ');
     const tip=`${s.n}${s.pc?(' · '+s.pc):''}`+(l2n?`<br><span style="font-size:9.5px;color:#5b6377">${T().partly(l2n)}</span>`:'');
     poly.bindTooltip(tip,{sticky:true,direction:'top',className:'sub-tip',opacity:1});
     poly.on('click',(e)=>{
       L.DomEvent.stopPropagation(e);
-      deselectSuburb();selectedSubPoly=poly;poly.setStyle(SUB_SEL);poly.bringToFront();
+      deselectSuburb();selectedSubPoly=poly;poly.setStyle(SUB_SEL);
       openSheet(s.l);
     });
     suburbLayer.addLayer(poly);suburbPolys[si]=poly;
@@ -400,9 +406,8 @@ function glyphHtml(cat,color,d){
   const s=Math.round(d*0.62);
   return `<div class="gpin" style="width:${d}px;height:${d}px;background:${color}"><svg width="${s}" height="${s}" viewBox="0 0 24 24">${GLYPHS[cat]}</svg></div>`;
 }
-// POI 캔버스 렌더러 — pane별 1개. 점·기호 모두 캔버스(DOM 마커 제로 → 밀집지역 팬/줌 성능). 교통은 기존 SVG 유지
-const _paneCanvas={};
-function paneCanvas(p){return _paneCanvas[p]||(_paneCanvas[p]=L.canvas({pane:p}));}
+// POI 렌더러 = 단일 벡터 캔버스(VEC_CANVAS). 점·기호 모두 캔버스 — DOM 마커 제로, 다중 캔버스 이벤트 차단 문제 회피
+function paneCanvas(){return VEC_CANVAS;}
 // 기호핀 사전 래스터: (cat,color)별 SVG 이미지 1개 캐시 — 색원+흰 테두리+글리프
 const GLYPH_IMGS={};
 function glyphImgFor(cat,color){
@@ -433,7 +438,7 @@ function poiMarker(ll,o){
   }else{
     mk=L.circleMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
-  if(o.tooltip)mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1});
+  if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
   if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240});
   return mk;
 }
@@ -486,24 +491,24 @@ function buildTransitLayer(){
   transitMarkers={train:[],tram:[],bus:[]};transitFilter=null;
   // 버스 간선(Go Zone 코리도 대표 8노선) — 노선당 멀티폴리라인 1개, 얇고 흐리게
   BUS_TRUNK.forEach(rt=>{
-    const pl=L.polyline(rt.segs,{pane:'transitPane',color:TRANSIT_COLOR.bus,weight:TRANSIT_W,opacity:TRANSIT_BASE_OP.bus,lineCap:'round',lineJoin:'round',interactive:false});
+    const pl=L.polyline(rt.segs,{renderer:VEC_CANVAS,color:TRANSIT_COLOR.bus,weight:TRANSIT_W,opacity:TRANSIT_BASE_OP.bus,lineCap:'round',lineJoin:'round',interactive:false});
     transitMarkers.bus.push(pl);pl.addTo(transitLayer);
   });
   // 간선 정류장 603곳 — 항상 표시
   busStopGroup=L.layerGroup();
   BUS_STOPS.forEach(s=>{
-    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR.bus,fillOpacity:1})
+    const mk=L.circleMarker(s.ll,{renderer:VEC_CANVAS,radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR.bus,fillOpacity:1})
       .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#5b6377">${T().busStop}</span>`,{direction:'top',className:'sub-tip',opacity:1});
     transitMarkers.bus.push(mk);mk.addTo(busStopGroup);
   });
   busStopGroup.addTo(transitLayer);
   TRANSIT.lines.forEach(l=>{
-    const pl=L.polyline(l.c,{pane:'transitPane',color:TRANSIT_COLOR[l.t],weight:TRANSIT_W,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false});
+    const pl=L.polyline(l.c,{renderer:VEC_CANVAS,color:TRANSIT_COLOR[l.t],weight:TRANSIT_W,opacity:0.9,lineCap:'round',lineJoin:'round',interactive:false});
     (transitMarkers[l.t]||transitMarkers.train).push(pl);pl.addTo(transitLayer);
   });
   TRANSIT.stations.forEach(s=>{
     const isTram=s.t==='tram';
-    const mk=L.circleMarker(s.ll,{pane:'transitPane',radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR[s.t],fillOpacity:1})
+    const mk=L.circleMarker(s.ll,{renderer:VEC_CANVAS,radius:TRANSIT_R,color:'#0c0f14',weight:1,fillColor:TRANSIT_COLOR[s.t],fillOpacity:1})
       .bindTooltip(`${s.n}<br><span style="font-size:9px;color:#5b6377">${isTram?T().tram:T().train}</span>`,{direction:'top',className:'sub-tip',opacity:1});
     (transitMarkers[s.t]||transitMarkers.train).push(mk);mk.addTo(transitLayer);
   });
@@ -974,7 +979,7 @@ function focusSuburb(si){
   const s=SUBURBS[si];if(!s)return;
   if(!suburbOn)setSuburbLayer(true);
   const poly=suburbPolys[si];if(!poly)return;
-  deselectSuburb();selectedSubPoly=poly;poly.setStyle(SUB_SEL);poly.bringToFront();
+  deselectSuburb();selectedSubPoly=poly;poly.setStyle(SUB_SEL);
   openSheet(s.l);
   map.fitBounds(poly.getBounds(),{padding:[90,90],maxZoom:ZOOM_SUB});
 }
