@@ -7,7 +7,17 @@
 
 ---
 
-## E. 성능 마감
+## E. 성능 마감 — ✅ 완료 (2026-07-18, v=20260718f 배포)
+
+완료 요약: ① 점 모드 circleMarker에 pane별 `L.canvas()` 렌더러(`paneCanvas()`) — 밀집 3종
+z12 재빌드 504ms(SVG-DOM)→238ms. 격리는 `options.interactive` 토글로 캔버스 기하 히트테스트 차단.
+교통은 기존 SVG 유지. ② moveend 150ms 디바운스 + 오버레이별 직전 계산 범위(`r._cb`) 완전
+포함 시 스킵(미세 팬 컬링 호출 0회 실측). ③ pad(1)→pad(0.5). ④ 좌표 절삭: 스크립트 재실행
+결과 전 파일 이미 5자리 이하(6자리+ 좌표 0개) — 파일 크기 변화 0, 무변경. ⑤ data-geo.js
+`?v=20260718f`. ⑥ `setPrefix(false)` + 어트리뷰션 9px·반투명(© OSM © CARTO 유지).
+검증: 격리·필터·줌 전환·팝업 회귀 없음, 콘솔 에러 0.
+
+원문 지시 (참고):
 
 1. 점 모드 렌더러 canvas 전환: circleMarker에 `L.canvas()` renderer 적용
    (POI pane별 캔버스). DOM 마커 → 캔버스 렌더로 팬/줌 성능 개선 목적.

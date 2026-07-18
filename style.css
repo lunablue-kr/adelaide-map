@@ -258,3 +258,6 @@
 /* 오버레이 데이터 로딩 중 표시(지연 로딩) */
 .ov-row.loading,.mov-chip.loading{animation:ovload .8s ease-in-out infinite alternate}
 @keyframes ovload{from{opacity:.95}to{opacity:.4}}
+
+/* 어트리뷰션 최소화(표기 자체는 라이선스상 유지) */
+.leaflet-control-attribution{font-size:9px;opacity:0.55;background:rgba(255,255,255,0.6);}
