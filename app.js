@@ -215,6 +215,15 @@ const map=L.map('map',{
 }).setView([-34.95,138.62],11);
 L.control.zoom({position:'bottomright'}).addTo(map);
 map.attributionControl.setPrefix(false); // Leaflet 접두어 제거(© OSM © CARTO는 라이선스상 유지)
+// 팝업 열릴 때 같은 마커의 호버 툴팁 잠금(팝업 뒤 겹침 방지), 닫히면 복원 — 전 오버레이 공통
+map.on('popupopen',e=>{
+  const s=e.popup&&e.popup._source;
+  if(s&&s.getTooltip&&s.getTooltip()){s._ttSaved=s.getTooltip();s.unbindTooltip();}
+});
+map.on('popupclose',e=>{
+  const s=e.popup&&e.popup._source;
+  if(s&&s._ttSaved){s.bindTooltip(s._ttSaved);delete s._ttSaved;}
+});
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
   attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a> contributors © <a href="https://carto.com">CARTO</a>',
   subdomains:'abcd',maxZoom:19
@@ -391,14 +400,36 @@ function glyphHtml(cat,color,d){
   const s=Math.round(d*0.62);
   return `<div class="gpin" style="width:${d}px;height:${d}px;background:${color}"><svg width="${s}" height="${s}" viewBox="0 0 24 24">${GLYPHS[cat]}</svg></div>`;
 }
-// 점 모드 캔버스 렌더러 — POI pane별 1개(DOM/SVG 마커 대비 팬·줌 성능). 교통은 기존 SVG 유지
+// POI 캔버스 렌더러 — pane별 1개. 점·기호 모두 캔버스(DOM 마커 제로 → 밀집지역 팬/줌 성능). 교통은 기존 SVG 유지
 const _paneCanvas={};
 function paneCanvas(p){return _paneCanvas[p]||(_paneCanvas[p]=L.canvas({pane:p}));}
+// 기호핀 사전 래스터: (cat,color)별 SVG 이미지 1개 캐시 — 색원+흰 테두리+글리프
+const GLYPH_IMGS={};
+function glyphImgFor(cat,color){
+  const key=cat+color;
+  if(GLYPH_IMGS[key])return GLYPH_IMGS[key];
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10.2" fill="${color}" stroke="#ffffff" stroke-width="1.6"/><svg x="4" y="4" width="14" height="14" viewBox="0 0 24 24" color="#ffffff">${GLYPHS[cat]}</svg></svg>`;
+  const img=new Image();
+  img._pend=[];
+  img.onload=()=>{if(img._pend)img._pend.forEach(l=>{try{l.redraw();}catch(e){}});img._pend=null;};
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  return GLYPH_IMGS[key]=img;
+}
+// CircleMarker 서브클래스: 캔버스에 원 대신 기호 이미지를 그림(히트테스트·팝업·격리는 원과 동일)
+const GlyphMarker=L.CircleMarker.extend({_updatePath:function(){this._renderer._updateGlyph(this);}});
+L.Canvas.include({_updateGlyph:function(layer){
+  if(!this._drawing||layer._empty())return;
+  const o=layer.options;
+  if(!o.opacity&&!o.fillOpacity)return; // 격리 숨김
+  const img=o.glyphImg,d=o.glyphD,p=layer._point;
+  if(!img.complete||!img.naturalWidth){if(img._pend)img._pend.push(layer);return;}
+  this._ctx.drawImage(img,p.x-d/2,p.y-d/2,d,d);
+}});
 function poiMarker(ll,o){
   let mk;
   if(map.getZoom()>=(o.zoomGlyph||ZOOM_GLYPH)){
     const d=o.glyph||22;
-    mk=L.marker(ll,{pane:o.pane,icon:L.divIcon({className:'',html:glyphHtml(o.cat,o.color,d),iconSize:[d,d],iconAnchor:[d/2,d/2]})});
+    mk=new GlyphMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat,o.color),glyphD:d});
   }else{
     mk=L.circleMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
