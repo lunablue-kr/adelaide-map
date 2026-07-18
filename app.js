@@ -408,33 +408,39 @@ function glyphHtml(cat,color,d){
 }
 // POI 렌더러 = 단일 벡터 캔버스(VEC_CANVAS). 점·기호 모두 캔버스 — DOM 마커 제로, 다중 캔버스 이벤트 차단 문제 회피
 function paneCanvas(){return VEC_CANVAS;}
-// 기호핀 사전 래스터: (cat,color)별 SVG 이미지 1개 캐시 — 색원+흰 테두리+글리프
+// 기호(흰 글리프)만 사전 래스터(cat별 1장, 3배 해상도) — 원·테두리는 캔버스 벡터로 직접 그림(DPR 무관 선명, dash 상태 무영향)
 const GLYPH_IMGS={};
-function glyphImgFor(cat,color){
-  const key=cat+color;
-  if(GLYPH_IMGS[key])return GLYPH_IMGS[key];
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 22 22"><circle cx="11" cy="11" r="10.2" fill="${color}" stroke="#ffffff" stroke-width="1.6"/><svg x="4" y="4" width="14" height="14" viewBox="0 0 24 24" color="#ffffff">${GLYPHS[cat]}</svg></svg>`;
+function glyphImgFor(cat){
+  if(GLYPH_IMGS[cat])return GLYPH_IMGS[cat];
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" color="#ffffff">${GLYPHS[cat]}</svg>`;
   const img=new Image();
   img._pend=[];
   img.onload=()=>{if(img._pend)img._pend.forEach(l=>{try{l.redraw();}catch(e){}});img._pend=null;};
   img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-  return GLYPH_IMGS[key]=img;
+  return GLYPH_IMGS[cat]=img;
 }
-// CircleMarker 서브클래스: 캔버스에 원 대신 기호 이미지를 그림(히트테스트·팝업·격리는 원과 동일)
+// CircleMarker 서브클래스: 캔버스에 원 대신 기호핀을 그림(히트테스트·팝업·격리는 원과 동일)
 const GlyphMarker=L.CircleMarker.extend({_updatePath:function(){this._renderer._updateGlyph(this);}});
 L.Canvas.include({_updateGlyph:function(layer){
   if(!this._drawing||layer._empty())return;
   const o=layer.options;
   if(!o.opacity&&!o.fillOpacity)return; // 격리 숨김
-  const img=o.glyphImg,d=o.glyphD,p=layer._point;
-  if(!img.complete||!img.naturalWidth){if(img._pend)img._pend.push(layer);return;}
-  this._ctx.drawImage(img,p.x-d/2,p.y-d/2,d,d);
+  const p=layer._point,ctx=this._ctx,r=o.glyphD/2;
+  ctx.save();
+  ctx.setLineDash([]); // 서버브 점선 등 이전 경로의 dash 상태 차단
+  ctx.beginPath();ctx.arc(p.x,p.y,r-0.8,0,Math.PI*2);
+  ctx.fillStyle=o.glyphColor;ctx.fill();
+  ctx.lineWidth=1.6;ctx.strokeStyle='#ffffff';ctx.stroke();
+  const img=o.glyphImg,s=Math.round(o.glyphD*0.62);
+  if(img.complete&&img.naturalWidth)ctx.drawImage(img,p.x-s/2,p.y-s/2,s,s);
+  else if(img._pend)img._pend.push(layer);
+  ctx.restore();
 }});
 function poiMarker(ll,o){
   let mk;
   if(map.getZoom()>=(o.zoomGlyph||ZOOM_GLYPH)){
     const d=o.glyph||22;
-    mk=new GlyphMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat,o.color),glyphD:d});
+    mk=new GlyphMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat),glyphColor:o.color,glyphD:d});
   }else{
     mk=L.circleMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
