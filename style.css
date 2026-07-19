@@ -122,11 +122,10 @@
   .popup-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;line-height:1.2;margin-bottom:2px;}
   .popup-sub{font-size:10px;color:var(--muted2);margin-bottom:7px;}
   .popup-desc{font-size:11px;color:rgba(28,35,51,0.76);line-height:1.75;}
-  .popup-btns{display:flex;gap:6px;padding:0 16px 13px;}
-  .popup-btn{flex:1;text-align:center;font-size:11px;font-weight:500;padding:7px 0;border-radius:8px;cursor:pointer;text-decoration:none;transition:all 0.15s;}
-  .popup-btn:first-child{background:var(--text);color:var(--bg);}
-  .popup-btn:last-child{background:var(--surface2);color:var(--text);border:1px solid var(--border2);}
-  .popup-btn:hover{opacity:0.85;}
+  /* 구글맵 아이콘 버튼 — 전 팝업 하단 우측 통일 위치 */
+  .popup-gmap{display:flex;justify-content:flex-end;align-items:center;padding:0 14px 12px;margin-top:-4px;opacity:0.9;transition:opacity 0.15s;}
+  .popup-gmap:hover{opacity:1;}
+  .popup-gmap svg{display:block;}
 
   /* ── 피드백 모달 ─────────────────────── */
   #fb-overlay{position:fixed;inset:0;z-index:3000;background:rgba(20,26,40,0.45);backdrop-filter:blur(4px);

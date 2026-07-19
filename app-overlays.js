@@ -49,14 +49,13 @@ L.Canvas.include({_updateGlyph:function(layer){
 }});
 // 선택 필드 desc(한/영) — 있으면 이름 아래 표시, 없으면 생략(레이아웃 변화 없음)
 function descHtml(item){const d=(LANG==='en'&&item.en)?item.en:item.desc;return d?`<div class="popup-desc">${d}</div>`:'';}
-// 팝업 하단 공통 버튼(구글맵·길찾기) — 전 POI 오버레이 공통. name·좌표·오버레이id 주입, 클릭 track('gmap-'+id)
+// 구글맵 핀 로고 아이콘(다색) — 팝업서 구글맵 열기 버튼
+const GMAP_ICON='<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1a73e8" d="M12 2a7 7 0 0 0-7 7c0 1.4.4 2.5 1.1 3.7L12 22l1.3-2.3L7.6 11A5 5 0 0 1 12 4z"/><path fill="#ea4335" d="M12 2a7 7 0 0 1 7 7c0 1.4-.4 2.5-1.1 3.7l-4 6.6-2.6-4.6 3.7-6.4A5 5 0 0 0 12 4z"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>';
+// 팝업 하단 구글맵 아이콘 버튼(전 POI 공통, 통일 위치) — 클릭 track('gmap-'+id)
 function gmapFooter(name,ll,id){
   const q=encodeURIComponent(name+' Adelaide SA'); // 서버브명 없으면 도시명 폴백(POI 대부분 서버브 미보유)
   const gm=`https://www.google.com/maps/search/?api=1&query=${q}`;
-  const dir=`https://www.google.com/maps/dir/?api=1&destination=${ll[0]},${ll[1]}`;
-  const L1=LANG==='en'?'Google Maps':'구글맵', L2=LANG==='en'?'Directions':'길찾기';
-  return `<div class="popup-btns"><a class="popup-btn" href="${gm}" target="_blank" rel="noopener" onclick="track('gmap-${id}')">${L1}</a>`+
-    `<a class="popup-btn" href="${dir}" target="_blank" rel="noopener" onclick="track('gmap-${id}')">${L2}</a></div>`;
+  return `<a class="popup-gmap" href="${gm}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
 }
 function poiMarker(ll,o){
   let mk;
@@ -69,8 +68,9 @@ function poiMarker(ll,o){
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
   // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관. 하단 구글맵/길찾기 버튼.
   if(o.popup){
-    const html=o.popupName?o.popup+gmapFooter(o.popupName,ll,o.popupId||o.cat):o.popup;
-    mk.bindPopup(html,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius+2)]});
+    const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(o.popupName,ll,o.popupId||o.cat)}</div>`:o.popup;
+    // offset: tip이 핀 상단 바로 위(~4px, 안 겹침)에 오도록. Leaflet 내부 tip 오프셋 상쇄해 radius 무관 일정 간격
+    mk.bindPopup(html,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius-6)]});
   }
   return mk;
 }
