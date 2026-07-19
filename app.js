@@ -210,17 +210,20 @@ function loadFailToast(){toast(LANG==='en'?'Data load failed — check connectio
 
 // ═══════════════════════ MAP ═══════════════════════
 const map=L.map('map',{
-  minZoom:10,maxZoom:15,zoomControl:false,
+  minZoom:10,maxZoom:15,zoomControl:false,closePopupOnClick:false, // 팝업 닫기는 click 핸들러가 직접(선택 무효화 위해)
   maxBounds:[[-35.65,138.1],[-34.3,139.1]],maxBoundsViscosity:0.85,
 }).setView([-34.95,138.62],11);
 L.control.zoom({position:'bottomright'}).addTo(map);
 map.attributionControl.setPrefix(false); // Leaflet 접두어 제거(© OSM © CARTO는 라이선스상 유지)
 // 팝업 열릴 때 같은 마커의 호버 툴팁 잠금(팝업 뒤 겹침 방지), 닫히면 복원 — 전 오버레이 공통
+let _popupOpen=false; // map._popup은 닫힌 뒤 stale하게 남아 신뢰 불가 → 자체 플래그
 map.on('popupopen',e=>{
+  _popupOpen=true;
   const s=e.popup&&e.popup._source;
   if(s&&s.getTooltip&&s.getTooltip()){s._ttSaved=s.getTooltip();s.unbindTooltip();}
 });
 map.on('popupclose',e=>{
+  _popupOpen=false;
   const s=e.popup&&e.popup._source;
   if(s&&s._ttSaved){s.bindTooltip(s._ttSaved);delete s._ttSaved;}
 });
@@ -259,8 +262,8 @@ const MAX_SCH=Math.max(...Object.values(LGA_STATS).map(s=>s.sch));
 const RENT_MIN=Math.min(...Object.values(RENT_MID)),RENT_MAX=Math.max(...Object.values(RENT_MID));
 
 function restyleAll(){
-  // 세 모드 모두 동일 스타일(경계=해당 색, 채움 연하게) — 포인트·노선 가독 우선
-  const fillBase=0.11, fillDim=0.03, fillSel=0.5, fillOther=0.05;
+  // 라이트 배경 대응: 면 채움을 등급 구분되게(2026-07-19, 다크 때 0.11서 상향). 핀은 라이트 대비 충분해 가독 유지
+  const fillBase=0.28, fillDim=0.06, fillSel=0.5, fillOther=0.12;
   Object.entries(lgaLayers).forEach(([id,layer])=>{
     const c=lgaColor(id);
     if(id===selectedLgaId){layer.setStyle({color:'#1c2333',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});} // bringToFront 금지(단일 캔버스라 핀 위로 올라옴)
@@ -285,7 +288,10 @@ Object.entries(LGA_BOUNDARIES).forEach(([id,geom])=>{
   layer.on('mouseout',()=>{if(selectedLgaId)return;restyleAll();});
   lgaLayers[id]=layer;
 });
-map.on('click',()=>{deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
+map.on('click',()=>{
+  if(_popupOpen){map.closePopup();return;} // 팝업 열려있으면 닫기만 — 맵 선택(서버브·시트 해제) 무효화
+  deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();
+});
 
 // ═══════════════ 바텀시트 ═══════════════
 function chip(text,fg,bg){return `<span class="bs-chip" style="color:${fg};background:${bg}">${text}</span>`;}
