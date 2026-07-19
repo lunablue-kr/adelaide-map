@@ -49,10 +49,10 @@ L.Canvas.include({_updateGlyph:function(layer){
   const p=layer._point,ctx=this._ctx,r=o.glyphD/2;
   ctx.save();
   ctx.setLineDash([]); // 서버브 점선 등 이전 경로의 dash 상태 차단
-  if(o.dimmed){ // 격리 비선택: 채움 없는 카테고리색 링 + 틴트 아이콘, 살짝 연하게(겹쳐도 덜 지저분, 오버레이 식별 유지)
-    ctx.globalAlpha=0.5;
+  if(o.dimmed){ // 격리 비선택: 채움 없는 카테고리색 링(연하게) + 카테고리색 아이콘(또렷·풀불투명 → 어떤 오버레이인지 식별)
     ctx.beginPath();ctx.arc(p.x,p.y,r-0.8,0,Math.PI*2);
-    ctx.lineWidth=1.6;ctx.strokeStyle=o.glyphColor;ctx.stroke();
+    ctx.globalAlpha=0.55;ctx.lineWidth=1.6;ctx.strokeStyle=o.glyphColor;ctx.stroke(); // 링은 살짝 연하게(겹쳐도 덜 지저분)
+    ctx.globalAlpha=1; // 아이콘은 또렷하게(묻힘 방지)
     const timg=glyphImgTint(o.cat,o.glyphColor),ts=Math.round(o.glyphD*0.62);
     if(timg.complete&&timg.naturalWidth)ctx.drawImage(timg,p.x-ts/2,p.y-ts/2,ts,ts);
     else if(timg._pend)timg._pend.push(layer);
@@ -84,7 +84,7 @@ function poiMarker(ll,o){
   let mk;
   if(map.getZoom()>=(o.zoomGlyph||ZOOM_GLYPH)){
     const d=o.glyph||22;
-    mk=new GlyphMarker(ll,{renderer:VEC_CANVAS,radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat),glyphColor:o.color,glyphD:d});
+    mk=new GlyphMarker(ll,{renderer:VEC_CANVAS,radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat),glyphColor:o.color,glyphD:d,cat:o.cat});
   }else{
     mk=L.circleMarker(ll,{renderer:VEC_CANVAS,radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }

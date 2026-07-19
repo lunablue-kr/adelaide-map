@@ -104,6 +104,11 @@ F-4 생활·행정(`7f01113` 다음): 경찰서18·세탁방36.
 
 ## G. 러닝코스 오버레이 (마지막, 반드시 별도 세션)
 
+**진행상태(2026-07-19): 기반+2코스 완료(커밋 5ef81d6).**
+- ✅ 폴리라인 오버레이 신설: `data-runs.js`(RUNS 배열), app-overlays.js `setRunLayer/buildRunLayer/runPopup`(L.polyline on VEC_CANVAS, 탭→속성팝업, 지연로딩 `OV_FILES.runs`, RUN_COLOR `#e0662a`). OVERLAYS/i18n `runs`, 미니범례 1줄, 러너 프리셋(`parks`+`runs`).
+- ✅ 시드 2코스 실경로(OSM Overpass 스티칭+RDP 12m): 토렌스 리니어 파크 14.5km(111pt)·코스트 파크 2.5km(15pt). 속성=km·surface(포장)·현지맥락 desc(한/영).
+- ⬜ **다음 세션 잔여**: (1) 10~15코스로 확장·구간분할(현 2코스는 스티칭된 부분구간 — 전체 확장 필요) (2) 고저차 ELVIS DEM (3) 야간가능(조명) (4) 화장실·음수대 인접(parks water/toilet 교차) (5) 각 코스 실경로 정밀 대조. 추출법=아래 파이프라인, Overpass 쿼리는 세션 스크래치패드/`_places-batch` 참고.
+
 폴리라인 기반 신규 오버레이. 데이터 가공 비중 큼.
 
 1. 코스 큐레이트 10~15개: Torrens Linear Park(구간 분할 가능)·Coast Park·
