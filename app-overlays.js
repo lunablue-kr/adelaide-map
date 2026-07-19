@@ -260,7 +260,7 @@ const PUB_COLOR={pub:PALETTE[2],bar:PALETTE[5],wine:PALETTE[0],brew:PALETTE[1],c
 const PARK_COLOR={park:PALETTE[3],water:PALETTE[4],toilet:PALETTE[5],fitness:PALETTE[0],bbq:PALETTE[1],pool:PALETTE[6],playground:PALETTE[2]}; // 공원 초록·음수대 시안·화장실 파랑·헬스 빨강·BBQ 주황·수영장 보라·놀이터 노랑
 
 // ═══════════════ 생활·행정 (OSM bank/post_office/office=government/mobile_phone) ═══════════════
-const ADMIN_COLOR={govt:PALETTE[5],bank:PALETTE[3],post:PALETTE[0],telecom:PALETTE[1],lib:PALETTE[6]}; // 관공서 파랑·은행 초록·우체국 빨강(호주우체국)·통신 주황·도서관 보라
+const ADMIN_COLOR={govt:PALETTE[5],bank:PALETTE[3],post:PALETTE[0],telecom:PALETTE[1],lib:PALETTE[6],police:PALETTE[4],laundry:PALETTE[2]}; // 관공서 파랑·은행 초록·우체국 빨강(호주우체국)·통신 주황·도서관 보라
 // ═══════════════ POI 오버레이 레지스트리 — 8종 선언형 정의 + 제네릭 빌드·필터·토글 ═══════════════
 // 항목: {id(=애널리틱스 sub-* 이벤트명), cat(글리프), pane, color(색맵), def(색·버킷 기본키), types(하위분류),
 //        maxWidth?, data:()=>[items], label:(item)=>하위라벨, popup?:(item)=>html(없으면 이름+라벨 기본팝업), nameOf?:(item)=>표시명}
@@ -286,7 +286,7 @@ const POI_REG={
     data:()=>PUBS,label:p=>T().pubTypes[p.t]},
   parks:{id:'parks',cat:'park',color:PARK_COLOR,def:'park',types:['park','water','toilet','fitness','bbq','pool','playground'],maxWidth:200,cull:true,
     data:()=>PARKS,label:p=>T().parkTypes[p.t],nameOf:p=>p.n||T().parkTypes[p.t]},
-  admin:{id:'admin',cat:'admin',color:ADMIN_COLOR,def:'govt',types:['govt','bank','post','telecom','lib'],maxWidth:200,
+  admin:{id:'admin',cat:'admin',color:ADMIN_COLOR,def:'govt',types:['govt','bank','post','telecom','lib','police','laundry'],maxWidth:200,
     data:()=>ADMIN,label:a=>T().adminTypes[a.t],nameOf:a=>a.n||T().adminTypes[a.t]},
   shopping:{id:'shopping',cat:'shopping',color:SHOP_COLOR,def:'mall',types:['mall','retail','opshop'],maxWidth:220,
     data:()=>[...MALLS.map(m=>({...m,t:'mall'})),...BIG_RETAIL.map(r=>({...r,t:'retail'})),...OP_SHOPS.map(o=>({...o,t:'opshop'}))],

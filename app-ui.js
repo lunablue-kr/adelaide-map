@@ -326,7 +326,7 @@ function renderMiniLegend(){
   }
   if(POI_REG.admin.on){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.admin}</svg></span>${t.layers.admin}</div>`+
-      ['govt','bank','post','telecom','lib'].map(k=>`<div class="ml-item ml-click${POI_REG.admin.filter&&POI_REG.admin.filter!==k?' dim':''}" data-admin="${k}"><span class="ml-dot" style="color:${ADMIN_COLOR[k]}"></span>${t.adminTypes[k]}</div>`).join('');
+      ['govt','bank','post','telecom','lib','police','laundry'].map(k=>`<div class="ml-item ml-click${POI_REG.admin.filter&&POI_REG.admin.filter!==k?' dim':''}" data-admin="${k}"><span class="ml-dot" style="color:${ADMIN_COLOR[k]}"></span>${t.adminTypes[k]}</div>`).join('');
   }
   el.innerHTML=html;
   el.style.display=html?'':'none';
@@ -454,7 +454,7 @@ const M_SUB={
   cafe:{items:()=>['cafe','bakery','brunch'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,getF:()=>POI_REG.cafe.filter,setF:setCafeFilter},
   pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,getF:()=>POI_REG.pubs.filter,setF:setPubFilter},
   parks:{items:()=>['park','water','toilet','fitness','bbq','pool','playground'].map(k=>[k,T().parkTypes[k]]),colors:PARK_COLOR,getF:()=>POI_REG.parks.filter,setF:setParkFilter},
-  admin:{items:()=>['govt','bank','post','telecom','lib'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,getF:()=>POI_REG.admin.filter,setF:setAdminFilter},
+  admin:{items:()=>['govt','bank','post','telecom','lib','police','laundry'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,getF:()=>POI_REG.admin.filter,setF:setAdminFilter},
   shopping:{items:()=>['mall','retail','opshop'].map(k=>[k,T().shopTypes[k]]),colors:SHOP_COLOR,getF:()=>POI_REG.shopping.filter,setF:setShopFilter},
   sight:{items:()=>['beach','wine','venue'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,getF:()=>facFilter,setF:setFacFilter},
