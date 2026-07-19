@@ -422,7 +422,7 @@ function applyLang(){
   document.getElementById('fb-open').textContent=t.fbOpen;
   document.getElementById('sp-foot').textContent=t.sources;
   renderOverlayRows();renderPresetRows();renderColorSeg();renderMiniLegend();buildVibes();
-  renderMOverlayBar();renderMSubBar();renderMColorBtn();renderMScale();
+  renderMOverlayBar();renderMSubBar();renderMPresetPop();renderMColorBtn();renderMScale();
   if(selectedLgaId)openSheet(selectedLgaId);
   // 레이어 툴팁 언어 재생성 — POI 8종은 레지스트리 루프
   Object.values(POI_REG).forEach(r=>{
@@ -491,19 +491,27 @@ function movMark(o){
   if(o.id==='suburb')return `<span class="mov-g"><span style="width:13px;border-top:2px dashed currentColor"></span></span>`;
   return '';
 }
+let mPresetOpen=false;
+function toggleMPreset(){mPresetOpen=!mPresetOpen;if(mPresetOpen)mExpanded=null;renderMOverlayBar();renderMSubBar();renderMPresetPop();}
+function renderMPresetPop(){
+  const el=document.getElementById('m-preset-pop');if(!el)return;
+  el.innerHTML=PRESETS.map(p=>`<span class="mpreset-item${presetActive(p)?' on':''}" data-preset="${p.id}">${T().presets[p.id]}</span>`).join('');
+  el.querySelectorAll('.mpreset-item').forEach(c=>c.addEventListener('click',()=>{applyPreset(PRESETS.find(x=>x.id===c.dataset.preset));mPresetOpen=false;el.classList.remove('on');}));
+  el.classList.toggle('on',mPresetOpen);
+}
 function renderMOverlayBar(){
   const bar=document.getElementById('m-overlaybar');if(!bar)return;
   const anyOn=OVERLAYS.some(o=>o.id!=='suburb'&&o.get());
   const rc=document.getElementById('m-ovreset'); // 칩바 밖 고정 버튼(아이콘만) — 스크롤 무관 상시 노출
   if(rc){rc.classList.toggle('on',anyOn);rc.title=T().clearAll;}
   bar.classList.toggle('reset-pad',anyOn);
-  const presetHtml=PRESETS.map(p=>`<span class="mov-chip preset${presetActive(p)?' on':''}" data-preset="${p.id}">${T().presets[p.id]}</span>`).join('')+'<span class="mov-sep"></span>';
-  bar.innerHTML=presetHtml+OVERLAYS.map(o=>{
+  const pill=`<span class="mov-chip mov-pbtn${PRESETS.some(presetActive)?' on':''}${mPresetOpen?' open':''}" id="mov-pbtn">${T().presetBtn}<span class="mov-caret">▾</span></span>`;
+  bar.innerHTML=pill+OVERLAYS.map(o=>{
     const hasSub=!!M_SUB[o.id];
     return `<span class="mov-chip${o.get()?' on':''}${o.get()&&ovDataPending(o.id)?' loading':''}" data-ov="${o.id}">${movMark(o)}${T().layers[o.id]}${hasSub?'<span class="mov-caret">▾</span>':''}</span>`;
   }).join('');
   bar.querySelectorAll('.mov-chip[data-ov]').forEach(c=>c.addEventListener('click',()=>onMChip(c.dataset.ov)));
-  bar.querySelectorAll('.mov-chip[data-preset]').forEach(c=>c.addEventListener('click',()=>applyPreset(PRESETS.find(x=>x.id===c.dataset.preset))));
+  const pb=document.getElementById('mov-pbtn');if(pb)pb.addEventListener('click',toggleMPreset);
 }
 (function(){ // 모두 해제 버튼: 1회 배선(아이콘 고정, on/off는 renderMOverlayBar가 토글)
   const rc=document.getElementById('m-ovreset');if(!rc)return;
