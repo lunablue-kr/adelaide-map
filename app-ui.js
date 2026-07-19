@@ -10,6 +10,8 @@ const OVERLAYS=[
   {id:'cafe',color:'#39415a',swatch:'glyph',cat:'cafe',get:()=>POI_REG.cafe.on,set:setCafeLayer},
   {id:'pubs',color:'#39415a',swatch:'glyph',cat:'pub',get:()=>POI_REG.pubs.on,set:setPubLayer},
   {id:'parks',color:'#39415a',swatch:'glyph',cat:'park',get:()=>POI_REG.parks.on,set:setParkLayer},
+  {id:'runs',color:'#e0662a',swatch:'dash',get:()=>runOn,set:setRunLayer}, // 폴리라인 러닝코스
+
   {id:'shopping',color:'#39415a',swatch:'glyph',cat:'shopping',get:()=>POI_REG.shopping.on,set:setShopLayer},
   {id:'sight',color:'#39415a',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
   {id:'facility',color:'#39415a',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
@@ -50,6 +52,7 @@ function syncOverlayRows(){
 const PRESETS=[
   {id:'student',ovs:['schools','hospitals','marts','cafe','transit']},
   {id:'traveler',ovs:['sight','shopping','restaurant','transit']},
+  {id:'runner',ovs:['parks','runs']}, // 음수대·화장실·헬스 오버레이는 미구축 → 구축 후 추가
 ];
 function applyPreset(p){ // 서버브 경계 유지, 나머지는 프리셋에 맞춰 on/off
   OVERLAYS.forEach(o=>{if(o.id==='suburb')return;const want=p.ovs.includes(o.id);if(o.get()!==want)o.set(want);});
@@ -340,6 +343,10 @@ function renderMiniLegend(){
   if(POI_REG.parks.on){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.park}</svg></span>${t.layers.parks}</div>`+
       ['park','water','toilet','fitness','bbq','pool','playground'].map(k=>`<div class="ml-item ml-click${POI_REG.parks.filter&&POI_REG.parks.filter!==k?' dim':''}" data-park="${k}"><span class="ml-dot" style="color:${PARK_COLOR[k]}"></span>${t.parkTypes[k]}</div>`).join('');
+  }
+  if(runOn){
+    html+=`<div class="ml-title" style="margin-top:7px">${t.layers.runs}</div>`+
+      `<div class="ml-item"><span class="ml-dot" style="color:${RUN_COLOR}"></span>${LANG==='en'?'Paved trail':'포장 코스'}</div>`;
   }
   if(POI_REG.admin.on){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.admin}</svg></span>${t.layers.admin}</div>`+

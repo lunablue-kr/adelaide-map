@@ -192,6 +192,44 @@ function setTransitLayer(on){
   renderMiniLegend();syncOverlayRows();
 }
 
+// ═══════════════ 러닝코스 레이어(폴리라인, Work Order G) ═══════════════
+let runLayer=null,runOn=false;
+const RUN_COLOR='#e0662a',RUN_W=4;
+function runPopup(r){
+  const name=(LANG==='en'&&r.en)?r.en:r.n;
+  const desc=(LANG==='en'&&r.endesc)?r.endesc:r.desc;
+  const surf=r.surface==='paved'?(LANG==='en'?'Paved':'포장'):(LANG==='en'?'Unpaved':'비포장');
+  const ll=r.path[Math.floor(r.path.length/2)]; // 코스 중앙점 → 구글맵 좌표
+  return `<div class="popup-wrap"><div class="popup-inner"><div class="popup-name">${name}</div>`+
+    `<div class="popup-sub">${r.km}km · ${surf}</div>`+
+    (desc?`<div class="popup-desc">${desc}</div>`:'')+
+    `</div>${gmapFooter(name,ll,'run')}</div>`;
+}
+function buildRunLayer(){
+  runLayer=L.layerGroup();
+  RUNS.forEach(r=>{
+    const pl=L.polyline(r.path,{renderer:VEC_CANVAS,color:RUN_COLOR,weight:RUN_W,opacity:0.85,lineCap:'round',lineJoin:'round'});
+    pl.bindPopup(runPopup(r),{maxWidth:250});
+    pl.bindTooltip((LANG==='en'&&r.en)?r.en:r.n,{sticky:true,direction:'top',className:'sub-tip',opacity:1});
+    pl.addTo(runLayer);
+  });
+}
+function setRunLayer(on){
+  if(on&&!runLayer){
+    const p=ensureOvData('runs');
+    if(p){
+      runOn=true;renderMiniLegend();syncOverlayRows();
+      p.then(()=>{if(runOn&&!runLayer){buildRunLayer();runLayer.addTo(map);}renderMiniLegend();syncOverlayRows();})
+       .catch(()=>{runOn=false;renderMiniLegend();syncOverlayRows();loadFailToast();});
+      return;
+    }
+  }
+  runOn=on;
+  if(on){if(!runLayer)buildRunLayer();runLayer.addTo(map);}
+  else if(runLayer){map.removeLayer(runLayer);}
+  renderMiniLegend();syncOverlayRows();
+}
+
 // ═══════════════ 학교 레이어 ═══════════════
 const SCHOOL_COLOR={p:PALETTE[0],s:PALETTE[1],u:PALETTE[2],c:PALETTE[3],o:PALETTE[4]}; // 초 중고 대학 칼리지 기타
 function uniPopupHtml(u){
