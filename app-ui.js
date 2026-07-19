@@ -44,7 +44,24 @@ function syncOverlayRows(){
     if(def){row.classList.toggle('on',def.get());row.classList.toggle('loading',def.get()&&ovDataPending(def.id));}
   });
   if(typeof renderMOverlayBar==='function'){renderMOverlayBar();renderMSubBar();}
+  if(typeof syncPresetRows==='function')syncPresetRows();
 }
+// 목적별 프리셋(라이트 페르소나): 오버레이 조합 원탭. 오버레이 전부 존재하는 페르소나만 배선(러너·집구하기·노마드는 해당 오버레이 구축 후 추가).
+const PRESETS=[
+  {id:'student',ovs:['schools','hospitals','marts','cafe','transit']},
+  {id:'traveler',ovs:['sight','shopping','restaurant','transit']},
+];
+function applyPreset(p){ // 서버브 경계 유지, 나머지는 프리셋에 맞춰 on/off
+  OVERLAYS.forEach(o=>{if(o.id==='suburb')return;const want=p.ovs.includes(o.id);if(o.get()!==want)o.set(want);});
+  track('preset-'+p.id);syncOverlayRows();syncPresetRows(p.id);
+}
+function presetActive(p){return p.ovs.every(id=>{const o=OVERLAYS.find(x=>x.id===id);return o&&o.get();})&&OVERLAYS.every(o=>o.id==='suburb'||p.ovs.includes(o.id)||!o.get());}
+function renderPresetRows(){ // 데스크톱 패널만(모바일은 renderMOverlayBar가 바 앞에 프리펜드)
+  const el=document.getElementById('preset-row');if(!el)return;
+  el.innerHTML=PRESETS.map(p=>`<span class="preset-chip${presetActive(p)?' on':''}" data-preset="${p.id}">${T().presets[p.id]}</span>`).join('');
+  el.querySelectorAll('.preset-chip').forEach(ch=>ch.addEventListener('click',()=>applyPreset(PRESETS.find(x=>x.id===ch.dataset.preset))));
+}
+function syncPresetRows(){document.querySelectorAll('.preset-chip[data-preset]').forEach(ch=>{const p=PRESETS.find(x=>x.id===ch.dataset.preset);ch.classList.toggle('on',!!p&&presetActive(p));});}
 function renderColorSeg(){
   ['color-seg','m-color-seg'].forEach(cid=>{
     const el=document.getElementById(cid);if(!el)return;
@@ -393,10 +410,11 @@ function applyLang(){
   document.getElementById('m-search').placeholder=t.searchPh;
   document.getElementById('m-lang').textContent=t.langBtn;
   document.getElementById('lbl-overlay').textContent=t.lblOverlay;
+  {const lp=document.getElementById('lbl-preset');if(lp)lp.textContent=t.lblPreset;}
   document.getElementById('lbl-color').textContent=t.lblColor;
   document.getElementById('fb-open').textContent=t.fbOpen;
   document.getElementById('sp-foot').textContent=t.sources;
-  renderOverlayRows();renderColorSeg();renderMiniLegend();buildVibes();
+  renderOverlayRows();renderPresetRows();renderColorSeg();renderMiniLegend();buildVibes();
   renderMOverlayBar();renderMSubBar();renderMColorBtn();renderMScale();
   if(selectedLgaId)openSheet(selectedLgaId);
   // 레이어 툴팁 언어 재생성 — POI 8종은 레지스트리 루프
@@ -472,11 +490,13 @@ function renderMOverlayBar(){
   const rc=document.getElementById('m-ovreset'); // 칩바 밖 고정 버튼(아이콘만) — 스크롤 무관 상시 노출
   if(rc){rc.classList.toggle('on',anyOn);rc.title=T().clearAll;}
   bar.classList.toggle('reset-pad',anyOn);
-  bar.innerHTML=OVERLAYS.map(o=>{
+  const presetHtml=PRESETS.map(p=>`<span class="mov-chip preset${presetActive(p)?' on':''}" data-preset="${p.id}">${T().presets[p.id]}</span>`).join('')+'<span class="mov-sep"></span>';
+  bar.innerHTML=presetHtml+OVERLAYS.map(o=>{
     const hasSub=!!M_SUB[o.id];
     return `<span class="mov-chip${o.get()?' on':''}${o.get()&&ovDataPending(o.id)?' loading':''}" data-ov="${o.id}">${movMark(o)}${T().layers[o.id]}${hasSub?'<span class="mov-caret">▾</span>':''}</span>`;
   }).join('');
   bar.querySelectorAll('.mov-chip[data-ov]').forEach(c=>c.addEventListener('click',()=>onMChip(c.dataset.ov)));
+  bar.querySelectorAll('.mov-chip[data-preset]').forEach(c=>c.addEventListener('click',()=>applyPreset(PRESETS.find(x=>x.id===c.dataset.preset))));
 }
 (function(){ // 모두 해제 버튼: 1회 배선(아이콘 고정, on/off는 renderMOverlayBar가 토글)
   const rc=document.getElementById('m-ovreset');if(!rc)return;
