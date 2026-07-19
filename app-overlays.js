@@ -35,10 +35,15 @@ const GlyphMarker=L.CircleMarker.extend({_updatePath:function(){this._renderer._
 L.Canvas.include({_updateGlyph:function(layer){
   if(!this._drawing||layer._empty())return;
   const o=layer.options;
-  if(!o.opacity&&!o.fillOpacity)return; // 격리 숨김
-  const p=layer._point,ctx=this._ctx,r=o.glyphD/2;
+  if(!o.opacity&&!o.fillOpacity)return; // 격리 숨김(점 모드)
+  const p=layer._point,ctx=this._ctx;
   ctx.save();
   ctx.setLineDash([]); // 서버브 점선 등 이전 경로의 dash 상태 차단
+  if(o.dimmed){ // 격리 비선택(기호 모드) — 작은 회색 점만(기호·테두리 없이). 겹쳐도 배경처럼 깔림
+    ctx.beginPath();ctx.arc(p.x,p.y,3.4,0,Math.PI*2);ctx.fillStyle='#c2c7d2';ctx.fill();
+    ctx.restore();return;
+  }
+  const r=o.glyphD/2;
   ctx.beginPath();ctx.arc(p.x,p.y,r-0.8,0,Math.PI*2);
   ctx.fillStyle=o.glyphColor;ctx.fill();
   ctx.lineWidth=1.6;ctx.strokeStyle='#ffffff';ctx.stroke();
@@ -82,12 +87,19 @@ function poiMarker(ll,o){
   }
   return mk;
 }
-function dimMarker(mk,visible,front){ // 격리: 비선택은 완전 숨김+비인터랙티브, 선택은 맨 앞으로
+function dimMarker(mk,visible,front){ // 격리: 기호 모드=비선택 작은 회색점(dimmed), 점 모드=숨김. 선택은 원상+맨 앞
   if(mk instanceof L.CircleMarker){
-    mk.setStyle({opacity:visible?1:0,fillOpacity:visible?1:0});
+    const isGlyph=mk.options.glyphD!==undefined; // GlyphMarker(기호핀)만 dimmed 점 처리
+    if(isGlyph){
+      mk.options.dimmed=!visible; // 비선택=작은 회색점, 선택=정상 기호
+      mk.setStyle({opacity:1,fillOpacity:1}); // 안 숨김(렌더러가 dimmed 분기)
+    }else{
+      mk.setStyle({opacity:visible?1:0,fillOpacity:visible?1:0}); // 점 모드(작은 원)는 숨김
+    }
     mk.options.interactive=visible; // 캔버스 렌더러는 기하 히트테스트라 투명해도 탭 가로챔 → 차단
     if(mk._path)mk._path.style.pointerEvents=visible?'':'none'; // SVG 경로(교통 등)
     if(visible&&front)mk.bringToFront();
+    if(mk.redraw)mk.redraw();
   }else{
     mk.setOpacity(visible?1:0);
     if(mk._icon)mk._icon.style.pointerEvents=visible?'':'none';
