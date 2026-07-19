@@ -67,7 +67,7 @@ const PUBS=[
 {ll:[-34.90658,138.59415],n:"Daniel O'Connell",t:"pub"},
 {ll:[-35.13916,138.47307],n:"Delicia Acai + Protein Bar",t:"bar"},
 {ll:[-34.92235,138.6101],n:"Distill",t:"bar"},
-{ll:[-34.9287,138.59491],n:"Diverse-City",t:"club"},
+{ll:[-34.9287,138.59491],n:"Diverse-City",t:"club",pid:"ChIJxZfhg6rPsGoR3J7eQaUieTI"},
 {ll:[-34.93489,138.59248],n:"Duke of Brunswick",t:"pub",pid:"ChIJZwO64BjPsGoRksJJX5MG6eg"},
 {ll:[-34.92425,138.59646],n:"Duke of York",t:"pub",pid:"ChIJx3g0YijPsGoRiHKvbzoxp2c"},
 {ll:[-34.94655,138.61446],n:"Earl of Leicester Hotel",t:"pub",pid:"ChIJVf9AD-zOsGoR2qPk-arXKDY"},
