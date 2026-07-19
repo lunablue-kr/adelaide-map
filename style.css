@@ -256,3 +256,4 @@
 
 /* 어트리뷰션 최소화(표기 자체는 라이선스상 유지) */
 .leaflet-control-attribution{font-size:9px;opacity:0.55;background:rgba(255,255,255,0.6);}
+  .popup-ed{display:inline-block;font-size:10.5px;font-weight:600;color:#c2410c;background:#fef3c7;border-radius:6px;padding:2px 8px;margin-bottom:6px;}

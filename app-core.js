@@ -75,7 +75,7 @@ function markerField(m,f){
 const OV_FILES={
   transit:['data-transit-bus.js'],
   schools:['data-schools-primary.js','data-schools-secondary.js','data-schools-tertiary.js','data-schools-other.js'],
-  hospitals:['data-hospitals.js','data-medical.js?v=20260714o'],
+  hospitals:['data-hospitals.js?v=20260719k','data-medical.js?v=20260719k'],
   marts:['data-shops.js?v=20260719j'],
   shopping:['data-shops.js?v=20260719j'],
   restaurant:['data-restaurants.js?v=20260714o'],

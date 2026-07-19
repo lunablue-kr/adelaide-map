@@ -290,7 +290,7 @@ function renderMiniLegend(){
   }
   if(POI_REG.hospitals.on){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.hospital}</svg></span>${t.layers.hospitals}</div>`+
-      ['hos','dr','de','km','ph'].map(k=>`<div class="ml-item ml-click${POI_REG.hospitals.filter&&POI_REG.hospitals.filter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="color:${MED_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
+      ['hos','dr','de','km','ph','vet'].map(k=>`<div class="ml-item ml-click${POI_REG.hospitals.filter&&POI_REG.hospitals.filter!==k?' dim':''}" data-hos="${k}"><span class="ml-dot" style="color:${MED_COLOR[k]}"></span>${t.hospTypes[k]}</div>`).join('');
   }
   if(POI_REG.marts.on){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.mart}</svg></span>${t.layers.marts}</div>`+
@@ -448,7 +448,7 @@ const isMobile=()=>matchMedia('(max-width:680px)').matches;
 const M_SUB={
   transit:{items:()=>[['train',T().train],['tram',T().tram],['bus',T().bus]],colors:TRANSIT_COLOR,getF:()=>transitFilter,setF:setTransitFilter},
   schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,getF:()=>POI_REG.schools.filter,setF:setSchoolFilter},
-  hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,getF:()=>POI_REG.hospitals.filter,setF:setHospitalFilter},
+  hospitals:{items:()=>['hos','dr','de','km','ph','vet'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,getF:()=>POI_REG.hospitals.filter,setF:setHospitalFilter},
   marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,getF:()=>POI_REG.marts.filter,setF:setMartFilter},
   restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,getF:()=>POI_REG.restaurant.filter,setF:setRestFilter},
   cafe:{items:()=>['cafe','bakery','brunch'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,getF:()=>POI_REG.cafe.filter,setF:setCafeFilter},

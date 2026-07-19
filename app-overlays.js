@@ -175,13 +175,14 @@ function schoolPopupHtml(s){
 
 // ═══════════════ 병원 레이어 (OSM amenity=hospital → 주요 공공·사립 큐레이트, 2026-07) ═══════════════
 // 의료: 병원(큐레이트 14) + 약국·의원·치과(OSM, LGA 클립). 십자 글리프 공유
-const MED_COLOR={hos:PALETTE[0],dr:PALETTE[1],de:PALETTE[4],km:PALETTE[6],ph:PALETTE[3]}; // 병원 빨·의원 주·치과 시안·한의원 보라·약국 초
+const MED_COLOR={hos:PALETTE[0],dr:PALETTE[1],de:PALETTE[4],km:PALETTE[6],ph:PALETTE[3],vet:PALETTE[5]}; // 병원 빨·의원 주·치과 시안·한의원 보라·약국 초·동물병원 파랑
 function medPopupHtml(item){
   const t=T();
   if(item.hos){
     const desc=(LANG==='en'&&item.en)?item.en:item.desc;
     const own=t.hospOwn[item.own]||'';
-    return `<div class="popup-inner"><div class="popup-name">${item.n}</div><div class="popup-sub">${t.hospTypes.hos}${own?' · '+own:''}</div><div class="popup-desc">${desc}</div></div>`;
+    const ed=item.ed?`<div class="popup-ed">🚑 ${LANG==='en'?'24h Emergency Dept':'24시간 응급실'}</div>`:''; // SA Health 24h ED
+    return `<div class="popup-inner"><div class="popup-name">${item.n}</div><div class="popup-sub">${t.hospTypes.hos}${own?' · '+own:''}</div>${ed}<div class="popup-desc">${desc}</div></div>`;
   }
   return `<div class="popup-inner"><div class="popup-name">${item.n}</div><div class="popup-sub">${t.hospTypes[item.t]}</div></div>`;
 }
@@ -269,8 +270,8 @@ const POI_REG={
     data:schoolData,
     label:s=>T().schoolTypes[s.t],
     popup:s=>s.uni?uniPopupHtml(s):schoolPopupHtml(s)},
-  hospitals:{id:'hospitals',cat:'hospital',color:MED_COLOR,def:'hos',types:['hos','dr','de','km','ph'],
-    data:()=>[...HOSPITALS.map(h=>({ll:h.ll,n:h.n,t:'hos',hos:true,own:h.t,desc:h.desc,en:h.en})),...MEDICAL.map(m=>({ll:m.ll,n:m.n,t:m.t}))],
+  hospitals:{id:'hospitals',cat:'hospital',color:MED_COLOR,def:'hos',types:['hos','dr','de','km','ph','vet'],
+    data:()=>[...HOSPITALS.map(h=>({ll:h.ll,n:h.n,t:'hos',hos:true,own:h.t,ed:h.ed,desc:h.desc,en:h.en})),...MEDICAL.map(m=>({ll:m.ll,n:m.n,t:m.t}))],
     label:i=>T().hospTypes[i.t],
     popup:medPopupHtml},
   marts:{id:'marts',cat:'mart',color:MART_COLOR,def:'big',types:['big','local','intl','liq'],maxWidth:220,
