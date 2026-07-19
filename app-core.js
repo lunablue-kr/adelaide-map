@@ -123,12 +123,16 @@ map.on('popupopen',e=>{
   _popupOpen=true;
   const s=e.popup&&e.popup._source;
   if(s&&s.getTooltip&&s.getTooltip()){s._ttSaved=s.getTooltip();s.unbindTooltip();}
-  // generic POI 팝업: sub 라벨에 최근접 서버브명 추가(프랜차이즈 지점 구분). 열 때 1회 동적 계산
+  // generic POI 팝업: sub 라벨에 최근접 서버브명 추가 + 구글맵 링크를 '이름+동네'로 개선(프랜차이즈 지점 특정). 열 때 1회 동적 계산
   if(s&&s.options&&s.options.regionize&&typeof nearestSub==='function'){
     const node=e.popup._contentNode, subEl=node&&node.querySelector('.popup-sub');
     if(subEl&&!subEl._rgz){
       const ll=s.getLatLng(), sub=nearestSub([ll.lat,ll.lng]);
-      if(sub&&subEl.textContent.indexOf(sub)<0)subEl.insertAdjacentHTML('beforeend',` · <span style="color:var(--muted)">${sub}</span>`);
+      if(sub){
+        if(subEl.textContent.indexOf(sub)<0)subEl.insertAdjacentHTML('beforeend',` · <span style="color:var(--muted)">${sub}</span>`);
+        const gmapA=node.querySelector('.popup-gmap');
+        if(gmapA&&gmapA.dataset.nm&&typeof gmapUrl==='function')gmapA.href=gmapUrl(decodeURIComponent(gmapA.dataset.nm)+' '+sub+' SA');
+      }
       subEl._rgz=1;
     }
   }
