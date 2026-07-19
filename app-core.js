@@ -73,16 +73,16 @@ function markerField(m,f){
 // 초기 로드는 data-i18n·data-geo(기본ON 경계)·data-core(RENT/CRIME/기차트램)만. 나머지는 여기서.
 // URL은 index.html에 있던 ?v= 그대로 유지(기존 방문자 캐시 재사용). 데이터 갱신 시 여기 v를 bump.
 const OV_FILES={
-  transit:['data-transit-bus.js?v=20260719u'],
-  schools:['data-schools-primary.js?v=20260719u','data-schools-secondary.js?v=20260719u','data-schools-tertiary.js?v=20260719u','data-schools-other.js?v=20260719u'],
-  hospitals:['data-hospitals.js?v=20260719u','data-medical.js?v=20260719u'],
-  marts:['data-shops.js?v=20260719u'],
-  shopping:['data-shops.js?v=20260719u'],
-  restaurant:['data-restaurants.js?v=20260719u'],
-  cafe:['data-cafes.js?v=20260719u'],
-  pubs:['data-pubs.js?v=20260719u'],
-  parks:['data-parks.js?v=20260719u'],
-  admin:['data-admin.js?v=20260719u'],
+  transit:['data-transit-bus.js?v=20260720a'],
+  schools:['data-schools-primary.js?v=20260720a','data-schools-secondary.js?v=20260720a','data-schools-tertiary.js?v=20260720a','data-schools-other.js?v=20260720a'],
+  hospitals:['data-hospitals.js?v=20260720a','data-medical.js?v=20260720a'],
+  marts:['data-shops.js?v=20260720a'],
+  shopping:['data-shops.js?v=20260720a'],
+  restaurant:['data-restaurants.js?v=20260720a'],
+  cafe:['data-cafes.js?v=20260720a'],
+  pubs:['data-pubs.js?v=20260720a'],
+  parks:['data-parks.js?v=20260720a'],
+  admin:['data-admin.js?v=20260720a'],
 };
 const _dataLoaded={},_dataLoading={};
 function loadDataScript(src){

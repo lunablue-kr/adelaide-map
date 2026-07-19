@@ -990,7 +990,7 @@ const RESTAURANTS=[
 {ll:[-34.92636,138.59912],n:"Roma Adelaide",t:"etc",pid:"ChIJ4XLQgovPsGoRsMeMZClXe-M"},
 {ll:[-34.87467,138.6321],n:"Ronik's Farmers Market",t:"as",c:"indian",pid:"ChIJ8bY0sQPJsGoRnh7yML6txao"},
 {ll:[-34.92231,138.60907],n:"Room 19",t:"etc",pid:"ChIJYdkPZXfPsGoRBRn9mDnU_Ws"},
-{ll:[-34.88669,138.58518],n:"Rose Garden Restaurant",t:"etc"},
+
 {ll:[-34.88805,138.68891],n:"Rostrevor Pizza Bar & Restaurant",t:"eu",c:"pizza",pid:"ChIJKxC1LYXKsGoR0HukAzVS7zg"},
 {ll:[-34.94283,138.60717],n:"Royal Tandoori Restaurant",t:"as",c:"indian",pid:"ChIJ1QeYbubOsGoRVAU1Rr1iVNo"},
 {ll:[-34.94696,138.64337],n:"Royal Thai Restaurant",t:"as",c:"thai",pid:"ChIJPaHnfBzMsGoRCC1lMeG0GiA"},
