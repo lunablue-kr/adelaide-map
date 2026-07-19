@@ -360,7 +360,6 @@ document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropaga
 })();
 
 // ═══════════════ 서버브 레이어 ═══════════════
-map.createPane('suburbPane');map.getPane('suburbPane').style.zIndex=450;
 let suburbLayer=null,suburbOn=false,selectedSubPoly=null,suburbPolys={};
 const SUB_BASE={color:'rgba(60,70,100,0.55)',weight:0.8,opacity:1,dashArray:'3 3',fillOpacity:0.02};
 const SUB_SEL={color:'#1c2333',weight:3,opacity:1,dashArray:null,fillOpacity:0.1};
@@ -408,12 +407,7 @@ const GLYPHS={
 };
 const ZOOM_GLYPH=13; // 이상이면 기호핀, 미만이면 작은 점. 전 오버레이 공통(핀 사이즈 균일) — 12로 내리면 z12 기호 재빌드 ~2.8s 프리즈(실측)라 13 통일(2026-07-18)
 const DOT_R=6.5; // POI 점 반경 단일값(대중교통 제외 전 오버레이 통일)
-function glyphHtml(cat,color,d){
-  const s=Math.round(d*0.62);
-  return `<div class="gpin" style="width:${d}px;height:${d}px;background:${color}"><svg width="${s}" height="${s}" viewBox="0 0 24 24">${GLYPHS[cat]}</svg></div>`;
-}
 // POI 렌더러 = 단일 벡터 캔버스(VEC_CANVAS). 점·기호 모두 캔버스 — DOM 마커 제로, 다중 캔버스 이벤트 차단 문제 회피
-function paneCanvas(){return VEC_CANVAS;}
 // 기호(흰 글리프)만 사전 래스터(cat별 1장, 3배 해상도) — 원·테두리는 캔버스 벡터로 직접 그림(DPR 무관 선명, dash 상태 무영향)
 const GLYPH_IMGS={};
 function glyphImgFor(cat){
@@ -446,9 +440,9 @@ function poiMarker(ll,o){
   let mk;
   if(map.getZoom()>=(o.zoomGlyph||ZOOM_GLYPH)){
     const d=o.glyph||22;
-    mk=new GlyphMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat),glyphColor:o.color,glyphD:d});
+    mk=new GlyphMarker(ll,{renderer:VEC_CANVAS,radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat),glyphColor:o.color,glyphD:d});
   }else{
-    mk=L.circleMarker(ll,{pane:o.pane,renderer:paneCanvas(o.pane),radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
+    mk=L.circleMarker(ll,{renderer:VEC_CANVAS,radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
   if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240});
@@ -484,7 +478,6 @@ function refreshPoiZoom(){
 }
 
 // ═══════════════ 대중교통 레이어 (SVG — 클릭 통과, 원 기호만) ═══════════════
-map.createPane('transitPane');map.getPane('transitPane').style.zIndex=460;
 const TRANSIT_COLOR={train:PALETTE[0],tram:PALETTE[1],bus:PALETTE[5]}; // 기차 빨·트램 주·버스 파랑(고빈도라 노랑→파랑, 쏠림 방지)
 const TRANSIT_BASE_OP={train:0.9,tram:0.9,bus:0.9};
 const TRANSIT_W=2.6,TRANSIT_R=4; // 선 굵기·역/정류장 크기 3종 통일
@@ -542,7 +535,6 @@ function setTransitLayer(on){
 }
 
 // ═══════════════ 학교 레이어 ═══════════════
-map.createPane('schoolPane');map.getPane('schoolPane').style.zIndex=462;
 const SCHOOL_COLOR={p:PALETTE[0],s:PALETTE[1],u:PALETTE[2],c:PALETTE[3],o:PALETTE[4]}; // 초 중고 대학 칼리지 기타
 function uniPopupHtml(u){
   const d=(LANG==='en'&&u.en)?u.en:u;
@@ -553,7 +545,6 @@ function schoolPopupHtml(s){
 }
 
 // ═══════════════ 병원 레이어 (OSM amenity=hospital → 주요 공공·사립 큐레이트, 2026-07) ═══════════════
-map.createPane('hospPane');map.getPane('hospPane').style.zIndex=463;
 // 의료: 병원(큐레이트 14) + 약국·의원·치과(OSM, LGA 클립). 십자 글리프 공유
 const MED_COLOR={hos:PALETTE[0],dr:PALETTE[1],de:PALETTE[4],km:PALETTE[6],ph:PALETTE[3]}; // 병원 빨·의원 주·치과 시안·한의원 보라·약국 초
 function medPopupHtml(item){
@@ -567,11 +558,9 @@ function medPopupHtml(item){
 }
 
 // ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 국가별 식료품점, LGA 클립) ═══════════════
-map.createPane('martPane');map.getPane('martPane').style.zIndex=464;
 const MART_COLOR={big:PALETTE[0],local:PALETTE[1],intl:PALETTE[2],liq:PALETTE[3]}; // 대형 지역 국가별 주류
 
 // ═══════════════ 쇼핑 레이어 (주요 쇼핑센터 큐레이트) ═══════════════
-map.createPane('shopPane');map.getPane('shopPane').style.zIndex=465;
 const SHOP_COLOR=PALETTE[0]; // 단일
 let shopLayer=null,shopOn=false;
 function shopPopupHtml(s){
@@ -582,7 +571,7 @@ function buildShopLayer(){
   shopLayer=L.layerGroup();
   MALLS.forEach(s=>{
     const sub=((LANG==='en'&&s.en)?s.en:s).sub;
-    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,pane:'shopPane',maxWidth:220,
+    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,maxWidth:220,
       tooltip:`${s.n}<br><span style="font-size:9px;color:#5b6377">${sub}</span>`,
       popup:shopPopupHtml(s)}).addTo(shopLayer);
   });
@@ -607,16 +596,14 @@ function setShopLayer(on){
 function markerPopupHtml(m){
   return `<div class="popup-inner"><div class="popup-name">${m.name}</div><div class="popup-sub">${markerField(m,'sub')}</div><div class="popup-desc">${markerField(m,'desc')}</div></div>`;
 }
-map.createPane('sightPane');map.getPane('sightPane').style.zIndex=466;
-map.createPane('facPane');map.getPane('facPane').style.zIndex=467;
 const SIGHT_COLOR={beach:PALETTE[4],wine:PALETTE[0],venue:PALETTE[1]};      // 해변 시안·와이너리 빨강·경기장 주황
 const FAC_COLOR={air:PALETTE[1],port:PALETTE[4],district:PALETTE[6]}; // 공항 주황·항구 시안·혁신 보라
 // 공통 빌더: ov='sight'|'facility'
-function buildMarkerLayer(ov,cat,colors,paneName){
+function buildMarkerLayer(ov,cat,colors){
   const layer=L.layerGroup(),marks={};
   MARKERS.filter(m=>m.ov===ov).forEach(m=>{
     (marks[m.st]=marks[m.st]||[]);
-    const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],pane:paneName,maxWidth:260,
+    const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],maxWidth:260,
       tooltip:`${m.name}<br><span style="font-size:9px;color:#5b6377">${markerField(m,'sub')}</span>`,
       popup:markerPopupHtml(m)});
     marks[m.st].push(mk);mk.addTo(layer);
@@ -628,63 +615,58 @@ function applyMarkerFilter(marks,filter){
 }
 // 명소
 let sightLayer=null,sightOn=false,sightMarks={},sightFilter=null;
-function buildSightLayer(){const r=buildMarkerLayer('sight','landmark',SIGHT_COLOR,'sightPane');sightLayer=r.layer;sightMarks=r.marks;sightFilter=null;}
+function buildSightLayer(){const r=buildMarkerLayer('sight','landmark',SIGHT_COLOR);sightLayer=r.layer;sightMarks=r.marks;sightFilter=null;}
 function setSightFilter(t){sightFilter=(sightFilter===t)?null:t;applyMarkerFilter(sightMarks,sightFilter);renderMiniLegend();if(sightFilter===t)track('sub-sight-'+t);}
 function setSightLayer(on){sightOn=on;if(on){if(!sightLayer)buildSightLayer();sightLayer.addTo(map);}else if(sightLayer){map.removeLayer(sightLayer);}renderMiniLegend();syncOverlayRows();}
 // 시설
 let facLayer=null,facOn=false,facMarks={},facFilter=null;
-function buildFacLayer(){const r=buildMarkerLayer('facility','facility',FAC_COLOR,'facPane');facLayer=r.layer;facMarks=r.marks;facFilter=null;}
+function buildFacLayer(){const r=buildMarkerLayer('facility','facility',FAC_COLOR);facLayer=r.layer;facMarks=r.marks;facFilter=null;}
 function setFacFilter(t){facFilter=(facFilter===t)?null:t;applyMarkerFilter(facMarks,facFilter);renderMiniLegend();if(facFilter===t)track('sub-facility-'+t);}
 function setFacLayer(on){facOn=on;if(on){if(!facLayer)buildFacLayer();facLayer.addTo(map);}else if(facLayer){map.removeLayer(facLayer);}renderMiniLegend();syncOverlayRows();}
 
 // ═══════════════ 식당 (아시아계, OSM cuisine → LGA 클립) ═══════════════
-map.createPane('restPane');map.getPane('restPane').style.zIndex=468;
 const REST_COLOR={as:PALETTE[0],eu:PALETTE[3],am:PALETTE[5],etc:PALETTE[4]}; // 권역: 아시안 빨·유럽중동 초·아메리카 파·기타 시안
 // cuisine 원본키 → [KO,EN] (팝업 국가 표기). 미매핑은 영문 타이틀케이스
 const CUISINE={korean:['한식','Korean'],japanese:['일식','Japanese'],chinese:['중식','Chinese'],vietnamese:['베트남','Vietnamese'],thai:['태국','Thai'],indian:['인도','Indian'],italian:['이탈리안','Italian'],pizza:['피자','Pizza'],burger:['버거','Burger'],mexican:['멕시칸','Mexican'],greek:['그리스','Greek'],sushi:['스시','Sushi'],noodle:['면','Noodle'],ramen:['라멘','Ramen'],asian:['아시안','Asian'],sandwich:['샌드위치','Sandwich'],chicken:['치킨','Chicken'],kebab:['케밥','Kebab'],fish_and_chips:['피시앤칩스','Fish & chips'],lebanese:['레바논','Lebanese'],turkish:['터키','Turkish'],malaysian:['말레이시아','Malaysian'],indonesian:['인도네시아','Indonesian'],spanish:['스페인','Spanish'],french:['프렌치','French'],seafood:['해산물','Seafood'],bakery:['베이커리','Bakery'],fusion:['퓨전','Fusion'],modern_australian:['호주식','Modern Australian'],australian:['호주식','Australian'],bbq:['바베큐','BBQ'],breakfast:['브런치','Breakfast'],nepalese:['네팔','Nepalese'],sri_lankan:['스리랑카','Sri Lankan'],american:['아메리칸','American'],mediterranean:['지중해','Mediterranean'],tapas:['타파스','Tapas'],portuguese:['포르투갈','Portuguese'],german:['독일','German'],african:['아프리카','African'],curry:['커리','Curry'],pho:['베트남','Pho'],dumpling:['만두','Dumpling'],taiwanese:['대만','Taiwanese'],cantonese:['중식','Cantonese'],steak_house:['스테이크','Steak'],ice_cream:['아이스크림','Ice cream'],donut:['도넛','Donut'],coffee_shop:['커피','Coffee']};
 function cuisineLabel(c){if(!c)return '';const m=CUISINE[c];if(m)return LANG==='en'?m[1]:m[0];return c.replace(/_/g,' ').replace(/\b\w/g,x=>x.toUpperCase());}
 
 // ═══════════════ 카페 (OSM amenity=cafe, 단일) ═══════════════
-map.createPane('cafePane');map.getPane('cafePane').style.zIndex=469;
 const CAFE_COLOR={cafe:PALETTE[6],bakery:PALETTE[1],brunch:PALETTE[3]}; // 카페 보라·베이커리 주황·브런치 초록
 
 // ═══════════════ 술집 (OSM amenity=pub/bar → 펍·바) ═══════════════
-map.createPane('pubPane');map.getPane('pubPane').style.zIndex=470;
 const PUB_COLOR={pub:PALETTE[2],bar:PALETTE[5],wine:PALETTE[0],brew:PALETTE[1],club:PALETTE[6]}; // 펍노랑·바파랑·와인빨·브루주황·클럽보라
 
 // ═══════════════ 공원·레저 (OSM leisure=park/nature_reserve/garden + drinking_water/toilets/fitness) ═══════════════
-map.createPane('parkPane');map.getPane('parkPane').style.zIndex=468;
 const PARK_COLOR={park:PALETTE[3],water:PALETTE[4],toilet:PALETTE[5],fitness:PALETTE[0]}; // 공원 초록·음수대 시안·화장실 파랑·헬스 빨강
 
 // ═══════════════ 생활·행정 (OSM bank/post_office/office=government/mobile_phone) ═══════════════
-map.createPane('adminPane');map.getPane('adminPane').style.zIndex=467;
 const ADMIN_COLOR={govt:PALETTE[5],bank:PALETTE[3],post:PALETTE[0],telecom:PALETTE[1],lib:PALETTE[6]}; // 관공서 파랑·은행 초록·우체국 빨강(호주우체국)·통신 주황·도서관 보라
 // ═══════════════ POI 오버레이 레지스트리 — 8종 선언형 정의 + 제네릭 빌드·필터·토글 ═══════════════
 // 항목: {id(=애널리틱스 sub-* 이벤트명), cat(글리프), pane, color(색맵), def(색·버킷 기본키), types(하위분류),
 //        maxWidth?, data:()=>[items], label:(item)=>하위라벨, popup?:(item)=>html(없으면 이름+라벨 기본팝업), nameOf?:(item)=>표시명}
 // 상태(layer/on/filter/markers)는 항목 안에 주입.
 const POI_REG={
-  schools:{id:'schools',cat:'school',pane:'schoolPane',color:SCHOOL_COLOR,def:'o',types:['p','s','u','c','o'],
+  schools:{id:'schools',cat:'school',color:SCHOOL_COLOR,def:'o',types:['p','s','u','c','o'],
     data:schoolData,
     label:s=>T().schoolTypes[s.t],
     popup:s=>s.uni?uniPopupHtml(s):schoolPopupHtml(s)},
-  hospitals:{id:'hospitals',cat:'hospital',pane:'hospPane',color:MED_COLOR,def:'hos',types:['hos','dr','de','km','ph'],
+  hospitals:{id:'hospitals',cat:'hospital',color:MED_COLOR,def:'hos',types:['hos','dr','de','km','ph'],
     data:()=>[...HOSPITALS.map(h=>({ll:h.ll,n:h.n,t:'hos',hos:true,own:h.t,desc:h.desc,en:h.en})),...MEDICAL.map(m=>({ll:m.ll,n:m.n,t:m.t}))],
     label:i=>T().hospTypes[i.t],
     popup:medPopupHtml},
-  marts:{id:'marts',cat:'mart',pane:'martPane',color:MART_COLOR,def:'big',types:['big','local','intl','liq'],maxWidth:220,
+  marts:{id:'marts',cat:'mart',color:MART_COLOR,def:'big',types:['big','local','intl','liq'],maxWidth:220,
     data:()=>MARTS,
     label:m=>(m.t==='intl'&&m.o&&T().origins[m.o])?`${T().martTypes.intl} · ${T().origins[m.o]}`:T().martTypes[m.t]},
-  restaurant:{id:'restaurant',cat:'restaurant',pane:'restPane',color:REST_COLOR,def:'etc',types:['as','eu','am','etc'],maxWidth:220,cull:true,
+  restaurant:{id:'restaurant',cat:'restaurant',color:REST_COLOR,def:'etc',types:['as','eu','am','etc'],maxWidth:220,cull:true,
     data:()=>RESTAURANTS,
     label:r=>{const cz=cuisineLabel(r.c);return T().restTypes[r.t]+(cz?' · '+cz:'');}},
-  cafe:{id:'cafe',cat:'cafe',pane:'cafePane',color:CAFE_COLOR,def:'cafe',types:['cafe','bakery','brunch'],maxWidth:200,cull:true,
+  cafe:{id:'cafe',cat:'cafe',color:CAFE_COLOR,def:'cafe',types:['cafe','bakery','brunch'],maxWidth:200,cull:true,
     data:()=>CAFES,label:c=>T().cafeTypes[c.t]},
-  pubs:{id:'pubs',cat:'pub',pane:'pubPane',color:PUB_COLOR,def:'pub',types:['pub','bar','wine','brew','club'],maxWidth:200,
+  pubs:{id:'pubs',cat:'pub',color:PUB_COLOR,def:'pub',types:['pub','bar','wine','brew','club'],maxWidth:200,
     data:()=>PUBS,label:p=>T().pubTypes[p.t]},
-  parks:{id:'parks',cat:'park',pane:'parkPane',color:PARK_COLOR,def:'park',types:['park','water','toilet','fitness'],maxWidth:200,cull:true,
+  parks:{id:'parks',cat:'park',color:PARK_COLOR,def:'park',types:['park','water','toilet','fitness'],maxWidth:200,cull:true,
     data:()=>PARKS,label:p=>T().parkTypes[p.t],nameOf:p=>p.n||T().parkTypes[p.t]},
-  admin:{id:'admin',cat:'admin',pane:'adminPane',color:ADMIN_COLOR,def:'govt',types:['govt','bank','post','telecom','lib'],maxWidth:200,
+  admin:{id:'admin',cat:'admin',color:ADMIN_COLOR,def:'govt',types:['govt','bank','post','telecom','lib'],maxWidth:200,
     data:()=>ADMIN,label:a=>T().adminTypes[a.t],nameOf:a=>a.n||T().adminTypes[a.t]},
 };
 Object.values(POI_REG).forEach(r=>{r.layer=null;r.on=false;r.filter=null;r.markers={};});
@@ -1234,17 +1216,17 @@ document.getElementById('m-lang').addEventListener('click',toggleLang);
 // ═══════════════ 모바일: 오버레이 칩바 · 하위칩 · 렌트/치안 · 스케일 ═══════════════
 const isMobile=()=>matchMedia('(max-width:680px)').matches;
 const M_SUB={
-  transit:{items:()=>[['train',T().train],['tram',T().tram],['bus',T().bus]],colors:TRANSIT_COLOR,glyph:null,getF:()=>transitFilter,setF:setTransitFilter},
-  schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,glyph:'school',getF:()=>POI_REG.schools.filter,setF:setSchoolFilter},
-  hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,glyph:'hospital',getF:()=>POI_REG.hospitals.filter,setF:setHospitalFilter},
-  marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,glyph:'mart',getF:()=>POI_REG.marts.filter,setF:setMartFilter},
-  restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,glyph:'restaurant',getF:()=>POI_REG.restaurant.filter,setF:setRestFilter},
-  cafe:{items:()=>['cafe','bakery','brunch'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,glyph:'cafe',getF:()=>POI_REG.cafe.filter,setF:setCafeFilter},
-  pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,glyph:'pub',getF:()=>POI_REG.pubs.filter,setF:setPubFilter},
-  parks:{items:()=>['park','water','toilet','fitness'].map(k=>[k,T().parkTypes[k]]),colors:PARK_COLOR,glyph:'park',getF:()=>POI_REG.parks.filter,setF:setParkFilter},
-  admin:{items:()=>['govt','bank','post','telecom','lib'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,glyph:'admin',getF:()=>POI_REG.admin.filter,setF:setAdminFilter},
-  sight:{items:()=>['beach','wine','venue'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,glyph:'landmark',getF:()=>sightFilter,setF:setSightFilter},
-  facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,glyph:'facility',getF:()=>facFilter,setF:setFacFilter},
+  transit:{items:()=>[['train',T().train],['tram',T().tram],['bus',T().bus]],colors:TRANSIT_COLOR,getF:()=>transitFilter,setF:setTransitFilter},
+  schools:{items:()=>['p','s','u','c','o'].map(k=>[k,T().schoolTypes[k]]),colors:SCHOOL_COLOR,getF:()=>POI_REG.schools.filter,setF:setSchoolFilter},
+  hospitals:{items:()=>['hos','dr','de','km','ph'].map(k=>[k,T().hospTypes[k]]),colors:MED_COLOR,getF:()=>POI_REG.hospitals.filter,setF:setHospitalFilter},
+  marts:{items:()=>['big','local','intl','liq'].map(k=>[k,T().martTypes[k]]),colors:MART_COLOR,getF:()=>POI_REG.marts.filter,setF:setMartFilter},
+  restaurant:{items:()=>['as','eu','am','etc'].map(k=>[k,T().restTypes[k]]),colors:REST_COLOR,getF:()=>POI_REG.restaurant.filter,setF:setRestFilter},
+  cafe:{items:()=>['cafe','bakery','brunch'].map(k=>[k,T().cafeTypes[k]]),colors:CAFE_COLOR,getF:()=>POI_REG.cafe.filter,setF:setCafeFilter},
+  pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,getF:()=>POI_REG.pubs.filter,setF:setPubFilter},
+  parks:{items:()=>['park','water','toilet','fitness'].map(k=>[k,T().parkTypes[k]]),colors:PARK_COLOR,getF:()=>POI_REG.parks.filter,setF:setParkFilter},
+  admin:{items:()=>['govt','bank','post','telecom','lib'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,getF:()=>POI_REG.admin.filter,setF:setAdminFilter},
+  sight:{items:()=>['beach','wine','venue'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,getF:()=>sightFilter,setF:setSightFilter},
+  facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,getF:()=>facFilter,setF:setFacFilter},
 };
 let mExpanded=null;
 function movMark(o){
