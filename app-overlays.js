@@ -102,7 +102,6 @@ function refreshPoiZoom(){
   const g=z>=ZOOM_GLYPH;
   if(g===_poiGlyph)return;
   _poiGlyph=g;
-  if(shopOn&&shopLayer){map.removeLayer(shopLayer);shopLayer=null;buildShopLayer();shopLayer.addTo(map);}
   if(sightOn&&sightLayer){const f=sightFilter;map.removeLayer(sightLayer);sightLayer=null;buildSightLayer();sightLayer.addTo(map);sightFilter=f;applyMarkerFilter(sightMarks,sightFilter);}
   if(facOn&&facLayer){const f=facFilter;map.removeLayer(facLayer);facLayer=null;buildFacLayer();facLayer.addTo(map);facFilter=f;applyMarkerFilter(facMarks,facFilter);}
 }
@@ -190,36 +189,26 @@ function medPopupHtml(item){
 // ═══════════════ 마트/장보기 레이어 (OSM shop=supermarket + 국가별 식료품점, LGA 클립) ═══════════════
 const MART_COLOR={big:PALETTE[0],local:PALETTE[1],intl:PALETTE[2],liq:PALETTE[3]}; // 대형 지역 국가별 주류
 
-// ═══════════════ 쇼핑 레이어 (주요 쇼핑센터 큐레이트) ═══════════════
-const SHOP_COLOR=PALETTE[0]; // 단일
-let shopLayer=null,shopOn=false;
+// ═══════════════ 쇼핑 (쇼핑센터 큐레이트 + 대형리테일 + 중고 op shop) — 하위 3종 ═══════════════
+const SHOP_COLOR={mall:PALETTE[0],retail:PALETTE[5],opshop:PALETTE[3]}; // 쇼핑센터 빨·대형리테일 파랑·중고 초록
+// 대형 리테일 체인별 desc(정착 셋업 맥락, 한/영). 데이터엔 b(브랜드키)만, desc는 여기 매핑
+const RETAIL_DESC={
+  bunnings:['철물·공구·정원·가구조립 자재 — 집 셋업 필수','Hardware, tools, garden & flat-pack timber — a home-setup essential'],
+  kmart:['초저가 생활잡화·주방·수납·기본의류 — 정착 초기 1차','Ultra-cheap homewares, kitchen, storage & basics — first stop when settling in'],
+  bigw:['저가 종합 할인점 — 생활·완구·의류·전자','Discount department store — home, toys, apparel & electronics'],
+  target:['의류·침구·가정용품 백화점형','Apparel, bedding & homewares department store'],
+  ikea:['조립가구·수납·주방용품 — 집 셋업','Flat-pack furniture, storage & kitchenware — home setup'],
+  harvey:['가전·가구·침대·컴퓨터 대형매장','Electronics, furniture, bedding & computers'],
+  jbhifi:['전자·노트북·음향·게임','Electronics, laptops, audio & games'],
+  officeworks:['사무용품·문구·프린트·데스크','Office supplies, stationery, printing & desks'],
+};
 function shopPopupHtml(s){
-  const d=(LANG==='en'&&s.en)?s.en:s;
-  return `<div class="popup-inner"><div class="popup-name">${s.n}</div><div class="popup-sub">${d.sub}</div><div class="popup-desc">${d.desc}</div></div>`;
-}
-function buildShopLayer(){
-  shopLayer=L.layerGroup();
-  MALLS.forEach(s=>{
-    const sub=((LANG==='en'&&s.en)?s.en:s).sub;
-    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,maxWidth:220,popupName:s.n,popupId:'shopping',
-      tooltip:`${s.n}<br><span style="font-size:9px;color:#5b6377">${sub}</span>`,
-      popup:shopPopupHtml(s)}).addTo(shopLayer);
-  });
-}
-function setShopLayer(on){
-  if(on&&!shopLayer){
-    const p=ensureOvData('shopping');
-    if(p){
-      shopOn=true;renderMiniLegend();syncOverlayRows();
-      p.then(()=>{if(shopOn&&!shopLayer){buildShopLayer();shopLayer.addTo(map);}renderMiniLegend();syncOverlayRows();})
-       .catch(()=>{shopOn=false;renderMiniLegend();syncOverlayRows();loadFailToast();});
-      return;
-    }
+  if(s.t==='retail'){
+    const d=RETAIL_DESC[s.b], desc=d?(LANG==='en'?d[1]:d[0]):'';
+    return `<div class="popup-inner"><div class="popup-name">${s.n}</div><div class="popup-sub">${T().shopTypes.retail}</div>${desc?`<div class="popup-desc">${desc}</div>`:''}</div>`;
   }
-  shopOn=on;
-  if(on){if(!shopLayer)buildShopLayer();shopLayer.addTo(map);}
-  else if(shopLayer){map.removeLayer(shopLayer);}
-  renderMiniLegend();syncOverlayRows();
+  const d=(LANG==='en'&&s.en)?s.en:s; // mall
+  return `<div class="popup-inner"><div class="popup-name">${s.n}</div><div class="popup-sub">${d.sub}</div><div class="popup-desc">${d.desc}</div></div>`;
 }
 
 // ═══════════════ 명소(sight) / 시설(facility) 레이어 ═══════════════
@@ -298,6 +287,10 @@ const POI_REG={
     data:()=>PARKS,label:p=>T().parkTypes[p.t],nameOf:p=>p.n||T().parkTypes[p.t]},
   admin:{id:'admin',cat:'admin',color:ADMIN_COLOR,def:'govt',types:['govt','bank','post','telecom','lib'],maxWidth:200,
     data:()=>ADMIN,label:a=>T().adminTypes[a.t],nameOf:a=>a.n||T().adminTypes[a.t]},
+  shopping:{id:'shopping',cat:'shopping',color:SHOP_COLOR,def:'mall',types:['mall','retail','opshop'],maxWidth:220,
+    data:()=>[...MALLS.map(m=>({...m,t:'mall'})),...BIG_RETAIL.map(r=>({...r,t:'retail'})),...OP_SHOPS.map(o=>({...o,t:'opshop'}))],
+    label:s=>T().shopTypes[s.t],
+    popup:s=>s.t==='opshop'?undefined:shopPopupHtml(s)}, // op shop=generic(이름+라벨+서버브), mall/retail=커스텀 desc
 };
 Object.values(POI_REG).forEach(r=>{r.layer=null;r.on=false;r.filter=null;r.markers={};});
 function ovBuild(r){
@@ -375,6 +368,7 @@ const setCafeLayer=on=>ovSetLayer(POI_REG.cafe,on),        setCafeFilter=t=>ovSe
 const setPubLayer=on=>ovSetLayer(POI_REG.pubs,on),         setPubFilter=t=>ovSetFilter(POI_REG.pubs,t);
 const setParkLayer=on=>ovSetLayer(POI_REG.parks,on),       setParkFilter=t=>ovSetFilter(POI_REG.parks,t);
 const setAdminLayer=on=>ovSetLayer(POI_REG.admin,on),      setAdminFilter=t=>ovSetFilter(POI_REG.admin,t);
+const setShopLayer=on=>ovSetLayer(POI_REG.shopping,on),    setShopFilter=t=>ovSetFilter(POI_REG.shopping,t);
 
 // ═══════════════ 바이브 라벨 (줌 ≤ 11) ═══════════════
 let vibeMarkers=[];

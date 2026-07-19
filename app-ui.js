@@ -10,7 +10,7 @@ const OVERLAYS=[
   {id:'cafe',color:'#39415a',swatch:'glyph',cat:'cafe',get:()=>POI_REG.cafe.on,set:setCafeLayer},
   {id:'pubs',color:'#39415a',swatch:'glyph',cat:'pub',get:()=>POI_REG.pubs.on,set:setPubLayer},
   {id:'parks',color:'#39415a',swatch:'glyph',cat:'park',get:()=>POI_REG.parks.on,set:setParkLayer},
-  {id:'shopping',color:'#39415a',swatch:'glyph',cat:'shopping',get:()=>shopOn,set:setShopLayer},
+  {id:'shopping',color:'#39415a',swatch:'glyph',cat:'shopping',get:()=>POI_REG.shopping.on,set:setShopLayer},
   {id:'sight',color:'#39415a',swatch:'glyph',cat:'landmark',get:()=>sightOn,set:setSightLayer},
   {id:'facility',color:'#39415a',swatch:'glyph',cat:'facility',get:()=>facOn,set:setFacLayer},
   {id:'admin',color:'#39415a',swatch:'glyph',cat:'admin',get:()=>POI_REG.admin.on,set:setAdminLayer},
@@ -97,7 +97,8 @@ function getPois(){
   if(typeof PARKS!=='undefined')PARKS.forEach(p=>{if(p.n)push({kind:'park',st:p.t,n:p.n,ll:p.ll});}); // 이름있는 것만 검색(음수대·화장실 무명 제외)
   if(typeof ADMIN!=='undefined')ADMIN.forEach(a=>{if(a.n)push({kind:'admin',st:a.t,n:a.n,ll:a.ll});});
   if(typeof MARTS!=='undefined')MARTS.forEach(m=>push({kind:'mart',st:m.t,o:m.o,n:m.n,ll:m.ll}));
-  if(typeof MALLS!=='undefined')MALLS.forEach(m=>push({kind:'mall',n:m.n,ll:m.ll}));
+  if(typeof MALLS!=='undefined')MALLS.forEach(m=>push({kind:'shop',st:'mall',n:m.n,ll:m.ll}));
+  if(typeof BIG_RETAIL!=='undefined')BIG_RETAIL.forEach(r=>push({kind:'shop',st:'retail',n:r.n,ll:r.ll})); // op shop은 이름 중복 많아 검색 제외
   TRANSIT.stations.forEach(s=>push({kind:'station',st:s.t,n:s.n,ll:s.ll}));
   MARKERS.forEach(m=>push({kind:'poi',n:m.name,ll:[m.lat,m.lng],ov:m.ov}));
   return POIS;
@@ -112,7 +113,7 @@ function poiMeta(p){
   else if(p.kind==='pub')lab=t.pubTypes[p.st]||t.layers.pubs;
   else if(p.kind==='park')lab=t.parkTypes[p.st]||t.layers.parks;
   else if(p.kind==='admin')lab=t.adminTypes[p.st]||t.layers.admin;
-  else if(p.kind==='mall')lab=t.layers.shopping;
+  else if(p.kind==='shop')lab=t.shopTypes[p.st]||t.layers.shopping;
   else if(p.kind==='station')lab=LANG==='en'?(p.st==='tram'?'Tram stop':'Train station'):(p.st==='tram'?'트램역':'기차역');
   else lab=LANG==='en'?'Landmark':'명소';
   return p.sub?`${lab} · ${p.sub}`:lab;
@@ -126,7 +127,7 @@ function poiColor(p){
   if(p.kind==='park')return PARK_COLOR[p.st]||PARK_COLOR.park;
   if(p.kind==='admin')return ADMIN_COLOR[p.st]||ADMIN_COLOR.govt;
   if(p.kind==='mart')return MART_COLOR[p.st]||MART_COLOR.big;
-  if(p.kind==='mall')return SHOP_COLOR;
+  if(p.kind==='shop')return SHOP_COLOR[p.st]||SHOP_COLOR.mall;
   if(p.kind==='station')return TRANSIT_COLOR[p.st]||TRANSIT_COLOR.train;
   return '#b8860b';
 }
@@ -161,7 +162,7 @@ function focusPoi(p){
   else if(p.kind==='pub'&&!POI_REG.pubs.on)setPubLayer(true);
   else if(p.kind==='park'&&!POI_REG.parks.on)setParkLayer(true);
   else if(p.kind==='admin'&&!POI_REG.admin.on)setAdminLayer(true);
-  else if(p.kind==='mall'&&!shopOn)setShopLayer(true);
+  else if(p.kind==='shop'&&!POI_REG.shopping.on)setShopLayer(true);
   else if(p.kind==='station'&&!transitOn)setTransitLayer(true);
   if(p.kind==='poi'){
     if(p.ov==='sight'&&!sightOn)setSightLayer(true);
@@ -173,9 +174,8 @@ function focusPoi(p){
     setTimeout(()=>openMarkerAt(lay(),p.ll),140);
     return;
   }
-  const regId={school:'schools',hosp:'hospitals',mart:'marts',rest:'restaurant',cafe:'cafe',pub:'pubs',park:'parks',admin:'admin'}[p.kind];
+  const regId={school:'schools',hosp:'hospitals',mart:'marts',rest:'restaurant',cafe:'cafe',pub:'pubs',park:'parks',admin:'admin',shop:'shopping'}[p.kind];
   if(regId)setTimeout(()=>openRegMarkerAt(POI_REG[regId],p.ll),140);
-  else if(p.kind==='mall')setTimeout(()=>openMarkerAt(shopLayer,p.ll),140);
 }
 function searchQuery(q){
   q=q.trim().toLowerCase();
@@ -300,9 +300,9 @@ function renderMiniLegend(){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.restaurant}</svg></span>${t.layers.restaurant}</div>`+
       ['as','eu','am','etc'].map(k=>`<div class="ml-item ml-click${POI_REG.restaurant.filter&&POI_REG.restaurant.filter!==k?' dim':''}" data-rest="${k}"><span class="ml-dot" style="color:${REST_COLOR[k]}"></span>${t.restTypes[k]}</div>`).join('');
   }
-  if(shopOn){
+  if(POI_REG.shopping.on){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.shopping}</svg></span>${t.layers.shopping}</div>`+
-      `<div class="ml-item"><span class="ml-dot" style="color:${SHOP_COLOR}"></span>${LANG==='en'?'Major centre':'주요 쇼핑센터'}</div>`;
+      ['mall','retail','opshop'].map(k=>`<div class="ml-item ml-click${POI_REG.shopping.filter&&POI_REG.shopping.filter!==k?' dim':''}" data-shop="${k}"><span class="ml-dot" style="color:${SHOP_COLOR[k]}"></span>${t.shopTypes[k]}</div>`).join('');
   }
   if(sightOn){
     html+=`<div class="ml-title" style="margin-top:7px"><span class="ml-glyph"><svg width="13" height="13" viewBox="0 0 24 24">${GLYPHS.landmark}</svg></span>${t.layers.sight}</div>`+
@@ -339,6 +339,7 @@ function renderMiniLegend(){
   el.querySelectorAll('.ml-item[data-hos]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setHospitalFilter(it.dataset.hos);}));
   el.querySelectorAll('.ml-item[data-mart]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setMartFilter(it.dataset.mart);}));
   el.querySelectorAll('.ml-item[data-rest]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setRestFilter(it.dataset.rest);}));
+  el.querySelectorAll('.ml-item[data-shop]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setShopFilter(it.dataset.shop);}));
   el.querySelectorAll('.ml-item[data-sight]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setSightFilter(it.dataset.sight);}));
   el.querySelectorAll('.ml-item[data-fac]').forEach(it=>it.addEventListener('click',(e)=>{e.stopPropagation();setFacFilter(it.dataset.fac);}));
 }
@@ -409,7 +410,6 @@ function applyLang(){
   });
   [['suburb',()=>suburbLayer,(v)=>suburbLayer=v,buildSuburbLayer,()=>suburbOn],
    ['transit',()=>transitLayer,(v)=>transitLayer=v,buildTransitLayer,()=>transitOn],
-   ['shop',()=>shopLayer,(v)=>shopLayer=v,buildShopLayer,()=>shopOn],
    ['sight',()=>sightLayer,(v)=>sightLayer=v,buildSightLayer,()=>sightOn],
    ['facility',()=>facLayer,(v)=>facLayer=v,buildFacLayer,()=>facOn]].forEach(([_,get,set,build,isOn])=>{
     if(get()){
@@ -455,6 +455,7 @@ const M_SUB={
   pubs:{items:()=>['pub','bar','wine','brew','club'].map(k=>[k,T().pubTypes[k]]),colors:PUB_COLOR,getF:()=>POI_REG.pubs.filter,setF:setPubFilter},
   parks:{items:()=>['park','water','toilet','fitness'].map(k=>[k,T().parkTypes[k]]),colors:PARK_COLOR,getF:()=>POI_REG.parks.filter,setF:setParkFilter},
   admin:{items:()=>['govt','bank','post','telecom','lib'].map(k=>[k,T().adminTypes[k]]),colors:ADMIN_COLOR,getF:()=>POI_REG.admin.filter,setF:setAdminFilter},
+  shopping:{items:()=>['mall','retail','opshop'].map(k=>[k,T().shopTypes[k]]),colors:SHOP_COLOR,getF:()=>POI_REG.shopping.filter,setF:setShopFilter},
   sight:{items:()=>['beach','wine','venue'].map(k=>[k,T().sightTypes[k]]),colors:SIGHT_COLOR,getF:()=>sightFilter,setF:setSightFilter},
   facility:{items:()=>['air','port','district'].map(k=>[k,T().facTypes[k]]),colors:FAC_COLOR,getF:()=>facFilter,setF:setFacFilter},
 };
