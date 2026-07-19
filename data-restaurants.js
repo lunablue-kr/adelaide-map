@@ -317,7 +317,7 @@ const RESTAURANTS=[
 {ll:[-34.92939,138.59578],n:"Eggette",t:"etc",c:"dessert",pid:"ChIJLSjKXgDPsGoRMSq87yMVOvo"},
 {ll:[-34.97467,138.60909],n:"El Dorado Pizza Bar",t:"eu",c:"pizza",pid:"ChIJx6xx2UfOsGoRhHROXreMY9U"},
 {ll:[-34.92472,138.60219],n:"EL Mexicano Kitchen & Bar",t:"am",c:"mexican",pid:"ChIJaRs8frHPsGoRtxW-8VvBPPU"},
-{ll:[-34.90628,138.60852],n:"Elephant Walk",t:"etc"},
+
 {ll:[-34.93906,138.64043],n:"Empress Restaurant",t:"as",c:"chinese",pid:"ChIJS-REJwLMsGoRJC75mk3K2TM"},
 {ll:[-34.87854,138.53706],n:"Enjoy Inn",t:"as",c:"chinese",pid:"ChIJqVGLkWzGsGoRs5vvK_sMYZk"},
 {ll:[-34.90333,138.56833],n:"Enzos at Home",t:"eu",c:"italian"},

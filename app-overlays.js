@@ -65,9 +65,9 @@ function poiMarker(ll,o){
   let mk;
   if(map.getZoom()>=(o.zoomGlyph||ZOOM_GLYPH)){
     const d=o.glyph||22;
-    mk=new GlyphMarker(ll,{renderer:VEC_CANVAS,radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat),glyphColor:o.color,glyphD:d,baseColor:o.color});
+    mk=new GlyphMarker(ll,{renderer:VEC_CANVAS,radius:d/2,fill:true,fillOpacity:1,opacity:1,glyphImg:glyphImgFor(o.cat),glyphColor:o.color,glyphD:d});
   }else{
-    mk=L.circleMarker(ll,{renderer:VEC_CANVAS,radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1,baseColor:o.color});
+    mk=L.circleMarker(ll,{renderer:VEC_CANVAS,radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
   // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관. 하단 구글맵/길찾기 버튼.
@@ -82,18 +82,12 @@ function poiMarker(ll,o){
   }
   return mk;
 }
-// hex → 흰색과 blend(연하게). 격리 비선택 마커용 — 투명도 대신 연한 색이라 겹쳐도 덜 혼잡, 위치 유추 가능
-function lightenHex(hex,f){const n=parseInt(hex.slice(1),16),m=v=>Math.round(v+(255-v)*f);return `rgb(${m(n>>16&255)},${m(n>>8&255)},${m(n&255)})`;}
-function dimMarker(mk,visible,front){ // 격리: 비선택은 연한색(안 숨김)+비인터랙티브, 선택은 원색+맨 앞으로
+function dimMarker(mk,visible,front){ // 격리: 비선택은 완전 숨김+비인터랙티브, 선택은 맨 앞으로
   if(mk instanceof L.CircleMarker){
-    const base=mk.options.baseColor||mk.options.fillColor;
-    const col=visible?base:lightenHex(base,0.82); // 82% 흰색으로 연하게
-    if(mk.options.glyphColor!==undefined)mk.options.glyphColor=col; // GlyphMarker 원+테두리
-    mk.setStyle({opacity:1,fillOpacity:1,fillColor:col}); // 안 숨김
-    mk.options.interactive=visible; // 클릭/터치 차단은 유지
+    mk.setStyle({opacity:visible?1:0,fillOpacity:visible?1:0});
+    mk.options.interactive=visible; // 캔버스 렌더러는 기하 히트테스트라 투명해도 탭 가로챔 → 차단
     if(mk._path)mk._path.style.pointerEvents=visible?'':'none'; // SVG 경로(교통 등)
     if(visible&&front)mk.bringToFront();
-    if(mk.redraw)mk.redraw();
   }else{
     mk.setOpacity(visible?1:0);
     if(mk._icon)mk._icon.style.pointerEvents=visible?'':'none';
