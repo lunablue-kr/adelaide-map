@@ -112,7 +112,7 @@ function loadFailToast(){toast(LANG==='en'?'Data load failed — check connectio
 
 // ═══════════════════════ MAP ═══════════════════════
 const map=L.map('map',{
-  minZoom:10,maxZoom:15,zoomControl:false,closePopupOnClick:false, // 팝업 닫기는 click 핸들러가 직접(선택 무효화 위해)
+  minZoom:10,maxZoom:17,zoomControl:false,closePopupOnClick:false, // 최대확대 17(2단계↑, 2026-07-19). 팝업 닫기는 click 핸들러가 직접
   maxBounds:[[-35.65,138.1],[-34.3,139.1]],maxBoundsViscosity:0.85,
 }).setView([-34.95,138.62],11);
 L.control.zoom({position:'bottomright'}).addTo(map);
