@@ -36,7 +36,15 @@ z12 재빌드 504ms(SVG-DOM)→238ms. 격리는 `options.interactive` 토글로 
 
 ---
 
-## D. 팝업 업그레이드
+## D. 팝업 업그레이드 — ✅ 완료 (2026-07-19, v=20260719e 배포)
+
+완료: ① `gmapFooter(name,ll,id)` — 전 POI 공통 하단 버튼 2개(구글맵 search·길찾기 dir),
+poiMarker가 o.popupName 있으면 자동 부착(커스텀 팝업 uni/med/shop/marker 포함). target=_blank rel=noopener.
+② `descHtml(item)` — item.desc/en 있으면 이름 아래 표시, 없으면 생략. ③ 쇼핑 11곳은 기존 desc 보유,
+Service SA 6곳에 desc/en 추가("면허 전환·차량 등록·주소 변경…정착 1주차"). 검색 "Service SA" 5건 정상.
+④ track('gmap-'+id) onclick 배선. 검증: 버튼·href·좌표·desc·검색·track 전부 통과, 콘솔 0.
+
+원문 지시:
 
 1. 제네릭 팝업 생성기에 하단 버튼 2개 추가 (전 POI 오버레이 공통, 커스텀 팝업 포함):
    - "구글맵": https://www.google.com/maps/search/?api=1&query=

@@ -82,7 +82,7 @@ const OV_FILES={
   cafe:['data-cafes.js?v=20260714o'],
   pubs:['data-pubs.js?v=20260714o'],
   parks:['data-parks.js?v=20260714o'],
-  admin:['data-admin.js?v=20260714o'],
+  admin:['data-admin.js?v=20260719d'],
 };
 const _dataLoaded={},_dataLoading={};
 function loadDataScript(src){

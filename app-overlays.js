@@ -47,6 +47,17 @@ L.Canvas.include({_updateGlyph:function(layer){
   else if(img._pend)img._pend.push(layer);
   ctx.restore();
 }});
+// 선택 필드 desc(한/영) — 있으면 이름 아래 표시, 없으면 생략(레이아웃 변화 없음)
+function descHtml(item){const d=(LANG==='en'&&item.en)?item.en:item.desc;return d?`<div class="popup-desc">${d}</div>`:'';}
+// 팝업 하단 공통 버튼(구글맵·길찾기) — 전 POI 오버레이 공통. name·좌표·오버레이id 주입, 클릭 track('gmap-'+id)
+function gmapFooter(name,ll,id){
+  const q=encodeURIComponent(name+' Adelaide SA'); // 서버브명 없으면 도시명 폴백(POI 대부분 서버브 미보유)
+  const gm=`https://www.google.com/maps/search/?api=1&query=${q}`;
+  const dir=`https://www.google.com/maps/dir/?api=1&destination=${ll[0]},${ll[1]}`;
+  const L1=LANG==='en'?'Google Maps':'구글맵', L2=LANG==='en'?'Directions':'길찾기';
+  return `<div class="popup-btns"><a class="popup-btn" href="${gm}" target="_blank" rel="noopener" onclick="track('gmap-${id}')">${L1}</a>`+
+    `<a class="popup-btn" href="${dir}" target="_blank" rel="noopener" onclick="track('gmap-${id}')">${L2}</a></div>`;
+}
 function poiMarker(ll,o){
   let mk;
   if(map.getZoom()>=(o.zoomGlyph||ZOOM_GLYPH)){
@@ -56,8 +67,11 @@ function poiMarker(ll,o){
     mk=L.circleMarker(ll,{renderer:VEC_CANVAS,radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
-  // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관.
-  if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius+2)]});
+  // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관. 하단 구글맵/길찾기 버튼.
+  if(o.popup){
+    const html=o.popupName?o.popup+gmapFooter(o.popupName,ll,o.popupId||o.cat):o.popup;
+    mk.bindPopup(html,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius+2)]});
+  }
   return mk;
 }
 function dimMarker(mk,visible,front){ // 격리: 비선택은 완전 숨김+비인터랙티브, 선택은 맨 앞으로
@@ -183,7 +197,7 @@ function buildShopLayer(){
   shopLayer=L.layerGroup();
   MALLS.forEach(s=>{
     const sub=((LANG==='en'&&s.en)?s.en:s).sub;
-    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,maxWidth:220,
+    poiMarker(s.ll,{cat:'shopping',color:SHOP_COLOR,maxWidth:220,popupName:s.n,popupId:'shopping',
       tooltip:`${s.n}<br><span style="font-size:9px;color:#5b6377">${sub}</span>`,
       popup:shopPopupHtml(s)}).addTo(shopLayer);
   });
@@ -215,7 +229,7 @@ function buildMarkerLayer(ov,cat,colors){
   const layer=L.layerGroup(),marks={};
   MARKERS.filter(m=>m.ov===ov).forEach(m=>{
     (marks[m.st]=marks[m.st]||[]);
-    const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],maxWidth:260,
+    const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],maxWidth:260,popupName:m.name,popupId:ov,
       tooltip:`${m.name}<br><span style="font-size:9px;color:#5b6377">${markerField(m,'sub')}</span>`,
       popup:markerPopupHtml(m)});
     marks[m.st].push(mk);mk.addTo(layer);
@@ -289,9 +303,10 @@ function ovBuild(r){
   r._g=map.getZoom()>=(r.zoomGlyph||ZOOM_GLYPH);
   r.data().forEach(item=>{
     const lab=r.label(item),nm=r.nameOf?r.nameOf(item):item.n;
-    const mk=poiMarker(item.ll,{cat:r.cat,color:r.color[item.t]||r.color[r.def],pane:r.pane,maxWidth:r.maxWidth,zoomGlyph:r.zoomGlyph,
+    const mk=poiMarker(item.ll,{cat:r.cat,color:r.color[item.t]||r.color[r.def],maxWidth:r.maxWidth,zoomGlyph:r.zoomGlyph,
+      popupName:nm,popupId:r.id,
       tooltip:`${nm}<br><span style="font-size:9px;color:#5b6377">${lab}</span>`,
-      popup:r.popup?r.popup(item):`<div class="popup-inner"><div class="popup-name">${nm}</div><div class="popup-sub">${lab}</div></div>`});
+      popup:r.popup?r.popup(item):`<div class="popup-inner"><div class="popup-name">${nm}</div><div class="popup-sub">${lab}</div>${descHtml(item)}</div>`});
     (r.markers[item.t]||r.markers[r.def]).push(mk);
     if(!r.cull)mk.addTo(r.layer); // 컬링 오버레이는 ovCull이 뷰포트분만 추가
   });
