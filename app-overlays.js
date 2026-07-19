@@ -53,9 +53,10 @@ function descHtml(item){const d=(LANG==='en'&&item.en)?item.en:item.desc;return 
 const GMAP_ICON='<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1a73e8" d="M12 2a7 7 0 0 0-7 7c0 1.4.4 2.5 1.1 3.7L12 22l1.3-2.3L7.6 11A5 5 0 0 1 12 4z"/><path fill="#ea4335" d="M12 2a7 7 0 0 1 7 7c0 1.4-.4 2.5-1.1 3.7l-4 6.6-2.6-4.6 3.7-6.4A5 5 0 0 0 12 4z"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>';
 // 팝업 하단 구글맵 아이콘 버튼(전 POI 공통, 통일 위치) — 클릭 track('gmap-'+id)
 // 이름+지역 검색으로 구글맵이 정확한 장소(place)를 매칭. generic POI는 popupopen에서 서버브명을 붙여 프랜차이즈 지점까지 특정.
-function gmapUrl(q){return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;}
-function gmapFooter(name,id){
-  return `<a class="popup-gmap" href="${gmapUrl(name+' Adelaide SA')}" data-nm="${encodeURIComponent(name)}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
+// 이름+좌표 경로형식: maps/search/이름/@lat,lng,17z — 구글이 그 좌표 근처의 그 이름 장소를 정확히 매칭(지점명 몰라도 됨)
+function gmapUrl(name,ll){return `https://www.google.com/maps/search/${encodeURIComponent(name)}/@${ll[0]},${ll[1]},17z`;}
+function gmapFooter(name,ll,id){
+  return `<a class="popup-gmap" href="${gmapUrl(name,ll)}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
 }
 function poiMarker(ll,o){
   let mk;
@@ -68,7 +69,7 @@ function poiMarker(ll,o){
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
   // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관. 하단 구글맵/길찾기 버튼.
   if(o.popup){
-    const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(o.popupName,o.popupId||o.cat)}</div>`:o.popup;
+    const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(o.popupName,ll,o.popupId||o.cat)}</div>`:o.popup;
     // offset: tip이 핀 상단 바로 위(~4px, 안 겹침)에 오도록. Leaflet 내부 tip 오프셋 상쇄해 radius 무관 일정 간격
     mk.bindPopup(html,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius-6)]});
     // CircleMarker는 Path라 기본 클릭 핸들러가 팝업을 '클릭 지점'에 엶 → 마커 중심에 고정
