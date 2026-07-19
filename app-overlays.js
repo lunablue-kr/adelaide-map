@@ -30,15 +30,34 @@ function glyphImgFor(cat){
   img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
   return GLYPH_IMGS[cat]=img;
 }
+// 격리(비선택) 전용: 흰 대신 카테고리색으로 틴트한 글리프(빈 링 안에서도 아이콘 식별). cat+색 캐시
+const GLYPH_TINT={};
+function glyphImgTint(cat,color){
+  const k=cat+'|'+color;if(GLYPH_TINT[k])return GLYPH_TINT[k];
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" color="${color}">${GLYPHS[cat]}</svg>`;
+  const img=new Image();img._pend=[];
+  img.onload=()=>{if(img._pend)img._pend.forEach(l=>{try{l.redraw();}catch(e){}});img._pend=null;};
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  return GLYPH_TINT[k]=img;
+}
 // CircleMarker 서브클래스: 캔버스에 원 대신 기호핀을 그림(히트테스트·팝업·격리는 원과 동일)
 const GlyphMarker=L.CircleMarker.extend({_updatePath:function(){this._renderer._updateGlyph(this);}});
 L.Canvas.include({_updateGlyph:function(layer){
   if(!this._drawing||layer._empty())return;
   const o=layer.options;
-  if(!o.opacity&&!o.fillOpacity)return; // 격리 숨김
+  if(!o.opacity&&!o.fillOpacity)return; // 완전 숨김(미사용)
   const p=layer._point,ctx=this._ctx,r=o.glyphD/2;
   ctx.save();
   ctx.setLineDash([]); // 서버브 점선 등 이전 경로의 dash 상태 차단
+  if(o.dimmed){ // 격리 비선택: 채움 없는 카테고리색 링 + 틴트 아이콘, 살짝 연하게(겹쳐도 덜 지저분, 오버레이 식별 유지)
+    ctx.globalAlpha=0.5;
+    ctx.beginPath();ctx.arc(p.x,p.y,r-0.8,0,Math.PI*2);
+    ctx.lineWidth=1.6;ctx.strokeStyle=o.glyphColor;ctx.stroke();
+    const timg=glyphImgTint(o.cat,o.glyphColor),ts=Math.round(o.glyphD*0.62);
+    if(timg.complete&&timg.naturalWidth)ctx.drawImage(timg,p.x-ts/2,p.y-ts/2,ts,ts);
+    else if(timg._pend)timg._pend.push(layer);
+    ctx.restore();return;
+  }
   ctx.beginPath();ctx.arc(p.x,p.y,r-0.8,0,Math.PI*2);
   ctx.fillStyle=o.glyphColor;ctx.fill();
   ctx.lineWidth=1.6;ctx.strokeStyle='#ffffff';ctx.stroke();
@@ -82,9 +101,15 @@ function poiMarker(ll,o){
   }
   return mk;
 }
-function dimMarker(mk,visible,front){ // 격리: 비선택은 완전 숨김+비인터랙티브, 선택은 맨 앞으로
+function dimMarker(mk,visible,front){ // 격리: 비선택=빈 링(카테고리색)+비인터랙티브, 선택=원상복구+맨 앞
   if(mk instanceof L.CircleMarker){
-    mk.setStyle({opacity:visible?1:0,fillOpacity:visible?1:0});
+    if(mk.options.glyphD){ // 기호핀: dimmed 플래그로 빈링 렌더(opacity는 유지해 그려지게)
+      mk.options.dimmed=!visible;
+      mk.setStyle({opacity:1,fillOpacity:1});
+    }else{ // 저줌 점: 비선택은 채움 빼고 카테고리색 링만 연하게
+      const c=mk.options.fillColor;
+      mk.setStyle(visible?{opacity:1,fillOpacity:1,color:'#0c0f14'}:{opacity:0.5,fillOpacity:0,color:c});
+    }
     mk.options.interactive=visible; // 캔버스 렌더러는 기하 히트테스트라 투명해도 탭 가로챔 → 차단
     if(mk._path)mk._path.style.pointerEvents=visible?'':'none'; // SVG 경로(교통 등)
     if(visible&&front)mk.bringToFront();
