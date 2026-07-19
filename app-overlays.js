@@ -52,9 +52,9 @@ function descHtml(item){const d=(LANG==='en'&&item.en)?item.en:item.desc;return 
 // 구글맵 핀 로고 아이콘(다색) — 팝업서 구글맵 열기 버튼
 const GMAP_ICON='<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1a73e8" d="M12 2a7 7 0 0 0-7 7c0 1.4.4 2.5 1.1 3.7L12 22l1.3-2.3L7.6 11A5 5 0 0 1 12 4z"/><path fill="#ea4335" d="M12 2a7 7 0 0 1 7 7c0 1.4-.4 2.5-1.1 3.7l-4 6.6-2.6-4.6 3.7-6.4A5 5 0 0 0 12 4z"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>';
 // 팝업 하단 구글맵 아이콘 버튼(전 POI 공통, 통일 위치) — 클릭 track('gmap-'+id)
-function gmapFooter(name,ll,id){
-  const q=encodeURIComponent(name+' Adelaide SA'); // 서버브명 없으면 도시명 폴백(POI 대부분 서버브 미보유)
-  const gm=`https://www.google.com/maps/search/?api=1&query=${q}`;
+// 좌표 링크: 이름 검색은 프랜차이즈(KFC 등)가 여러 곳 뜨고 우리 핀 위치와 무관 → 우리 좌표로 정확히 그 지점만 표시
+function gmapFooter(ll,id){
+  const gm=`https://www.google.com/maps/search/?api=1&query=${ll[0]},${ll[1]}`;
   return `<a class="popup-gmap" href="${gm}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
 }
 function poiMarker(ll,o){
@@ -68,7 +68,7 @@ function poiMarker(ll,o){
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
   // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관. 하단 구글맵/길찾기 버튼.
   if(o.popup){
-    const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(o.popupName,ll,o.popupId||o.cat)}</div>`:o.popup;
+    const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(ll,o.popupId||o.cat)}</div>`:o.popup;
     // offset: tip이 핀 상단 바로 위(~4px, 안 겹침)에 오도록. Leaflet 내부 tip 오프셋 상쇄해 radius 무관 일정 간격
     mk.bindPopup(html,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius-6)]});
   }
