@@ -53,7 +53,7 @@ L.Canvas.include({_updateGlyph:function(layer){
     ctx.beginPath();ctx.arc(p.x,p.y,r-0.8,0,Math.PI*2);
     ctx.globalAlpha=0.55;ctx.lineWidth=1.6;ctx.strokeStyle=o.glyphColor;ctx.stroke(); // 링은 살짝 연하게(겹쳐도 덜 지저분)
     ctx.globalAlpha=1; // 아이콘은 또렷하게(묻힘 방지)
-    const timg=glyphImgTint(o.cat,o.glyphColor),ts=Math.round(o.glyphD*0.62);
+    const timg=o.glyphImg,ts=Math.round(o.glyphD*0.62); // 흰색 아이콘 시험
     if(timg.complete&&timg.naturalWidth)ctx.drawImage(timg,p.x-ts/2,p.y-ts/2,ts,ts);
     else if(timg._pend)timg._pend.push(layer);
     ctx.restore();return;
