@@ -56,7 +56,8 @@ function poiMarker(ll,o){
     mk=L.circleMarker(ll,{renderer:VEC_CANVAS,radius:o.dot||DOT_R,color:'#0c0f14',weight:1.1,fillColor:o.color,fillOpacity:1});
   }
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
-  if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240});
+  // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관.
+  if(o.popup)mk.bindPopup(o.popup,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius+2)]});
   return mk;
 }
 function dimMarker(mk,visible,front){ // 격리: 비선택은 완전 숨김+비인터랙티브, 선택은 맨 앞으로

@@ -163,12 +163,14 @@ const MAX_ST=Math.max(...Object.values(LGA_STATS).map(s=>s.st));
 const MAX_SCH=Math.max(...Object.values(LGA_STATS).map(s=>s.sch));
 const RENT_MIN=Math.min(...Object.values(RENT_MID)),RENT_MAX=Math.max(...Object.values(RENT_MID));
 
+// hex 색 어둡게(선택 경계용) — #rrggbb → 각 채널 factor배. 카테고리/렌트/치안 색과 어울리는 진한 테두리
+function darkenHex(hex,f){f=f==null?0.55:f;const n=parseInt(hex.slice(1),16);return `rgb(${Math.round((n>>16&255)*f)},${Math.round((n>>8&255)*f)},${Math.round((n&255)*f)})`;}
 function restyleAll(){
   // 라이트 배경 대응: 면 채움을 등급 구분되게(2026-07-19, 다크 때 0.11서 상향). 핀은 라이트 대비 충분해 가독 유지
   const fillBase=0.28, fillDim=0.06, fillSel=0.5, fillOther=0.12;
   Object.entries(lgaLayers).forEach(([id,layer])=>{
     const c=lgaColor(id);
-    if(id===selectedLgaId){layer.setStyle({color:'#1c2333',weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});} // bringToFront 금지(단일 캔버스라 핀 위로 올라옴)
+    if(id===selectedLgaId){layer.setStyle({color:darkenHex(c),weight:3,opacity:1,fillColor:c,fillOpacity:fillSel});} // 선택 경계=카테고리색 진하게(bringToFront 금지 — 단일 캔버스라 핀 위로 올라옴)
     else if(selectedLgaId){layer.setStyle({color:c,weight:1,opacity:0.25,fillColor:c,fillOpacity:fillOther});}
     else{
       const dim=activeCat!=='all'&&LGAS[id].cat!==activeCat;
@@ -185,7 +187,7 @@ Object.entries(LGA_BOUNDARIES).forEach(([id,geom])=>{
     renderer:VEC_CANVAS,
     style:{color:lgaColor(id),weight:1.8,opacity:0.9,fillColor:lgaColor(id),fillOpacity:0.11},
   }).addTo(map);
-  layer.on('click',(e)=>{L.DomEvent.stopPropagation(e);deselectSuburb();openSheet(id);});
+  layer.on('click',(e)=>{L.DomEvent.stopPropagation(e);if(_popupOpen){map.closePopup();return;}deselectSuburb();openSheet(id);}); // 팝업 열림 시 팝업만 닫고 LGA 선택 무효화
   layer.on('mouseover',()=>{if(selectedLgaId)return;layer.setStyle({fillOpacity:0.24,weight:2.5});});
   layer.on('mouseout',()=>{if(selectedLgaId)return;restyleAll();});
   lgaLayers[id]=layer;
@@ -264,7 +266,8 @@ document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropaga
 // ═══════════════ 서버브 레이어 ═══════════════
 let suburbLayer=null,suburbOn=false,selectedSubPoly=null,suburbPolys={};
 const SUB_BASE={color:'rgba(60,70,100,0.55)',weight:0.8,opacity:1,dashArray:'3 3',fillOpacity:0.02};
-const SUB_SEL={color:'#1c2333',weight:3,opacity:1,dashArray:null,fillOpacity:0.1};
+// 선택 서버브 = 그 LGA 카테고리색 기반(경계 진하게·채움 은은) — 검정 대신 어울리는 색
+function subSelStyle(cat){const col=CAT_META[cat].color;return {color:darkenHex(col),weight:2.6,opacity:1,dashArray:null,fillColor:col,fillOpacity:0.16};}
 function deselectSuburb(){if(selectedSubPoly){selectedSubPoly.setStyle(SUB_BASE);selectedSubPoly=null;}}
 function buildSuburbLayer(){
   suburbLayer=L.layerGroup();suburbPolys={};
@@ -277,7 +280,8 @@ function buildSuburbLayer(){
     poly.bindTooltip(tip,{sticky:true,direction:'top',className:'sub-tip',opacity:1});
     poly.on('click',(e)=>{
       L.DomEvent.stopPropagation(e);
-      deselectSuburb();selectedSubPoly=poly;poly.setStyle(SUB_SEL);
+      if(_popupOpen){map.closePopup();return;} // 팝업 열림 시 팝업만 닫고 서버브 선택 무효화
+      deselectSuburb();selectedSubPoly=poly;poly.setStyle(subSelStyle(d.cat));
       openSheet(s.l);
     });
     suburbLayer.addLayer(poly);suburbPolys[si]=poly;

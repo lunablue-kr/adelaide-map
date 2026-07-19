@@ -203,7 +203,7 @@ function focusSuburb(si){
   const s=SUBURBS[si];if(!s)return;
   if(!suburbOn)setSuburbLayer(true);
   const poly=suburbPolys[si];if(!poly)return;
-  deselectSuburb();selectedSubPoly=poly;poly.setStyle(SUB_SEL);
+  deselectSuburb();selectedSubPoly=poly;poly.setStyle(subSelStyle(LGAS[s.l].cat));
   openSheet(s.l);
   map.fitBounds(poly.getBounds(),{padding:[90,90],maxZoom:ZOOM_SUB});
 }
