@@ -1,7 +1,7 @@
 const MEDICAL=[
 {ll:[-34.9058,138.53222],n:"365 Days Medical Centre Kidman Park",t:"dr",pid:"ChIJm0njJI7FsGoRWT77iS5w1BA"},
 {ll:[-35.07455,138.59102],n:"Aberfoyle Hub Dental Surgery",t:"de",pid:"ChIJtbr4YSbXsGoRFg_d42wn_ws"},
-{ll:[-34.85703,138.52891],n:"Addison Surgery",t:"dr"},
+
 {ll:[-34.95276,138.60013],n:"Adelaide Cosmetic Dentistry",t:"de",pid:"ChIJ8xW2VCXPsGoRilcM-mYNCiA"},
 {ll:[-34.85182,138.50836],n:"Adelaide Pathology Partners",t:"dr"},
 {ll:[-35.1392,138.48308],n:"Adelaide Podiatry",t:"dr"},
@@ -122,7 +122,7 @@ const MEDICAL=[
 {ll:[-34.9261,138.66323],n:"gentledentistry Erindale",t:"de",pid:"ChIJv3DF7pXLsGoRLjl5AsYHssc"},
 {ll:[-34.87002,138.53055],n:"Gentle Touch Orthodontics",t:"de",pid:"ChIJPeoDSiPGsGoR9S6-KDM2Sdg"},
 {ll:[-34.85564,138.65499],n:"Gilles Plains Medical Centre",t:"dr",pid:"ChIJf8Awss-1sGoRR4Rq81E0K-Y"},
-{ll:[-34.98039,138.515],n:"Glenelg 7 day pharmacy",t:"ph"},
+
 {ll:[-34.98018,138.51463],n:"Glenelg Health foods",t:"ph",pid:"ChIJ4zNZbxzbsGoRORLG7xRekDk"},
 {ll:[-34.93969,138.6364],n:"Glenside Dental Clinic",t:"de",pid:"ChIJ1d3sVajOsGoRnnNhVRmqAMQ"},
 {ll:[-34.95306,138.63576],n:"Glenunga Dental Clinic",t:"de",pid:"ChIJPfyo4p7OsGoRT6oQYnr2ffw"},
@@ -139,7 +139,7 @@ const MEDICAL=[
 {ll:[-34.94893,138.60717],n:"Haddad Pharmacy Group",t:"ph",pid:"ChIJqbcIxPrOsGoRmirDEe4dNC4"},
 {ll:[-34.85691,138.54686],n:"Hanson Road Medical Clinic",t:"dr",pid:"ChIJc6q7Cc3HsGoRngwTi5YBvtk"},
 {ll:[-35.08347,138.56179],n:"Happy Valley Dental Surgery - Hurley Tim",t:"de",pid:"ChIJU20nJX_XsGoRPfBm7Vsw4EI"},
-{ll:[-35.07971,138.55256],n:"Happy Valley Discount Pharmacy",t:"ph"},
+
 {ll:[-34.84478,138.48331],n:"Hart Street Dental",t:"de",pid:"ChIJUYo3JMzGsGoRM1b06MMDHfU"},
 {ll:[-34.97979,138.51612],n:"Health Hub Family GP",t:"dr",pid:"ChIJD-6fzB3bsGoRmZpyrdcqta0"},
 {ll:[-34.86156,138.68341],n:"Health Partners",t:"ph"},
@@ -220,7 +220,7 @@ const MEDICAL=[
 {ll:[-34.92717,138.65068],n:"Pharmacy Plus",t:"ph"},
 {ll:[-34.88155,138.53722],n:"PhysioOne",t:"dr"},
 {ll:[-34.74859,138.6674],n:"Playford Health Hub",t:"dr",pid:"ChIJAcSqWwCzsGoRJiPX0eDJpwY"},
-{ll:[-34.84462,138.50582],n:"Port Adelaide Chiropractic Clinic",t:"dr"},
+
 {ll:[-34.68736,138.68903],n:"Priceline Pharmacy",t:"ph",pid:"ChIJQ7VkteitsGoRcKttOXThW6c"},
 {ll:[-34.83909,138.48334],n:"Priceline Pharmacy Semaphore",t:"ph",pid:"ChIJKa7C09PGsGoRv0xFH0piWgU"},
 {ll:[-35.06734,138.5555],n:"Priceline Pharmacy O'Halloran Hill",t:"ph",pid:"ChIJdSSjxN7ZsGoRzYEhQEFuJ2M"},

@@ -2,7 +2,7 @@ const PUBS=[
 {ll:[-34.84493,138.50384],n:"10 Gallon Hat",t:"bar",pid:"ChIJm2kVTELHsGoRSuAGLcwriyA"},
 {ll:[-34.91189,138.58814],n:"19th Hole",t:"bar"},
 {ll:[-34.92364,138.59888],n:"2nd & 6th",t:"pub",pid:"ChIJ-YEfKtbOsGoR41jTdM0t7M0"},
-{ll:[-34.9313,138.59878],n:"55ml",t:"bar"},
+
 {ll:[-34.92252,138.59875],n:"A Social Undertaking",t:"bar",pid:"ChIJVfMxVOHPsGoRJngtXQjnHJQ"},
 {ll:[-34.93779,138.53984],n:"ADL Grounds Bar",t:"bar",pid:"ChIJo31jAADFsGoRicJsy-1enrQ"},
 {ll:[-35.26714,138.48289],n:"Aldinga Hotel",t:"pub",pid:"ChIJnQdyu7A7sWoRMIBx3o1b6uU"},
@@ -43,7 +43,7 @@ const PUBS=[
 {ll:[-34.91081,138.57159],n:"Brightstar Brewing",t:"brew",pid:"ChIJZ6wPSt_PsGoRwHz5NdUYyiM"},
 {ll:[-34.92777,138.62401],n:"Britannia Hotel",t:"pub",pid:"ChIJD7ptVbPOsGoRyglXHlzwAU4"},
 {ll:[-34.90221,138.59423],n:"Caledonian Hotel",t:"pub",pid:"ChIJgeaoBwzJsGoRFjfu2uGaeDA"},
-{ll:[-34.90571,138.59595],n:"Cambridge Balcony Bar",t:"bar"},
+
 {ll:[-34.84931,138.48991],n:"Carlisle Tavern",t:"pub",pid:"ChIJL7j_DcbGsGoRfasU-mC0njE"},
 {ll:[-34.88189,138.55875],n:"Challa Gardens Hotel",t:"pub",pid:"ChIJhxVZ_Z_IsGoRI4XjHLfB4Fg"},
 {ll:[-35.13141,138.47475],n:"Christies Beach Hotel",t:"pub",pid:"ChIJr4b7DDIhsWoRdL4zi2jTByk"},
@@ -64,7 +64,7 @@ const PUBS=[
 {ll:[-34.92401,138.59585],n:"Cry Baby",t:"bar",pid:"ChIJFZ-l-gvPsGoR6xDc_Poy9Tk"},
 {ll:[-34.9214,138.63424],n:"Cue Bar",t:"bar",pid:"ChIJP9JTjFnJsGoRwRgHoBO753Y"},
 {ll:[-34.84285,138.49291],n:"Cumberland Hotel",t:"pub"},
-{ll:[-34.90658,138.59415],n:"Daniel O'Connell",t:"pub"},
+
 {ll:[-35.13916,138.47307],n:"Delicia Acai + Protein Bar",t:"bar"},
 {ll:[-34.92235,138.6101],n:"Distill",t:"bar"},
 {ll:[-34.93065,138.59299],n:"Diverse-City",t:"club",pid:"ChIJxZfhg6rPsGoR3J7eQaUieTI"},
@@ -115,7 +115,7 @@ const PUBS=[
 {ll:[-34.92552,138.49535],n:"Henley Beach Hotel",t:"pub",pid:"ChIJk84N_I3EsGoR4BkDU1tQKC0"},
 {ll:[-34.92351,138.59891],n:"High Spirits Bar",t:"bar",pid:"ChIJrzPlTADPsGoRO8SS8VbGHwk"},
 {ll:[-34.8522,138.70191],n:"Highbury Hotel",t:"pub",pid:"ChIJzRB57iG1sGoRnuNw1R072yA"},
-{ll:[-34.92367,138.59271],n:"Higher Ground",t:"club"},
+
 {ll:[-34.9317,138.57007],n:"Hilton Hotel MyBar",t:"pub",pid:"ChIJ9xmkwG_PsGoRzbOATdsvu50"},
 {ll:[-34.92489,138.60251],n:"Historian Hotel",t:"pub",pid:"ChIJBWi359bOsGoR4Cpm8f1pahc"},
 {ll:[-34.98532,138.52021],n:"Holdfast Hotel",t:"pub",pid:"ChIJu0rONP3asGoRSP4XOi7Juqg"},
@@ -133,7 +133,7 @@ const PUBS=[
 {ll:[-34.92263,138.59887],n:"La Buvette",t:"wine",pid:"ChIJS7VEHtbOsGoRaKSAgoMPenE"},
 {ll:[-34.92487,138.59941],n:"La Louisiane",t:"bar"},
 {ll:[-34.92356,138.59817],n:"La Moka",t:"bar",pid:"ChIJ6RHt0SnPsGoRrM8pq3Vsqoo"},
-{ll:[-34.90311,138.59462],n:"La Rouge Lounge",t:"bar"},
+
 {ll:[-34.92486,138.59779],n:"Lady Burra Brewhouse",t:"pub",pid:"ChIJJy1wFCjPsGoRqkvBnK81cMM"},
 {ll:[-34.87995,138.48863],n:"Lakes Resort Hotel",t:"pub",pid:"ChIJZW19UwXEsGoRbsJtvQfZNpU"},
 {ll:[-34.8256,138.48656],n:"Largs Pier Hotel",t:"pub",pid:"ChIJqTulyS_HsGoRSZ0Fnx-yJYo"},
@@ -142,7 +142,7 @@ const PUBS=[
 {ll:[-34.84296,138.50466],n:"Lighthouse Hotel",t:"pub",pid:"ChIJke3dOOLGsGoR9aV1nof4m_k"},
 {ll:[-34.91481,138.62557],n:"Little Bang Brewery",t:"pub",pid:"ChIJC84e1VzJsGoRC016_MehdTY"},
 {ll:[-34.92312,138.59862],n:"Little Pub Off Hindley",t:"pub",pid:"ChIJFVOd1ynPsGoRIwhFSnFuaD0"},
-{ll:[-34.92333,138.60596],n:"Loc= Bottle Bar",t:"bar"},
+
 {ll:[-34.84216,138.49101],n:"Lord Exmouth Hotel",t:"pub",pid:"ChIJtaBYUdrGsGoRc8jrb1RNal0"},
 {ll:[-34.90625,138.60898],n:"Lord Melbourne Hotel",t:"pub",pid:"ChIJWV1LyjzJsGoR-juKV9oqEMc"},
 {ll:[-34.91541,138.62324],n:"Maid and Magpie",t:"pub",pid:"ChIJnYl2YkbJsGoRFAZMa7-MeNU"},
@@ -169,7 +169,7 @@ const PUBS=[
 {ll:[-35.01642,138.54463],n:"New York Bar & Grill",t:"pub",pid:"ChIJjbJH6G_asGoRkSbUN1X_gTk"},
 {ll:[-34.84625,138.50639],n:"Newmarket Hotel",t:"pub",pid:"ChIJpQWqeePGsGoR08HGq9ioyaY"},
 {ll:[-34.92349,138.59429],n:"Nineteen Ten",t:"bar",pid:"ChIJ0WdQy3HPsGoRQsSbtbhnPX4"},
-{ll:[-34.922,138.61064],n:"Nostru",t:"bar"},
+
 {ll:[-34.87471,138.63273],n:"OG Hotel",t:"pub",pid:"ChIJ_1YBQPPJsGoRpzZLk8CyoH4"},
 {ll:[-35.27415,138.55864],n:"Old Bush Inn",t:"pub",pid:"ChIJafv_9QcwsWoRklQv5xyH2vI"},
 {ll:[-35.18249,138.50127],n:"Old Noarlunga Hotel",t:"pub",pid:"ChIJkeLLKjwksWoR8lfB4SRoDcU"},
@@ -192,7 +192,7 @@ const PUBS=[
 {ll:[-34.93189,138.59067],n:"Prince Albert Hotel",t:"pub",pid:"ChIJ2XVXnSLPsGoRvnS56-f_n3o"},
 {ll:[-34.59834,138.74928],n:"Prince Albert Hotel",t:"bar",pid:"ChIJDysEVM__uWoRFQR7Ccuq5rs"},
 {ll:[-34.93415,138.59936],n:"Prohibition Liqour Co",t:"bar",pid:"ChIJDRJVjN_OsGoR2z9B_w3D0rs"},
-{ll:[-34.92741,138.59522],n:"Publisher hotel",t:"bar"},
+
 {ll:[-34.93504,138.60619],n:"Pulteney Pokies",t:"pub",pid:"ChIJiYxe9dzOsGoRAFUMrmr3jn4"},
 {ll:[-34.93944,138.53697],n:"Qantas Club",t:"bar"},
 {ll:[-34.91162,138.59655],n:"Queen's Head Hotel",t:"pub",pid:"ChIJh0Wa09XIsGoRbxMI7GABClw"},
@@ -232,7 +232,7 @@ const PUBS=[
 {ll:[-34.92483,138.60479],n:"Sq",t:"bar"},
 {ll:[-34.73912,138.53439],n:"St Kilda Beach Hotel",t:"pub"},
 {ll:[-34.76239,138.64293],n:"Stockade Tavern",t:"pub",pid:"ChIJZQsP5NmzsGoRGetqvDsdRdg"},
-{ll:[-34.9231,138.59429],n:"Strats",t:"club"},
+
 {ll:[-34.89741,138.61515],n:"Sussex Hotel",t:"pub",pid:"ChIJmz6oahLJsGoRhLNiKMgcYgQ"},
 {ll:[-34.83884,138.48491],n:"Sweet Amber Brew Cafe",t:"bar",pid:"ChIJzTAgQNHGsGoRLgIwG2tHe5Q"},
 {ll:[-34.93001,138.59544],n:"Talbot Hotel",t:"pub",pid:"ChIJS8o9PCHPsGoRgUEu-YcYxjk"},
@@ -322,7 +322,7 @@ const PUBS=[
 {ll:[-34.8806,138.53405],n:"Woodville Hotel",t:"pub",pid:"ChIJddLChW3GsGoRfwwtb1ctQ7w"},
 {ll:[-34.92305,138.59593],n:"Woolshed on Hindley",t:"pub",pid:"ChIJdZjg_SjPsGoRSaMv5wXlPQ0"},
 {ll:[-34.92275,138.60806],n:"Yankee's Burger Bar - CBD",t:"bar",pid:"ChIJf5iL9mbPsGoRDsUZqZ5bMzM"},
-{ll:[-34.93555,138.55239],n:"Yellow Matter",t:"brew"},
+
 {ll:[-34.92431,138.59734],n:"Zhivago",t:"club",pid:"ChIJv5KofibPsGoRcEvpdgUNPR8"},
 {ll:[-34.9238,138.60658],n:"The Griffins Hotel",t:"pub",pid:"ChIJV1V3NtLOsGoREG9UFlM2Qcs"}
 ];

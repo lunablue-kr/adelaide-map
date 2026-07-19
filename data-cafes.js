@@ -2,7 +2,7 @@ const CAFES=[
 {ll:[-34.92482,138.60015],n:"19 on exchange",t:"cafe"},
 {ll:[-35.02397,138.61799],n:"1923 Cafe Blackwood",t:"cafe",pid:"ChIJL4xNcL3RsGoRNXZmZbHK8oE"},
 {ll:[-34.98617,138.62771],n:"1954",t:"cafe",pid:"ChIJF6C37RbPsGoRstugGkzREE4"},
-{ll:[-34.91658,138.49331],n:"303 By the Sea",t:"cafe"},
+
 {ll:[-34.9164,138.6253],n:"33 Chapel",t:"cafe",pid:"ChIJSyWuS0TJsGoRMA7sIAS01Os"},
 {ll:[-34.81008,138.61586],n:"42nd Street Cafe",t:"cafe",pid:"ChIJAe1GefS2sGoR22Ih7Q59F0k"},
 {ll:[-34.94785,138.60741],n:"A Mother's Milk Unley",t:"cafe",pid:"ChIJEbwLSeXOsGoRRSYZEnzaMy8"},
@@ -14,11 +14,11 @@ const CAFES=[
 {ll:[-34.81549,138.69924],n:"Adelaide Bakers Bakery",t:"bakery"},
 {ll:[-34.92442,138.60248],n:"Adelaide Coffee Bar",t:"cafe",pid:"ChIJJ_ja6tbOsGoRpjnBUEPvdks"},
 {ll:[-35.14849,138.47024],n:"Agatha's",t:"cafe",pid:"ChIJibmgQ1AhsWoRDvpyOUuLBYA"},
-{ll:[-34.95406,138.5999],n:"Aha! Cafe",t:"cafe"},
+
 {ll:[-35.01525,138.61776],n:"Akkerman & Dyer Bakery",t:"bakery",pid:"ChIJZ_y7FcDRsGoRLtnGQgiR_uk"},
 {ll:[-34.87717,138.66468],n:"Alfresco 2 Cakes & Gelati",t:"bakery",pid:"ChIJLQAkQnHKsGoRNNI0nPUW56Y"},
 {ll:[-35.01739,138.51682],n:"Alimentary Eatery",t:"cafe",pid:"ChIJUUNy_fTbsGoRqE9Lu1f4Npk"},
-{ll:[-34.9931,138.56564],n:"Almadina coffee",t:"cafe"},
+
 {ll:[-34.92124,138.63786],n:"Argos",t:"cafe",pid:"ChIJ_e9njFjJsGoRDNfD8oLHkeo"},
 {ll:[-34.92454,138.60004],n:"Arlo's",t:"cafe",pid:"ChIJYdhhSgDPsGoRg1uBDgDQRHM"},
 {ll:[-34.92458,138.59265],n:"Aroma cafe",t:"cafe"},
@@ -30,7 +30,7 @@ const CAFES=[
 {ll:[-34.92312,138.60741],n:"Ayla's Cafe",t:"cafe",pid:"ChIJY9UlXNLOsGoRIljrO580PtE"},
 {ll:[-34.92579,138.60118],n:"BTS Cafe",t:"cafe",pid:"ChIJeZZmziDPsGoR5sVS8g_eGCA"},
 {ll:[-34.76326,138.64613],n:"Baba Bakery",t:"bakery",pid:"ChIJKUyhR2yzsGoRrS7PVK8BCVk"},
-{ll:[-34.76293,138.67562],n:"Badger & Bones Cafe",t:"cafe"},
+
 {ll:[-35.03,138.53222],n:"Bake Bakery",t:"bakery",pid:"ChIJ31IWRyTasGoRaf9-miJIOzQ"},
 {ll:[-34.89937,138.56227],n:"Bakehouse",t:"bakery"},
 {ll:[-35.18833,138.47905],n:"Bakers Delight Seaford",t:"bakery",pid:"ChIJd9Vr7bcjsWoREkw_6mD7VBI"},
@@ -63,7 +63,7 @@ const CAFES=[
 {ll:[-34.99873,138.62264],n:"Banana Boogie Bakery",t:"bakery",pid:"ChIJ2UzwaR7OsGoR7pmFxSI5hiI"},
 {ll:[-34.87842,138.53708],n:"Banca",t:"cafe",pid:"ChIJBYWCcgDHsGoRyjx8Cpht9KA"},
 {ll:[-34.98007,138.51206],n:"Banjo’s Bakery Café – Glenelg",t:"bakery",pid:"ChIJOXLJTTLbsGoRXE1kmvk-_WA"},
-{ll:[-34.93998,138.66011],n:"Basecamp Cafe Burnside",t:"cafe"},
+
 {ll:[-34.98701,138.52432],n:"Bayside Bakery",t:"bakery",pid:"ChIJcZhsqvzasGoRS18X-IMCjZk"},
 {ll:[-35.13957,138.4777],n:"Beach Road Cafe Christies",t:"cafe"},
 {ll:[-34.92561,138.59946],n:"Bean Bar",t:"cafe",pid:"ChIJNUE379fOsGoRN2dALNh0Y3c"},
@@ -84,7 +84,7 @@ const CAFES=[
 {ll:[-35.21717,138.54105],n:"Blessed Cheese Cafe",t:"cafe"},
 {ll:[-34.91034,138.57341],n:"Bloom",t:"cafe",pid:"ChIJw5845mzPsGoRghwEwAd6xUA"},
 {ll:[-35.11296,138.51601],n:"Blossom Cakes",t:"bakery",pid:"ChIJ__-TCHcnsWoRPOpxJ_P5MTs"},
-{ll:[-35.13927,138.47182],n:"Blu C Cafe",t:"cafe"},
+
 {ll:[-35.02211,138.52295],n:"Blue Bird Bakery",t:"bakery",pid:"ChIJ6xqnPDLasGoRFqx55rBRcX8"},
 {ll:[-34.92687,138.60279],n:"Bluprint",t:"cafe",pid:"ChIJgUTCdnrPsGoRMrNj08ZsdhE"},
 {ll:[-35.07876,138.49667],n:"Boatshed Cafe",t:"cafe",pid:"ChIJbcx7Zb7YsGoRF5fgYELkumU"},
@@ -136,8 +136,8 @@ const CAFES=[
 {ll:[-34.91595,138.58199],n:"Cafe Bonython",t:"cafe",pid:"ChIJ5THq7TbPsGoRttdLBeUs1xQ"},
 {ll:[-34.92274,138.60674],n:"Cafe Brunelli",t:"cafe",pid:"ChIJy7U4G9TOsGoRBZCQ6lKnca0"},
 {ll:[-34.84531,138.50463],n:"Cafe Coco",t:"cafe",pid:"ChIJWc_V7ePGsGoR7k5vMmQt0so"},
-{ll:[-35.13848,138.53249],n:"Cafe De Kenzo",t:"cafe"},
-{ll:[-34.90422,138.55278],n:"Cafe De Sage",t:"cafe"},
+
+
 {ll:[-34.88697,138.59364],n:"Cafe Komodo",t:"cafe",pid:"ChIJTQCmV_vIsGoRLVATBIqt7EY"},
 {ll:[-34.91871,138.61957],n:"Cafe La Corp",t:"cafe",pid:"ChIJJfUDM0jJsGoRKuSXGFJs5-M"},
 {ll:[-34.60304,138.74959],n:"Cafe Nova",t:"cafe",pid:"ChIJOVh_qdr_uWoRTKrjgP6T-Bw"},
@@ -146,7 +146,7 @@ const CAFES=[
 {ll:[-34.98826,138.5174],n:"Cafe ToB' (Inc. Trading on Broadway)",t:"cafe"},
 {ll:[-34.87714,138.66531],n:"Cafe Va Bene",t:"cafe",pid:"ChIJLQAkQnHKsGoR786VjA3FpcM"},
 {ll:[-34.93956,138.57195],n:"Cafe de Vili's",t:"bakery",pid:"ChIJNURK6XbPsGoRDhme1kKkI-Q"},
-{ll:[-34.86082,138.65001],n:"Cafe de Vili’s Hillcrest",t:"cafe"},
+
 {ll:[-34.88704,138.59381],n:"Cafe di Roma",t:"cafe",pid:"ChIJIwRnVvvIsGoRQpGXhnsfdDo"},
 {ll:[-34.87694,138.67278],n:"Cafe di crema",t:"cafe",pid:"ChIJwd36InnKsGoRbn6IljfcM7Y"},
 {ll:[-34.71957,138.66905],n:"Caffe Acqua",t:"cafe",pid:"ChIJrRWlho-tsGoRlFJnwEpf1dA"},
@@ -156,7 +156,7 @@ const CAFES=[
 {ll:[-34.93331,138.59512],n:"Café Troppo",t:"brunch",pid:"ChIJBX-a5yHPsGoRixoSxd7G3Ck"},
 {ll:[-34.91507,138.63195],n:"Canelle",t:"bakery"},
 {ll:[-34.92408,138.60078],n:"Caparezza",t:"cafe"},
-{ll:[-34.92334,138.60582],n:"Carton Deli",t:"cafe"},
+
 {ll:[-34.90633,138.59566],n:"CEYLONSPOT CAFE & BAR",t:"cafe",pid:"ChIJ_fNqq2XJsGoRFIuO3IR065Y"},
 {ll:[-34.92138,138.63683],n:"Chaitime",t:"cafe",pid:"ChIJM8JioMjJsGoR68mwgqFqiK8"},
 {ll:[-34.92118,138.63808],n:"Chapter Two",t:"cafe"},
@@ -167,7 +167,7 @@ const CAFES=[
 {ll:[-34.89683,138.55704],n:"Cheesecake Shop",t:"bakery",pid:"ChIJdQ6MjQHGsGoRUJGhSTlyo2I"},
 {ll:[-35.11339,138.49348],n:"Cheezy Grinz Cafe",t:"cafe",pid:"ChIJQ1ENzzgnsWoRkMwC9V4NkhY"},
 {ll:[-34.92027,138.49431],n:"Chocolat",t:"cafe"},
-{ll:[-34.90842,138.59656],n:"Chocolatree",t:"cafe"},
+
 {ll:[-34.92368,138.60391],n:"Ciao Cafe",t:"cafe",pid:"ChIJ6TZCeeHPsGoRSUoOLKF_bNM"},
 {ll:[-34.92028,138.4939],n:"Cibo",t:"cafe"},
 {ll:[-34.8865,138.59384],n:"Cibo",t:"cafe"},
@@ -241,7 +241,7 @@ const CAFES=[
 {ll:[-34.95228,138.61457],n:"Duthy Street Deli Cafe",t:"cafe",pid:"ChIJhVwgPfLOsGoRa-VZPcQCvuY"},
 {ll:[-34.90699,138.60684],n:"E for Ethel",t:"cafe"},
 {ll:[-34.93763,138.53902],n:"Earl",t:"cafe"},
-{ll:[-34.9386,138.65164],n:"East Club Cafe",t:"cafe"},
+
 {ll:[-34.92553,138.60238],n:"East Mediterranean Eatery",t:"cafe",pid:"ChIJhYu8PADPsGoRfxHFXhcMDF8"},
 {ll:[-34.92099,138.6356],n:"Eccomi",t:"cafe",pid:"ChIJZcqRbQDJsGoRhMAEtaLWcqk"},
 {ll:[-34.92739,138.59235],n:"Edesia Adelaide",t:"cafe",pid:"ChIJNQxxL3LPsGoRM58oGeCETm4"},
@@ -255,7 +255,7 @@ const CAFES=[
 {ll:[-34.94884,138.56185],n:"Eny Penny",t:"cafe",pid:"ChIJodv9pcjPsGoRnTmJE5e3eh0"},
 {ll:[-35.09129,138.54012],n:"Esculent",t:"brunch",pid:"ChIJX5V2Cz_YsGoRiHU6TmoxH8M"},
 {ll:[-34.9142,138.65044],n:"Espresso Royale",t:"cafe"},
-{ll:[-34.92878,138.59331],n:"Estar Creperie",t:"cafe"},
+
 {ll:[-34.98066,138.51199],n:"Europa at the Bay",t:"cafe",pid:"ChIJKwsLPRvbsGoR3kTGu57pLBs"},
 {ll:[-34.91598,138.61044],n:"Evergreen To Go",t:"cafe",pid:"ChIJO5vJSADJsGoRAvo8I-lhx4w"},
 {ll:[-34.91598,138.61044],n:"Evergreen To Go",t:"cafe",pid:"ChIJO5vJSADJsGoRAvo8I-lhx4w"},
@@ -328,7 +328,7 @@ const CAFES=[
 {ll:[-34.95414,138.59992],n:"Hello Neighbour Artusi By Night",t:"cafe",pid:"ChIJRSE73o7PsGoRNfRZ0Y9l20U"},
 {ll:[-34.92494,138.60186],n:"Hello Sarnie",t:"cafe",pid:"ChIJk2rk_NbOsGoRv5hpAuD3QyY"},
 {ll:[-34.92488,138.5974],n:"Hello Sarnie",t:"cafe",pid:"ChIJx31DkPrPsGoRCLXohMzMfw8"},
-{ll:[-35.05891,138.59018],n:"Helzi & Beans",t:"cafe"},
+
 {ll:[-34.91417,138.65765],n:"Here & Now",t:"cafe"},
 {ll:[-34.91941,138.49409],n:"Hermanos Cubanos",t:"cafe",pid:"ChIJIUCi-I3EsGoRndu1_Du4joU"},
 {ll:[-34.92575,138.60234],n:"Hey Darling Espresso",t:"cafe",pid:"ChIJfwC-Pm7PsGoRnkYr0SABB5M"},
@@ -343,14 +343,14 @@ const CAFES=[
 {ll:[-34.92049,138.61553],n:"Homeland Café",t:"cafe",pid:"ChIJR-5iwMXJsGoRxcAJ8lkTDUs"},
 {ll:[-34.83647,138.64055],n:"Homestead Cafe Bakery",t:"bakery",pid:"ChIJO4bx7ti1sGoR5xL-Bn64VbM"},
 {ll:[-34.92104,138.64247],n:"Hope's Café",t:"cafe",pid:"ChIJ10jpZOHLsGoR99V6cn7uVGA"},
-{ll:[-34.90699,138.57451],n:"How The Focaccia",t:"cafe"},
-{ll:[-35.07563,138.59258],n:"Hub Fine Foods",t:"cafe"},
+
+
 {ll:[-34.92363,138.60075],n:"Hummus Hustle",t:"cafe",pid:"ChIJx9Mf-6jPsGoReLj-Rfb42y0"},
 {ll:[-34.95533,138.59993],n:"Hyde Park Bakery",t:"bakery",pid:"ChIJefGhP1XOsGoRn-Klq9G72BI"},
 {ll:[-34.94331,138.59982],n:"I Have Time Coffee Shop",t:"cafe",pid:"ChIJj0zYcs_PsGoRyujI68m53ko"},
 {ll:[-35.00528,138.51379],n:"INC Cafe",t:"cafe",pid:"ChIJwwa3Ue_bsGoR7PUpm-M-QTE"},
 {ll:[-34.93428,138.59666],n:"Idle Hands",t:"cafe",pid:"ChIJQ55jLADPsGoRGJ5KLbSRSlY"},
-{ll:[-34.92547,138.59947],n:"Imbraza",t:"cafe"},
+
 {ll:[-35.0175,138.51604],n:"Inthais Cafe and noodle bar",t:"cafe",pid:"ChIJR0BRVMzbsGoR8JdoMjJVb0A"},
 {ll:[-34.82925,138.64794],n:"Ingle Farm Bakery",t:"bakery",pid:"ChIJs2LKQc21sGoRLzoUY8ETqyw"},
 {ll:[-34.82099,138.49409],n:"Ink Espresso",t:"cafe",pid:"ChIJ1f3I1T7HsGoRfYbvOUFxTx0"},
@@ -367,7 +367,7 @@ const CAFES=[
 {ll:[-35.02106,138.6229],n:"Joan's Pantry",t:"cafe",pid:"ChIJa4jbY5TRsGoRBNUTO_aTcU8"},
 {ll:[-34.92217,138.49412],n:"Joe's Henley Beach",t:"brunch",pid:"ChIJ38Hq0JPEsGoRrqGLllkY98c"},
 {ll:[-34.92545,138.60054],n:"Johnny Come Lately",t:"cafe",pid:"ChIJMTkTdtfPsGoRHc_sqqguVjY"},
-{ll:[-34.88982,138.65494],n:"Jom Makan Makan",t:"cafe"},
+
 {ll:[-34.94603,138.50364],n:"Juiced Cafe",t:"cafe"},
 {ll:[-35.0751,138.56309],n:"Junktion",t:"cafe",pid:"ChIJb-XFiJ3QsGoROoRR3Xe6uT8"},
 {ll:[-34.95644,138.65377],n:"Juno Cafe",t:"cafe"},
@@ -375,7 +375,7 @@ const CAFES=[
 {ll:[-34.92246,138.60774],n:"Kafin",t:"cafe",pid:"ChIJkWaWPhrPsGoRmKycsVmNuYM"},
 {ll:[-34.94252,138.55695],n:"Karma and Crow",t:"cafe"},
 {ll:[-34.92698,138.65068],n:"Kava 5608",t:"cafe"},
-{ll:[-34.92717,138.5967],n:"Kinettó Coffee & Kitchen",t:"cafe"},
+
 {ll:[-34.86642,138.5919],n:"Kintore Cafe & Pizza",t:"cafe",pid:"ChIJT7TApdzJsGoRhanSSQ_g7aY"},
 {ll:[-34.80324,138.60714],n:"Kitchensmith",t:"brunch",pid:"ChIJxY-zhR23sGoRyK6rVscrzUY"},
 {ll:[-34.91671,138.59697],n:"Koffee Ink",t:"cafe",pid:"ChIJAQBw0CrPsGoR4VHfXMRyrx0"},
@@ -392,7 +392,7 @@ const CAFES=[
 {ll:[-34.92111,138.64],n:"Le Madeline",t:"bakery",pid:"ChIJmcDGFeLLsGoR_OTRWQ9qdq0"},
 {ll:[-34.9327,138.65939],n:"Leabrook Bakehouse and Patisserie",t:"bakery",pid:"ChIJHxItqZLLsGoRtw3uq8oNVD0"},
 {ll:[-34.92584,138.60547],n:"Lena's",t:"cafe",pid:"ChIJr-r-SkHPsGoRU7bzAc1apqk"},
-{ll:[-34.92447,138.60133],n:"Lets Brunch",t:"brunch"},
+
 {ll:[-34.92555,138.59778],n:"Likuid Espresso",t:"cafe",pid:"ChIJ1WbXCyjPsGoRlT_5tR_4MRs"},
 {ll:[-34.84853,138.50951],n:"Lipson Street Collective",t:"bakery",pid:"ChIJvbgO_mbHsGoRHik-XUYJwBc"},
 {ll:[-34.89408,138.58525],n:"Little Cafe on Churchill",t:"cafe",pid:"ChIJq6q2a8LIsGoRz4OGj-xdgEU"},
@@ -404,8 +404,8 @@ const CAFES=[
 {ll:[-34.89836,138.56323],n:"Lollipops Playland and Cafe",t:"cafe",pid:"ChIJeapQx6vIsGoRffyLtshbTzM"},
 {ll:[-34.89681,138.61762],n:"Lonely Hearts",t:"cafe"},
 {ll:[-34.91325,138.66759],n:"Long Lost Friend Cafe",t:"cafe",pid:"ChIJHfq8IbLLsGoRQ-8l0bBps8Q"},
-{ll:[-35.18175,138.50245],n:"Long Shot & Co",t:"cafe"},
-{ll:[-34.90614,138.57553],n:"Loose Caboose",t:"brunch"},
+
+
 {ll:[-34.9258,138.6027],n:"Love Your Mamma",t:"cafe",pid:"ChIJ9WGXDjLPsGoRjXoh98XOlDg"},
 {ll:[-34.92635,138.57446],n:"Loveon Cafe",t:"cafe",pid:"ChIJ4Vl0eegWNQARhM2gTHeZPtM"},
 {ll:[-34.92136,138.63479],n:"Lukomades",t:"cafe"},
@@ -421,25 +421,25 @@ const CAFES=[
 {ll:[-35.21335,138.53479],n:"Manna McLaren Vale",t:"cafe",pid:"ChIJCyrRBsEvsWoR3cbPYHoJCe0"},
 {ll:[-34.92923,138.5973],n:"Market Bread Bar",t:"bakery",pid:"ChIJq6qqKyfPsGoRQrbEjZMDOzU"},
 {ll:[-34.93076,138.5973],n:"Market St Cafe",t:"cafe",pid:"ChIJ10-jyCDPsGoRCkV-AaMH7pQ"},
-{ll:[-34.97974,138.52879],n:"Market on Maxwell",t:"cafe"},
+
 {ll:[-34.9187,138.4942],n:"Maru Japanese and Korean",t:"cafe",pid:"ChIJWawQ5Y3EsGoRK3nRmZKGX04"},
 {ll:[-34.92174,138.63532],n:"Mascavado",t:"cafe"},
 {ll:[-34.84532,138.50447],n:"Mayfair",t:"bakery"},
 {ll:[-34.84481,138.50378],n:"Mayfair Bakery & Patisserie",t:"bakery",pid:"ChIJF9S_4uPGsGoR0t1DYAPNTaI"},
-{ll:[-34.88754,138.59421],n:"Mekko Market",t:"cafe"},
-{ll:[-34.9338,138.61269],n:"Meli",t:"cafe"},
+
+
 {ll:[-34.86153,138.66239],n:"Melo Cafe",t:"cafe",pid:"ChIJV-wiOXO1sGoRyfR00wSvJ5w"},
 {ll:[-34.95983,138.64129],n:"Melon & Rye",t:"cafe",pid:"ChIJIXGRqifMsGoR6TB1QU0myAI"},
 {ll:[-34.94469,138.62208],n:"MeowMe Cat Cafe",t:"cafe",pid:"ChIJdZISKL7OsGoRYjVshwbcQAo"},
 {ll:[-34.91876,138.60534],n:"Merantau Cafe",t:"cafe",pid:"ChIJG70UpQjJsGoRRA7iSzKukt0"},
-{ll:[-34.88419,138.53934],n:"Meridian Patissierie",t:"bakery"},
+
 {ll:[-34.94966,138.58924],n:"Mettā Sol",t:"cafe",pid:"ChIJXWIUSJDPsGoRR-tKb7MIN1I"},
 {ll:[-34.5955,138.74812],n:"Michel's Patisserie",t:"cafe"},
-{ll:[-34.8809,138.54324],n:"Mio Piatto",t:"cafe"},
+
 {ll:[-34.92623,138.60223],n:"Miss Mai",t:"cafe",pid:"ChIJP1xHjdbOsGoRyqvpejm9F6s"},
 {ll:[-34.93403,138.61041],n:"Mister Pigeon",t:"cafe",pid:"ChIJvbGy50zPsGoRztQc4ofbsVw"},
 {ll:[-34.8701,138.51335],n:"Mitho Cafe",t:"cafe",pid:"ChIJ2UCRwGzHsGoRrwnUNjRhdGM"},
-{ll:[-34.84395,138.50427],n:"Mixed Creative",t:"cafe"},
+
 {ll:[-35.10302,138.55507],n:"Modish 5",t:"cafe",pid:"ChIJ6x6gyR7YsGoRXEzZx5Q6b3k"},
 {ll:[-34.95654,138.56524],n:"Momentea Kurralta Park",t:"cafe",pid:"ChIJi7AfMEvPsGoR2RUTIc4sr8I"},
 {ll:[-34.92195,138.60435],n:"Momz Kitchen",t:"cafe"},
@@ -468,7 +468,7 @@ const CAFES=[
 {ll:[-34.84813,138.47713],n:"Noonies",t:"cafe"},
 {ll:[-34.7927,138.49717],n:"North Haven Bakery",t:"bakery",pid:"ChIJPdj3rKK4sGoRKlI30wt5-_A"},
 {ll:[-34.89117,138.52339],n:"Numero 5 Cafe & Grocer",t:"cafe",pid:"ChIJ_z2Rx_nFsGoRfCY7cWUwUDM"},
-{ll:[-34.92988,138.59618],n:"O Bun Chef",t:"bakery"},
+
 {ll:[-34.91404,138.56847],n:"O'Furno Pane Di Casa & Espresso Bar",t:"bakery"},
 {ll:[-34.95396,138.50592],n:"Oceanique Kiosk",t:"cafe",pid:"ChIJue6FEgDbsGoRjPd5GxItDoA"},
 {ll:[-34.91872,138.61886],n:"Octeine Coffee",t:"cafe"},
@@ -489,42 +489,42 @@ const CAFES=[
 {ll:[-34.92141,138.63388],n:"Pavé Cafe",t:"cafe",pid:"ChIJ7bWJ9VnJsGoRAMPw-Xc_-4U"},
 {ll:[-34.92276,138.6085],n:"Penny University Café",t:"cafe",pid:"ChIJC2-uhNLOsGoR06GreqrGK6E"},
 {ll:[-34.91344,138.67511],n:"Pepper Street Arts Centre",t:"cafe",pid:"ChIJa-LxbKvLsGoRSleMfbDfuPk"},
-{ll:[-34.92317,138.5988],n:"Peppertones Cafe",t:"cafe"},
+
 {ll:[-34.92551,138.60294],n:"Peppino's Italian Street Food",t:"cafe",pid:"ChIJszv31V_PsGoRIU5kyxk6hho"},
 {ll:[-34.92321,138.59023],n:"Peter Rabbit Cafe",t:"brunch",pid:"ChIJVcgRaSXPsGoRxavB8BjDnS0"},
 {ll:[-34.95068,138.59985],n:"Phoenix Sweets Cakery",t:"cafe",pid:"ChIJw75twmTPsGoRD77fsTxka6Q"},
 {ll:[-34.94803,138.60712],n:"Pickle In The Middle",t:"brunch",pid:"ChIJXy1by_rOsGoR2LFgtX6rhUI"},
 {ll:[-34.9822,138.57441],n:"Pie Face",t:"cafe",pid:"ChIJ1-cCqk3RsGoR3FI9bD1Tg7w"},
 {ll:[-34.82051,138.72211],n:"Pie Time",t:"bakery",pid:"ChIJ21eeZapMt2oRDen3M_qUlCE"},
-{ll:[-35.03136,138.5179],n:"Pirate Cat Cafe",t:"cafe"},
+
 {ll:[-34.92779,138.59735],n:"Pitt Street Cafe",t:"cafe",pid:"ChIJoYiud362sGoR-kLpN2vl-JQ"},
-{ll:[-34.92382,138.56538],n:"Pixie and the Hawk",t:"cafe"},
+
 {ll:[-34.60041,138.74949],n:"Poetic Justice Cafe",t:"cafe",pid:"ChIJt1j1fsX_uWoREWcz4C0N9uc"},
 {ll:[-34.90803,138.59682],n:"Poké Bowl Journeys",t:"cafe",pid:"ChIJ8e7ajFfJsGoRO-S7oqxcawg"},
 {ll:[-34.84514,138.49465],n:"Portobello Food Kitchen Bar",t:"cafe",pid:"ChIJeTD2BcPGsGoRzsUMeKtCuJ4"},
 {ll:[-34.86098,138.65014],n:"Price's Fresh Bakery",t:"bakery",pid:"ChIJh7rWvAfKsGoRFx1Nu63KnHw"},
 {ll:[-34.79044,138.6959],n:"Prices Bakery",t:"bakery"},
 {ll:[-34.89494,138.5555],n:"Prices Fresh",t:"bakery",pid:"ChIJe3MsZAHGsGoR9qCbqIMLDHA"},
-{ll:[-34.92759,138.59489],n:"Proof of Pie",t:"cafe"},
+
 {ll:[-34.92707,138.59834],n:"Public Cafe",t:"cafe",pid:"ChIJmcGkjCfPsGoR1tkg24DdC6k"},
 {ll:[-34.88127,138.53453],n:"Pulse Cafe",t:"cafe",pid:"ChIJO0ioaZ3HsGoR992NPCxl200"},
 {ll:[-34.88188,138.57788],n:"Pym Street Cafe",t:"cafe",pid:"ChIJq7_mt5LIsGoRHDRqAX9PB2A"},
 {ll:[-34.93023,138.60111],n:"QC on Angas",t:"cafe",pid:"ChIJ0Rq-5tjOsGoRrD7SXzv4yYI"},
-{ll:[-34.59728,138.74926],n:"QTO Coffee",t:"cafe"},
+
 {ll:[-35.11511,138.52238],n:"Quartz Cafe",t:"cafe",pid:"ChIJGbtSwJwnsWoRbzKVzgRKc4A"},
 {ll:[-34.8969,138.56512],n:"Queen Street Cafe",t:"cafe",pid:"ChIJMZR5v67IsGoRrW87aDYRLio"},
 {ll:[-34.76242,138.64455],n:"Rami’s Café",t:"cafe",pid:"ChIJE-IuliezsGoRQlrj11fIzZw"},
 {ll:[-34.94776,138.58762],n:"Red Dove Cafe",t:"cafe",pid:"ChIJIV9eEFXPsGoRM0BvM280vEE"},
 {ll:[-34.91753,138.62715],n:"Red Lantern Snack Bar",t:"cafe",pid:"ChIJCXthHEXJsGoRhQhGpqGDld4"},
 {ll:[-34.89359,138.65969],n:"Red Mill Bakehouse",t:"bakery",pid:"ChIJU3VHcEfKsGoR6laKHP0To1g"},
-{ll:[-35.22982,138.57124],n:"Red Poles",t:"cafe"},
+
 {ll:[-34.92591,138.66309],n:"Rena's Thai Kitchen",t:"cafe",pid:"ChIJjRNl7pXLsGoR63ZbtM1kjkQ"},
 {ll:[-34.92373,138.60281],n:"Rheinland Bakery",t:"bakery"},
 {ll:[-34.90317,138.56816],n:"Rheinland German Bakery",t:"bakery"},
 {ll:[-34.91342,138.57234],n:"Ricca Coffee Company",t:"cafe",pid:"ChIJ60X0GU_PsGoRdFCNCAlVomk"},
 {ll:[-35.13853,138.48147],n:"Rito's Cafe",t:"cafe",pid:"ChIJA55ObcsmsWoRcmTjNuxoUro"},
 {ll:[-34.90362,138.67507],n:"Rolling Pin Bakery Patisserie and Coffee Bar",t:"bakery",pid:"ChIJa1PQaVfKsGoRpOCsTGEkrRQ"},
-{ll:[-34.89565,138.6305],n:"Royston Park Cafe",t:"cafe"},
+
 {ll:[-35.18842,138.47913],n:"Rubrents cafe",t:"cafe",pid:"ChIJp-doc3gksWoRVqzw5x5DSys"},
 {ll:[-34.91409,138.65201],n:"Rusco & Brusco Tigelleria Bar",t:"cafe",pid:"ChIJg9SEUsTLsGoR2j4Nt3W7ncQ"},
 {ll:[-34.92265,138.59777],n:"Rush Internet Cafe",t:"cafe",pid:"ChIJYUurxinPsGoReNG5dlO7-Fs"},
@@ -547,7 +547,7 @@ const CAFES=[
 {ll:[-34.89146,138.59399],n:"Schinellas Bakery",t:"bakery",pid:"ChIJPQan9-PIsGoRn7sekJVDDuM"},
 {ll:[-34.93413,138.60615],n:"Scootz Café",t:"cafe",pid:"ChIJmZMzfNzOsGoRZa2ucjA8Vqs"},
 {ll:[-35.19019,138.47904],n:"Seaford Homestyle Bakery",t:"bakery"},
-{ll:[-35.18213,138.49509],n:"Seaford Homestyle Roadhouse",t:"cafe"},
+
 {ll:[-34.92549,138.60746],n:"Seed and Stone Salad Bar",t:"cafe",pid:"ChIJP5ZgvU3PsGoRWlLvBbsf3R0"},
 {ll:[-34.93251,138.60344],n:"Seoul Sisters",t:"cafe",pid:"ChIJxwKelJHPsGoRYv3ci1tgHgo"},
 {ll:[-34.92997,138.59416],n:"Seoul Sweetie",t:"cafe",pid:"ChIJD1ueOA7PsGoRBg6uQRSh7dQ"},
@@ -599,8 +599,8 @@ const CAFES=[
 {ll:[-34.9644,138.5658],n:"Summit Cafe",t:"cafe",pid:"ChIJ7epSHQDPsGoReAtJEsMqFow"},
 {ll:[-34.99685,138.5295],n:"Sunny Side Up Cafe",t:"cafe",pid:"ChIJt3PdkvfasGoR_McnhO86yEc"},
 {ll:[-34.88771,138.59385],n:"Sunnys Shop",t:"cafe",pid:"ChIJkx_AVePIsGoR3nMflk8j2Ws"},
-{ll:[-34.92557,138.66291],n:"Surface Cafe",t:"cafe"},
-{ll:[-34.92082,138.648],n:"Surreal Eats",t:"cafe"},
+
+
 {ll:[-34.9801,138.51405],n:"Sussex Social",t:"cafe",pid:"ChIJX12qMADbsGoRUtL2VuGLb7A"},
 {ll:[-34.92639,138.60555],n:"Sway Coffee Adelaide",t:"cafe",pid:"ChIJmywcMNXPsGoRwo-LwUNko_c"},
 {ll:[-34.91907,138.49442],n:"Swedish Tarts",t:"cafe"},
@@ -613,13 +613,13 @@ const CAFES=[
 {ll:[-34.91942,138.60432],n:"Taste Baguette",t:"cafe",pid:"ChIJy8J-f6jPsGoRUpqIz8-39hs"},
 {ll:[-34.93183,138.66891],n:"Taylor Blend cafe",t:"cafe",pid:"ChIJcY1R-ZjLsGoRze9TUKwj2Ok"},
 {ll:[-35.01578,138.54651],n:"Tea House Yum Cha",t:"cafe",pid:"ChIJp-Kvpm_asGoRbroc710-0O8"},
-{ll:[-34.92345,138.60073],n:"Teasel",t:"cafe"},
+
 {ll:[-34.95422,138.58118],n:"Teli Original",t:"bakery",pid:"ChIJk0k83zXPsGoR39ANDbuhDRk"},
 {ll:[-34.9204,138.61778],n:"Tell Henry",t:"cafe",pid:"ChIJEVCAjEnJsGoRs-wBkrLkB50"},
 {ll:[-35.27398,138.55777],n:"Terre Bar & Cafe",t:"cafe"},
 {ll:[-35.01747,138.51517],n:"The Alchemists’ Kitchen",t:"cafe",pid:"ChIJRyOQoH_bsGoR5uP8rwTtGCk"},
-{ll:[-35.21434,138.537],n:"The Almond Train",t:"cafe"},
-{ll:[-34.97991,138.5157],n:"The Annex",t:"cafe"},
+
+
 {ll:[-34.94288,138.56138],n:"The Bagel Boys Bakery",t:"bakery",pid:"ChIJO7As1IbPsGoRz9BuPZeDaFA"},
 {ll:[-34.84463,138.50325],n:"The Banksia Tree Cafe and Restaurant",t:"brunch",pid:"ChIJe4Ga3vLHsGoR1IZ7A9WkkJA"},
 {ll:[-34.878,138.60248],n:"The Barun",t:"cafe",pid:"ChIJ76vEjKvJsGoRuKjHW-tgpWo"},
@@ -640,13 +640,13 @@ const CAFES=[
 {ll:[-34.92299,138.60376],n:"The Coffee Spot",t:"cafe",pid:"ChIJr64cCtTOsGoRNZ4JyLgsERw"},
 {ll:[-35.21472,138.53741],n:"The Cottage Bakery McLaren Vale",t:"bakery",pid:"ChIJjbTHQaIlsWoR3Voo_mxqB1g"},
 {ll:[-35.18027,138.4844],n:"The Cottage Bakery Seaford",t:"bakery",pid:"ChIJDWsIR7QlsWoRgu6WhPGQlfo"},
-{ll:[-35.037,138.52429],n:"The Craft Baker",t:"bakery"},
+
 {ll:[-34.9256,138.59933],n:"The Daily Planet",t:"cafe",pid:"ChIJMVaN29fOsGoR-ByR3VQdDVg"},
-{ll:[-34.92224,138.59164],n:"The Espresso Room",t:"cafe"},
+
 {ll:[-35.28132,138.54808],n:"The Farm WIllunga",t:"brunch",pid:"ChIJ1wpF45c6sWoR9puJL6T-1mQ"},
 {ll:[-35.14868,138.47019],n:"The Flour Store",t:"cafe",pid:"ChIJ645qoyQhsWoRrByQ1BrlU_Y"},
 {ll:[-34.96043,138.62644],n:"The Flying Pan",t:"cafe",pid:"ChIJSzhKLInOsGoRWTFLvNlDWjw"},
-{ll:[-34.94725,138.60737],n:"The Free Concept",t:"cafe"},
+
 {ll:[-34.91427,138.62359],n:"The Gator Club",t:"cafe",pid:"ChIJG7ljpUrJsGoRZpom7CTBRlM"},
 {ll:[-35.3301,138.44852],n:"The General at Sellicks",t:"cafe",pid:"ChIJ9Ru2gxU_sWoRhD7GenyKmN4"},
 {ll:[-35.27224,138.55473],n:"The Green Room",t:"cafe"},
@@ -662,7 +662,7 @@ const CAFES=[
 {ll:[-34.91907,138.57326],n:"The Nest Espresso Bar + Kitchen",t:"cafe",pid:"ChIJP43kvcHPsGoR9b4mK1Z39eE"},
 {ll:[-34.91492,138.63266],n:"The Nourish’d Kitchen Cafe",t:"cafe",pid:"ChIJx-2zSlzJsGoRZKYQXLU-LDg"},
 {ll:[-34.93388,138.61278],n:"The Old Croissant Factory",t:"cafe",pid:"ChIJofmPX_3PsGoR9PhXqQHCBF0"},
-{ll:[-35.26654,138.48332],n:"The Old Vine Cafe",t:"cafe"},
+
 {ll:[-34.91401,138.57231],n:"The Olive Tree Cafe",t:"cafe",pid:"ChIJw1HEFE_PsGoRdvFIdFOgkGE"},
 {ll:[-34.9881,138.51549],n:"The Organik - Cafe - Store - Living",t:"cafe",pid:"ChIJpe-1ZAHbsGoRW-5OJZCXPVQ"},
 {ll:[-35.01362,138.54326],n:"The Original Pancake Kitchen",t:"cafe",pid:"ChIJ9VZdy9DbsGoRcGyZH985Jb8"},
@@ -678,7 +678,7 @@ const CAFES=[
 {ll:[-34.92594,138.66317],n:"The Rustic Fig",t:"cafe"},
 {ll:[-35.01752,138.51564],n:"The Seller Door",t:"cafe",pid:"ChIJR09Orc3bsGoRlQn0ygN08M8"},
 {ll:[-34.83833,138.4826],n:"The Semaphore Bakehouse",t:"bakery",pid:"ChIJVfTPx9PGsGoRm8S8oxurrFM"},
-{ll:[-34.92508,138.59786],n:"The Spot Espresso",t:"cafe"},
+
 {ll:[-34.98039,138.51639],n:"The Strand Cafe & Resturaunt",t:"cafe",pid:"ChIJNRtLTRzbsGoRODw-8_QL26U"},
 {ll:[-35.21611,138.53972],n:"The Tin Shed",t:"cafe",pid:"ChIJj3_Wg6MlsWoRWuCFRRZJ6BQ"},
 {ll:[-34.88842,138.59437],n:"The Upside on Prospect",t:"cafe",pid:"ChIJuSN3RePIsGoR8BBMVVqBJ-s"},
@@ -709,10 +709,10 @@ const CAFES=[
 {ll:[-34.92513,138.60143],n:"Veggie Vie city",t:"cafe",pid:"ChIJsX_4A9TOsGoRMxzQXMuhZbI"},
 {ll:[-34.92243,138.60849],n:"Vego & Love'n It",t:"cafe"},
 {ll:[-34.87355,138.54966],n:"Vibe Cafe",t:"cafe",pid:"ChIJmyQIcW3HsGoRlCYooibCQc0"},
-{ll:[-35.13919,138.4733],n:"Viscous Coffee",t:"cafe"},
+
 {ll:[-34.89541,138.61732],n:"Walkerville Bakery",t:"bakery",pid:"ChIJzUHtGQ3JsGoRF4qWCI94yHU"},
 {ll:[-34.92476,138.67617],n:"Wattle Park Bakery",t:"bakery",pid:"ChIJKY795abLsGoRlH5IP1hJvBI"},
-{ll:[-34.92614,138.59067],n:"Waymouth Cafe",t:"cafe"},
+
 {ll:[-34.94615,138.50141],n:"West Beach Surf Life Saving Club",t:"cafe",pid:"ChIJzRKly8vEsGoRJObzca1RXuM"},
 {ll:[-34.86989,138.51167],n:"West Side Mushies",t:"cafe",pid:"ChIJ8_Kg7jHHsGoRZ-BwWI3ay-U"},
 {ll:[-34.91416,138.62801],n:"Whippets Workshop",t:"cafe",pid:"ChIJK7qfQEPJsGoRtfY7pgFnRsI"},
@@ -724,7 +724,7 @@ const CAFES=[
 {ll:[-35.27258,138.55519],n:"Willunga General Store",t:"cafe",pid:"ChIJZ4q37Kg6sWoR2gk1f5-K6g4"},
 {ll:[-34.92564,138.60374],n:"WORK - Coffee & Food",t:"cafe",pid:"ChIJbSqTHAbPsGoRWYY198mjN3M"},
 {ll:[-34.97431,138.60939],n:"Yeah Nah Yeah",t:"cafe",pid:"ChIJRX7YPwXPsGoR50ULzS87FxQ"},
-{ll:[-34.93555,138.55239],n:"Yellow Matter",t:"cafe"},
+
 {ll:[-34.92091,138.63603],n:"Yo-Chi Frozen Yoghurt",t:"cafe",pid:"ChIJESQD6ozJsGoRuOPF_aiGa9c"},
 {ll:[-34.88928,138.61392],n:"Yolk Cafe Walkerville",t:"cafe",pid:"ChIJv6GkCjzJsGoR8TtIZxyX-Fk"},
 {ll:[-35.0208,138.6145],n:"You Like Rolls",t:"cafe"},

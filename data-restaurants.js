@@ -8,7 +8,7 @@ const RESTAURANTS=[
 {ll:[-34.91406,138.65286],n:"360 Gradi",t:"etc"},
 {ll:[-34.93134,138.59595],n:"555 Korean Diner",t:"etc",pid:"ChIJE3ixanrPsGoR73zfE2Z7s94"},
 {ll:[-34.85182,138.52706],n:"@ Thai",t:"as",c:"thai",pid:"ChIJR5x05FLGsGoRclL5DudyUxU"},
-{ll:[-35.13387,138.51691],n:"A & A Tasty Takeaway",t:"etc"},
+
 {ll:[-35.01739,138.51577],n:"A Cafe Etc...",t:"etc",pid:"ChIJmUJXUszbsGoReC1P3mmouuk"},
 {ll:[-34.93033,138.61192],n:"A Hereford Beefstouw",t:"am",c:"steak_house",pid:"ChIJ20zKE8_OsGoRkhj_RdwHYic"},
 {ll:[-34.86998,138.51801],n:"A Taste of Spice Take Away",t:"as",c:"malaysian",pid:"ChIJS9FN-InGsGoR-A0qiEBm03w"},
@@ -41,7 +41,7 @@ const RESTAURANTS=[
 {ll:[-34.87873,138.5369],n:"Ankor Restaurant",t:"as",c:"thai"},
 {ll:[-34.95392,138.59985],n:"Antica Pizzeria E Cucina",t:"etc",c:"italian_pizza",pid:"ChIJn-QlO-LOsGoRNJqmwubFifQ"},
 {ll:[-34.92312,138.5951],n:"Apothecary 1878",t:"etc",pid:"ChIJ0Sv_6SjPsGoRcfZ5BYaAtSE"},
-{ll:[-34.90637,138.57818],n:"Arancissimo",t:"etc"},
+
 {ll:[-35.11305,138.5465],n:"Arari Sushi",t:"as",c:"japanese",pid:"ChIJISFwUgjYsGoRl9bxIPHyDQw"},
 {ll:[-34.86106,138.68427],n:"Aroma Pizza House",t:"eu",c:"pizza",pid:"ChIJVVXlU3O1sGoRyJ_NxolOdfc"},
 {ll:[-34.88996,138.59408],n:"Arriba Grill",t:"etc"},
@@ -55,7 +55,7 @@ const RESTAURANTS=[
 {ll:[-34.92311,138.59494],n:"Australia's Pizza House",t:"eu",c:"pizza"},
 {ll:[-34.97672,138.51548],n:"Australia's Pizza House",t:"eu",c:"pizza"},
 {ll:[-34.92185,138.61063],n:"B'Churrasco",t:"etc"},
-{ll:[-34.92478,138.60211],n:"BB Steak & Korean Tasty",t:"as",c:"korean"},
+
 {ll:[-34.93013,138.59614],n:"BBQ City",t:"as",c:"chinese",pid:"ChIJ8yglFiHPsGoR85E6e2tGuXA"},
 {ll:[-34.8956,138.6752],n:"BEKO Korean Eatery",t:"as",c:"korean",pid:"ChIJcTiwgQXLsGoRIXXAV-O72og"},
 {ll:[-34.9604,138.57331],n:"BFPS “Take a Bite” Canteen",t:"etc"},
@@ -76,8 +76,8 @@ const RESTAURANTS=[
 {ll:[-34.60404,138.74982],n:"Bamboo Hut Bistro",t:"as",c:"thai",pid:"ChIJYUMvc9D_uWoRwjK3qome7Y4"},
 {ll:[-35.18863,138.4791],n:"Bami Seaford",t:"as",c:"asian",pid:"ChIJ3y808RIlsWoRTyGNLF2ep1k"},
 {ll:[-34.92771,138.5935],n:"Ban Ban Franklin St",t:"as",c:"korean",pid:"ChIJS6tMgiXPsGoRBnVlPlXMT5A"},
-{ll:[-34.8945,138.57983],n:"Bangkok Delight Thai Restaurant",t:"as",c:"thai"},
-{ll:[-34.90491,138.59518],n:"Banque",t:"etc",pid:"ChIJF5n_XiSuEmsRt8eoGJJoP3g"},
+
+
 {ll:[-34.76074,138.64865],n:"Barnacle Bill",t:"etc",c:"fish",pid:"ChIJVxkW1NGzsGoRz3_zdsQ48jk"},
 {ll:[-34.98168,138.59221],n:"Barnacle Bill",t:"etc",c:"seafood",pid:"ChIJNeIOI9HPsGoRM_q_KrFCDpw"},
 {ll:[-34.95005,138.64273],n:"Barnacle Bill",t:"etc",c:"seafood"},
@@ -124,8 +124,8 @@ const RESTAURANTS=[
 {ll:[-34.92563,138.60012],n:"Bollywood",t:"as",c:"indian",pid:"ChIJjzhI-q7PsGoRg_NKmUhc2pU"},
 {ll:[-34.93944,138.65178],n:"Bom Korean Restaurant",t:"as",c:"korean",pid:"ChIJc-s70gnMsGoRWjP-cQsg-S4"},
 {ll:[-34.95068,138.59986],n:"Bombae- Spiritz & Kitchen",t:"etc",pid:"ChIJS_S46SfPsGoRUdZtV6_SQ0Y"},
-{ll:[-34.91406,138.6522],n:"Bombay Spice Kitchen",t:"as",c:"indian"},
-{ll:[-34.98066,138.51326],n:"Bomdia Bowls Acai Bar",t:"etc"},
+
+
 {ll:[-34.88613,138.69107],n:"Bonsai",t:"as",c:"asian"},
 {ll:[-35.02118,138.61415],n:"Botanic Chickens",t:"am",c:"chicken",pid:"ChIJg9VvcrzRsGoRS-S7ireaeq4"},
 {ll:[-34.92363,138.59804],n:"Bread & Bone Wood Grill",t:"etc",pid:"ChIJCxlIzSnPsGoRyZAXyWPzXMI"},
@@ -145,11 +145,11 @@ const RESTAURANTS=[
 {ll:[-34.87572,138.56672],n:"Bánh mì thịt",t:"as",c:"vietnamese",pid:"ChIJGx-WJYXIsGoRlxULS3BRhL4"},
 {ll:[-34.89499,138.58078],n:"CBF",t:"am",c:"chicken",pid:"ChIJyd2x2sDIsGoR5aroy5Y5npM"},
 {ll:[-34.92367,138.5978],n:"COS",t:"etc"},
-{ll:[-34.91505,138.63233],n:"Cachemira",t:"etc"},
+
 {ll:[-34.83831,138.48177],n:"Cafe 199",t:"etc"},
 {ll:[-34.91385,138.65657],n:"Cafe Anthony",t:"etc",pid:"ChIJAelh08fLsGoRH5QcrBglPoo"},
 {ll:[-34.92153,138.63424],n:"Cafe Bravo",t:"eu",c:"italian",pid:"ChIJP9JTjFnJsGoR37nsvuFVZHA"},
-{ll:[-34.88933,138.65611],n:"Cafe Brunelli Glynde",t:"eu",c:"italian"},
+
 {ll:[-35.11349,138.54658],n:"Cafe China",t:"as",c:"chinese",pid:"ChIJm0kkMAjYsGoRfiE0yxvi4ms"},
 {ll:[-34.9058,138.596],n:"Cafe Fellini",t:"eu",c:"italian",pid:"ChIJxRPK41essGoRE4cP7-Em9T0"},
 {ll:[-34.92248,138.60729],n:"Cafe Michael II",t:"as",c:"thai"},
@@ -168,7 +168,7 @@ const RESTAURANTS=[
 {ll:[-34.81104,138.61606],n:"Caffe Primo Mawson Lakes",t:"eu",c:"italian"},
 {ll:[-34.98018,138.51271],n:"Cakeboy Doughnuts",t:"etc",c:"donut",pid:"ChIJ3w-e_CzbsGoRbgmk8JrmRSc"},
 {ll:[-34.92314,138.59816],n:"Call Me Curry & Izakaya",t:"as",c:"asian",pid:"ChIJ47Gb4PTPsGoRI_ZNe6BQsV4"},
-{ll:[-34.9318,138.66885],n:"Capitani's Wood Fired Pizzeria",t:"etc",c:"italian_pizza"},
+
 {ll:[-34.97952,138.51407],n:"Capricco",t:"eu",c:"italian",pid:"ChIJRRRFcRzbsGoRAj-90VtHEJw"},
 {ll:[-34.67116,138.67834],n:"Captain Chicken & Seafood",t:"etc",c:"fish_and_chips",pid:"ChIJl40OBbyusGoRDdBqSXKN3CE"},
 {ll:[-34.83947,138.48543],n:"Captain Chicken Seafood And Grill",t:"am",c:"chicken"},
@@ -184,8 +184,8 @@ const RESTAURANTS=[
 {ll:[-34.92349,138.59765],n:"Casablabla - Multicultural Tapas Lounge Bar",t:"eu",c:"spanish",pid:"ChIJh1AKNSjPsGoRJv7NfMahnHM"},
 {ll:[-34.92508,138.54441],n:"Cathay Court Chinese Takeaway",t:"as",c:"chinese",pid:"ChIJSY2H55vFsGoRgUPuEExa_Ro"},
 {ll:[-34.91207,138.5986],n:"Cathedral Delicatessen",t:"etc",pid:"ChIJdV3YA9bIsGoRZ7j70t8jt5s"},
-{ll:[-34.91293,138.67332],n:"Central Asian Uyghur Food",t:"etc"},
-{ll:[-34.89197,138.68125],n:"Ceylon Caterers",t:"etc"},
+
+
 {ll:[-34.88533,138.59373],n:"Cha Ska Chaat Ka",t:"etc",pid:"ChIJAcOS6CDJsGoRn08-a75Nolc"},
 {ll:[-34.9223,138.6094],n:"Chakna Tandoori Bites",t:"as",c:"indian",pid:"ChIJmzz7_KnPsGoRfk9sTzHMji0"},
 {ll:[-35.08683,138.58726],n:"Chandlers Hill Yiros And Seafood",t:"etc",pid:"ChIJpV5mww_XsGoRVM3oB7WCo2g"},
@@ -203,7 +203,7 @@ const RESTAURANTS=[
 {ll:[-34.92883,138.60638],n:"Cheeky Greek Adelaide",t:"eu",c:"greek",pid:"ChIJ73x1uN3PsGoRJWa4SLZLkWk"},
 {ll:[-34.89167,138.603],n:"Cheeseburger",t:"am",c:"burger"},
 {ll:[-34.88452,138.56416],n:"Chef of Curry",t:"etc",pid:"ChIJZ4Gus9zJsGoRD2rcsQCOPgk"},
-{ll:[-35.00366,138.55744],n:"Chengs Chinese Take Away",t:"as",c:"chinese"},
+
 {ll:[-34.8564,138.6576],n:"Chennai Palace Indian Restaurant",t:"as",c:"indian",pid:"ChIJRdy4nv21sGoRfd8P73jpQNg"},
 {ll:[-34.76988,138.70557],n:"Chenzos",t:"eu",c:"italian"},
 {ll:[-34.92187,138.60533],n:"Cherry Blossom Sushi Bar",t:"as",c:"sushi",pid:"ChIJJRWCoNPOsGoR5esA0TgpDBk"},
@@ -218,7 +218,7 @@ const RESTAURANTS=[
 {ll:[-35.07553,138.59261],n:"Chicken Hub",t:"am",c:"chicken",pid:"ChIJT_TmlCPXsGoR6dH7eiNmk-E"},
 {ll:[-35.12293,138.52364],n:"Chicken Hutt",t:"etc"},
 {ll:[-34.72121,138.66733],n:"Chicken Knight Elizabeth",t:"am",c:"chicken",pid:"ChIJ9VX3xYitsGoRRfq5etqNyNg"},
-{ll:[-35.18183,138.49518],n:"Chicken Legends",t:"etc"},
+
 {ll:[-34.75647,138.60986],n:"Chicken Mate",t:"am",c:"chicken"},
 {ll:[-34.90504,138.53838],n:"Chicken Plaza",t:"am",c:"chicken",pid:"ChIJJ2IADMLFsGoRN4hmZyT3prg"},
 {ll:[-34.96093,138.56],n:"Chicken Shack Seafood & Grill",t:"etc",pid:"ChIJ3ZEuDfbPsGoRDQq3AgXolf8"},
@@ -253,7 +253,7 @@ const RESTAURANTS=[
 {ll:[-34.9319,138.59669],n:"Cozinha Pty Ltd",t:"etc",pid:"ChIJfyvxydHPsGoRiQJ0Now7apo"},
 {ll:[-34.93423,138.60623],n:"Crave",t:"eu",c:"pizza"},
 {ll:[-34.95512,138.59014],n:"Crimson and Blue",t:"as",c:"asian",pid:"ChIJFaRGdVjPsGoRz7xRJclpKKc"},
-{ll:[-34.87634,138.56672],n:"Croydon Park Chicken and Seafood",t:"etc",c:"fish_and_chips"},
+
 {ll:[-35.01594,138.52304],n:"Crust",t:"eu",c:"pizza"},
 {ll:[-34.92138,138.62844],n:"Crust Pizza Norwood",t:"eu",c:"pizza",pid:"ChIJvQwT3k_JsGoRqfjw0XG4-PQ"},
 {ll:[-34.92328,138.60774],n:"Culshaw's Restaurant",t:"etc",pid:"ChIJBRIVitLOsGoRHBrgzOgH-ng"},
@@ -268,11 +268,11 @@ const RESTAURANTS=[
 {ll:[-35.13382,138.51682],n:"Daniel's Pizzeria",t:"eu",c:"pizza",pid:"ChIJOSH6LQcnsWoRCt0JaBVympU"},
 {ll:[-34.92111,138.63337],n:"Danny's Thai Bistro",t:"etc",pid:"ChIJl3Q8H1rJsGoRfjJqEMPeNLY"},
 {ll:[-34.92227,138.61019],n:"Daughter In Law",t:"as",c:"indian",pid:"ChIJac77Hy_PsGoReTvfp7l95PE"},
-{ll:[-34.88703,138.59415],n:"Delhi Club Indian Cuisine",t:"as",c:"indian"},
+
 {ll:[-34.99551,138.54888],n:"Delhi Spice Indian Restaurant",t:"as",c:"indian",pid:"ChIJfbh5nprasGoRCjUgIyh5twI"},
 {ll:[-34.86308,138.61818],n:"Delhi Sweets and veg restaurants",t:"as",c:"indian",pid:"ChIJ13k9FRbJsGoR6eyB_r7p3xE"},
 {ll:[-34.92571,138.59911],n:"Delicatessen Kitchen and Bar",t:"etc",pid:"ChIJg1t_49fOsGoRi_F9lkWKbDA"},
-{ll:[-34.90404,138.55277],n:"Destination Saigon",t:"as",c:"vietnamese"},
+
 {ll:[-34.87663,138.67462],n:"Dilano's Risotto Pasta Bar",t:"eu",c:"italian",pid:"ChIJD_IwzN_LsGoRfIJicookucw"},
 {ll:[-34.93148,138.59851],n:"Ding Hao Yum Cha",t:"as",c:"chinese",pid:"ChIJHTRBUCfPsGoRKeHxDL2cuXw"},
 {ll:[-34.97031,138.53447],n:"Dining Room",t:"etc"},
@@ -297,7 +297,7 @@ const RESTAURANTS=[
 {ll:[-34.85636,138.65544],n:"Domino's Pizza Gilles Plains",t:"eu",c:"pizza",pid:"ChIJCQZpuu21sGoRyaCf_BNwmiQ"},
 {ll:[-34.90474,138.65798],n:"Domino's Pizza Tranmere",t:"eu",c:"pizza",pid:"ChIJEYQVtcrLsGoRwvoMvTbpKmQ"},
 {ll:[-34.92798,138.60623],n:"Domino's Pizza Adelaide City",t:"eu",c:"pizza",pid:"ChIJhSGN9dDOsGoRtZBePyJKBxs"},
-{ll:[-34.82877,138.48854],n:"Don Turino's Pizza",t:"eu",c:"pizza"},
+
 {ll:[-34.85125,138.52778],n:"Doner Kebap",t:"eu",c:"kebab",pid:"ChIJ7fvZMIbHsGoRqpg9C7zZLYo"},
 {ll:[-34.92119,138.59746],n:"Donut Inn",t:"etc",c:"donut",pid:"ChIJH_gbiynPsGoRQ89hlsdoUC0"},
 {ll:[-34.94541,138.51994],n:"Donut King",t:"etc",c:"donut"},
@@ -312,7 +312,7 @@ const RESTAURANTS=[
 {ll:[-34.92296,138.61069],n:"EST Pizzeria",t:"eu",c:"pizza",pid:"ChIJZW9OPc3OsGoRSRWoPDxWrUc"},
 {ll:[-34.92031,138.6371],n:"Eastern Garden Chinese Restaurant",t:"as",c:"chinese",pid:"ChIJab678FjJsGoRAlcFAEguEVc"},
 {ll:[-34.94229,138.61888],n:"Eat on Glen Osmond",t:"etc",pid:"ChIJ7ba3dMDOsGoRkixsErTMn_s"},
-{ll:[-35.04133,138.6264],n:"Eatza Pizza",t:"eu",c:"pizza"},
+
 {ll:[-34.93944,138.64132],n:"Eccoci - All Day Bar & Dining",t:"eu",c:"italian",pid:"ChIJQesxCgDNsGoRBaSRwEqyZwg"},
 {ll:[-34.92939,138.59578],n:"Eggette",t:"etc",c:"dessert",pid:"ChIJLSjKXgDPsGoRMSq87yMVOvo"},
 {ll:[-34.97467,138.60909],n:"El Dorado Pizza Bar",t:"eu",c:"pizza",pid:"ChIJx6xx2UfOsGoRhHROXreMY9U"},
@@ -352,16 +352,16 @@ const RESTAURANTS=[
 {ll:[-34.93107,138.59612],n:"Fish Head",t:"etc"},
 {ll:[-34.95075,138.59995],n:"Fish Out of Water Hyde Park",t:"etc",c:"fish_and_chips",pid:"ChIJ1ygRQP7OsGoRZSnxbJpbnqI"},
 {ll:[-35.0074,138.522],n:"Fish and Chip Bar",t:"etc",c:"fish_and_chips"},
-{ll:[-34.92189,138.59973],n:"Fishbank Restaurant",t:"etc"},
+
 {ll:[-34.92557,138.60015],n:"Flavory",t:"as",c:"asian",pid:"ChIJR0fjiPXPsGoR81N2IwWJcjQ"},
 {ll:[-34.90662,138.65737],n:"Flips",t:"eu",c:"pizza",pid:"ChIJrXjV9crLsGoRHBKJbGRlE6w"},
-{ll:[-34.91386,138.65652],n:"Four Seasons Asian Takeaway",t:"as",c:"asian"},
+
 {ll:[-34.96735,138.5665],n:"Fresh Chulo",t:"as",c:"nepalese",pid:"ChIJrS9Xf9LPsGoR_cDukOSV-G0"},
-{ll:[-34.92673,138.59765],n:"Fry Club",t:"as",c:"asian"},
+
 {ll:[-35.07668,138.59098],n:"Fudds",t:"am",c:"burger",pid:"ChIJn5OJ-SLXsGoR2bSfXXgVvis"},
 {ll:[-34.9577,138.5062],n:"Fuego by the Sea",t:"etc",pid:"ChIJ7XfTm0HbsGoRvRaoCJ9fTQc"},
 {ll:[-34.92387,138.59738],n:"Fugazzi Bar & Dining Room",t:"etc",pid:"ChIJx2EfSCjPsGoRkMxh_QuTMSk"},
-{ll:[-34.90629,138.57805],n:"Fun2SeeYa Pizzeria",t:"eu",c:"pizza"},
+
 {ll:[-34.95219,138.61446],n:"Funky Chicken",t:"am",c:"chicken"},
 {ll:[-34.98079,138.51327],n:"Fusion Asia",t:"etc"},
 {ll:[-34.90495,138.54593],n:"Fusion India Restaurant-Flinders Park",t:"etc",pid:"ChIJxZ3wdXzFsGoRmYLjrfurZ7g"},
@@ -401,7 +401,7 @@ const RESTAURANTS=[
 {ll:[-34.83065,138.69125],n:"Grill'd",t:"am",c:"burger",pid:"ChIJXfCABNK1sGoRmilpKupr_s4"},
 {ll:[-34.88798,138.50003],n:"Grilled @ Grange",t:"etc"},
 {ll:[-34.9219,138.6343],n:"Grotto Pizza & Wine",t:"etc",c:"italian_pizza",pid:"ChIJ324d8VnJsGoRpkFhaDn1VNs"},
-{ll:[-34.92325,138.6085],n:"Gunbae",t:"as",c:"korean"},
+
 {ll:[-34.92285,138.59918],n:"Guzman y Gomez - King William St",t:"am",c:"mexican",pid:"ChIJ5ZRmGNbOsGoRZtPMOyjVKB8"},
 {ll:[-34.93051,138.59727],n:"Guzman y Gomez - Gouger St",t:"am",c:"mexican",pid:"ChIJq3mzjlzPsGoRKNCGEOIjJrw"},
 {ll:[-34.77906,138.62714],n:"Guzman y Gomez - Salisbury Downs",t:"am",c:"mexican",pid:"ChIJLw3HFPuxsGoRPFL13aVpXI8"},
@@ -417,7 +417,7 @@ const RESTAURANTS=[
 {ll:[-34.85582,138.5468],n:"Hanson BBQ Chicken & Seafood",t:"am",c:"chicken",pid:"ChIJ_fq0KaLHsGoRtd27tipRYDw"},
 {ll:[-34.86188,138.54726],n:"Hanson Pizza Bar",t:"eu",c:"pizza",pid:"ChIJAYkmXTLGsGoRug9hHQP8ndQ"},
 {ll:[-34.92659,138.60799],n:"Happy Bite Snack Bar",t:"as",c:"vietnamese",pid:"ChIJg0_mgfzPsGoRz9ToMdvIcTU"},
-{ll:[-34.91383,138.65712],n:"Happy Corner Chinese Restaurant",t:"as",c:"chinese"},
+
 {ll:[-34.87727,138.66506],n:"Happy Life",t:"etc",c:"juice"},
 {ll:[-34.90712,138.59589],n:"Haru Sushi",t:"as",c:"sushi",pid:"ChIJ_yM5e9fIsGoRr2R51HChTVE"},
 {ll:[-34.60039,138.74937],n:"Harvest of India Gawler",t:"etc",pid:"ChIJGZCq0FessGoRK4QSo3UWIMw"},
@@ -450,7 +450,7 @@ const RESTAURANTS=[
 {ll:[-34.93913,138.65114],n:"Hotpot Commune",t:"etc",pid:"ChIJZUs2HmXNsGoR8qWISBNO_a8"},
 {ll:[-34.9049,138.57072],n:"Houda's Kitchen",t:"eu",c:"pizza"},
 {ll:[-34.92835,138.6124],n:"House Of Chow Restaurant",t:"as",c:"chinese",pid:"ChIJb-jl7M7OsGoRWrLYHqUvyMo"},
-{ll:[-34.99004,138.53849],n:"House of Tien",t:"as",c:"chinese"},
+
 {ll:[-34.99848,138.62255],n:"House of Zen",t:"as",c:"chinese"},
 {ll:[-34.68693,138.6903],n:"House of the Red Dragon",t:"etc",pid:"ChIJ8UnLte-ssGoRp9OTO8te6mU"},
 {ll:[-34.92082,138.639],n:"Hsin Fortuna Restaurant",t:"etc",pid:"ChIJVVUFCuLLsGoRjVZmx68deEI"},
@@ -502,7 +502,7 @@ const RESTAURANTS=[
 {ll:[-34.9308,138.60643],n:"Hut and Soul Eatery",t:"etc",pid:"ChIJySgP9trOsGoRrHhh196LVY4"},
 {ll:[-34.95011,138.59959],n:"Hyde Park Pizza",t:"eu",c:"pizza",pid:"ChIJ_bR6R_7OsGoR-1tOdD0WTPw"},
 {ll:[-34.92719,138.59249],n:"IKKAI",t:"as",c:"ramen"},
-{ll:[-34.95486,138.59996],n:"Ichitaro Dining",t:"as",c:"sushi"},
+
 {ll:[-34.98045,138.51336],n:"Il Mexicano Bar and Restaurant",t:"am",c:"mexican",pid:"ChIJGwL0ZADbsGoRXCmyq67EEeo"},
 {ll:[-34.87166,138.63606],n:"Il Toro Pasta & Espresso Bar",t:"eu",c:"italian",pid:"ChIJIUfX9PbJsGoRnC_4qFQ3RKY"},
 {ll:[-35.21269,138.534],n:"Ind'o'Mex",t:"am",c:"mexican",pid:"ChIJiXythqMlsWoR6Sw1rGRKvjo"},
@@ -519,7 +519,7 @@ const RESTAURANTS=[
 {ll:[-34.87139,138.62943],n:"Italian Pizza Kitchen",t:"eu",c:"pizza"},
 {ll:[-35.33013,138.44842],n:"Ithaca at Sellicks",t:"eu",c:"greek",pid:"ChIJX7K2XAA_sWoRDvnt6o0Lr2A"},
 {ll:[-34.93129,138.59562],n:"JL Kitchen",t:"etc",pid:"ChIJdTR5IQDPsGoRxqhjz05XFJs"},
-{ll:[-34.92566,138.60427],n:"Jack & Jill's",t:"etc"},
+
 {ll:[-34.90208,138.49087],n:"Jack's Chicken & Seafood",t:"etc",c:"fish_and_chips",pid:"ChIJPbsy_GTEsGoRDr2ZYOFaHf0"},
 {ll:[-34.81103,138.61655],n:"Jack's Noodle",t:"as",c:"asian",pid:"ChIJO7e99PS2sGoR3jLodrPU8lY"},
 {ll:[-35.06826,138.51799],n:"Jai Ho India Restaurant - Hallet Cove",t:"as",c:"indian",pid:"ChIJ3Ytvmf_YsGoR2pLj_grGeK8"},
@@ -531,7 +531,7 @@ const RESTAURANTS=[
 {ll:[-35.21881,138.5434],n:"Joe's (& Taco José)",t:"eu",c:"pizza",pid:"ChIJuRl8hnIvsWoR2n8mq9x5pl4"},
 {ll:[-34.90798,138.57172],n:"Joiners Arms",t:"etc",c:"regional",pid:"ChIJgWml-UzPsGoRejbolZCynRg"},
 {ll:[-34.91656,138.59945],n:"Jolleys Boathouse",t:"etc",pid:"ChIJSzGLsCrJsGoREBEKr5VekY8"},
-{ll:[-34.83909,138.48362],n:"Journey to Everest",t:"as",c:"indian"},
+
 {ll:[-34.92966,138.59579],n:"Jue Wei",t:"etc",pid:"ChIJfxDf2H3PsGoRJ-bo9WpceQE"},
 {ll:[-34.85171,138.52926],n:"Junction Palace",t:"as",c:"chinese",pid:"ChIJh-2sxM_HsGoR8f_5Em4raYA"},
 {ll:[-35.01793,138.52336],n:"Juniper and Pine Cafe Bar",t:"etc",pid:"ChIJm-2WBDTasGoRkJKg9zIJigQ"},
@@ -569,15 +569,15 @@ const RESTAURANTS=[
 {ll:[-34.80134,138.60558],n:"KFC Mawson Lakes",t:"am",c:"chicken",pid:"ChIJnTd6Ivu2sGoR4qaLYu1oyBY"},
 {ll:[-34.8008,138.63835],n:"KFC Parafield",t:"am",c:"chicken",pid:"ChIJwZm3Khu3sGoRNFkGxc6P7u0"},
 {ll:[-34.72197,138.66867],n:"KFC Elizabeth",t:"am",c:"chicken",pid:"ChIJVRalho-tsGoRGho8uX8rHaY"},
-{ll:[-34.92411,138.59811],n:"Kafana Kitchen and Bar",t:"etc",c:"serbian"},
+
 {ll:[-34.93104,138.59523],n:"Kappo Izakaya",t:"as",c:"japanese",pid:"ChIJ4XVUW8nPsGoRbOXNX2o3j0U"},
 {ll:[-35.06823,138.51786],n:"Karrara BBQ Chickens",t:"etc",pid:"ChIJZelSvMjZsGoRf21r6C68Kzk"},
 {ll:[-35.06827,138.51768],n:"Karrara Pizza",t:"eu",c:"italian",pid:"ChIJi0fakP_YsGoRfGcjleB6-CU"},
-{ll:[-34.90419,138.595],n:"Katana Sushi Train",t:"etc"},
+
 {ll:[-34.92344,138.6041],n:"Katsumoto Japanese Restaurant",t:"as",c:"japanese",pid:"ChIJKSmK7dPOsGoRAEHHDDPwwR0"},
 {ll:[-34.93086,138.59537],n:"Kazumi Ramen Chinatown",t:"as",c:"japanese",pid:"ChIJq8zN9vHPsGoRWXK817FtWgI"},
 {ll:[-34.9214,138.63465],n:"Kazumi Ramen Norwood",t:"as",c:"noodle",pid:"ChIJ4ZW9pBjJsGoRL6T_uyHdJEg"},
-{ll:[-34.97065,138.51693],n:"Kefi Greek Cuisine",t:"eu",c:"greek"},
+
 {ll:[-34.87562,138.56668],n:"Keong Kee Peking Duck BBQ",t:"etc",pid:"ChIJT5tqMYXIsGoR2YrY9ZW5K3c"},
 {ll:[-34.87562,138.56668],n:"Keong Kee Peking Duck BBQ",t:"etc",pid:"ChIJT5tqMYXIsGoR2YrY9ZW5K3c"},
 {ll:[-34.92483,138.59639],n:"Khukuri Nepali Restaurant",t:"etc",pid:"ChIJxarESyjPsGoR5qiOI__fBU4"},
@@ -592,10 +592,10 @@ const RESTAURANTS=[
 {ll:[-34.92322,138.59768],n:"Kintaro Sushi",t:"as",c:"sushi",pid:"ChIJvdPrWVvPsGoRWV-d8Z22m6Y"},
 {ll:[-35.14336,138.49912],n:"Kintaro Sushi",t:"as",c:"sushi",pid:"ChIJjZJa1ukmsWoR1oFT5RuBUCU"},
 {ll:[-34.95647,138.5653],n:"Kintaro Sushi",t:"as",c:"sushi",pid:"ChIJJ_Yv-DXPsGoRmZg7G8K00IY"},
-{ll:[-34.90426,138.6229],n:"Kitchen By Cesarino",t:"eu",c:"italian"},
+
 {ll:[-34.90426,138.59502],n:"Koko Thai",t:"etc"},
 {ll:[-34.95248,138.58997],n:"Korea Restaurant",t:"as",c:"korean",pid:"ChIJbxgviqjPsGoRRJzONJT5Euo"},
-{ll:[-34.92375,138.59748],n:"Koreajung",t:"as",c:"korean"},
+
 {ll:[-34.93085,138.59575],n:"Kosso Chinatown",t:"as",c:"korean",pid:"ChIJZ3FYRgDPsGoRCXj19M-m3o0"},
 {ll:[-34.93966,138.6358],n:"Kottu Co",t:"etc",pid:"ChIJ0yDCE5TPsGoRDYr95ez4530"},
 {ll:[-34.92182,138.59814],n:"Krispy Kreme",t:"etc",c:"donut",pid:"ChIJtQs87ynPsGoR6A0KJBc4owE"},
@@ -606,23 +606,23 @@ const RESTAURANTS=[
 {ll:[-34.8938,138.55564],n:"Krispy Kreme West Croydon",t:"etc",c:"donut",pid:"ChIJo13pxQPGsGoROnXpmUYYRyc"},
 {ll:[-34.90436,138.59497],n:"Krung Thep Thai Adelaide",t:"as",c:"thai",pid:"ChIJIa-UmNnIsGoRUUMPgmeOcCw"},
 {ll:[-34.9426,138.61838],n:"Kublai Khan Mongolian Barbecue Restaurant",t:"etc",c:"mongolian",pid:"ChIJtSY0DMDOsGoRK2b3AUpxvg0"},
-{ll:[-34.8025,138.71781],n:"Kung Fu Asian Kitchen",t:"as",c:"asian"},
+
 {ll:[-34.82899,138.66761],n:"Kwan Yen Chinese Restaurant",t:"as",c:"chinese",pid:"ChIJvzpw30a0sGoRprCh0mHijmk"},
 {ll:[-34.79153,138.64606],n:"Kwik Stix",t:"as",c:"asian",pid:"ChIJjR2SpAe0sGoRFEuZfJ9hJGU"},
 {ll:[-34.84817,138.50425],n:"LLaw Boutique Restaurant Port Plaza",t:"etc",pid:"ChIJ52CKv3fHsGoRtZlAxZfLEsk"},
 {ll:[-34.92182,138.59877],n:"La Boca",t:"etc",c:"grill"},
 {ll:[-34.89005,138.57243],n:"La Botteca",t:"etc"},
 {ll:[-34.84445,138.50633],n:"La Popular Taqueria",t:"am",c:"mexican",pid:"ChIJfetOAOPGsGoRZKJn28OWmSg"},
-{ll:[-34.92398,138.59821],n:"La Rambla Tapas Bar",t:"etc"},
+
 {ll:[-34.86189,138.59213],n:"La Romana Pizza",t:"etc"},
-{ll:[-34.67102,138.67961],n:"La Sapori",t:"etc"},
+
 {ll:[-34.92256,138.61003],n:"La Taberna",t:"am",c:"mexican"},
 {ll:[-34.93232,138.60053],n:"La Trattoria Restaurant & Pizza Bar",t:"eu",c:"italian",pid:"ChIJiS9vO9_OsGoRGReYwWRWJ5s"},
 {ll:[-34.92718,138.60252],n:"Laksa House",t:"etc"},
 {ll:[-35.18699,138.47783],n:"Lam Noodle Bar",t:"as",c:"noodle",pid:"ChIJBxXY5YcjsWoR0zTAO2MQuhs"},
 {ll:[-34.9256,138.60009],n:"Laman House",t:"etc",pid:"ChIJoZHPHHLPsGoRJ9QGHc87qME"},
 {ll:[-34.83827,138.48196],n:"Lamb Spit BBQ",t:"eu",c:"greek",pid:"ChIJwfE4sNPGsGoRBDkN2tfLpdg"},
-{ll:[-35.01731,138.51669],n:"Landough’s",t:"etc",c:"donut"},
+
 {ll:[-34.93093,138.59298],n:"Lantern by Nu",t:"as",c:"thai",pid:"ChIJzex8MSLPsGoRZ4SPndNdXhU"},
 {ll:[-34.9317,138.61203],n:"Latteria",t:"etc",pid:"ChIJj6VWLSfPsGoR0jNciAaW_KE"},
 {ll:[-34.91873,138.56841],n:"Lawash Bakery",t:"eu",c:"lebanese",pid:"ChIJI34YsFzPsGoRWUtNZQMNjd8"},
@@ -633,7 +633,7 @@ const RESTAURANTS=[
 {ll:[-34.92264,138.61029],n:"Lemongrass Thai Bistro",t:"as",c:"thai",pid:"ChIJeylsOc3OsGoR3dr2JNVU8-8"},
 {ll:[-34.92236,138.60985],n:"Lenox Av",t:"etc"},
 {ll:[-34.79652,138.64029],n:"Lezzet Kebab & Gozleme",t:"eu",c:"kebab",pid:"ChIJpbZYhdC1sGoRKDV_t8m2Nzc"},
-{ll:[-34.83879,138.48203],n:"Lickerish",t:"eu",c:"pizza"},
+
 {ll:[-35.07581,138.5923],n:"Lime Tai Express",t:"as",c:"asian"},
 {ll:[-34.98985,138.51834],n:"Lisa's Rolls King",t:"as",c:"sushi"},
 {ll:[-35.02636,138.60409],n:"Little Caesars Pizza Eden Hills",t:"eu",c:"pizza",pid:"ChIJBZjmfKnRsGoRhuSbCEB5nIY"},
@@ -642,7 +642,7 @@ const RESTAURANTS=[
 {ll:[-34.80205,138.71773],n:"Little Viet Fairview",t:"as",c:"vietnamese",pid:"ChIJx2qg6LyzsGoRhn5jpBsmtR8"},
 {ll:[-35.07475,138.59233],n:"Little Viet Foodie Aberfoyle",t:"as",c:"vietnamese",pid:"ChIJvTfnwxbXsGoRgMSHd9tDAxY"},
 {ll:[-34.92158,138.60339],n:"Logical Indian",t:"as",c:"indian"},
-{ll:[-34.8789,138.49417],n:"Lombra",t:"etc"},
+
 {ll:[-34.84828,138.50403],n:"Lone Star",t:"etc"},
 {ll:[-34.90617,138.59574],n:"Lone Star Rib House & Brews North Adelaide",t:"etc",c:"barbecue",pid:"ChIJG9SpAKfJsGoRJPPDHNakmJ8"},
 {ll:[-34.97581,138.60906],n:"Lone Star Rib House & Brews Hawthorn",t:"am",c:"burger",pid:"ChIJHwk03xHPsGoRMZkAOMA2Pug"},
@@ -732,14 +732,14 @@ const RESTAURANTS=[
 {ll:[-35.1726,138.48334],n:"Meadows Sushi Bar",t:"as",c:"sushi",pid:"ChIJiS0xUQAlsWoRnSSgrnIUtQg"},
 {ll:[-34.98833,138.51806],n:"Mediterranean Cafe Ristorante",t:"etc",pid:"ChIJM9rQGgLbsGoRGuuyJwtWEUs"},
 {ll:[-34.92574,138.59821],n:"Melt CBD",t:"etc",pid:"ChIJ24R8DyjPsGoRBiTd2SuqAE0"},
-{ll:[-34.98967,138.51858],n:"Mestizo Cocina Peruana",t:"etc"},
+
 {ll:[-34.93023,138.59424],n:"Mexican Society of Chinatown",t:"am",c:"mexican",pid:"ChIJqxp8YyHPsGoRYUYu3k7PxG4"},
 {ll:[-34.88937,138.594],n:"Meze Mazi",t:"eu",c:"greek",pid:"ChIJCZIIfePIsGoRBm7E2TBY4vQ"},
 {ll:[-34.97635,138.58237],n:"Michaelangelo Pizza",t:"eu",c:"italian",pid:"ChIJsTM1X9zPsGoRolAuuUKxr2c"},
 {ll:[-34.92363,138.60347],n:"Michiru Sushi Bar",t:"as",c:"sushi",pid:"ChIJl7IkBNTOsGoRlZnmjOjMDdo"},
 {ll:[-34.87789,138.67482],n:"Mighty Chicken & Seafood",t:"am",c:"chicken",pid:"ChIJQbn39yHLsGoRHqptmaKzqkQ"},
 {ll:[-34.85146,138.52128],n:"Mina Pizza House",t:"eu",c:"pizza",pid:"ChIJNx5AVJPGsGoRzXMLbxzlCkE"},
-{ll:[-34.88695,138.58522],n:"Minestra",t:"etc"},
+
 {ll:[-34.80963,138.61675],n:"Mint Leaf",t:"as",c:"indian"},
 {ll:[-35.00304,138.52219],n:"Miss Banh Mi",t:"etc",pid:"ChIJMW4xx5vbsGoRcEUrK11NRHM"},
 {ll:[-34.93092,138.60045],n:"Miss Malay",t:"as",c:"malaysian",pid:"ChIJYz5pdevPsGoRJ8oFhcK34AQ"},
@@ -817,7 +817,7 @@ const RESTAURANTS=[
 {ll:[-34.98026,138.51365],n:"North Indian Cuisine Glenelg",t:"as",c:"indian",pid:"ChIJcbAZfhvbsGoRV1MlTHMKyUw"},
 {ll:[-34.94953,138.55386],n:"North Plympton Chinese Take Away",t:"as",c:"chinese"},
 {ll:[-34.93512,138.63129],n:"Now or Never Thai",t:"as",c:"thai",pid:"ChIJwwqvPwDPsGoRvGneo7G4EIw"},
-{ll:[-34.92828,138.5941],n:"Nu Thai",t:"as",c:"thai"},
+
 {ll:[-34.85597,138.54685],n:"Num Num Pizza and Kebab",t:"eu",c:"greek"},
 {ll:[-34.95223,138.59966],n:"Nutrition Republic Goodwood",t:"etc",pid:"ChIJuSBXy__OsGoR-p3THlfWCP4"},
 {ll:[-34.90566,138.65673],n:"Nyu Sakura Sushi",t:"as",c:"sushi",pid:"ChIJ01Z5KcvLsGoRD_pbzEpD4SM"},
@@ -829,10 +829,10 @@ const RESTAURANTS=[
 {ll:[-34.9216,138.61052],n:"OZIN Restaurant",t:"etc",pid:"ChIJl8tdjnbJsGoRt2H6thVi4Hc"},
 {ll:[-35.1373,138.47005],n:"Ocean Garden Chinese Restaurant",t:"etc",pid:"ChIJXx9A3TchsWoRpG5p28lvG0U"},
 {ll:[-35.12156,138.52259],n:"Oh Calcutta",t:"as",c:"indian",pid:"ChIJYwl2uJ4nsWoR7-bi9S--NAg"},
-{ll:[-34.80798,138.72443],n:"Ohana Deli and Takeaway",t:"am",c:"burger"},
+
 {ll:[-34.92398,138.59925],n:"Okatsu",t:"as",c:"japanese",pid:"ChIJUb5XhSDPsGoRhGBGTfRQ9ug"},
 {ll:[-34.92551,138.60294],n:"Olive Restaurant",t:"eu",c:"mediterranean",pid:"ChIJexiFRWnPsGoRszYAFrbfF1I"},
-{ll:[-34.89661,138.55662],n:"One Fork Short",t:"etc"},
+
 {ll:[-34.92255,138.6102],n:"Ong",t:"as",c:"japanese",pid:"ChIJRzoQM_jPsGoRXyVAsxc5fd4"},
 {ll:[-35.09648,138.5361],n:"Oporto",t:"am",c:"burger",pid:"ChIJ2UoxgmvYsGoRUOX-dx0G4E8"},
 {ll:[-34.89557,138.58172],n:"Oporto Brompton",t:"am",c:"burger",pid:"ChIJw3w6KMHIsGoRHtLqHt6Q35s"},
@@ -865,8 +865,8 @@ const RESTAURANTS=[
 {ll:[-34.84801,138.5063],n:"Pancake Kitchen",t:"etc",pid:"ChIJJTpApsfHsGoRSayqnkX-x_0"},
 {ll:[-34.84188,138.50541],n:"Pancakes at the Port",t:"etc",c:"pancake",pid:"ChIJi2r-duLGsGoRZ_-4IsNwtOA"},
 {ll:[-34.92477,138.67599],n:"Pantelis Greek Chargrill",t:"am",c:"chicken",pid:"ChIJQ_H4xZPLsGoR1Y43_5T9utQ"},
-{ll:[-34.89376,138.49242],n:"Pao Fresco",t:"etc"},
-{ll:[-34.98168,138.5923],n:"Papa Mia's Wood Oven Pizza",t:"eu",c:"pizza"},
+
+
 {ll:[-34.92262,138.61011],n:"Paper Tiger",t:"etc",pid:"ChIJhxvakMzPsGoRsdgE0uz89Ek"},
 {ll:[-34.93013,138.59505],n:"PappaRich Adelaide",t:"as",c:"malaysian",pid:"ChIJWRN7QCHPsGoRT8tq2L4cc24"},
 {ll:[-34.68152,138.68856],n:"Pappy's Pizza Bar",t:"eu",c:"pizza",pid:"ChIJJdPme_KssGoRQhq7sGFddbg"},
@@ -899,7 +899,7 @@ const RESTAURANTS=[
 {ll:[-34.85183,138.52696],n:"Pho Hong Tam",t:"as",c:"vietnamese",pid:"ChIJnYeZErPHsGoR5KcEtZLLoSI"},
 {ll:[-34.78227,138.66198],n:"Pho Hong Tam",t:"etc",pid:"ChIJvVLlei2zsGoRt3PWly6qhb0"},
 {ll:[-34.93018,138.59629],n:"Pho Nguyen",t:"as",c:"vietnamese",pid:"ChIJqeerMvTPsGoR9RbULjhPaEo"},
-{ll:[-34.92428,138.59791],n:"Pho SA",t:"as",c:"vietnamese"},
+
 {ll:[-34.85147,138.52134],n:"Pho Vinh Hoa",t:"as",c:"vietnamese",pid:"ChIJX0SATlTGsGoR0I9xDu90wUg"},
 {ll:[-34.83914,138.48697],n:"Phoeva Rolls",t:"as",c:"vietnamese",pid:"ChIJKf4bMYHHsGoRNle2oz4Z0V4"},
 {ll:[-34.92348,138.59293],n:"Phonatic Restaurant",t:"as",c:"vietnamese",pid:"ChIJ73ckWS_PsGoRSpBeA-rQHu0"},
@@ -944,7 +944,7 @@ const RESTAURANTS=[
 {ll:[-34.87364,138.66838],n:"Poetry",t:"as",c:"indian",pid:"ChIJBWiB_FXLsGoR4DVwaOh8tj0"},
 {ll:[-34.92516,138.60213],n:"Pohkay",t:"etc"},
 {ll:[-34.92441,138.59613],n:"Pondok Daun Restaurant",t:"as",c:"indonesian",pid:"ChIJCf7WiyjPsGoRlvHXan_ANn0"},
-{ll:[-35.14867,138.46998],n:"Port Burger",t:"am",c:"burger"},
+
 {ll:[-34.83352,138.50147],n:"Port Express Takeaway Birkenhead",t:"etc",c:"fish_and_chips",pid:"ChIJi5TlAxnHsGoRztM47cC6OW4"},
 {ll:[-35.14927,138.47067],n:"Port Noarlunga SLSC restaurant and bar",t:"etc"},
 {ll:[-34.84396,138.50539],n:"Port Pizzza Bar",t:"etc",pid:"ChIJJ2ep3PrGsGoRLZFjpjTVUOw"},
@@ -957,11 +957,11 @@ const RESTAURANTS=[
 {ll:[-34.67096,138.67794],n:"Queen Bee Chinese Restaurant",t:"as",c:"chinese",pid:"ChIJy2Jo6mGssGoRl8LNY4TSsmw"},
 {ll:[-34.83636,138.64028],n:"Quick Thai Cuisine",t:"as",c:"thai",pid:"ChIJhTN379i1sGoRa0Ny5gcHOxU"},
 {ll:[-34.9327,138.61276],n:"Ragini's",t:"etc",pid:"ChIJhYYqpzbPsGoR1S5ZEsHbeGo"},
-{ll:[-34.92114,138.6335],n:"Rain Modern Asian Bistro",t:"etc"},
+
 {ll:[-34.95043,138.59992],n:"Raj on Taj Hyde Park",t:"as",c:"indian",pid:"ChIJI3WibubOsGoRx7cKRpEsaxo"},
 {ll:[-34.94247,138.60726],n:"Raj on Taj",t:"as",c:"indian"},
 {ll:[-34.76919,138.63486],n:"Rama Pizza",t:"eu",c:"pizza"},
-{ll:[-34.92317,138.60746],n:"Rascals Deli and Wine Bar",t:"etc"},
+
 {ll:[-34.8618,138.54724],n:"Real Rolls",t:"etc",pid:"ChIJRyO9XDLGsGoRk9iH7yRxEII"},
 {ll:[-34.83988,138.48816],n:"Red Ass Curry",t:"as",c:"asian",pid:"ChIJ5aNuo9DGsGoRIwxE_QgAJCQ"},
 {ll:[-34.8384,138.48272],n:"Red Rock Inn Noodle Bar",t:"as",c:"vietnamese",pid:"ChIJ86ox3NPGsGoRGS6dMoldgjg"},
@@ -981,7 +981,7 @@ const RESTAURANTS=[
 {ll:[-34.94271,138.56271],n:"Richmond Chinese Restaurant",t:"as",c:"chinese",pid:"ChIJ9WAzT4HPsGoRZjSQjamrO8Q"},
 {ll:[-34.94271,138.5631],n:"Richmond Village Charcoal Chicken",t:"etc",c:"fish_and_chips",pid:"ChIJ2fMr1urPsGoRl78sPzBkwWM"},
 {ll:[-35.217,138.53992],n:"Ristorante Vasarelli",t:"eu",c:"italian",pid:"ChIJcewYS58lsWoRs9Bj2d9RN-U"},
-{ll:[-35.02962,138.53261],n:"Rolinn",t:"as",c:"chinese"},
+
 {ll:[-34.59764,138.74839],n:"Roll Up Dumpling",t:"as",c:"sushi",pid:"ChIJ6TcM2Zr_uWoRcNM2-b2f4OE"},
 {ll:[-34.90326,138.67559],n:"Roll to Go",t:"as",c:"vietnamese",pid:"ChIJu1sIGtvLsGoRo316UOsmrlc"},
 {ll:[-34.94158,138.64124],n:"Roll'd Burnside Village",t:"as",c:"vietnamese",pid:"ChIJ-ee6rAPMsGoRz7ScwK8anMA"},
@@ -1013,7 +1013,7 @@ const RESTAURANTS=[
 {ll:[-34.96667,138.59057],n:"Sakura Sushi",t:"as",c:"sushi",pid:"ChIJN1z0pLfPsGoRcmlr_PZNKAs"},
 {ll:[-34.79071,138.69358],n:"Sakura Sushi",t:"as",c:"sushi",pid:"ChIJ3fAHUROzsGoRxl9vkp23eXk"},
 {ll:[-34.96368,138.55418],n:"Sakura Sushi Plympton",t:"as",c:"sushi",pid:"ChIJkQK4SVfFsGoRkf74pPnQxss"},
-{ll:[-34.95009,138.6073],n:"Sakura Teppinyaki Restaurant",t:"as",c:"japanese"},
+
 {ll:[-34.87514,138.54798],n:"Salam",t:"etc"},
 {ll:[-34.77494,138.67125],n:"Salisbury East Asian Takeaway",t:"as",c:"chinese",pid:"ChIJ3S4WrKWzsGoRGlJLujuqbWQ"},
 {ll:[-35.22934,138.55125],n:"Salopian Inn",t:"etc",c:"fine_dining",pid:"ChIJH1ZVoHklsWoR7G7DDrBbvW0"},
@@ -1027,12 +1027,12 @@ const RESTAURANTS=[
 {ll:[-34.95299,138.59981],n:"Samurai Teppanyaki House",t:"as",c:"asian",pid:"ChIJHQNZ7xjJsGoR-ViGYAugXj8"},
 {ll:[-34.9228,138.60777],n:"San Giorgios",t:"eu",c:"italian",pid:"ChIJj973i9LOsGoRZOPiv_RQo10"},
 {ll:[-34.87407,138.54968],n:"Sandwich Chefs - Arndale",t:"am",c:"sandwich",pid:"ChIJVVVVWSPGsGoRvD275GFqL4Q"},
-{ll:[-34.86935,138.63897],n:"Sankalp The Taste Of India",t:"etc"},
+
 {ll:[-34.95745,138.60833],n:"Savvas Yiros",t:"etc",pid:"ChIJAYwaG_jOsGoRNed5hX0vqGk"},
 {ll:[-34.92472,138.60053],n:"Sazon Kitchen Bar",t:"etc",pid:"ChIJySlhs9fOsGoRT5n5JiKrQFw"},
 {ll:[-34.92226,138.60926],n:"Schnithouse Rundle St",t:"am",c:"steak_house",pid:"ChIJLXiGXc3OsGoRcNlkatMU40o"},
 {ll:[-34.92158,138.63354],n:"Schnithouse",t:"etc"},
-{ll:[-34.93212,138.56168],n:"Schnithouse Hilton",t:"eu",c:"pizza"},
+
 {ll:[-34.90242,138.51408],n:"Schnitz Hub",t:"am",c:"burger",pid:"ChIJmTpQbMnFsGoRYzjlRfu6mB8"},
 {ll:[-34.949,138.63497],n:"School Canteen",t:"etc"},
 {ll:[-35.0266,138.54179],n:"Sea Land Pizza & Seafood",t:"etc",pid:"ChIJayg4hRbasGoRfxjC2ysS398"},
@@ -1045,19 +1045,19 @@ const RESTAURANTS=[
 {ll:[-34.79935,138.65682],n:"Select Chickens",t:"am",c:"chicken",pid:"ChIJpYGwgQy0sGoRlLVXlYaEYSQ"},
 {ll:[-34.83888,138.4828],n:"Semaphore Fish & Chip Shop",t:"etc",c:"fish_and_chips",pid:"ChIJHZwcy9PGsGoRHvJBX9CK8fw"},
 {ll:[-34.83991,138.48815],n:"Semaphore Pizza",t:"eu",c:"pizza",pid:"ChIJVwN-IwDHsGoRL9sL60Pg34g"},
-{ll:[-34.83853,138.47944],n:"Semaphore Steam Train Kiosk",t:"etc"},
+
 {ll:[-34.90272,138.6571],n:"Seoul Express Firle",t:"etc",pid:"ChIJay6T-S3LsGoRzHeSWHMnrHk"},
 {ll:[-34.92343,138.59315],n:"Seoul Express Hindley",t:"as",c:"korean",pid:"ChIJl3KP35fPsGoRrJxkiLtIkRU"},
 {ll:[-34.92118,138.63187],n:"Sfizio Cucina e Caffé",t:"eu",c:"italian",pid:"ChIJkZsyYlrJsGoRXq9cVsn-8xQ"},
-{ll:[-35.01467,138.61764],n:"Shalimar Indian Cuisine - Blackwood",t:"etc"},
+
 {ll:[-34.97254,138.55586],n:"Shan Sweets and Restaurant",t:"etc"},
 {ll:[-34.94158,138.64124],n:"Shanghai Tea House -Burnside-",t:"etc",pid:"ChIJZ0loNQLMsGoRyIVezS7XZvQ"},
 {ll:[-34.98091,138.51335],n:"SheShells Restaurant",t:"etc",c:"seafood",pid:"ChIJhdrGZhvbsGoRoRa-B699sz0"},
 {ll:[-35.02085,138.61434],n:"Sheraton Chinese Take Away Foods",t:"as",c:"chinese",pid:"ChIJg9VvcrzRsGoRkKMDh_2L3fE"},
 {ll:[-34.97961,138.51462],n:"Sherpa Kitchen and Bar",t:"etc",pid:"ChIJrdcFA3_bsGoRTw8hT4jNQM8"},
 {ll:[-34.95516,138.59996],n:"ShoSho",t:"as",c:"japanese",pid:"ChIJxQd9aETPsGoRN-pBFJmLHMU"},
-{ll:[-34.90323,138.56823],n:"Siam49 Thai",t:"as",c:"thai"},
-{ll:[-35.02624,138.55869],n:"Signature Indian Cuisine",t:"as",c:"indian"},
+
+
 {ll:[-34.82542,138.49545],n:"Silver Dragon Chinese Takeway",t:"as",c:"chinese",pid:"ChIJHU0FRTzHsGoRHTIwzDqcdNQ"},
 {ll:[-34.77124,138.63244],n:"SilverSwan",t:"as",c:"chinese",pid:"ChIJu3lejVuxsGoRwEW-bm2d_Mk"},
 {ll:[-34.93079,138.59761],n:"Simon Taste Chinese Restaurant",t:"as",c:"chinese",pid:"ChIJPdcaMd3PsGoRPUVoWOXQhzI"},
@@ -1067,7 +1067,7 @@ const RESTAURANTS=[
 {ll:[-34.92423,138.56564],n:"Singh Sweets",t:"as",c:"indian",pid:"ChIJq0Bbp4zPsGoREKXmb0tuAng"},
 {ll:[-34.92267,138.59771],n:"Sit Lo",t:"as",c:"vietnamese",pid:"ChIJYUurxinPsGoRKfAxRoCQKPI"},
 {ll:[-34.79675,138.6402],n:"Skangs Rolls N Bowls",t:"etc",pid:"ChIJSwqNLF-1sGoR8yLtkssFTx0"},
-{ll:[-34.8324,138.71397],n:"Smarteez Take Away",t:"etc"},
+
 {ll:[-34.92308,138.59519],n:"Snagabag",t:"eu",c:"kebab"},
 {ll:[-34.64856,138.64267],n:"Sneaky's Restaurant",t:"etc",pid:"ChIJNTsqmPmrsGoRCKlCWcLV64k"},
 {ll:[-34.92492,138.60127],n:"Snowwwww Skewers Bar",t:"etc",c:"barbecue"},
@@ -1160,7 +1160,7 @@ const RESTAURANTS=[
 {ll:[-34.9349,138.63143],n:"Sugo Pizzeria",t:"eu",c:"pizza",pid:"ChIJU1BvK6zOsGoRe5fdPpFPpWI"},
 {ll:[-34.94441,138.60674],n:"Sui Restaurant",t:"as",c:"chinese",pid:"ChIJbV42Db_PsGoRxwBn7f82-pc"},
 {ll:[-34.92463,138.60219],n:"Sui Yuang",t:"as",c:"asian",pid:"ChIJoexB79bOsGoR_Xhij4zCfgQ"},
-{ll:[-34.88648,138.59447],n:"Sukh Sagar Indian Street Food",t:"as",c:"indian"},
+
 {ll:[-34.92342,138.60258],n:"Sumo Salad",t:"etc",c:"salad"},
 {ll:[-34.92588,138.60612],n:"Sumo Station",t:"as",c:"japanese"},
 {ll:[-34.93048,138.60199],n:"Sunflower Street Eats",t:"as",c:"vietnamese",pid:"ChIJ55PT2EPPsGoRDTte_8rYbmQ"},
@@ -1188,7 +1188,7 @@ const RESTAURANTS=[
 {ll:[-34.93416,138.60102],n:"Sushi in the City Adelaide",t:"etc"},
 {ll:[-34.83906,138.4837],n:"Swish Sushi",t:"as",c:"sushi",pid:"ChIJs6Pv19PGsGoRLw1JdpH1YIM"},
 {ll:[-34.90498,138.53854],n:"Syculy Lab",t:"eu",c:"pizza",pid:"ChIJsY2F30bFsGoRtLgYVuFaq9o"},
-{ll:[-34.9305,138.59611],n:"Szechuan Valley",t:"as",c:"chinese"},
+
 {ll:[-34.92982,138.59582],n:"T-Chow Chinese Restaurant",t:"as",c:"chinese",pid:"ChIJUZTMJSHPsGoRV3C55PudzII"},
 {ll:[-34.86161,138.68358],n:"T Mood Dernancourt",t:"as",c:"asian",pid:"ChIJp6V2Gcy1sGoRJLeUu30XsHM"},
 {ll:[-35.01749,138.54533],n:"TGI Fridays",t:"am",c:"american"},
@@ -1219,7 +1219,7 @@ const RESTAURANTS=[
 {ll:[-34.90657,138.50527],n:"Thai Spice Restaurant",t:"etc",pid:"ChIJ61rDO1vEsGoRm-rsxUiv4xA"},
 {ll:[-34.93489,138.60627],n:"ThaiChef",t:"as",c:"thai"},
 {ll:[-34.93096,138.59611],n:"Thanh Thanh Vietnamese Restaurant",t:"as",c:"vietnamese",pid:"ChIJ6zvYHiHPsGoRT2p2ALyVNZI"},
-{ll:[-34.9215,138.6106],n:"Thanks to Theo",t:"etc"},
+
 {ll:[-34.92338,138.56731],n:"The Abyssinian",t:"etc",c:"african",pid:"ChIJd9vW7GfPsGoRS_gcYfwmpgA"},
 {ll:[-34.97661,138.52027],n:"The Amazon Basin",t:"etc"},
 {ll:[-35.15143,138.52423],n:"The Aussie Inn",t:"etc",pid:"ChIJ4Qb09VkmsWoR9UmgcVfnO5A"},
@@ -1236,7 +1236,7 @@ const RESTAURANTS=[
 {ll:[-34.92502,138.58942],n:"The Edinburgh Castle Hotel",t:"etc",pid:"ChIJoSPmzyTPsGoRpMPZ6IDxhKA"},
 {ll:[-35.20652,138.52568],n:"The Elbow Room",t:"etc"},
 {ll:[-34.93767,138.66033],n:"The Feathers Fish and Chips",t:"etc"},
-{ll:[-35.13883,138.47621],n:"The Fiery Greek",t:"etc"},
+
 {ll:[-35.02048,138.61611],n:"The Fish Man",t:"etc",c:"fish_and_chips",pid:"ChIJr93f_b7RsGoRvRt9LepCiCg"},
 {ll:[-34.90552,138.59057],n:"The Flying Fig",t:"etc",c:"jewish",pid:"ChIJF8AJaNDIsGoREZStkSsOW98"},
 {ll:[-34.86589,138.59243],n:"The Ghan Kebab House",t:"etc",pid:"ChIJfY8s807IsGoRtJb7zCvSTAM"},
@@ -1274,7 +1274,7 @@ const RESTAURANTS=[
 {ll:[-35.14811,138.52599],n:"Trittico Italian Restaurant and Cafe",t:"etc",pid:"ChIJA8d6iPcnsWoRW5st7zWftCg"},
 {ll:[-34.9272,138.59321],n:"Trivial Brazilian Food",t:"am",c:"brazilian",pid:"ChIJB85vmGrPsGoR2HEu3GbUExQ"},
 {ll:[-34.89383,138.554],n:"Truly Malaysian Village",t:"as",c:"malaysian",pid:"ChIJi1nwVAHJsGoRfZB6cqKx5T4"},
-{ll:[-34.83247,138.68606],n:"Try Yiros Kebab",t:"eu",c:"kebab"},
+
 {ll:[-34.92045,138.64878],n:"Tsubaki",t:"as",c:"japanese",pid:"ChIJt7tzZl3LsGoRu_EViveM1uw"},
 {ll:[-34.81973,138.66196],n:"Tuk's Take Away",t:"etc",c:"fish_and_chips",pid:"ChIJOS3K-Ei0sGoReFLY7-h7WR0"},
 {ll:[-34.9042,138.59497],n:"TUNO Izakaya",t:"etc",pid:"ChIJEf6cmNnIsGoRgPZawFg8O4o"},
@@ -1297,7 +1297,7 @@ const RESTAURANTS=[
 {ll:[-34.84521,138.50631],n:"Vasilis Taverna",t:"eu",c:"kebab",pid:"ChIJydoI-SHHsGoRJwb3bW8P3nk"},
 {ll:[-34.89931,138.56218],n:"Vegetarian Delight",t:"etc"},
 {ll:[-34.88873,138.65656],n:"Vesuvios Pizza",t:"etc",pid:"ChIJzz-SBD_KsGoRh75cJDUSm7A"},
-{ll:[-35.02227,138.52363],n:"Vientiane Thai-Laos Restaurant",t:"etc"},
+
 {ll:[-34.9237,138.60092],n:"Viet Menu City Cross",t:"as",c:"vietnamese",pid:"ChIJS941lZDPsGoRxdbdxHRSS8E"},
 {ll:[-34.95507,138.59015],n:"Vietnam Gourmet Restaurant",t:"as",c:"vietnamese",pid:"ChIJx-rlN6_PsGoRN22VYjnnWlY"},
 {ll:[-34.85711,138.52893],n:"Vietnam Restaurant",t:"as",c:"vietnamese",pid:"ChIJIeQZIE7GsGoRwUKho-34nEY"},
@@ -1372,7 +1372,7 @@ const RESTAURANTS=[
 {ll:[-34.7211,138.66895],n:"Zambrero Elizabeth",t:"am",c:"mexican",pid:"ChIJMQ8AkI-tsGoRMWzc4l_XP7E"},
 {ll:[-34.83889,138.48254],n:"Zambrero",t:"am",c:"mexican",pid:"ChIJR2GbStLGsGoRAYWdg_zLDOc"},
 {ll:[-34.92246,138.60768],n:"Zambrero's Restaurant",t:"am",c:"mexican",pid:"ChIJzUbdktLOsGoRFomIYc1o3Hc"},
-{ll:[-34.9057,138.60955],n:"Zapatas",t:"am",c:"mexican"},
+
 {ll:[-35.17261,138.4831],n:"Zarelli’s Caffe Ristorante",t:"etc",pid:"ChIJMx6SzggksWoRTcjNHlzavlY"},
 {ll:[-34.87973,138.66247],n:"Zayt & Zaatar",t:"eu",c:"lebanese"},
 {ll:[-34.87902,138.49389],n:"Zayt & Zaatar- est 2016 (West Lakes)",t:"etc",pid:"ChIJkV0V4NDFsGoRjgS7sB_o9T4"},

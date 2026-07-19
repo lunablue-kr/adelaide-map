@@ -1,0 +1,1022 @@
+# 폐업 확정 목록 (139)  —  Google business_status=CLOSED_PERMANENTLY, 100m내+이름일치
+
+## 식당 (66)
+  - A & A Tasty Takeaway
+  - Arancissimo
+  - BB Steak & Korean Tasty
+  - Bangkok Delight Thai Restaurant
+  - Bombay Spice Kitchen
+  - Bomdia Bowls Acai Bar
+  - Cachemira
+  - Cafe Brunelli Glynde
+  - Capitani
+  - Central Asian Uyghur Food
+  - Ceylon Caterers
+  - Chengs Chinese Take Away
+  - Chicken Legends
+  - Croydon Park Chicken and Seafood
+  - Delhi Club Indian Cuisine
+  - Destination Saigon
+  - Don Turino
+  - Eatza Pizza
+  - Fishbank Restaurant
+  - Four Seasons Asian Takeaway
+  - Fry Club
+  - Fun2SeeYa Pizzeria
+  - Gunbae
+  - Happy Corner Chinese Restaurant
+  - House of Tien
+  - Ichitaro Dining
+  - Jack & Jill
+  - Journey to Everest
+  - Kafana Kitchen and Bar
+  - Katana Sushi Train
+  - Kefi Greek Cuisine
+  - Kitchen By Cesarino
+  - Koreajung
+  - Kung Fu Asian Kitchen
+  - La Rambla Tapas Bar
+  - La Sapori
+  - Landough’s
+  - Lickerish
+  - Lombra
+  - Mestizo Cocina Peruana
+  - Minestra
+  - Nu Thai
+  - Ohana Deli and Takeaway
+  - One Fork Short
+  - Pao Fresco
+  - Papa Mia
+  - Pho SA
+  - Port Burger
+  - Rain Modern Asian Bistro
+  - Rascals Deli and Wine Bar
+  - Rolinn
+  - Sakura Teppinyaki Restaurant
+  - Sankalp The Taste Of India
+  - Schnithouse Hilton
+  - Semaphore Steam Train Kiosk
+  - Shalimar Indian Cuisine - Blackwood
+  - Siam49 Thai
+  - Signature Indian Cuisine
+  - Smarteez Take Away
+  - Sukh Sagar Indian Street Food
+  - Szechuan Valley
+  - Thanks to Theo
+  - The Fiery Greek
+  - Try Yiros Kebab
+  - Vientiane Thai-Laos Restaurant
+  - Zapatas
+
+## 카페 (50)
+  - 303 By the Sea
+  - Aha! Cafe
+  - Almadina coffee
+  - Badger & Bones Cafe
+  - Basecamp Cafe Burnside
+  - Blu C Cafe
+  - Cafe De Kenzo
+  - Cafe De Sage
+  - Cafe de Vili’s Hillcrest
+  - Carton Deli
+  - Chocolatree
+  - East Club Cafe
+  - Estar Creperie
+  - Helzi & Beans
+  - How The Focaccia
+  - Hub Fine Foods
+  - Imbraza
+  - Jom Makan Makan
+  - Kinettó Coffee & Kitchen
+  - Lets Brunch
+  - Long Shot & Co
+  - Loose Caboose
+  - Market on Maxwell
+  - Mekko Market
+  - Meli
+  - Meridian Patissierie
+  - Mio Piatto
+  - Mixed Creative
+  - O Bun Chef
+  - Peppertones Cafe
+  - Pirate Cat Cafe
+  - Pixie and the Hawk
+  - Proof of Pie
+  - QTO Coffee
+  - Red Poles
+  - Royston Park Cafe
+  - Seaford Homestyle Roadhouse
+  - Surface Cafe
+  - Surreal Eats
+  - Teasel
+  - The Almond Train
+  - The Annex
+  - The Craft Baker
+  - The Espresso Room
+  - The Free Concept
+  - The Old Vine Cafe
+  - The Spot Espresso
+  - Viscous Coffee
+  - Waymouth Cafe
+  - Yellow Matter
+
+## 술집 (9)
+  - 55ml
+  - Cambridge Balcony Bar
+  - Daniel O
+  - Higher Ground
+  - La Rouge Lounge
+  - Loc= Bottle Bar
+  - Nostru
+  - Publisher hotel
+  - Strats
+
+## 쇼핑 (2)
+  - Kuo Chi Oriental Supermarket
+  - MOSH House
+
+## 의료 (4)
+  - Addison Surgery
+  - Glenelg 7 day pharmacy
+  - Happy Valley Discount Pharmacy
+  - Port Adelaide Chiropractic Clinic
+
+## 공원 (7)
+  - Cyril Baxter Hall
+  - Paramount Fitness Centre
+  - Pumpt Gym
+  - The Lodge Fitness Centre
+  - Ashley Street Playground
+  - Butler Grove Reserve
+  - Kathleen Street Play Ground
+
+## 학교 (1)
+  - TAFE SA · Port Adelaide
+
+
+==================================================
+
+# 개명 후보 (941)  —  근접 매칭인데 구글 이름이 우리와 다름. 자동갱신서 제외된 것(접두일치 아님). 수동 검토용.
+# 형식: 우리이름  →  구글이름
+
+## 식당 (212)
+  - 127 Days Urban Eats  →  127 Days
+  - 18th Street Hot Pot  →  18 Street Hot Pot Glenelg
+  - 555 Korean Diner  →  Five Five Five Korean Diner
+  - Addison Takeaway  →  Addison Road Takeaway
+  - Afghan Star Charcoal Kebab House  →  Afghan Charcoal Kebab SA
+  - Aharn Thai On Duthy  →  Aharn Thai Restaurant- Malvern
+  - Amalfi Pizzeria Restaurant  →  Amalfi Pizzeria Ristorante
+  - Angarra Indian Restaurant  →  Dum Biryani at Angaara Indian Restaurant
+  - Apothecary 1878  →  APOTECA
+  - Arari Sushi  →  Sushi Arari
+  - Aroma Pizza House  →  Aroma Pizza Dernancourt
+  - Australia Pizza House  →  Australias Pizza House west tce
+  - Ba-Mi Vietnamese  →  Bami Hollywood Plaza
+  - Bahn Mi-llionaire  →  Banh Mi-llionaire
+  - Bakim Lim Noodle Project  →  Bakmi Lim Noodle Project
+  - Bakmi Lim Noodle Project  →  Bakmi Lim Norwood
+  - Ban Ban Franklin St  →  Ban Ban
+  - Banque  →  atmx North Adelaide Ampol
+  - Barnacle Bills  →  Barnacle Bill Holden Hill
+  - Barnacle Bills  →  Barnacle Bill Woodville
+  - Bay’s  (vegan pho)  →  Bay's Vietnamese Cuisine
+  - Beach Bar & Kitchen  →  Seacliff Surfy
+  - Beach Burrito Company  →  Beach Burrito Co. Glenelg
+  - Beach Pit  →  Cafe Beach Pit
+  - Belles Fried Chicken  →  Belles Hot Chicken
+  - Bellissimo Pizza  →  Beach Road Pizza
+  - Bia Om Bar  →  Gondola Gondola
+  - Big Wang BBQ  →  Big Wang
+  - Bills BBQ Chickens & Takeaway  →  Get That Chicken
+  - Biriyani Darbar  →  Biryani Darbaar
+  - Bo Bos Asian Kitchen  →  Bo Bo's Kitchen
+  - Boatshed Kiosk  →  Boatshed Hallett Cove
+  - Boatshed Restaurant  →  Boatshed Hallett Cove
+  - Bread & Bone Wood Grill  →  Bread & Bone
+  - Burger Foundry  →  Benny's American Burgers - Magill Road
+  - Bánh mì Như Lan  →  Nhu Lan On Hanson
+  - Bánh mì thịt  →  Banh Mi Thit Vietnam
+  - Cafe Bravo  →  Bravo Norwood
+  - Cafe Fellini  →  Café Fellini
+  - Cafe Pellegrini  →  Pellegrini Cafe
+  - Cafe Primo  →  Caffe Primo
+  - Cafe Ritz  →  Café Ritz
+  - Cakeboy Doughnuts  →  Cakeboy Donuts
+  - Capricco  →  Capriccio
+  - Carmine & co  →  Carmine And Co.
+  - Cathedral Delicatessen  →  Cathedral Snack Bar & Cafe
+  - Chapathi House  →  Chapati House 2
+  - Charcoal Chicken  →  Original Charcoal Chicken
+  - Cheek Avenue Charcoal Chicken  →  Cheek Ave Charcoal Chicken & Takeaway
+  - Chicken Burger  →  Betty's Burgers
+  - Chicken Coop  →  Goo Goo Chicken Firle
+  - Chicken Home  →  The Chicken Home
+  - Chicken Knight Elizabeth  →  Chicken Knight
+  - Chilli Chef  →  湘满堂 Chilli Chef
+  - Chinese Eat in Take Away  →  Double Dragon Chinese Restaurant
+  - Choice Chickens  →  Rosewater Charcoal Chicken and Seafood
+  - Christies Chicken & Seafood  →  Seaside Spit
+  - City Yum Cha & BBQ Cafe  →  City Yum Cha & BBQ
+  - Collinswood Chicken & Seafood  →  Collinswood Chicken and Seafood
+  - Collinswood Pizza & Pasta  →  Collinswood Chicken and Seafood
+  - Curry Lover Indian Cuisine  →  Curry Lover Indian Restaurant
+  - Dada Dumpling & Laksa  →  Dada Dumpling and Laksa
+  - Delicatessen Kitchen and Bar  →  Delicatessen Kitchen & Bar
+  - Ding Hao Yum Cha  →  Ding Hao
+  - Doner Kebap  →  Kababje
+  - Dumpling King Newton  →  Dumpling King
+  - Dumpling Spot  →  Oriental Dumpling King
+  - El Mexicano Kitchen and Bar  →  EL Mexicano Kitchen & Bar
+  - Erindale Chicken and Seafood  →  Erindale Chicken & Seafood
+  - Est Ouvest  →  Est Ovest - Osteria | Caffe' | Aperitivo Bar
+  - Euro Pizza & Espresso  →  Euro Pizza & Restaurant
+  - Farm Chickens  →  MANOR FARM CHICKEN & SEAFOOD
+  - Fernalee Chinese  →  Fernalee
+  - Flavory  →  ROLLS 'N RICE
+  - Flips  →  La Romana Pizza Bar Firle
+  - Georges on Waymouth  →  GEORGES
+  - Get Sliced Pizza & Bar  →  Get Sliced
+  - Ghan Kebab House  →  The Ghan Kebab House
+  - Go Pho You  →  Good Pho U
+  - Golden Chicken & Seafood  →  Golden Chicken And Seafood
+  - Golden Rooster Salisbury  →  Golden Rooster
+  - Greek Street Food  →  SKARA Greek Street Food
+  - Greek on Halifax  →  The Greek on Halifax
+  - Greenacres Charcoal Chicken Fish & Chips  →  Charcoal Chicken - Greenacres
+  - Grotto Pizza & Wine  →  Grotto on Edward Pizza-teca
+  - Hanson BBQ Chicken & Seafood  →  HQ Rolls & Chips
+  - Hilton Fish Shop  →  Hilton Seafood & Yiros
+  - Hoa Tam Restaurant  →  Hoa Tam
+  - Honeypot Road Takeaway Food & Pizza Bar  →  Honeypot Takeaway
+  - Hoosegow Charcoal Restaurant and Bar  →  Hoosegow Charcoal Restaurant
+  - Hope Valley Chicken and Seafood  →  Hope Valley Chicken & Seafood
+  - Hsin Fortuna Restaurant  →  Hsin Fortuna
+  - Hub Pizza Bar and Cafe  →  Cesars Pizzeria
+  - Hungry Llama  →  The Hungry Llama
+  - Hut and Soul Eatery  →  Hut & Soul
+  - Il Mexicano Bar and Restaurant  →  EL Mexicano Glenelg
+  - Il Toro Pasta & Espresso Bar  →  Yumms Restaurant (Halal)
+  - Indian Club Restaurant  →  Indian Club SA
+  - Indochine Resturaunt  →  Indochine Cafe and Restaurant ( Laman House)
+  - JL Kitchen  →  JL Choice Mart家乐优选
+  - Jai Ho India Restaurant - Hallet Cove  →  Jai Hoo India Restaurant
+  - Joiners Arms  →  The Joiners Arms Hotel
+  - Jue Wei  →  KingWuu精武
+  - Junction Palace  →  The Junction Palace
+  - Karrara BBQ Chickens  →  Karrara chicken and seafood
+  - Khukuri Nepali Restaurant  →  Khukuri Restaurant Adelaide
+  - Lam Noodle Bar  →  Lam's Noodle Bar
+  - Lezzet Kebab & Gozleme  →  Lezzet Kebab and Gozleme
+  - Makis Yiros  →  K's Yiros
+  - Marcellina Pizza Bar Dernancourt  →  Marcellina Dernancourt
+  - Marcellinas Pizza Parafield  →  Marcellina Parafield
+  - Marion Dial A Pizza  →  Marion Rd. Pizzeria
+  - McDonalds South Road  →  McDonald's Melrose Park
+  - Mexican Society of Chinatown  →  Mexican Society
+  - Michaelangelo Pizza  →  Michelangelo Dial A Pizza
+  - Michiru Sushi Bar  →  Michiru
+  - Miss Banh Mi  →  𝗠𝗜𝗦𝗦 𝗕𝗔𝗡𝗛 𝗠𝗜
+  - Mok Lee Flower Queen Chinese Restaurant  →  Mok Lee Chinese Restaurant
+  - Mountain Lion Cafe  →  Mount Lion Cafe
+  - Mugen Sushi Train  →  Sushi Hiro
+  - Murugan Indii  →  Murugan Idli
+  - Myabi Sushi  →  Miyabi Sushi
+  - NNQ Vietnamese  →  NNQ
+  - Nana Hot Bake  →  Nanna Hot Bake
+  - Nano Cafe  →  Nano Café
+  - Nishiki Cafe and Izakaya  →  Nishiki Cafe & Izakaya
+  - North Indian Cuisine Glenelg  →  North Indian Cuisine
+  - Ocean Garden Chinese Restaurant  →  Ocean Garden
+  - Ong  →  Ông Vietnamese
+  - Oportos  →  Oporto Pulteney Street
+  - Ozzie Gözleme  →  Ozzie Gozleme
+  - Pagoda Restaurant  →  Singapore House
+  - Pan and Vine  →  Pan & Vine
+  - Pancake Kitchen  →  The Original Pancake Kitchen
+  - Pancake Kitchen  →  The Original Pancake Kitchen
+  - Pantelis Greek Chargrill  →  Andy's Kitchen & Grill
+  - Paradise Cafe & Cocktail Bar  →  Paradiso Cafe & Bar
+  - Pavillion on the Park  →  Adelaide Pavilion
+  - Peters Bakehouse & Coffee Shop  →  St Peters Bakehouse and Coffee Shop Elizabeth
+  - Pho Nguyen  →  Phở Nguyễn
+  - PingAn Veggie Time  →  Ping An Veggie @Plant4 Bowden
+  - Pizza Pan Hackham  →  Pizza Pan
+  - Pizza Salutare  →  SALUTARE
+  - Pizza at Christies  →  Christie’s Crust New Management
+  - Port Pizzza Bar  →  Port Pizza Bar
+  - Q Viet  →  Hoàng Phát Restaurant
+  - Qualitaly Cuisine  →  Qualitaly
+  - Ragini  →  Ragi's New Deli
+  - Red Ass Curry  →  The Red Ass
+  - Red Rock Inn Noodle Bar  →  Red Rock Noodle Bar
+  - Red Ruby Chinese Takeaway  →  Red Ruby
+  - Renno Spice Chinese Restuarant  →  Mawson Lakes Chinese Restaurant 翠湖酒家
+  - Richmond Village Charcoal Chicken  →  Richmond Chicken & Grill
+  - Ristorante Vasarelli  →  Vasarelli Cellar Door Restaurant
+  - Rostrevor Pizzeria Restaurant  →  Rostrevor Pizza Bar & Restaurant
+  - Saints Pizza Bar  →  Saints Pizzeria Café & Ristoranté
+  - Salopian Inn  →  The Salopian Inn
+  - Salty Sea Dog  →  SALTY DOG SEAFOOD AND GRILL
+  - San Giorgios  →  San Giorgio
+  - Sazon Kitchen Bar  →  Sazón
+  - Sean  →  The Kitchen
+  - Semaphore Pizza  →  Pizza Patrol Semaphore
+  - Silver Dragon Chinese Takeway  →  Silver Dragon Chinese Restaurant
+  - Simon Taste Chinese Restaurant  →  西门撸串 Simon Taste
+  - Simply Yiros  →  Yiros Time
+  - Singh Sweets  →  Singh Sweetz & Fast Food
+  - South Terrace Snack Bar  →  South Terrace Lunch Vans & Snack Bar
+  - Speranza Woodfire Pizzeria  →  Speranza Woodfired Pizzeria
+  - St Clair Chicken and Seafood  →  Two Fat Chooks Chicken and Seafood
+  - St Peters BBQ Chicken & Seafood  →  ST Peters BBQ Chickens & Seafood
+  - Stamps Restaurant  →  Stamps
+  - Sui Yuang  →  Sui Yuan
+  - Sushi Planet  →  Hanamura
+  - Tapleys Pizza & Parmi  →  Tapleys Pizza and Parmi
+  - Tasty Biang  →  秦碗 Tasty Biang
+  - Tequila Chicken and Seafood  →  Tequila Barbeque Chicken & Seafood
+  - Thahn Long Vietnamese Rolls  →  Thanh Long
+  - The Abyssinian  →  African Village Centre Restaurant
+  - The Bay Fish Shop  →  Bay Fish Shop
+  - The Black Rooster  →  119 Chicken and Seafood
+  - The Corner Bistrot  →  The Corner Bistro
+  - The Edinburgh Castle Hotel  →  The Ed Castle
+  - The Feathers Fish and Chips  →  Feathers Hotel
+  - The Hibiscus Tree Fast Hot-Pot  →  YangGuoFu (YGF) Hot Pot Flagship Shop Adelaide 杨国福阿德莱德旗舰店
+  - The Hub Tandour Nepalese Cuisine  →  The Hub Tandoor
+  - The PizzaClub at the Roadhouse  →  The PizzaClub
+  - The Surf Club  →  Glenelg Surf Life Saving Club
+  - The Thai Orchid  →  Thai Orchid Restaurant
+  - The Topiary Café  →  Topiary
+  - Thy Dzjung Asian Food  →  Thy Dzung Chinese
+  - Transit and Co  →  Transit&Co
+  - Tusmore Pizza  →  Tusmore Pizzeria and Cafe
+  - UNCLE Authentic Hainanese Chicken Rice  →  Uncle Authentic Chicken Rice （ Uncle 海南鸡饭专门店）
+  - Udaberri Pintox y Vino  →  Udaberri Pintxos Y Vino
+  - VDR Vietnamese Coffee & Food  →  VDR
+  - VON Modern Thai  →  VON Thai
+  - Valentino Pizza Cafe  →  Valentino Pizza
+  - Valley View Chicken & Seafood  →  Junction chicken & takeaway
+  - Vesuvios Pizza  →  Vesuvio Pizza Bar
+  - Waffles and Coffee  →  Waffle & Coffee
+  - Walkley Heights Chicken and Seafood  →  Heights Chicken & Takeaway
+  - Whole+some  →  House of Health Collective
+  - Wildfire BBQ Truck  →  Wildfire American BBQ
+  - Woodville Bunmee Vietnamese Roll Eatery  →  Woodville Bun Mee
+  - Woodville Fish And Chippery  →  Woodville Fish Shop
+  - Yellow Chilli  →  Cumin Club Goodwood
+  - Yiro Yiro Greek Eats  →  Yiro Yiro - Melrose Park
+  - Yiros 4 U  →  YIROS 4 YOU
+  - Yivv Vietnamese Kitchen  →  ViVu Vietnamese Kitchen
+  - Zarelli’s Caffe Ristorante  →  Zarelli's Cafe Ristorante
+  - hello vietnam  →  Pho Hello Vietnam
+  - wok in a box  →  Noodle Box Unley
+
+## 카페 (133)
+  - 1923 Cafe Blackwood  →  1923 Blackwood Cafe
+  - 1954  →  Cafe 1954
+  - Argos  →  Argo on the Parade
+  - Arthouse Coffee Bar  →  Fleurieu Arthouse
+  - Astonish Patisserie  →  Astonish Café & Dessert
+  - Atlas Continental Cafe  →  Atlas Continental
+  - BTS Cafe  →  BTS Café
+  - Big Shots Cafe and Bar  →  Big Shots Cafe - Brighton
+  - Boatshed Cafe  →  Boatshed Hallett Cove
+  - Bon Voyage  →  Cafe Bon Voyage
+  - Bottle Tree Cafe, Garden & Aquarium  →  Bottle Tree Garden & Aquarium
+  - Boy & Bloom South  →  Boy & Bloom
+  - Brighton Food & Wine  →  Brighton Food and Wine
+  - Broadway Kiosk  →  The Broadway Kiosk
+  - Cafe #12  →  Café #12
+  - Cafe 91  →  Business & Career Hub & Cafe91
+  - Cafe Bang Bang  →  Café Bang Bang
+  - Cafe Bonython  →  Café Bonython
+  - Cafe Komodo  →  Café Komodo
+  - Cafe La Corp  →  Kent Town Burgers
+  - Cafe Nova  →  Café Nova
+  - Cafe Novar Espresso  →  Novar Espresso Cafe
+  - Cafe de Vili  →  Café De Vili's
+  - Cafe di crema  →  Caffe Di Crema
+  - Chaitime  →  Chatime Norwood
+  - Cheesecake Shop  →  The Cheesecake Shop Welland
+  - Chocolat  →  Bottega Gelateria
+  - Ciao Cafe  →  Ciao Adelaide Arcade
+  - Cibo Espresso  →  CIBO Kurralta Park
+  - Cirilli Cafe and Roastery  →  Cirelli Coffee Roasting Co
+  - Clio Cafe  →  Clio Café
+  - CoCo Fresh Tea & Juice  →  CoCo Bubble Tea
+  - CoCo Fresh Tea & Juice  →  CoCo Bubble Tea
+  - CoCo Fresh Tea & Juice  →  CoCo Bubble Tea
+  - Coffee & Co  →  Coffe & Co No 7
+  - Coffeelosophy  →  Coffylosophy
+  - Comissary Cafe  →  Commissary
+  - Dancing Spoon  →  Rim Thang Authentic Thai
+  - Departure Bar  →  Plaza Premium Lounge Adelaide (International Departure)
+  - Dulwich Bakery Cafe  →  Dulwich Bakery
+  - Dulwich Bakery Glenelg South  →  Dulwich Bakery
+  - East Mediterranean Eatery  →  East
+  - Enjoy Bakery  →  Enjoy Cafe Bakery
+  - Eny Penny  →  Chapter One Cafe
+  - Fare and Square  →  Fare Square
+  - Fig Tree Cafe  →  Fig Tree Cafè
+  - Fine and Fettle  →  Fettle
+  - Flinders Street Project  →  The Flinders Street Project
+  - Florice Cafe  →  Florice Café
+  - Foods For You Especially  →  Food For You Especially- 100% Gluten-Free Bakery
+  - Fort Deli Cafe  →  Fort Cafe &Takeaway
+  - Frangipani  →  52 Frangipani
+  - Fridm Panini Bar & Cafe  →  FRIDM Panini Bar and Cafe
+  - Froot  →  Cafe Froot
+  - Funk Cafe  →  Funk Coffee + Food
+  - Gluten Gree Creations  →  Gluten Free Creations
+  - Grain & Bean Bakery Cafe  →  The GRAIN and BEAN
+  - Grange Kiosk  →  Grange Jetty Cafe
+  - Green Bean  →  Super Green Bowl Henley
+  - Greenacres Bakery  →  Greenacres Hot Bread Bakery
+  - Grind & Press  →  Grind and press
+  - H&A Coffeehouse  →  H&A Coffee
+  - Halifax Cafe  →  Halifax Café
+  - Hatun Cafe  →  Hatun Café
+  - Haz Beanz  →  Haz Beans Cafe
+  - Hermanos Cubanos  →  MALOBO Bakery & Terrace Bar
+  - Home Grain Barkery  →  Home Grain Bakery
+  - J&O Cake Lab  →  JD Cake Lab
+  - J.D. Espresso Bar and Cafe  →  J.D. Brew Espresso Bar & Cafe
+  - Kintore Cafe & Pizza  →  Kintore Caffé & Wood Oven Pizza
+  - Kozy Breeze Cafe  →  Kozy Breeze
+  - Le Madeline  →  La Madeleine
+  - Lipson Street Collective  →  Lipson St Collective
+  - Lollipops Playland and Cafe  →  Lollipop's Playland & Cafe
+  - Lunch Bar  →  Aroma and Vine
+  - Lunch On 107  →  PH7 Cafe & Eatery
+  - Luxxe Cafe  →  Luxxe Café
+  - MASH Cafe  →  Mash Café And Restaurant
+  - Magill Bakehouse  →  Bakehouse On Magill
+  - Market Bread Bar  →  The Market Bread Bar
+  - Merantau Cafe  →  Merantau Café
+  - Mettā Sol  →  Metta Sol Specialty Coffee
+  - Modish 5  →  Modish
+  - Montagna Cafe  →  Culture Cup Cafe
+  - Mortgage Choice in Morphett Val  →  Mortgage Choice Morphett Vale - Scott Bament
+  - Ned Kelly Bakery and Cafe  →  Ned Kelly's Bakery
+  - Nettle and Knead  →  Nettle & Knead
+  - Numero 5 Cafe & Grocer  →  Numéro 5 Cafe
+  - Paparazzi  →  Cafe Paparazzi
+  - Pat-a-Cake Bakery  →  Pat-A-Cake
+  - Patina Place  →  Patina Pl.
+  - Pie Face  →  United Petroleum Melrose Park (Pie Face)
+  - Pitt Street Cafe  →  Pitt Street Café
+  - Poetic Justice Cafe  →  The Javahut
+  - Poké Bowl Journeys  →  Poke Bowl Journeys
+  - Pulse Cafe  →  Pulse Coffee
+  - Red Lantern Snack Bar  →  Louie's Deli
+  - Red Mill Bakehouse  →  The Rustic Mill
+  - Rena  →  Pad Thai Thai
+  - Rolling Pin Bakery Patisserie and Coffee Bar  →  The Rolling Pin Bakery & Patisserie
+  - Rusco & Brusco Tigelleria Bar  →  Rusco and Brusco
+  - Rush Internet Cafe  →  rush karaoke
+  - Saigon Street Food  →  Saigon Cafe
+  - Schinellas Bakery  →  Schinella’s Artisan Bakery
+  - Seed and Stone Salad Bar  →  Seed and Stone
+  - Seventy 8 On Rundle  →  78 On Rundle
+  - Shelley Street Bakery  →  Pie Time
+  - Si Vera Kafe  →  Si Vera Kafé
+  - Signature Coffee  →  Signature: A Fusion of Coffee
+  - Silvana cafe & restaurant  →  Silvana Bar & Restaurant
+  - Somewhere@Mosley  →  Somewhere @ Moseley
+  - St Georges Bakery  →  St Georges Bakehouse Hutt Street
+  - St Louis House of Dessert  →  St Louis House Of Fine Ice Cream & Dessert
+  - St Louis House of Dessert  →  St Louis House of Fine Ice Cream and Desserts
+  - State Library Cafe  →  The Library Café at the State Library of SA
+  - Stir Cafe  →  Coffee Cure Cafe
+  - Swordsman  →  Swordman's kitchen - Modern Asian Eatery . Artisan Cuisine
+  - Tackle   →  St Kilda Tackle 'N' Tucker ⛵️
+  - The Bagel Boys Bakery  →  Bagel Boys Bakery
+  - The Cheescake Shop  →  The Cheesecake Shop Gilles Plains
+  - The Daily Planet  →  Daily Planet Adelaide
+  - The Flying Pan  →  TFP (The Flying Pan)
+  - The Olive Tree Cafe  →  The Olive Tree Café
+  - The Strand Cafe & Resturaunt  →  The Strand Cafe Restaurant
+  - The Tin Shed  →  Tin Shed Cafe
+  - The Watershed Function Centre & Café  →  Watershed
+  - The ripple and swirl  →  The ripple & swirl cafe
+  - Tram Time Coffee  →  Entertainment Centre
+  - Trouble & Strife  →  Trouble and Strife
+  - Twiggys Cafe  →  Alice's kitchen
+  - West Beach Surf Life Saving Club  →  West Beach Surf Club
+  - Yo-Chi Frozen Yoghurt  →  Yo-Chi
+  - Zuma Caffe  →  Zuma Caffè
+
+## 술집 (81)
+  - 2nd & 6th  →  Hains & Co
+  - Astor Hotel  →  The Astor Hotel
+  - Atlantis Bar & Lounge  →  Atlantis Lounge Bar
+  - Authentic Ambra Liqeurs  →  Ambra Spirits Distillery Bar & Restaurant
+  - Avenues Cafe & Bar  →  Avenues Café & Bar
+  - Bar and Gaming  →  Norwood Gaming And Bar
+  - Bartley Tavern  →  The Bartley Hotel
+  - Bibliotheca  →  The Bibliotheca Bar and Book Exchange
+  - Birkenhead Tavern  →  The Birkenhead Tavern
+  - Brahma Lodge Hotel  →  The Lodge Hotel
+  - Clever Little Taylor  →  Clever Little Tailor
+  - Colac Hotel  →  COLAC Port Adelaide
+  - Colonel Light Hotel  →  Colonel Light Memorial Monument
+  - Colonnades Tavern  →  5th Quarter
+  - Coopers Alehouse  →  The Original Coopers Alehouse
+  - Coopers Gepps Cross Alehouse  →  Coopers Alehouse Gepps Cross
+  - Cosmos Bar  →  Cosmos Club
+  - Duke of Brunswick  →  The Duke of Brunswick Hotel
+  - Electra House  →  Electra
+  - Elizabeth East RSL  →  Elizabeth RSL
+  - Empire Bar & Pool  →  Empire Bar and Pool
+  - Fox and Firkin  →  Fox & Firkin English Pub
+  - Gallery  →  The Gallery Rooftop Bar & Functions
+  - Gawler Arms Hotel  →  The Gawler Arms Hotel
+  - Glanville Hotel  →  The Glanville Hotel
+  - Glenelg Jetty Hotel  →  Stamford Grand Adelaide Hotel
+  - Golden Fleece Hotel  →  The Golden Fleece Hotel
+  - Golden Grove Tavern  →  The Grove
+  - Governor Hindmarsh Hotel  →  The Gov
+  - Grand Bar  →  The Grand Bar
+  - Grand Central Tavern  →  Grand Central
+  - Holdfast Hotel  →  The Holdfast Hotel
+  - Hotel Broadway  →  Broadway Hotel
+  - Hotel Richmond  →  The Richmond Hotel
+  - Kentish Arms  →  The Kentish Hotel
+  - Kick Back Brewery  →  Kick Back Brewing
+  - Lighthouse Hotel  →  The Lighthouse Wharf Hotel
+  - Little Bang Brewery  →  Little Bang Brewing Company
+  - Little Pub Off Hindley  →  The Little Pub
+  - Maid and Magpie  →  The Maid Hotel
+  - Malt and Juniper  →  Malt & Juniper
+  - Marryatville Hotel  →  The Marryatville Hotel
+  - Maylands Hotel  →  The Maylands Hotel
+  - Midway Taverner  →  Midway Tavern
+  - Nearly a Bar  →  Nearly
+  - Pier  →  Marina Pier
+  - Port Anchor Hotel  →  The Port Anchor Hotel
+  - Rangers Pub  →  Rangers Supporters Club
+  - Regency Park Tavern  →  Regency Tavern
+  - Seaton Park Hotel  →  Seaton Hotel
+  - Septimus House of Cheese and Wine  →  BAR SEPTIMUS
+  - Settlers Hotel  →  Settlers Tavern
+  - Somerset Hotel  →  The Somerset Hotel
+  - Sparkle at the Whitmore  →  Whitmore Square
+  - Sweet Amber Brew Cafe  →  Sweet Amber Brewing Co
+  - The Alberton Hotel  →  Alberton Hotel
+  - The Bombay Bicycle Club  →  The Ovingham Hotel
+  - The British  →  British Hotel
+  - The Cathedral Hotel  →  Cathedral Hotel
+  - The Criterion Tavern  →  Criterion Tavern
+  - The Cumberland  →  Cumberland Arms Hotel
+  - The Duck Inn  →  The Duck
+  - The Feathers Hotel  →  Feathers Hotel
+  - The Finsbury Hotel  →  Finsbury Hotel
+  - The General Havelock  →  General Havelock
+  - The Glanville Wharf  →  The Glanville Hotel
+  - The Highway Hotel  →  The Highway
+  - The Hope Inn  →  Hope Inn Hotel
+  - The Hyde Park Tavern  →  Hyde Park Tavern
+  - The Matchroom  →  Matchroom Poker
+  - The Moseley Bar & Kitchen  →  The Moseley
+  - The Northern Tavern  →  Northern Tavern | Bistro, Sports Bar & Bottle Shop
+  - The Old Spot  →  Sip'n Save - Old Spot Hotel
+  - The Prince  →  Prince of Wales Hotel
+  - The Rose and Crown  →  Rose & Crown Hotel
+  - The Slug   →  Slug and Lettuce
+  - The Strathmore  →  Strathmore Hotel
+  - The Wellington Hotel  →  Wellington Hotel
+  - The Windmill Hotel  →  Windmill Hotel
+  - Wee Willies Hotel  →  Wee Willies
+  - Woodcroft Hotel  →  The Woodcroft Hotel
+
+## 쇼핑 (64)
+  - Foodland  →  Erindale Romeo's Foodland
+  - IGA  →  Leabrook IGA Fresh
+  - Romeo  →  North Adelaide Romeo's Foodland
+  - Foodland  →  Mitcham Romeo's Foodland
+  - Romeo IGA  →  Romeo's Foodland Campbelltown
+  - Foodland  →  Frewville Foodland
+  - Foodland  →  Pasadena Foodland
+  - IGA  →  Westwood IGA
+  - Foodland  →  Parafield Gardens Foodland
+  - IGA  →  Novar Gardens IGA
+  - Foodland  →  Morphett Vale Foodland
+  - Foodland  →  Old Reynella Romeo's Foodland
+  - IGA  →  Hilltop Supermarket
+  - Trott Park IGA  →  IGA Trott Park
+  - Foodland  →  Marion Romeo's Foodland
+  - Rundle Mall Foodland  →  Rundle Mall Romeo's Foodland
+  - Foodland  →  Royal Park Romeo's Foodland
+  - Romeo’s Foodland  →  Foodland Fairview Park
+  - Woolworths  →  Para Hills Shopping Centre
+  - Foodland  →  Port Adelaide Romeo's Foodland
+  - Foodland  →  Kilkenny Romeo's Foodland
+  - Foodland  →  Daw Park Romeo's Foodland
+  - Foodland  →  West Lakes Foodland
+  - Foodland  →  Rosewater Romeo's Foodland
+  - Foodland  →  Croydon Romeo's Foodland
+  - Foodland  →  Magill Foodland
+  - Wattle Park IGA  →  IGA Local Grocer Wattle Park
+  - Foodland  →  Seacliff Park Foodland
+  - Christies Beach IGA  →  IGA Christies Beach
+  - Aldi Newton  →  ALDI
+  - Athol Park Asian Supermarket  →  Athol Park Supermarket (Truong Hung)
+  - Happy Mart (Asian Grocery)  →  Happy Mart
+  - Salam Supermarket & Halal Butcher  →  Salam Supermarket
+  - Sri Lankan Spices and Lunch Bar  →  CJ Sri Lankan Spices & Lunch Bar
+  - All in One Asian Grocery  →  All In One Nepalese And South Asian Grocery
+  - Afghan Grocery Always Fresh Supermarket  →  Always Fresh Supermarket
+  - Seoul Asian Grocery  →  Koreana Mart
+  - Homes Supermarket (Gouger St)  →  Homes Supermarket
+  - Thirsty Camel  →  Sip N Save - Grange Hotel
+  - Booze Brothers  →  SipnSave - Duck Inn
+  - Sip  →  St Peters Cellars
+  - Booze Brothers  →  SipnSave - Avenues Bottle Shop
+  - Liquourland  →  Liquorland St Clair
+  - Booze Brothers  →  SipnSave - Unley Hotel
+  - First Choice Liquor  →  Liquorland Warehouse Hindmarsh
+  - Cliff Avenue Liquor Store  →  SipnSave - Cliff Avenue Liquor Store
+  - First Choice Liquor  →  Liquorland Warehouse Ingle Farm
+  - First Choice Liquor  →  Liquorland Warehouse Golden Grove
+  - Liquorland  →  Bottle Shop at Payneham Tavern
+  - Hilton Hotel Bottle Shop  →  Thirsty Camel
+  - Sip and save  →  Sip N Save
+  - The Fed Cellars  →  Sip'n Save - Federal Hotel
+  - Vintage Cellars  →  Liquorland North Adelaide
+  - Tower Hotel Fine Wines  →  Tower Hotel
+  - PALS Parafield Airport Liquor Store  →  Parafield Airport Liquor Store (PALS)
+  - Tony & Marks (Woodville)  →  Tony & Mark's
+  - Dai Phat (Parafield Gardens)  →  Dai Phat Supermarket
+  - The Treasure Shed  →  Uniquely U Fashion Heaven
+  - RSPCA OpShop  →  RSPCA Semaphore Op Shop
+  - Seaford Christian Churches Op Shop  →  Seaford Ecumenical Mission (trading as Seaford Christian Churches)
+  - Op Shop  →  Stop By Op Shop
+  - The Salvation Army  →  Salvos Stores Kings Park
+  - The Salvation Army  →  Salvos Stores Kensington Gardens
+  - St Mary  →  OTR St Marys
+
+## 의료 (60)
+  - Advanced Dental Center  →  Advanced Dental Centre
+  - Amcal  →  Marden Amcal+ Pharmacy
+  - Bensons Radiology  →  Benson Radiology
+  - Chemist King Discount Pharmacy  →  Chemist King Colonel Light Gardens
+  - Chemist King Discount Pharmacy  →  Salisbury Discount Pharmacy
+  - Chemist King Discount Pharmacy  →  Chemist King Frewville
+  - Chemist King Discount Pharmacy  →  Chemist King Morphett Vale
+  - Chemist King Discount Pharmacy  →  Chemist King Welland
+  - Chemist King Discount Pharmacy  →  Chemist King Springbank
+  - Chemist King Discount Pharmacy  →  Chemist King Hectorville
+  - Chemmart  →  TerryWhite Chemmart Happy Valley
+  - Denture Clinc  →  Diamond Denture Clinic
+  - Denture Clinic  →  Natural Denture Clinic (Woodville)
+  - Dr Robert Corren  →  Coren Dr Robert A
+  - Dr Rosenthal  →  Rozentals R J
+  - Dr Tom Keane Dental Surgery  →  Keane Tom
+  - Elizabeth City Medical Centre  →  100% Bulk Billing - Elizabeth Medical & Dental Centre
+  - GP Plus  →  Noarlunga GP Plus Super Clinic
+  - Glenelg Health foods  →  Glenelg Health & Wholefoods
+  - Good Price Discount Pharmacy  →  Good Price Pharmacy Warehouse Morphett Vale
+  - Guardian  →  Prospect Guardian Pharmacy
+  - Hackham Medical Centre - Bulk Billing  →  Hackham Medical Centre
+  - Happy Valley Dental Surgery - Hurley Tim  →  Happy Valley Dental
+  - Health Hub Family GP  →  The Health Hub Family GP
+  - Hyde and Partners Medical Centre  →  Hyde & Partners Medical Centre
+  - Ingle Farm Dental Surgery  →  Ingle Farm Dental
+  - Jeff Ramsey  →  North Adelaide Pharmacy
+  - Klemzig Dental Clinic  →  Klemzig Village Dental Care
+  - Klemzig Village Medical Centre  →  Klemzig Village Medical Clinic
+  - Kurralta Park Community Pharmacy  →  TerryWhite Chemmart Kurralta Park
+  - Largs Health and Yoga  →  Largs Bay Health &Fitness
+  - Modbury Medical Centre  →  100% Bulk Billing - North East Modbury Medical & Dental Centre
+  - Myrtle Bank Dental  →  Pinnacle Dental Studio
+  - National Pharamcies  →  National Pharmacies Clovercrest
+  - National Pharmacy  →  National Pharmacies Glenelg
+  - Norwood & Kensignton Dental  →  Norwood and Kensington Dental Centre
+  - Norwood Breast and Endocrine Suregeons  →  Norwood Breast & Endocrine Surgeons
+  - Old Reynella Discount Pharmacy  →  Pharmacy + Co Old Reynella
+  - Oral Rehab and Implant Specialist Centre  →  Oral Rehabilitation and Implant Specialist Centre
+  - Para Hills Clinic  →  Para Hills Medical Clinic
+  - Priceline Pharmacy  →  Priceline Munno Para
+  - Priceline Pharmacy  →  Priceline Hollywood Plaza
+  - Prospect School Dental Service  →  SA Dental - Prospect
+  - Seaford Meadows Day and Night Clinic  →  AHA Seaford Meadows Day And Night Clinic
+  - Somerton Park Podiatrist  →  Natural Balance Podiatry
+  - St Clair Health  →  St Clair Medical
+  - Surrey Downs Medical Center  →  Surrey Downs Medical Centre
+  - TerryWhite Chemmart  →  Amcal Seaford Chemist
+  - TerryWhite Chemmart  →  Parafield Plaza Chemist
+  - Tusmore Dental Care  →  Linden Park Tusmore Dental & Implants
+  - UniHealth Playford GP SuperClinic  →  Unihealth Playford
+  - Playford Vet Clinic  →  Playford Veterinary Clinic
+  - Paws Galore Vets Christies Beach  →  Paws Galore Vets
+  - Gawler Veterinary Clinic  →  Gawler Veterinary Services (Willaston)
+  - Semaphore Vetinary Surgery  →  Semaphore Vet
+  - Fullham Gardens Veterinary  →  Fulham Gardens Animal Hospital - Pets and their People
+  - Old Reynella Veterinary Clinic - Hazel Cable  →  Old Reynella Veterinary Clinic
+  - Blackwood Veterinary Surgery - Radiotherapy  →  Blackwood Veterinary Surgery
+  - The Gardens Vet  →  Gardens Vet Clinic
+  - Pet Universe Vetenirary Centre  →  Pet Universe
+
+## 공원 (243)
+  - Arura Reserve  →  George Moss Reserve
+  - Balmoral Reserve  →  Balmorai Reserve
+  - Blue Gum Park / Kurangga (Park 20)  →  Blue Gum Park (Park 20)
+  - Bonython Park / Tulya Wardli  →  Bonython Park
+  - Bragg Park / Ngampa Yarta (Park 5)  →  Bragg Park (Park 5)
+  - Brougham Gardens / Tantutitingga (Park 29)  →  Brougham Gardens (Park 29)
+  - Bullrush Park / Warnpangga (Park 10)  →  Warnpangga Running Loop
+  - Camelot Drive Reserve  →  Moss Rishworth Reserve
+  - Carisbrooke Reserve  →  Carisbrooke Park
+  - Caufield Crescent Reserve  →  Caulfield crescent reserve
+  - Cobbler Creek Reserve East  →  Cobbler Creek East Reserve
+  - Collin Sellars Reserve  →  Collin Selars Reserve
+  - Craigburn Park Reserve  →  Craigburn Farm Reserve
+  - Daly Oval Reserve  →  Daly Oval
+  - Denise Norton Park / Pardipardinyilla (Park 2)  →  Denise Norton Park (Park 2)
+  - Edwardstown Recreation Ground  →  Edwardstown Soldiers' Memorial Recreation Ground
+  - Ellis Park / Tampawardli (Park 24)  →  Ellis Park (Park 24)
+  - Fairbanks Reserve  →  Fairbanks Drive Reserve
+  - Flinders Park Oval  →  Flinders Park Football Club
+  - Fort Glanville Conservation Park  →  Fort Glanville
+  - Fourth Creek Reserve  →  Fourth Creek Nature Play Trail
+  - Fullarton Park Centre  →  Fullarton Park Community Centre
+  - Golden Wattle Park / Mirnu Wirra (Park 21W)  →  Golden Wattle Park (Park 21W)
+  - Harry Weirda Reserve  →  Harry Wierda Reserve
+  - Henley Memorial Oval  →  Henley & Grange Memorial Oval
+  - Hurtle Square  →  The Forest of Dreams
+  - Illyarie Reserve  →  Illyarrie Reserve
+  - Jack Watkins Memorial Reserve  →  Jack Watkins Reserve
+  - Jo Gapper Reserve  →  Jo Gapper Park - Playground, Dog Park, Hiking Track and Lookout
+  - Josie Agius Park / Wikaparntu Wirra (Park 22)  →  Josie Agius Park (Park 22)
+  - King Rodney Park / Ityamai-itpina (Park 15)  →  King Rodney Park (Park 15)
+  - Kirkaldy Park  →  Kirkcaldy Reserve
+  - Lake Windemere Reserve  →  Lake Windemere
+  - Mawson Oval Reserve  →  Mawson Oval
+  - McHarg Reserve  →  McJames Knighten Reserve
+  - Mitchell Park Reserve  →  Mitchell Park Oval
+  - Munno Para Wetlands  →  Curtis Wetlands
+  - Norton Ray Reserve  →  Ray Norton Reserve Park
+  - Oliver Terrace Reserve  →  Olivier Terrace Reserve
+  - Palmer Gardens / Pangki Pangki (Park 28)  →  Palmer Gardens (Park 28)
+  - Park 4  →  Reservoir Park (Park 4)
+  - Pelzer Park / Pityarilla (Park 19)  →  Pelzer Park (Park 19)
+  - Peppermint Park / Wita Wirra (Park 18)  →  Peppermint Park (Park 18)
+  - Red Gum Park / Karrawirra (Park 12)  →  Red Gum Park (Park 12)
+  - Robinson Reg Reserve  →  Reg Robinson Reserve
+  - Roy Marten Park  →  Roy Marten Reserve
+  - Rundle Park / Kadlitpina (Park 13)  →  Rundle Park (Park 13)
+  - Rymill Park / Murlawirrapurka (Park 14)  →  Rymill Park (Park 14)
+  - Solandra Park  →  Solandra Reserve
+  - Stockade Botanical Gardens  →  Stockade Botanical Park
+  - Tea Tree Gully BMX Track  →  Tea Tree Gully BMX Club
+  - The Olive Groves / Kuntingga (Park 7)  →  The Olive Groves (Park 7)
+  - The Stables Reserve  →  The Stables Shopping Centre
+  - Tingara Park  →  Humphrey George Reserve
+  - Venturi Reserve  →  Venturi Avenue Reserve
+  - Weymouth Recreation Reserve and Apex Park  →  Weymouth Oval and Recreation Ground
+  - Willunga Rose Garden  →  Willunga Jubilee Rose Garden
+  - Wittunga Botanic Gardens  →  Wittunga Botanic Garden
+  - Yam Daisy Park / Kantarilla (Park 3)  →  Yam Daisy Park (Park 3)
+  - BEEFACRES RESERVE TOILETS  →  Beefacres Reserve
+  - BLAIR ATHOL RESERVE TOILETS  →  Carol Martin Reserve Playground
+  - Boatshed Cafe Public Toilets  →  Hallett Cove public toilet
+  - E P Nazer Reserve Toilets  →  EP Nazer Reserve
+  - EDWARD SMITH RESERVE TOILETS  →  Edward Smith Reserve
+  - ENFIELD TENNIS CLUB CLUBROOMS/TOILET  →  Enfield Tennis Club
+  - GREENACRES RESERVE TOILETS  →  Greenacres Reserve
+  - Glynde Plaza Shopping Centre  →  Glynde Plaza
+  - Hanson Reserve Changerooms/Toilets  →  Hanson Reserve and Velodrome
+  - Hindmarsh Square Exeloo  →  Public Toilets - Hindmarsh Square
+  - Inlet Reserve Toilets  →  Inlet Reserve Public Toilet
+  - Jack Watkins Reserve Toilets  →  Jack Watkins Reserve Public Toilets
+  - LAURIE KNIGHT RESERVE TENNIS CLUBROOM TOILETS  →  Laurie Knight Reserve
+  - Largs Pier Toilets  →  Largs Bay Public Toilet
+  - Martins Place Public Toilets  →  Public Toilet
+  - National War Memorial Exeloo  →  National War Memorial
+  - Peter Cousins Reserve Toilets  →  Public Toilet
+  - Roy Amer Exeloo  →  Roy Amer Reserve Public Toilet
+  - Sidewinders Speedway Club Toilets  →  Sidewinders Junior Speedway
+  - Single toilet  →  Public Toilet. Paradise Reserve
+  - TARGET RIFLE S.A. INC TOILETS  →  Target Rifle South Australia Inc.
+  - THOMAS TURNER RESERVE (EAST) TOILETS  →  Thomas Turner Reserve (Central)
+  - THOMAS TURNER RESERVE (WEST) TOILETS  →  Thomas Turner Reserve (Central)
+  - Veale Gardens Exeloo  →  Veale Gardens
+  - Waterford Reserver Exeloo  →  Waterford Reserve Toilet
+  - 45 Training Brighton SA  →  F45 Training Brighton SA
+  - AMF Noarlunga  →  Zone Bowling Noarlunga
+  - Angle Park Greyhounds  →  Greyhound Racing SA
+  - BIDA France Cafe  →  Bida & France Café
+  - BST Fitness  →  Bowden Gym
+  - Blue Dolphin Swim Centre PTY LTD  →  Blue Dolphin Swim Centre
+  - Body Align Pilates  →  Bodialign Pilates
+  - Camden Sports Complex  →  Camden Oval
+  - Clovercrest Swimming Center  →  State Swim Clovercrest
+  - Concordia College Gynmasium Fortiter  →  Concordia College Gymnasium "Fortiter"
+  - Fitness & Pilates  →  CYFitness
+  - GDNA Netball Courts  →  Gawler & District Netball Association
+  - Gawler Petanque Club  →  Gawler Pétanque Club
+  - Globe Derby Equestrian Centre  →  Globe Derby Pony Club
+  - Golden Grove Recreation Centre  →  Golden Grove Recreation & Arts Centre
+  - Goodlife Gym  →  Goodlife Health Clubs Noarlunga
+  - Grange Lawn Bowls Club  →  Grange Bowling Club
+  - Grange Tennis Club  →  Grange Lawn Tennis Club
+  - Grange Tennis Club  →  Grange Lawn Tennis Club
+  - Hope Valley Bowls Club  →  Hope Valley Bowling Club
+  - Ingle Farm Recreational Centre  →  Ingle Farm Recreation Centre
+  - Karkungka Courts  →  Karkungka
+  - Karmony  →  The Conscious Movement Collective
+  - LIfe PT  →  Life Personal Trainers Kent Town
+  - MARS Sporting Complex  →  MARS Sports Centre
+  - Marden Sports Complex  →  MARS Sports Centre
+  - Munno Para City Soccer Club  →  Craigmore_Munno Para City Soccer Club
+  - North Pines Football and Sports Club  →  Northpines Football Club and Cricket Club
+  - Oaks Swim Centre  →  The Oaks Swim Centre
+  - Paragon Fitness Centre  →  Paragon Fitness
+  - Pasadena Basketball (Sturt Sabers)  →  Sturt Sabres Basketball Club
+  - Playford Tennis Centre  →  Voyager Tennis - Playford
+  - Port Adelaide Recreation Centre  →  Port Adelaide Basketball Stadium
+  - Queen Street Pilates  →  Queen St Pilates Studio
+  - Reade Park Reserve  →  Reade Park Lawn Tennis Club
+  - Rosewater Bowls Club  →  Rosewater Bowling Club
+  - SA Aquatic & Leisure Centre  →  SA Aquatic and Leisure Centre
+  - Saint Clair Recreation Ground  →  St Clair Recreation Centre - YMCA
+  - Salisbury West Sports Club  →  Salisbury Downs Sports and Community Club Inc
+  - Sidewinders Speedway  →  Sidewinders Junior Speedway
+  - Studio Charlie Dance Factory  →  STUDIO CHARLI
+  - Studio Pilates  →  KX Pilates North Adelaide
+  - Tea Tree Gully Athletics Club  →  Tea Tree Gully Athletics Centre
+  - Tea Tree Gully Youth Club and Gym Sports  →  Tea Tree Gully Gymsports
+  - The Gardens Recreation Centre  →  Parafield Gardens Recreation Centre
+  - Thebarton Aquatic Center  →  Thebarton Aquatic Centre
+  - Universal Balance Mind & Body Studio  →  Universal Balance Mind and Body Studio
+  - Unley StateSwim  →  State Swim Unley
+  - Wingfield Rifle Club  →  Target Rifle South Australia Inc.
+  - Clovercrest Swimming Centre  →  State Swim Clovercrest
+  - Sherriffs Road Swimming Pool  →  Sherriffs Road Swimming Centre
+  - Britton Street Playground  →  Britton Street Reserve Playground
+  - Beckman Avenue Playground  →  Beckman Reserve Playground
+  - Rudgeway Drive Playground  →  Ridgeway Drive Reserve
+  - Golflands Playground  →  Golflands Reserve Playground
+  - Halsey Road Playground  →  Halsey Road Reserve Playground
+  - Ascot Drive Playground  →  Ascot Drive Reserve
+  - Memorial Gardens Playground  →  West Torrens Memorial Gardens
+  - Lyons Street Playground  →  Lyons Street Reserve
+  - Michael Street Playground  →  River Torrens Linear Park Playground
+  - Shephard Court Playground  →  Vernon S. Shephard Reserve
+  - St Andrews Playground  →  St Andrews Crescent Reserve Playground
+  - Swan Avenue Playground  →  Swan Avenue Reserve Playground
+  - Reed Beds Community Centre  →  Fulham Community Centre
+  - Apex Park Playground  →  Apex Park
+  - Kevin Avenue Playground  →  Playground - Kevin Avenue
+  - Pacific Parade Playground  →  Pacific Parade Reserve
+  - Mountbatten Grove Playground  →  Mountbatten Grove Park
+  - Lindfield Playground  →  Lindfield Avenue Reserve Playground
+  - Montreal Avenue Playground  →  Montreal Avenue Reserve Playground
+  - Graham Crescent Playground  →  Graham Crescent Reserve
+  - Cummins House Reserve  →  Historic Cummins House
+  - Cromer Street Playground  →  Cromer Street Reserve
+  - Errington Street Playground  →  Errington Street Reserve
+  - Westside Bikeway - Play and Gym  →  Westside Bikeway Creslin Terrace
+  - Sandringham Playground  →  Sandringham Reserve
+  - Joe Wells Playground  →  Joe Wells Reserve
+  - Parkin Playground  →  Parkin Reserve
+  - Wally Shiers Playground  →  Wally Shiers Reserve
+  - Lysle Street Playground  →  Lysle Street Reserve
+  - Mellor Park Playground  →  Mellor Park Reserve
+  - Noble Avenue Playground  →  Noble Reserve
+  - Sherriff Street Playground  →  Sheriff Street Reserve Playground
+  - Kings Reserve Playground  →  Kings Reserve
+  - Clifford Street Playground  →  Clifford Reserve
+  - Mile End Common Playground  →  Mile End Common
+  - Peake Gardens Playground  →  Peake Gardens Riverside Tennis Club
+  - Weigall Oval Playground  →  Weigall Oval
+  - Kilpatrick Wal Reserve  →  WAL Kilpatrick Reserve
+  - Alan Iverson Reserve  →  Alan Iversen Reserve
+  - Garrad F. J. Reserve  →  F J Garrad Reserve
+  - Bayer Ave Recreation Reserve  →  Bayer Avenue Recreation Reserve
+  - Watkins Jack Reserve  →  Jack Watkins Reserve
+  - Coleridge Crescent Reserve  →  Coleridge Reserve
+  - Dover Street Reserve Playground  →  Dover Street Reserve
+  - Bonner Ron Reserve  →  Ron Bonner Reserve
+  - Cornell Ave Reserve  →  Cornell Avenue Reserve
+  - Fulton Reserve  →  Fulton Street Reserve
+  - Wyndham Drive reserve Playground  →  Wyndham Drive Reserve
+  - Korong Reserve Playground  →  Korong Reserve
+  - McLaren Flat Recreation Ground and Community Club  →  McLaren Flat Recreation Ground
+  - Hargrave Playground  →  Hargrave Reserve
+  - Happy Home Playground  →  Happy Home Reserve
+  - Morley Street Playground  →  Morley Street Reserve
+  - Fairlie Drive Playground  →  Fairlie Drive Reserve
+  - Ironbark Avenue Playground  →  Ironbark ave playground
+  - Flagstaff Hill Recreation Centre Playground  →  Flagstaff Hill Sports & Community Centre
+  - Weymouth Reserve Playground  →  Weymouth Oval and Recreation Ground
+  - Lukin Avenue Reserve Playground  →  Lukin Avenue Reserve
+  - Blackwood Park Treetops Playground  →  Treetop Park
+  - Roxanne Avenue Playground  →  Roxanne Park
+  - Grandview Grove Playground  →  Grandview Grove Reserve
+  - Thompson Playground  →  The Thompson Playground
+  - Camelot Drive Reserve Playground  →  Moss Rishworth Reserve
+  - The Paddocks Reserve Playground  →  Paddocks Reserve Playground
+  - Polonia Reserve Playground  →  Polonia Reserve
+  - Princess Elizabeth Playground  →  Princess Elizabeth Playspace
+  - Martindale Reserve Playground  →  Martindale Reserve
+  - Madison Park Playground  →  Madison Park
+  - Ferryden Park Playground  →  Ferryden Park Reserve Playground
+  - Hannaford Reserve Children  →  Hannaford Reserve
+  - Albert Greenshields Reserve Playground  →  Albert Greenshields Reserve
+  - Glover Playground  →  South Terrace Glover Playground
+  - Marshmallow Park  →  Marshmallow Playground
+  - Glenhuntly Drive Pkayground  →  Glenhuntly Reserve
+  - Lake Fortesque Playground  →  John Eichner Memorial Reserve
+  - Goldenfields Playground  →  Goldenfields Reserve
+  - Cobbler Creek East Playground  →  Cobbler Creek East Reserve
+  - Canterbury Drive Reserve Playground  →  Canterbury Drive Reserve
+  - Jubilee Park Playground  →  Jubilee Reserve
+  - Wynn Vale Dam Playground  →  Shearwater Park
+  - Cobbler Creek Playground  →  Kites and Kestrels Adven­ture Play­ground
+  - Kiekebusch Road Playground  →  Kiekebusch Road Reserve
+  - Fairview Park Playground  →  Fairview Park Reserve
+  - Gunda Rd Playground  →  Gunda Reserve
+  - Gunda Rd Playground  →  Gunda Reserve
+  - Cafe Grove Playground  →  Cafe de Grove
+  - The Parkway Playground  →  The Parkway Reserve
+  - Cadell Street Reserve playground  →  Cadell Street Reserve
+  - Observation Drive Playground  →  Observation Reserve
+  - Rose Village Playground  →  Hyde Park
+  - Greenslade Boulevard Playground  →  Greenslade Boulevard Reserve
+  - Monalta Playground  →  Monalta Drive Playground
+  - Ern Sconce Rotary Park playground  →  Ern Sconce Rotary Park
+  - Mapleton Reserve Playground  →  Mapleton Reserve
+  - Dove Street Playground  →  Dove Street Reserve
+  - Jubilee Park Adventure Playground  →  A E Young Reserve / Jubilee Park
+  - Rex Jones Playground  →  Rex Jones Reserve
+  - Wittunga Botanic Garden Playspace  →  Wittunga Nature Playspace
+  - Jubilee Park Playground  →  Jubilee Park
+  - Glandore Kindergarten Playground  →  Glandore Community Kindergarten
+  - Karkungka Playground  →  Karkungka
+  - Rotary Park Playground  →  Rotary Park
+  - River Drive Reserve (Linear Park)  →  River Drive Reserve
+  - Pinewook Park Playground  →  Pinewood Park
+  - Camden Oval Playground  →  Camden Oval
+  - Prow Drive Playground  →  Prow Drive reserve
+  - Bridgestone Reserve Playground  →  Bridgestone Reserve
+  - Glover East Playspace  →  East Terrace Glover Playground
+
+## 학교 (55)
+  - Clarendon Primary School  →  Clarendon Primary
+  - Kiethcott Farm Primary School  →  Keithcot Farm Primary School
+  - Sunrise Christian Primary School  →  Sunrise Christian School & ELC, Fullarton
+  - St Thomas Primary School  →  St Thomas School
+  - Highgate Primary School  →  Highgate School
+  - St Therese Primary School  →  St Therese School
+  - Modbury West Junior and Primary School  →  Modbury West OSHC & Vac
+  - Para Vista Junior and Primary School  →  Para Vista Primary School
+  - Good Shepherd Lutheran Primary School  →  Good Shepherd Lutheran School
+  - Huntfield Heights Primary School  →  Huntfield Heights School P-6
+  - Modbury Primary School  →  Modbury School, Preschool to Year 6
+  - Reynella South Primary School  →  Reynella South School and Preschool
+  - Bellevue Height Primary School  →  Bellevue Heights Primary School
+  - Mawson Lakes Primary School  →  Mawson Lakes School
+  - East Adelaide Primary School  →  East Adelaide School
+  - Holy Family Primary School  →  Holy Family Catholic School
+  - Swallowcliffe Primary School  →  Swallowcliffe School
+  - Greenwith Primary School & Our Lady of Hope School  →  Our Lady of Hope School
+  - Henley High School (Public)  →  Henley High School
+  - St Ignatius College - Senior Campus  →  Saint Ignatius' College
+  - Annesley College  →  Annesley Junior School
+  - Pasadena High School  →  Springbank Secondary College
+  - Cardjin College Galilee Campus  →  Cardijn College, Galilee Campus
+  - Sacred Heart College Middle School  →  Sacred Heart College Champagnat Campus
+  - Gawler and District College B-12  →  Gawler & District College B–12
+  - Marcellin Technical College  →  Cardijn College, Marcellin Campus
+  - Salisbury North R-7  →  Salisbury North Primary School
+  - Temple Christian College - Bethany Campus  →  Temple Christian College - Paralowie Campus
+  - Parafield Gardens R-7  →  Parafield Gardens Primary School
+  - CBC Junior  →  Christian Brothers College Junior School
+  - Ardtornish School  →  Ardtornish Primary School
+  - Smithfield Plains Kindergardern  →  Smithfield Plains Preschool
+  - Saint Peters Girls School  →  St Peter's Girls' School
+  - Saint Joseph  →  St Joseph's School - Tranmere
+  - St Brigids School  →  Para Rd - West side (St Brigids Catholic School)
+  - Scotch Junior School  →  Scotch College Adelaide Junior School & ELC
+  - Australian Science and Mathematics School  →  Australian Science & Mathematics School
+  - Our Lady of the Visitation Catholic School  →  Our Lady of The Visitation School & Preschool
+  - Dernancourt Schools  →  Dernancourt Primary School
+  - Banksia Park School R-6  →  Banksia Park Primary School R-6 (South Australia)
+  - Athelstone Schools  →  Athelstone School
+  - Clapham School  →  Clapham Primary School
+  - Hackney Kindgergarten  →  Hackney Kindergarten
+  - Whitefrair Catholic School  →  Whitefriars Catholic School
+  - West Lakes Shore School  →  West Lakes Shore R-7 School
+  - Saint Joseph  →  St Joseph's School Hectorville
+  - St Martin de Porres School  →  St Martin de Porres, Adelaide
+  - Flaxmill School P-7  →  Flaxmill School P-6
+  - Sheidow Park School  →  Sheidow Park Primary School
+  - Sunrise Christian School, Marion Campus  →  Sunrise Christian School & ELC, Marion
+  - St Peters Lutheran School  →  Concordia College St Peters Campus
+  - Pembroke School - King  →  Pembroke School
+  - Pembroke School - Junior & Senior Campus  →  Pembroke Girton Campus
+  - The Pines School  →  The Pines Primary School
+  - St Mary Magdalene School  →  St Mary Magdalene's School
