@@ -71,6 +71,7 @@ function poiMarker(ll,o){
     const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(ll,o.popupId||o.cat)}</div>`:o.popup;
     // offset: tip이 핀 상단 바로 위(~4px, 안 겹침)에 오도록. Leaflet 내부 tip 오프셋 상쇄해 radius 무관 일정 간격
     mk.bindPopup(html,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius-6)]});
+    if(o.regionize)mk.options.regionize=1; // generic POI: 팝업 열 때 sub에 최근접 서버브명 추가(프랜차이즈 지점 구분)
   }
   return mk;
 }
@@ -304,7 +305,7 @@ function ovBuild(r){
   r.data().forEach(item=>{
     const lab=r.label(item),nm=r.nameOf?r.nameOf(item):item.n;
     const mk=poiMarker(item.ll,{cat:r.cat,color:r.color[item.t]||r.color[r.def],maxWidth:r.maxWidth,zoomGlyph:r.zoomGlyph,
-      popupName:nm,popupId:r.id,
+      popupName:nm,popupId:r.id,regionize:!r.popup, // 커스텀팝업(school/hosp) 아닌 generic만 서버브명 부착
       tooltip:`${nm}<br><span style="font-size:9px;color:#5b6377">${lab}</span>`,
       popup:r.popup?r.popup(item):`<div class="popup-inner"><div class="popup-name">${nm}</div><div class="popup-sub">${lab}</div>${descHtml(item)}</div>`});
     (r.markers[item.t]||r.markers[r.def]).push(mk);
