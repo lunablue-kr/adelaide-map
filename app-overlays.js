@@ -53,10 +53,10 @@ function descHtml(item){const d=(LANG==='en'&&item.en)?item.en:item.desc;return 
 const GMAP_ICON='<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1a73e8" d="M12 2a7 7 0 0 0-7 7c0 1.4.4 2.5 1.1 3.7L12 22l1.3-2.3L7.6 11A5 5 0 0 1 12 4z"/><path fill="#ea4335" d="M12 2a7 7 0 0 1 7 7c0 1.4-.4 2.5-1.1 3.7l-4 6.6-2.6-4.6 3.7-6.4A5 5 0 0 0 12 4z"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>';
 // 팝업 하단 구글맵 아이콘 버튼(전 POI 공통, 통일 위치) — 클릭 track('gmap-'+id)
 // 이름+지역 검색으로 구글맵이 정확한 장소(place)를 매칭. generic POI는 popupopen에서 서버브명을 붙여 프랜차이즈 지점까지 특정.
-// 이름+좌표 경로형식: maps/search/이름/@lat,lng,17z — 구글이 그 좌표 근처의 그 이름 장소를 정확히 매칭(지점명 몰라도 됨)
-function gmapUrl(name,ll){return `https://www.google.com/maps/search/${encodeURIComponent(name)}/@${ll[0]},${ll[1]},17z`;}
+// 순수 좌표 검색: 이름 검색은 유명지점 쏠림(Kmart→전부 Rundle Mall), 좌표는 그 지점 위치 정확. place_id 없이 최선.
+function gmapUrl(ll){return `https://www.google.com/maps/search/?api=1&query=${ll[0]},${ll[1]}`;}
 function gmapFooter(name,ll,id){
-  return `<a class="popup-gmap" href="${gmapUrl(name,ll)}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
+  return `<a class="popup-gmap" href="${gmapUrl(ll)}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
 }
 function poiMarker(ll,o){
   let mk;
