@@ -53,10 +53,13 @@ function descHtml(item){const d=(LANG==='en'&&item.en)?item.en:item.desc;return 
 const GMAP_ICON='<svg width="20" height="20" viewBox="0 0 24 24"><path fill="#1a73e8" d="M12 2a7 7 0 0 0-7 7c0 1.4.4 2.5 1.1 3.7L12 22l1.3-2.3L7.6 11A5 5 0 0 1 12 4z"/><path fill="#ea4335" d="M12 2a7 7 0 0 1 7 7c0 1.4-.4 2.5-1.1 3.7l-4 6.6-2.6-4.6 3.7-6.4A5 5 0 0 0 12 4z"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>';
 // 팝업 하단 구글맵 아이콘 버튼(전 POI 공통, 통일 위치) — 클릭 track('gmap-'+id)
 // 이름+지역 검색으로 구글맵이 정확한 장소(place)를 매칭. generic POI는 popupopen에서 서버브명을 붙여 프랜차이즈 지점까지 특정.
-// 순수 좌표 검색: 이름 검색은 유명지점 쏠림(Kmart→전부 Rundle Mall), 좌표는 그 지점 위치 정확. place_id 없이 최선.
-function gmapUrl(ll){return `https://www.google.com/maps/search/?api=1&query=${ll[0]},${ll[1]}`;}
-function gmapFooter(name,ll,id){
-  return `<a class="popup-gmap" href="${gmapUrl(ll)}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
+// place_id 있으면 정확한 그 장소로(Places API 수집). 없으면 좌표 검색(fallback).
+function gmapUrl(ll,pid,name){
+  if(pid)return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name||'')}&query_place_id=${pid}`;
+  return `https://www.google.com/maps/search/?api=1&query=${ll[0]},${ll[1]}`;
+}
+function gmapFooter(name,ll,id,pid){
+  return `<a class="popup-gmap" href="${gmapUrl(ll,pid,name)}" target="_blank" rel="noopener" onclick="track('gmap-${id}')" title="Google Maps">${GMAP_ICON}</a>`;
 }
 function poiMarker(ll,o){
   let mk;
@@ -69,7 +72,7 @@ function poiMarker(ll,o){
   if(o.tooltip&&!(NO_HOVER&&o.popup))mk.bindTooltip(o.tooltip,{direction:'top',className:'sub-tip',opacity:1}); // 터치 기기: 팝업 있으면 툴팁 생략
   // 팝업 규칙(전 POI 공통): tip이 핀 상단 중앙을 정확히 가리키도록 offset=반경 위로. 핀 크기 무관 일관. 하단 구글맵/길찾기 버튼.
   if(o.popup){
-    const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(o.popupName,ll,o.popupId||o.cat)}</div>`:o.popup;
+    const html=o.popupName?`<div class="popup-wrap">${o.popup}${gmapFooter(o.popupName,ll,o.popupId||o.cat,o.pid)}</div>`:o.popup;
     // offset: tip이 핀 상단 바로 위(~4px, 안 겹침)에 오도록. Leaflet 내부 tip 오프셋 상쇄해 radius 무관 일정 간격
     mk.bindPopup(html,{maxWidth:o.maxWidth||240,offset:[0,-(mk.options.radius-6)]});
     // CircleMarker는 Path라 기본 클릭 핸들러가 팝업을 '클릭 지점'에 엶 → 마커 중심에 고정
@@ -303,7 +306,7 @@ function ovBuild(r){
   r.data().forEach(item=>{
     const lab=r.label(item),nm=r.nameOf?r.nameOf(item):item.n;
     const mk=poiMarker(item.ll,{cat:r.cat,color:r.color[item.t]||r.color[r.def],maxWidth:r.maxWidth,zoomGlyph:r.zoomGlyph,
-      popupName:nm,popupId:r.id,regionize:!r.popup, // 커스텀팝업(school/hosp) 아닌 generic만 서버브명 부착
+      popupName:nm,popupId:r.id,pid:item.pid,regionize:!r.popup, // 커스텀팝업(school/hosp) 아닌 generic만 서버브명 부착
       tooltip:`${nm}<br><span style="font-size:9px;color:#5b6377">${lab}</span>`,
       popup:r.popup?r.popup(item):`<div class="popup-inner"><div class="popup-name">${nm}</div><div class="popup-sub">${lab}</div>${descHtml(item)}</div>`});
     (r.markers[item.t]||r.markers[r.def]).push(mk);
