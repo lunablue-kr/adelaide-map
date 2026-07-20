@@ -86,7 +86,6 @@ const PUBS=[
 {ll:[-34.59827,138.74879],n:"The Gawler Arms Hotel",t:"pub",pid:"ChIJmZiQ9sX_uWoR25o-cvkfmTA"},
 {ll:[-34.92685,138.6089],n:"German Club Adelaide",t:"pub"},
 {ll:[-34.93429,138.5971],n:"Gilbert Street Hotel",t:"pub",pid:"ChIJB4uBKCDPsGoROKJdHT4rJtc"},
-{ll:[-34.84628,138.49399],n:"The Glanville Hotel",t:"pub",pid:"ChIJo7NkVMPGsGoRIgs9UlEch8U"},
 {ll:[-34.98111,138.51156],n:"Glenelg Jetty Hotel",t:"pub"},
 {ll:[-34.59981,138.74942],n:"The Golden Fleece Hotel",t:"pub",pid:"ChIJBThIY8__uWoRXdL6PWnD9cM"},
 {ll:[-34.80596,138.70126],n:"The Grove",t:"pub",pid:"ChIJlR9QvF2zsGoRbBWr-TOwZrE"},
@@ -292,7 +291,6 @@ const PUBS=[
 
 {ll:[-34.92431,138.59734],n:"Zhivago",t:"club",pid:"ChIJv5KofibPsGoRcEvpdgUNPR8"},
 {ll:[-34.9238,138.60658],n:"The Griffins Hotel",t:"pub",pid:"ChIJV1V3NtLOsGoREG9UFlM2Qcs"},
-{n:"Grange Hotel",t:"bar",ll:[-34.90239,138.4895],pid:"ChIJEQ-RxGTEsGoRpwrx8p8_Wso"},
 {n:"rush karaoke",t:"bar",ll:[-34.92265,138.59777],pid:"ChIJYUurxinPsGoReNG5dlO7-Fs"},
 {n:"2KW Bar & Restaurant",t:"bar",ll:[-34.92175,138.5998],pid:"ChIJxdSC4dXOsGoR9vkHxWCoWrE"},
 {n:"Grand North | Tavern, Bistro & Sports Bar",t:"pub",ll:[-34.84673,138.62632],pid:"ChIJGYO-Hxm2sGoRzBHw1jWEY6w"},
@@ -300,9 +298,7 @@ const PUBS=[
 {n:"Mylk Bar",t:"bar",ll:[-34.92715,138.60281],pid:"ChIJN_VkQ9fOsGoRwBe-VCs-2ak"},
 {n:"Palais Hotel",t:"pub",ll:[-34.8365,138.48063],pid:"ChIJ-06i4tLGsGoRw1u1iVQrdKw"},
 {n:"Port Noarlunga Hotel",t:"pub",ll:[-35.14874,138.47055],pid:"ChIJt0PbTlAhsWoRB72Lm5LPzKU"},
-{n:"The Aussie Inn",t:"pub",ll:[-35.15143,138.52423],pid:"ChIJ4Qb09VkmsWoR9UmgcVfnO5A"},
-{n:"The Ed Castle",t:"pub",ll:[-34.92502,138.58942],pid:"ChIJoSPmzyTPsGoRpMPZ6IDxhKA"},
-{n:"Henley Beach Hotel",t:"pub",ll:[-34.92552,138.49535],pid:"ChIJk84N_I3EsGoR4BkDU1tQKC0"},
+{n:"The Ed Castle",t:"pub",ll:[-34.92502,138.58942]},
 {n:"The Pink Pig Wine Bar",t:"wine",ll:[-34.90755,138.59672],pid:"ChIJt82Dm9fIsGoRrbez3G0wFsg"},
 {n:"Warradale Hotel",t:"pub",ll:[-35.00774,138.53864],pid:"ChIJS9Dzil3asGoR6FS9uaE285w"},
 {n:"Paradise Hotel",t:"pub",ll:[-34.87214,138.67184],pid:"ChIJnfhto4e1sGoRqyWIqtM1b2Y"}
