@@ -41,7 +41,6 @@ function trackWhenReady(path){
     var count=parseInt(localStorage.getItem('av_count')||'0',10),last=localStorage.getItem('av_last');
     if(count===0)trackWhenReady('visitor-new');
     else{trackWhenReady('visitor-returning');if(last===today)trackWhenReady('visit-sameday');}
-    var bl=(navigator.language||'').slice(0,2).toLowerCase();if(bl)trackWhenReady('browserlang-'+bl); // 브라우저 언어(Umami서도 언어 파악)
     localStorage.setItem('av_count',count+1);localStorage.setItem('av_last',today);
   }catch(e){}
 })();
