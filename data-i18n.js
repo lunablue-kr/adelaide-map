@@ -40,7 +40,7 @@ const I18N = {
     stSending:'전송 중...', stOk:'✅ 전송되었습니다. 소중한 의견 감사합니다!', stFail:'전송 실패 — 잠시 후 다시 시도해주세요.',
     hint:'지도의 지역을 클릭하면 상세 정보가 표시됩니다',
     vibes:['CBD·유흥','힙스터·빈티지','올드머니·leafy','학군·자연','바닷가 라이프','항구·젠트리 진행 중','저렴한 신도시','조용한 쇼핑 교외','와인·서핑 남부'],
-    sources:'렌트: SQM Research 주간 호가(2026-07) · 치안: SA Police 2025-26 · 학교·교통·경계: OpenStreetMap · 타일: CARTO · 마지막 검증 2026-07-06',
+    sources:'렌트: SQM Research 주간 호가(2026-07) · 치안: SA Police 2025-26 · 학교·교통·경계: OpenStreetMap · 화장실: National Public Toilet Map (CC BY 3.0 AU) · 타일: CARTO · 마지막 검증 2026-07-20',
   },
   en:{
     docTitle:'Adelaide Area Guide', title:'Adelaide Guide', langBtn:'🇰🇷',
@@ -82,6 +82,6 @@ const I18N = {
     stSending:'Sending...', stOk:'✅ Sent — thank you for your feedback!', stFail:'Failed to send — please try again shortly.',
     hint:'Click a district on the map for details',
     vibes:['CBD · nightlife','hipster · vintage','old money · leafy','schools · nature','beach life','port · gentrifying','affordable new suburbs','quiet suburbia','wine & surf south'],
-    sources:'Rent: SQM Research weekly asking (Jul 2026) · Safety: SA Police 2025-26 · Schools, transport & boundaries: OpenStreetMap · Tiles: CARTO · Last verified 6 Jul 2026',
+    sources:'Rent: SQM Research weekly asking (Jul 2026) · Safety: SA Police 2025-26 · Schools, transport & boundaries: OpenStreetMap · Toilets: National Public Toilet Map (CC BY 3.0 AU) · Tiles: CARTO · Last verified 20 Jul 2026',
   },
 };
