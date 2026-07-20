@@ -290,7 +290,7 @@ function buildMarkerLayer(ov,cat,colors){
   const layer=L.layerGroup(),marks={};
   MARKERS.filter(m=>m.ov===ov).forEach(m=>{
     (marks[m.st]=marks[m.st]||[]);
-    const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],maxWidth:260,popupName:m.name,popupId:ov,
+    const mk=poiMarker([m.lat,m.lng],{cat,color:colors[m.st],maxWidth:260,popupName:m.name,popupId:ov,pid:m.pid,
       tooltip:`${m.name}<br><span style="font-size:9px;color:#5b6377">${markerField(m,'sub')}</span>`,
       popup:markerPopupHtml(m)});
     marks[m.st].push(mk);mk.addTo(layer);
@@ -338,7 +338,7 @@ const POI_REG={
     label:s=>T().schoolTypes[s.t],
     popup:s=>s.uni?uniPopupHtml(s):schoolPopupHtml(s)},
   hospitals:{id:'hospitals',cat:'hospital',color:MED_COLOR,def:'hos',types:['hos','dr','de','km','ph','vet'],
-    data:()=>[...HOSPITALS.map(h=>({ll:h.ll,n:h.n,t:'hos',hos:true,own:h.t,ed:h.ed,desc:h.desc,en:h.en})),...MEDICAL.map(m=>({ll:m.ll,n:m.n,t:m.t}))],
+    data:()=>[...HOSPITALS.map(h=>({ll:h.ll,n:h.n,t:'hos',hos:true,own:h.t,ed:h.ed,desc:h.desc,en:h.en,pid:h.pid})),...MEDICAL.map(m=>({ll:m.ll,n:m.n,t:m.t,pid:m.pid}))], // pid 반드시 전달(누락 시 구글맵이 좌표로 열림)
     label:i=>T().hospTypes[i.t],
     popup:medPopupHtml},
   marts:{id:'marts',cat:'mart',color:MART_COLOR,def:'big',types:['big','local','intl','liq'],maxWidth:220,
