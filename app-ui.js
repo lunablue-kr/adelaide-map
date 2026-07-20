@@ -95,10 +95,37 @@ function subCentroids(){
   });
   return SUB_CENT;
 }
+// 서버브 판정: 폴리곤 포함(point-in-polygon) 우선. 중심점 최근접은 형상 불규칙 시 오답(BWS Ascot Park→Park Holme 오표기 사례) → 폴백으로만.
+let SUB_BOX=null;
+function subBoxes(){
+  if(SUB_BOX)return SUB_BOX;
+  SUB_BOX=SUBURBS.map(s=>{
+    let x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+    (s.g||[]).forEach(ring=>ring.forEach(p=>{
+      if(p[0]<x0)x0=p[0];if(p[0]>x1)x1=p[0];if(p[1]<y0)y0=p[1];if(p[1]>y1)y1=p[1];}));
+    return {n:s.n,g:s.g,x0,y0,x1,y1};
+  });
+  return SUB_BOX;
+}
+function inRing(lng,lat,ring){ // ray casting
+  let inside=false;
+  for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+    const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+    if((yi>lat)!==(yj>lat)&&lng<(xj-xi)*(lat-yi)/(yj-yi)+xi)inside=!inside;
+  }
+  return inside;
+}
 function nearestSub(ll){
-  let best='',bd=Infinity;
+  const lat=ll[0],lng=ll[1];
+  for(const s of subBoxes()){
+    if(lng<s.x0||lng>s.x1||lat<s.y0||lat>s.y1)continue; // bbox 선컷
+    let hit=0;
+    for(const ring of (s.g||[]))if(inRing(lng,lat,ring))hit++; // even-odd: 홀은 제외, 멀티파트는 포함
+    if(hit%2===1)return s.n;
+  }
+  let best='',bd=Infinity; // 폴백(경계 밖·데이터 공백)
   for(const s of subCentroids()){
-    const dx=s.lng-ll[1],dy=s.lat-ll[0],d=dx*dx+dy*dy;
+    const dx=s.lng-lng,dy=s.lat-lat,d=dx*dx+dy*dy;
     if(d<bd){bd=d;best=s.n;}
   }
   return best;
