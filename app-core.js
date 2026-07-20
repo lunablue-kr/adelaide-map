@@ -44,6 +44,22 @@ function trackWhenReady(path){
     localStorage.setItem('av_count',count+1);localStorage.setItem('av_last',today);
   }catch(e){}
 })();
+// 체류시간 보정: 활성 상태 누적시간이 임계 초를 넘길 때마다 1회씩만 dwell 이벤트 발사.
+// umami는 세션 내 이벤트 시간간격으로 duration을 잡는데, SPA라 유휴 중엔 이벤트가 0 → 항상 0~1초로 기록됨.
+// 임계값 핑으로 duration이 '도달한 최대 구간'으로 의미있게 잡힘. 백그라운드(탭 숨김) 시간은 미포함.
+(function(){
+  if(window.__ANALYTICS_SKIP__)return;
+  var STEPS=[10,30,60,120,300],i=0,acc=0,t0=performance.now(),timer=null;
+  function tick(){
+    acc+=(performance.now()-t0)/1000;t0=performance.now();
+    while(i<STEPS.length&&acc>=STEPS[i]){track('dwell-'+STEPS[i]+'s');i++;}
+    if(i>=STEPS.length){clearInterval(timer);timer=null;}
+  }
+  function start(){if(!timer&&i<STEPS.length){t0=performance.now();timer=setInterval(tick,5000);}}
+  function stop(){if(timer){tick();clearInterval(timer);timer=null;}}
+  document.addEventListener('visibilitychange',function(){document.visibilityState==='hidden'?stop():start();});
+  start();
+})();
 
 // 학교 데이터(지연 로드 대응): 4파일+큐레이트 대학(t:'u') 병합. 미로드 시 빈 배열
 function schoolData(){
