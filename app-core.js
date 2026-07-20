@@ -55,7 +55,7 @@ function trackWhenReady(path){
     while(i<STEPS.length&&acc>=STEPS[i]){track('dwell-'+STEPS[i]+'s');i++;}
     if(i>=STEPS.length){clearInterval(timer);timer=null;}
   }
-  function start(){if(!timer&&i<STEPS.length){t0=performance.now();timer=setInterval(tick,5000);}}
+  function start(){if(!timer&&i<STEPS.length&&document.visibilityState!=='hidden'){t0=performance.now();timer=setInterval(tick,5000);}} // visible일 때만 계수(백그라운드 로드 시간 제외)
   function stop(){if(timer){tick();clearInterval(timer);timer=null;}}
   document.addEventListener('visibilitychange',function(){document.visibilityState==='hidden'?stop():start();});
   start();
