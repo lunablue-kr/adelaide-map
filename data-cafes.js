@@ -61,7 +61,7 @@ const CAFES=[
 {ll:[-34.98007,138.51206],n:"Banjo’s Bakery Café – Glenelg",t:"bakery",pid:"ChIJOXLJTTLbsGoRXE1kmvk-_WA"},
 
 {ll:[-34.98701,138.52432],n:"Bayside Bakery",t:"bakery",pid:"ChIJcZhsqvzasGoRS18X-IMCjZk"},
-{ll:[-34.92561,138.59946],n:"Bean Bar",t:"cafe",pid:"ChIJNUE379fOsGoRN2dALNh0Y3c"},
+{ll:[-34.92561,138.59946],n:"Bean Bar",t:"cafe"},
 {ll:[-34.92561,138.59946],n:"Bean Bar",t:"cafe",pid:"ChIJNUE379fOsGoRN2dALNh0Y3c"},
 {ll:[-34.92872,138.60584],n:"Bean and Gone",t:"cafe"},
 {ll:[-34.92533,138.59997],n:"Bean to Olive Café",t:"cafe",pid:"ChIJrZpZ6L7PsGoRwAuwXo-hAs4"},
