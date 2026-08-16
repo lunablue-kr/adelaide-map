@@ -1,0 +1,146 @@
+[
+ {
+  "file": "data-restaurants.js",
+  "n": "Cakeboy Donuts",
+  "pid": null,
+  "t": "am"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "Lenox Avenue Rundle Street",
+  "pid": "ChIJTQwjNZbPsGoRYVsBj6i5H10",
+  "t": "etc"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "McDonald's Rundle Mall East",
+  "pid": "ChIJxf6nGNTOsGoRyMUc63gckMQ",
+  "t": "etc"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "McDonald's Hollywood Plaza",
+  "pid": "ChIJXY-1qdizsGoRjZEy47kHlW8",
+  "t": "etc"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "McDonald's Adelaide Airport",
+  "pid": "ChIJx8y3yXDFsGoREEbAkofpCwM",
+  "t": "etc"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "Salam A-Z Support Service",
+  "pid": "ChIJfUL82DzGsGoRcHxpva-VnjU",
+  "t": "etc"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "Somewhere @ Moseley",
+  "pid": null,
+  "t": "etc"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "Sushi In The City 3",
+  "pid": "ChIJdSmjVN7OsGoRuryawvGqqYE",
+  "t": "etc"
+ },
+ {
+  "file": "data-cafes.js",
+  "n": "Aroma Café",
+  "pid": "ChIJXWHtlCXPsGoRfy14Shyakbo",
+  "t": "cafe"
+ },
+ {
+  "file": "data-shops.js",
+  "n": "Drakes Surrey Downs",
+  "pid": "ChIJnf3GI0SzsGoRB5J3AZ4F7A0",
+  "t": "local"
+ },
+ {
+  "file": "data-admin.js",
+  "n": "NAB ATM",
+  "pid": "ChIJWbsVb4rQsGoRzNMFC2ZimNU",
+  "t": "bank"
+ },
+ {
+  "file": "data-admin.js",
+  "n": "City of Adelaide Library, North Terrace",
+  "pid": "ChIJLS_HSNTOsGoRzzdQ3I_0Zew",
+  "t": "lib"
+ },
+ {
+  "file": "data-medical.js",
+  "n": "Chemist Warehouse Salisbury",
+  "pid": "ChIJzeOR0tmzsGoRxdSwFmMR4Fo",
+  "t": "ph"
+ },
+ {
+  "file": "data-medical.js",
+  "n": "Star Discount Chemist Tranmere (Merged with Star Discount Chemist Firle)",
+  "pid": "ChIJcWphwDXKsGoR-sm1FGDnPxw",
+  "t": "ph"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Balmorai Reserve",
+  "pid": null,
+  "t": "park"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Cobbler Creek East Reserve",
+  "pid": null,
+  "t": "park"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Collin Selars Reserve",
+  "pid": null,
+  "t": "park"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Craigburn Farm Reserve",
+  "pid": null,
+  "t": "park"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Golden Wattle Park (Park 21W)",
+  "pid": null,
+  "t": "park"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Sidewinders Junior Speedway",
+  "pid": null,
+  "t": "fitness"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Library & Community Services",
+  "pid": null,
+  "t": "toilet"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "St Mary's Park",
+  "pid": null,
+  "t": "toilet"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Alan Iversen Reserve",
+  "pid": null,
+  "t": "playground"
+ },
+ {
+  "file": "data-parks.js",
+  "n": "Ironbark ave playground",
+  "pid": null,
+  "t": "playground"
+ }
+]

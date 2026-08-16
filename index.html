@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Adelaide 지역 가이드</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link rel="stylesheet" href="style.css?v=20260802a"/>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="side-panel">
+  <div class="sp-head">
+    <span class="sp-title" id="sp-title">Adelaide 가이드</span>
+    <span class="sp-lang" id="lang-toggle">EN</span>
+  </div>
+  <input class="sp-search" id="sp-search" placeholder="서버브·지역 검색" autocomplete="off"/>
+  <div class="sp-results" id="sp-results"></div>
+
+  <div class="sp-glabel" id="lbl-preset">목적별 보기</div>
+
+  <div class="preset-row" id="preset-row"></div>
+
+  <div class="sp-glabel" id="lbl-overlay">오버레이</div>
+  <div id="ov-rows"></div>
+
+  <div class="sp-glabel" id="lbl-color">지도 색상</div>
+  <div class="seg" id="color-seg"></div>
+
+  <div class="fb-open" id="fb-open">피드백 남기기</div>
+  <div class="sp-foot" id="sp-foot"></div>
+</div>
+
+<div id="mini-legend"></div>
+
+<div id="m-top">
+  <span id="m-fb" class="m-icon" title="피드백">✉</span>
+  <input id="m-search" placeholder="서버브·지역 검색" autocomplete="off"/>
+  <span id="m-lang" class="m-icon">EN</span>
+</div>
+<div id="m-results"></div>
+<div id="m-ovreset"></div>
+<div id="m-overlaybar"></div>
+<div id="m-ovall"></div>
+<div id="m-subbar"></div>
+<div id="m-ovtrack" class="m-track"><i></i></div>
+<div id="m-subtrack" class="m-track"><i></i></div>
+<div id="m-rstack">
+  <div id="m-persona" title="목적별"></div>
+  <div id="m-colorbtn" title="지도 색상"></div>
+</div>
+<div id="m-preset-pop"></div>
+<div id="m-colorpop"></div>
+<div id="m-scale"></div>
+
+<div id="bottom-sheet">
+  <div class="bs-grab"></div>
+  <div class="bs-top">
+    <div style="min-width:140px">
+      <div class="bs-name" id="bs-name"></div>
+      <div class="bs-sub" id="bs-sub"></div>
+      <div class="bs-subname" id="bs-subname"></div>
+    </div>
+    <div class="bs-kw" id="bs-kw"></div>
+    <span class="bs-close" id="bs-close">✕</span>
+  </div>
+  <div class="bs-chiprow" id="bs-chips"></div>
+  <div class="bs-detail" id="bs-detail">
+    <div class="bs-grid">
+      <div class="bs-left">
+        <div class="bs-desc" id="bs-desc"></div>
+        <div class="bs-tags" id="bs-tags"></div>
+      </div>
+      <div class="bs-bars" id="bs-bars"></div>
+    </div>
+  </div>
+  <div id="bs-ov"></div>
+</div>
+
+<div id="fb-overlay">
+  <div id="fb-modal">
+    <div class="fbm-head"><span class="fbm-title" id="fbm-title">피드백 남기기</span><span class="fbm-close" id="fbm-close">✕</span></div>
+    <div class="fbm-build" id="fbm-build"></div>
+    <div class="fbm-sub" id="fbm-sub">정보 정정, 꿀팁, 질문 모두 환영합니다 — 남겨주신 내용은 지도 제작자에게 메일로 전달되며, 검토 후 가이드에 반영됩니다.</div>
+    <div class="fbm-row">
+      <div class="fbm-g"><label id="fbm-lbl-author">닉네임 (선택)</label><input type="text" id="f-author" placeholder="익명 가능" maxlength="20"/></div>
+      <div class="fbm-g"><label id="fbm-lbl-type">유형</label>
+        <select id="f-type"><option value="tip">💡 꿀팁</option><option value="correction">🔧 정정</option><option value="experience">✨ 경험담</option><option value="question">❓ 질문</option></select>
+      </div>
+    </div>
+    <div class="fbm-row">
+      <div class="fbm-g"><label id="fbm-lbl-area">관련 지역</label>
+        <select id="f-area">
+          <option id="opt-none">전체/없음</option><option>City of Adelaide</option><option>City of Unley</option>
+          <option>City of Norwood P&SP</option><option>City of Prospect</option><option>Town of Walkerville</option>
+          <option>City of Burnside</option><option>City of Holdfast Bay</option><option>City of Charles Sturt</option>
+          <option>City of West Torrens</option><option>City of Marion</option><option>City of Mitcham</option>
+          <option>Campbelltown City</option><option>City of Port Adelaide Enfield</option><option>City of Tea Tree Gully</option>
+          <option>City of Onkaparinga</option><option>City of Salisbury</option><option>City of Playford</option><option>Town of Gawler</option>
+        </select>
+      </div>
+    </div>
+    <div class="fbm-row"><div class="fbm-g"><label id="fbm-lbl-body">내용</label><textarea id="f-body" placeholder="자유롭게 남겨주세요..."></textarea></div></div>
+    <div class="fbm-actions"><button class="fbm-send" id="fbm-send">보내기</button><span class="fbm-status" id="fbm-status"></span></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="data-i18n.js?v=20260802a"></script>
+<script src="data-geo.js?v=20260718f"></script>
+<script src="data-core.js?v=20260802a"></script>
+<script src="data-lga.js?v=20260719b"></script>
+<script src="app-core.js?v=20260802a"></script>
+<script src="app-overlays.js?v=20260802a"></script>
+<script src="app-search.js?v=20260802a"></script>
+<script src="app-mobile.js?v=20260802a"></script>
+<script src="app-ui.js?v=20260802a"></script>
+<script data-goatcounter="https://adelaidemap.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="72d4166d-4943-4a35-aa60-737ea50d5cf4"></script>
+</body>
+</html>
