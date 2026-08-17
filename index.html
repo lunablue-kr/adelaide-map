@@ -4,9 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Adelaide 지역 가이드</title>
+<meta name="description" content="애들레이드 한인 생활 지도 — 동네(LGA)·서버브 해설, 맛집·카페·마트·병원·학교를 한눈에. Adelaide living map for Koreans."/>
+<link rel="canonical" href="https://lunablue-kr.github.io/adelaide-map/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Adelaide 지역 가이드"/>
+<meta property="og:title" content="애들레이드 한인 지역 가이드"/>
+<meta property="og:description" content="동네별 렌트·치안·학교·교통 + 맛집·카페·한인마트까지 지도 하나로. 유학·정착 전에 동네부터 골라보세요."/>
+<meta property="og:url" content="https://lunablue-kr.github.io/adelaide-map/"/>
+<meta property="og:image" content="https://lunablue-kr.github.io/adelaide-map/assets/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale" content="ko_KR"/>
+<meta property="og:locale:alternate" content="en_AU"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="애들레이드 한인 지역 가이드"/>
+<meta name="twitter:description" content="동네별 렌트·치안·학교·교통 + 맛집·카페·한인마트까지 지도 하나로."/>
+<meta name="twitter:image" content="https://lunablue-kr.github.io/adelaide-map/assets/og-image.png"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<link rel="stylesheet" href="style.css?v=20260802a"/>
+<link rel="stylesheet" href="style.css?v=20260817a"/>
 </head>
 <body>
 
@@ -15,7 +31,7 @@
 <div id="side-panel">
   <div class="sp-head">
     <span class="sp-title" id="sp-title">Adelaide 가이드</span>
-    <span class="sp-lang" id="lang-toggle">EN</span>
+    <span class="sp-lang" id="sp-share" title="공유"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span><span class="sp-lang" id="lang-toggle">EN</span>
   </div>
   <input class="sp-search" id="sp-search" placeholder="서버브·지역 검색" autocomplete="off"/>
   <div class="sp-results" id="sp-results"></div>
@@ -38,6 +54,7 @@
 
 <div id="m-top">
   <span id="m-fb" class="m-icon" title="피드백">✉</span>
+  <span id="m-share" class="m-icon" title="공유"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
   <input id="m-search" placeholder="서버브·지역 검색" autocomplete="off"/>
   <span id="m-lang" class="m-icon">EN</span>
 </div>
@@ -65,7 +82,7 @@
       <div class="bs-subname" id="bs-subname"></div>
     </div>
     <div class="bs-kw" id="bs-kw"></div>
-    <span class="bs-close" id="bs-close">✕</span>
+    <span class="bs-share" id="bs-share" title="공유"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span><span class="bs-close" id="bs-close">✕</span>
   </div>
   <div class="bs-chiprow" id="bs-chips"></div>
   <div class="bs-detail" id="bs-detail">
@@ -110,15 +127,15 @@
 
 <div class="toast" id="toast"></div>
 
-<script src="data-i18n.js?v=20260802a"></script>
+<script src="data-i18n.js?v=20260817a"></script>
 <script src="data-geo.js?v=20260718f"></script>
-<script src="data-core.js?v=20260802a"></script>
+<script src="data-core.js?v=20260817a"></script>
 <script src="data-lga.js?v=20260719b"></script>
-<script src="app-core.js?v=20260802a"></script>
-<script src="app-overlays.js?v=20260802a"></script>
-<script src="app-search.js?v=20260802a"></script>
-<script src="app-mobile.js?v=20260802a"></script>
-<script src="app-ui.js?v=20260802a"></script>
+<script src="app-core.js?v=20260817a"></script>
+<script src="app-overlays.js?v=20260817a"></script>
+<script src="app-search.js?v=20260817a"></script>
+<script src="app-mobile.js?v=20260817a"></script>
+<script src="app-ui.js?v=20260817a"></script>
 <script data-goatcounter="https://adelaidemap.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="72d4166d-4943-4a35-aa60-737ea50d5cf4"></script>

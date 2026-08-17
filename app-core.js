@@ -76,6 +76,7 @@ try{LANG=localStorage.getItem('adelaide-lang')||'ko';}catch{}
 try{const u=new URLSearchParams(location.search).get('lang');if(u==='en'||u==='ko')LANG=u;}catch{}
 
 // I18N 은 data-i18n.js 로 분리(app.js보다 먼저 로드)
+document.documentElement.dataset.lang=LANG;
 function T(){return I18N[LANG];}
 function catLabel(cm){return LANG==='en'?cm.en:cm.label;}
 Object.entries(LGAS).forEach(([id,d])=>{d.id=id;});
@@ -140,7 +141,7 @@ const map=L.map('map',{
 L.control.zoom({position:'bottomright'}).addTo(map);
 map.attributionControl.setPrefix(false); // Leaflet 접두어 제거(© OSM © CARTO는 라이선스상 유지)
 // 팝업 열릴 때 같은 마커의 호버 툴팁 잠금(팝업 뒤 겹침 방지), 닫히면 복원 — 전 오버레이 공통
-const BUILD='20260802a';
+const BUILD='20260817a';
 let _popupOpen=false; // map._popup은 닫힌 뒤 stale하게 남아 신뢰 불가 → 자체 플래그
 map.on('popupopen',e=>{
   _popupOpen=true;
@@ -247,6 +248,35 @@ function chip(text,fg,bg){return `<span class="bs-chip" style="color:${fg};backg
 function barRow(label,pct,color,val){
   return `<div class="bar-row"><span class="bar-lbl">${label}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(4,Math.round(pct*100))}%;background:${color}"></div></div><span class="bar-val">${val}</span></div>`;
 }
+// 현재 선택 상태를 주소창에 반영(리로드 없음) — 브라우저 공유·복사 링크가 그대로 딥링크가 됨
+function syncUrl(){
+  try{
+    const u=new URL(location.href);
+    ['lga','sub'].forEach(k=>u.searchParams.delete(k));
+    if(selectedLgaId){
+      u.searchParams.set('lga',selectedLgaId);
+      const sn=document.getElementById('bs-subname');
+      if(sn&&sn.classList.contains('on')&&sn.dataset.sub)u.searchParams.set('sub',sn.dataset.sub);
+    }
+    history.replaceState(null,'',u);
+  }catch(e){}
+}
+// 공유: 모바일=네이티브 시트, 데스크톱=클립보드 복사 (+토스트)
+async function shareLink(){
+  const t=T(); track('share');
+  const url=location.href.split('#')[0];
+  if(navigator.share){
+    try{await navigator.share({title:'Adelaide 지역 가이드 · Local Guide',text:t.shareText,url});return;}
+    catch(e){if(e&&e.name==='AbortError')return;}
+  }
+  try{await navigator.clipboard.writeText(url);toast(t.shareCopied);return;}
+  catch(e){}
+  try{ // 구형/권한거부 폴백: 임시 textarea + execCommand
+    const ta=document.createElement('textarea');ta.value=url;ta.style.cssText='position:fixed;opacity:0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
+    toast(t.shareCopied);
+  }catch(e){toast(url);}
+}
 function openSheet(id){
   track('lga-'+id);
   selectedLgaId=id;restyleAll();
@@ -283,6 +313,7 @@ function openSheet(id){
   bs.classList.add('on');bs.classList.remove('ov-mode'); // 패널 열린 채 LGA 선택 시 LGA가 가려지지 않게
   if(typeof ovPanelPrevLga!=='undefined')ovPanelPrevLga=null;
   bs.scrollTop=0;
+  syncUrl();
   if(typeof setSnap==='function')setSnap('peek'); // 열 때는 항상 peek부터
   document.body.classList.add('sheet-on');
   if(typeof updateMScalePos==='function')updateMScalePos();
@@ -302,10 +333,12 @@ function updateSheetFade(){
 // 서버브 이름 줄 — 터치엔 hover가 없어 툴팁을 못 쓰므로 시트가 정본
 function setSheetSuburb(s){
   const el=document.getElementById('bs-subname');if(!el)return;
+  el.dataset.sub=s.n; // 공유 URL용
   const l2n=(s.l2||[]).map(id=>LGAS[id]?LGAS[id].name:id).join(' · ');
   el.innerHTML=`<b>${s.n}</b>${s.pc?' · '+s.pc:''}`+(l2n?` <span>${T().partly(l2n)}</span>`:'');
   el.classList.add('on');
   if(typeof updateSheetFade==='function')updateSheetFade();
+  syncUrl();
 }
 function setSheetSuburbAt(latlng){ // 탭 좌표로 서버브 역산(point-in-polygon) — 폴리곤 히트테스트에 의존하지 않음
   if(!latlng)return;
@@ -313,8 +346,8 @@ function setSheetSuburbAt(latlng){ // 탭 좌표로 서버브 역산(point-in-po
   const s=SUBURBS.find(x=>x.n===n);
   if(s)setSheetSuburb(s);
 }
-function clearSheetSuburb(){const el=document.getElementById('bs-subname');if(el){el.classList.remove('on');el.innerHTML='';}}
-function closeSheet(){const bs=document.getElementById('bottom-sheet');bs.classList.remove('on');bs.classList.remove('snap-half');sheetSnap='peek';bs.classList.remove('ov-mode');bs.classList.remove('more');document.body.classList.remove('sheet-on');if(typeof updateMScalePos==='function')updateMScalePos();}
+function clearSheetSuburb(){const el=document.getElementById('bs-subname');if(el){el.classList.remove('on');el.innerHTML='';delete el.dataset.sub;}syncUrl();}
+function closeSheet(){const bs=document.getElementById('bottom-sheet');bs.classList.remove('on');bs.classList.remove('snap-half');sheetSnap='peek';bs.classList.remove('ov-mode');bs.classList.remove('more');document.body.classList.remove('sheet-on');if(typeof updateMScalePos==='function')updateMScalePos();syncUrl();}
 document.getElementById('bs-close').addEventListener('click',(e)=>{e.stopPropagation();deselectSuburb();selectedLgaId=null;closeSheet();restyleAll();});
 // 모바일 바텀시트 3단 스냅 — 스크롤이 시트를 밀어올리고, full에서만 내용이 스크롤된다.
 // (Apple prefersScrollingExpandsWhenScrolledToEdge=true / Material nested scroll / eBay·Flutter 문서와 동일 규칙)

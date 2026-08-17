@@ -165,6 +165,7 @@ function renderMiniLegend(){
 const FEEDBACK_ENDPOINT='https://formsubmit.co/ajax/4daba310c39387b2cac62a9e9796d9c6';
 function tl(t){return{tip:'💡 꿀팁',correction:'🔧 정정',experience:'✨ 경험담',question:'❓ 질문'}[t]||t;}
 let lastSent=0;
+['bs-share','m-share','sp-share'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('click',(e)=>{e.stopPropagation();shareLink();});});
 document.getElementById('fb-open').addEventListener('click',()=>document.getElementById('fb-overlay').classList.add('on'));
 document.getElementById('fbm-close').addEventListener('click',()=>document.getElementById('fb-overlay').classList.remove('on'));
 document.getElementById('fb-overlay').addEventListener('click',(e)=>{
@@ -202,6 +203,7 @@ function toast(msg,ms){
   clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),ms||2500);
 }
 function applyLang(){
+  document.documentElement.dataset.lang=LANG;
   const t=T();
   document.documentElement.lang=LANG;document.title=t.docTitle;
   document.getElementById('sp-title').textContent=t.title;
@@ -286,6 +288,8 @@ try{
   const cm=new URLSearchParams(location.search).get('color');
   if(cm==='rent'||cm==='crime'){mapColorMode=cm;renderColorSeg();renderMColorBtn();renderMScale();restyleAll();}
   const sel=new URLSearchParams(location.search).get('lga');
-  if(sel&&LGAS[sel]){openSheet(sel);map.fitBounds(lgaLayers[sel].getBounds(),{padding:[40,40],maxZoom:ZOOM_LGA});}
+  const sub=new URLSearchParams(location.search).get('sub'); // openSheet의 syncUrl이 URL을 재작성하기 전에 먼저 읽는다
+  if(sel&&LGAS[sel]){openSheet(sel);map.fitBounds(lgaLayers[sel].getBounds(),{padding:[40,40],maxZoom:ZOOM_LGA});
+    if(sub){const sObj=SUBURBS.find(x=>x.n===sub);if(sObj)setSheetSuburb(sObj);}}
   else toast(T().hint,3200);
 }catch{toast(T().hint,3200);}
