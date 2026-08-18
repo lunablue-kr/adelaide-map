@@ -1,5 +1,5 @@
 // ▓▓▓ CORE — 애널리틱스·i18n헬퍼·지연로딩·MAP·색상/LGA·바텀시트·서버브 ▓▓▓ (app-core→app-overlays→app-ui 순서 로드. 전역 스코프 공유; 뒤 파일이 앞 심볼 참조)
-// ═══════════════ 애널리틱스 (GoatCounter + Umami 이중, 안전 래퍼) ═══════════════
+// ═══════════════ 애널리틱스 (Umami 단독 — GoatCounter는 2026-08-18 제거) ═══════════════
 (function(){
   var skip=false;
   try{
@@ -12,7 +12,6 @@
       ||/\.local$/i.test(h)||/^192\.168\./.test(h)||/^10\./.test(h)
       ||/^172\.(1[6-9]|2\d|3[01])\./.test(h))skip=true;}
   if(skip){
-    window.goatcounter={no_onload:true};              // GoatCounter 자동집계 차단
     try{localStorage.setItem('umami.disabled','1');}catch(e){} // Umami 자동집계 차단
   }else{
     try{localStorage.removeItem('umami.disabled');}catch(e){}
@@ -21,21 +20,19 @@
 })();
 function track(path){
   if(window.__ANALYTICS_SKIP__)return;
-  if(window.goatcounter&&goatcounter.count)goatcounter.count({path:path,event:true});
   if(window.umami&&umami.track)umami.track(path);
 }
-// 로드 직후 이벤트용: 스크립트(async) 로드 대기 후 발화(양쪽 각각 한 번)
+// 로드 직후 이벤트용: 스크립트(async) 로드 대기 후 발화
 function trackWhenReady(path){
   if(window.__ANALYTICS_SKIP__)return;
-  var n=0,g=false,u=false;
+  var n=0;
   (function a(){
-    if(!g&&window.goatcounter&&goatcounter.count){goatcounter.count({path:path,event:true});g=true;}
-    if(!u&&window.umami&&umami.track){umami.track(path);u=true;}
-    if((g&&u)||n++>40)return;
+    if(window.umami&&umami.track){umami.track(path);return;}
+    if(n++>40)return;
     setTimeout(a,150);
   })();
 }
-// 재방문 근사(로컬 플래그·브라우저 단위. GoatCounter는 영구ID 없어 못 함 → 로컬로 대체)
+// 재방문 근사(로컬 플래그·브라우저 단위)
 (function(){
   if(window.__ANALYTICS_SKIP__)return;
   try{
@@ -141,7 +138,7 @@ const map=L.map('map',{
 L.control.zoom({position:'bottomright'}).addTo(map);
 map.attributionControl.setPrefix(false); // Leaflet 접두어 제거(© OSM © CARTO는 라이선스상 유지)
 // 팝업 열릴 때 같은 마커의 호버 툴팁 잠금(팝업 뒤 겹침 방지), 닫히면 복원 — 전 오버레이 공통
-const BUILD='20260817a';
+const BUILD='20260818a';
 let _popupOpen=false; // map._popup은 닫힌 뒤 stale하게 남아 신뢰 불가 → 자체 플래그
 map.on('popupopen',e=>{
   _popupOpen=true;
