@@ -138,7 +138,7 @@ const map=L.map('map',{
 L.control.zoom({position:'bottomright'}).addTo(map);
 map.attributionControl.setPrefix(false); // Leaflet 접두어 제거(© OSM © CARTO는 라이선스상 유지)
 // 팝업 열릴 때 같은 마커의 호버 툴팁 잠금(팝업 뒤 겹침 방지), 닫히면 복원 — 전 오버레이 공통
-const BUILD='20260818a';
+const BUILD='20260926a';
 let _popupOpen=false; // map._popup은 닫힌 뒤 stale하게 남아 신뢰 불가 → 자체 플래그
 map.on('popupopen',e=>{
   _popupOpen=true;

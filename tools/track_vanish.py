@@ -25,13 +25,16 @@ present = {r[0] for r in con.sql(f"""
   WHERE p.bbox.xmin BETWEEN 138.3 AND 139.1 AND p.bbox.ymin BETWEEN -35.4 AND -34.5
 """).fetchall()}
 
-candidates = []
-for key, g in gers.items():
-    miss = state.get(g, {}).get('miss', 0)
-    miss = 0 if g in present else miss + 1
-    state[g] = {'miss': miss, 'last': REL}
-    if miss >= 3:
-        candidates.append(key)
+# gers 단위로 1회만 증가 (여러 레코드가 같은 gers를 공유해도 이중 증가 금지)
+# + 같은 릴리스 재실행은 no-op (멱등)
+for g in set(gers.values()):
+    st = state.get(g, {'miss': 0, 'last': None})
+    if st.get('last') == REL:
+        continue
+    st['miss'] = 0 if g in present else st.get('miss', 0) + 1
+    st['last'] = REL
+    state[g] = st
+candidates = sorted({key for key, g in gers.items() if state.get(g, {}).get('miss', 0) >= 3})
 
 json.dump(state, open(STATE, 'w'), ensure_ascii=False)
 print(f"릴리스 {REL}: 존재 {len(present)}/{len(gers)} · 이번 부재 {len(gers)-len(present)}")
