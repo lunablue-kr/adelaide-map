@@ -229,7 +229,7 @@ const CAFES=[
 {ll:[-34.89174,138.51568],n:"Ellspresso",t:"cafe",pid:"ChIJ5UiskS3EsGoRJDbKXvaMykw"},
 {ll:[-34.7865,138.63696],n:"Elsie's Kitchen",t:"cafe"},
 {ll:[-34.92154,138.63185],n:"Enjoy Cafe Bakery",t:"bakery",pid:"ChIJGWumcFrJsGoRk4AWsfSf9Yk"},
-{ll:[-34.94885,138.56186],n:"Eny Penny",t:"cafe"},
+{ll:[-34.94885,138.56186],n:"Chapter One Cafe",t:"cafe"},
 {ll:[-35.09133,138.54026],n:"Esculent",t:"cafe",pid:"ChIJX5V2Cz_YsGoRiHU6TmoxH8M"},
 {ll:[-34.9142,138.65044],n:"Espresso Royale",t:"cafe"},
 {ll:[-34.91598,138.61044],n:"Evergreen To Go",t:"cafe",pid:"ChIJO5vJSADJsGoRAvo8I-lhx4w"},

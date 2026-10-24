@@ -193,7 +193,7 @@ const RESTAURANTS=[
 {ll:[-34.92738,138.53497],n:"Chicco Palms",t:"eu",c:"italian",pid:"ChIJW-6KcwrFsGoRYNY6Qtfhxx4"},
 {ll:[-34.92085,138.63695],n:"Chicken Burger",t:"am",c:"burger",pid:"ChIJwW1hIH_JsGoRwbdrVE9XL_E"},
 {ll:[-34.85868,138.60068],n:"Chicken Chef",t:"etc",pid:"ChIJVT5DZcvJsGoRei6guZ78RR4"},
-{ll:[-34.90292,138.65714],n:"Goo Goo Chicken Firle",t:"etc",c:"chicken",pid:"ChIJMcIcEDXKsGoRDz8bo1_ORQ4"},
+
 {ll:[-34.67983,138.70408],n:"The Chicken Home",t:"etc",c:"fish_and_chips",pid:"ChIJ__-_i7ussGoRkbKDb4t9Etk"},
 {ll:[-34.95142,138.58973],n:"Chicken House",t:"etc",c:"chicken",pid:"ChIJZaAjaqjPsGoRo3ENQlZ5qO4"},
 {ll:[-35.07554,138.59266],n:"Chicken Hub",t:"etc",c:"chicken",pid:"ChIJT_TmlCPXsGoR6dH7eiNmk-E"},

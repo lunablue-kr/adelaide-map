@@ -142,5 +142,12 @@
   "n": "Ironbark ave playground",
   "pid": null,
   "t": "playground"
+ },
+ {
+  "file": "data-restaurants.js",
+  "n": "Goo Goo Chicken Woodville",
+  "pid": "ChIJMcIcEDXKsGoRDz8bo1_ORQ4",
+  "t": "etc",
+  "note": "배달 전용 가상 브랜드(실주소 간판=Buffalo Wing Co) — 실물 핀 부적합, 2026-10-24 웹 검증"
  }
 ]

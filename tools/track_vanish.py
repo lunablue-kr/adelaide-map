@@ -34,7 +34,18 @@ for g in set(gers.values()):
     st['miss'] = 0 if g in present else st.get('miss', 0) + 1
     st['last'] = REL
     state[g] = st
-candidates = sorted({key for key, g in gers.items() if state.get(g, {}).get('miss', 0) >= 3})
+# 웹/현장에서 영업 확인된 건(ok 날짜 180일 이내)은 후보에서 제외 — Overture 누락 노이즈 억제
+from datetime import date
+def _suppressed(st):
+    ok = st.get('ok')
+    if not ok: return False
+    try:
+        y, m, d = map(int, ok.split('-'))
+        return (date.today() - date(y, m, d)).days <= 180
+    except Exception:
+        return False
+candidates = sorted({key for key, g in gers.items()
+                     if state.get(g, {}).get('miss', 0) >= 3 and not _suppressed(state.get(g, {}))})
 
 json.dump(state, open(STATE, 'w'), ensure_ascii=False)
 print(f"릴리스 {REL}: 존재 {len(present)}/{len(gers)} · 이번 부재 {len(gers)-len(present)}")

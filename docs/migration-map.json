@@ -17871,5 +17871,10 @@
 "src": "overture",
 "gers": "cfe3a3d3-9e06-49ab-9d4a-ea22d69e49f0",
 "gate": "agent"
+},
+"Chapter One Cafe": {
+"src": "web",
+"gate": "vanish-verify",
+"date": "2026-10-24"
 }
 }

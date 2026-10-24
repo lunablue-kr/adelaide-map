@@ -141,5 +141,6 @@ const CLOSED_DENY=[
   {"n": "Vientiane Thai-Laos Restaurant", "ll": [-35.02227, 138.52363],"v":null},
   {"n": "Zapatas", "ll": [-34.9057, 138.60955],"v":null},
   {"n": "Kuo Chi Oriental Supermarket", "ll": [-34.93035, 138.5958],"v":null},
-  {"n": "MOSH House", "ll": [-34.91871, 138.57282],"v":null}
+  {"n": "MOSH House", "ll": [-34.91871, 138.57282],"v":null},
+  {"n":"Eny Penny","ll":[-34.94885,138.56186],"v":"2026-10-24"}
 ];
